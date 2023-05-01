@@ -22,10 +22,8 @@ public class DomainDbContext: DbContext
     public DbSet<PostReaction> PostReactions { get; set; }
 
     public DbSet<Tag> Tags { get; set; }
-
     public DbSet<Localization> Localizations { get; set; }
-    
-    
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseNpgsql("Host=localhost;Database=inMotion;Username=postgres;Password=postgres");
