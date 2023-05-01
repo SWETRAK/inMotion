@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace IMS.Shared.Domain.EntityPreferences.Post;
 
-public class PostCommentEntityConfiguration: IEntityTypeConfiguration<PostBaseComment>
+public class PostCommentEntityConfiguration: IEntityTypeConfiguration<PostComment>
 {
-    public void Configure(EntityTypeBuilder<PostBaseComment> builder)
+    public void Configure(EntityTypeBuilder<PostComment> builder)
     {
         builder.ToTable("post_comments");
 

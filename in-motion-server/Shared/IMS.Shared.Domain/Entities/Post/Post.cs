@@ -26,6 +26,6 @@ public class Post
     public Guid RearVideoId { get; set; }
     public virtual PostVideo RearVideo {get; set; }
 
-    public virtual IEnumerable<PostBaseComment> PostComments { get; set; }
+    public virtual IEnumerable<PostComment> PostComments { get; set; }
     public virtual IEnumerable<PostReaction> PostReactions { get; set; }
 }

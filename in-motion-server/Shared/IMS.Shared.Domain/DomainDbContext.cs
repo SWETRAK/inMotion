@@ -1,7 +1,6 @@
 using IMS.Shared.Domain.Entities.Other;
 using IMS.Shared.Domain.Entities.Post;
 using IMS.Shared.Domain.Entities.User;
-using IMS.Shared.Domain.EntityPreferences;
 using IMS.Shared.Domain.EntityPreferences.Other;
 using IMS.Shared.Domain.EntityPreferences.Post;
 using IMS.Shared.Domain.EntityPreferences.User;
@@ -18,8 +17,9 @@ public class DomainDbContext: DbContext
 
     public DbSet<Post> Posts { get; set; }
     public DbSet<PostVideo> PostVideos { get; set; }
-    public DbSet<PostBaseComment> PostComments { get; set; }
+    public DbSet<PostComment> PostComments { get; set; }
     public DbSet<PostReaction> PostReactions { get; set; }
+    public DbSet<PostCommentReaction> PostCommentReactions { get; set; }
 
     public DbSet<Tag> Tags { get; set; }
     public DbSet<Localization> Localizations { get; set; }
@@ -41,7 +41,8 @@ public class DomainDbContext: DbContext
         
         new PostEntityConfiguration().Configure(modelBuilder.Entity<Post>());
         new PostVideoEntityConfiguration().Configure(modelBuilder.Entity<PostVideo>());
-        new PostCommentEntityConfiguration().Configure(modelBuilder.Entity<PostBaseComment>());
+        new PostCommentEntityConfiguration().Configure(modelBuilder.Entity<PostComment>());
         new PostReactionEntityConfiguration().Configure(modelBuilder.Entity<PostReaction>());
+        new PostCommentReactionEntityConfiguration().Configure(modelBuilder.Entity<PostCommentReaction>());
     }
 }

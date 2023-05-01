@@ -1,4 +1,3 @@
-
 namespace IMS.Shared.Domain.Entities.Bases;
 
 public class BaseVideo
