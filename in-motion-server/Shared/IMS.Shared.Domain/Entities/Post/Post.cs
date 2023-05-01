@@ -2,7 +2,6 @@ using IMS.Shared.Domain.Entities.Other;
 
 namespace IMS.Shared.Domain.Entities.Post;
 
-// TODO: Add reactions
 public class Post
 {
     public Guid Id { get; set; }
@@ -12,6 +11,9 @@ public class Post
 
     public string Description { get; set; }
     public string Title { get; set; }
+
+    public DateTime CreationDate { get; set; }
+    public DateTime LastModifiedDate { get; set; }
 
     public virtual IEnumerable<Tag> Tags { get; set; }
 
@@ -24,5 +26,6 @@ public class Post
     public Guid RearVideoId { get; set; }
     public virtual PostVideo RearVideo {get; set; }
 
-    public virtual IEnumerable<PostComment> PostComments { get; set; }
+    public virtual IEnumerable<PostBaseComment> PostComments { get; set; }
+    public virtual IEnumerable<PostReaction> PostReactions { get; set; }
 }

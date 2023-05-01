@@ -2,19 +2,22 @@ using IMS.Shared.Domain.Entities.Post;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace IMS.Shared.Domain.EntityPreferences;
+namespace IMS.Shared.Domain.EntityPreferences.Post;
 
-public class PostCommentEntityConfiguration: IEntityTypeConfiguration<PostComment>
+public class PostCommentEntityConfiguration: IEntityTypeConfiguration<PostBaseComment>
 {
-    public void Configure(EntityTypeBuilder<PostComment> builder)
+    public void Configure(EntityTypeBuilder<PostBaseComment> builder)
     {
-        builder.ToTable("post_comment");
+        builder.ToTable("post_comments");
+
+        builder.HasIndex(pc => pc.Id);
 
         builder.Property(pc => pc.AuthorId)
             .HasColumnName("author_id")
             .IsRequired();
 
         builder.Property(pc => pc.Content)
+            .HasColumnName("content")
             .HasMaxLength(1024)
             .IsRequired();
 
@@ -27,6 +30,5 @@ public class PostCommentEntityConfiguration: IEntityTypeConfiguration<PostCommen
             .HasColumnName("last_modified_date")
             .HasDefaultValue(DateTime.UtcNow)
             .IsRequired();
-
     }
 }

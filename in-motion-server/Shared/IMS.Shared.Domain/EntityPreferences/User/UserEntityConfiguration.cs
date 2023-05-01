@@ -1,14 +1,12 @@
-using System.Text.Json;
-using System.Text.Json.Nodes;
 using IMS.Shared.Domain.Entities.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace IMS.Shared.Domain.EntityPreferences;
+namespace IMS.Shared.Domain.EntityPreferences.User;
 
-public class UserEntityConfiguration: IEntityTypeConfiguration<User>
+public class UserEntityConfiguration: IEntityTypeConfiguration<Entities.User.User>
 {
-    public void Configure(EntityTypeBuilder<User> builder)
+    public void Configure(EntityTypeBuilder<Entities.User.User> builder)
     {
         builder.ToTable("users");
 
@@ -27,7 +25,7 @@ public class UserEntityConfiguration: IEntityTypeConfiguration<User>
         
         builder.HasOne(u => u.ProfileVideo)
             .WithOne(upv => upv.Author)
-            .HasForeignKey<User>(u => u.ProfileVideoId)
+            .HasForeignKey<Entities.User.User>(u => u.ProfileVideoId)
             .HasPrincipalKey<UserProfileVideo>(upv => upv.AuthrorId);
     }
 }

@@ -2,22 +2,26 @@ using IMS.Shared.Domain.Entities.Post;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace IMS.Shared.Domain.EntityPreferences;
+namespace IMS.Shared.Domain.EntityPreferences.Post;
 
-public class PostEntityConfiguration: IEntityTypeConfiguration<Post>
+public class PostEntityConfiguration: IEntityTypeConfiguration<Entities.Post.Post>
 {
-    public void Configure(EntityTypeBuilder<Post> builder)
+    public void Configure(EntityTypeBuilder<Entities.Post.Post> builder)
     {
-        builder.ToTable("post");
+        builder.ToTable("posts");
+
+        builder.HasIndex(p => p.Id);
 
         builder.Property(p => p.AuthorId)
             .HasColumnName("author_id")
             .IsRequired();
 
         builder.Property(p => p.Description)
+            .HasColumnName("description")
             .HasMaxLength(2048);
 
         builder.Property(p => p.Title)
+            .HasColumnName("title")
             .HasMaxLength(256)
             .IsRequired();
 
@@ -32,14 +36,24 @@ public class PostEntityConfiguration: IEntityTypeConfiguration<Post>
             .HasColumnName("rear_video_id")
             .IsRequired();
 
+        builder.Property(p => p.CreationDate)
+            .HasColumnName("creation_date")
+            .HasDefaultValue(DateTime.UtcNow)
+            .IsRequired();
+
+        builder.Property(p => p.LastModifiedDate)
+            .HasColumnName("last_modified_date")
+            .HasDefaultValue(DateTime.UtcNow)
+            .IsRequired();
+
         builder.HasOne(p => p.FrontVideo)
             .WithOne(p => p.PostFront)
-            .HasForeignKey<Post>(p => p.FrontVideoId)
+            .HasForeignKey<Entities.Post.Post>(p => p.FrontVideoId)
             .HasPrincipalKey<PostVideo>(pv => pv.PostFrontId);
 
         builder.HasOne(p => p.RearVideo)
             .WithOne(p => p.PostRear)
-            .HasForeignKey<Post>(p => p.RearVideoId)
+            .HasForeignKey<Entities.Post.Post>(p => p.RearVideoId)
             .HasPrincipalKey<PostVideo>(pv => pv.PostRearId);
 
         builder.HasOne(p => p.Author)
@@ -47,7 +61,8 @@ public class PostEntityConfiguration: IEntityTypeConfiguration<Post>
             .HasForeignKey(p => p.AuthorId);
 
         builder.HasMany(p => p.Tags)
-            .WithMany();
+            .WithMany()
+            .UsingEntity(join => join.ToTable("posts_tags_relations"));
 
         builder.HasMany(p => p.PostComments)
             .WithOne(pc => pc.Post)
