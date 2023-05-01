@@ -1,0 +1,30 @@
+using IMS.Shared.Domain.Entities.Other;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace IMS.Shared.Domain.EntityPreferences;
+
+public class TagEntityConfiguartion: IEntityTypeConfiguration<Tag>
+{
+    public void Configure(EntityTypeBuilder<Tag> builder)
+    {
+        builder.ToTable("tag");
+
+        builder.Property(t => t.AuthorId)
+            .HasColumnName("author_id")
+            .IsRequired();
+
+        builder.Property(t => t.Name)
+            .HasMaxLength(24)
+            .IsRequired();
+
+        builder.Property(t => t.CreationDate)
+            .HasColumnName("creation_date")
+            .IsRequired()
+            .HasDefaultValue(DateTime.UtcNow);
+
+        builder.HasOne(t => t.Author)
+            .WithMany()
+            .HasForeignKey(t => t.AuthorId);
+    }
+}
