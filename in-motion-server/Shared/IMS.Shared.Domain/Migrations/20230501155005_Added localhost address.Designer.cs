@@ -3,6 +3,7 @@ using System;
 using IMS.Shared.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IMS.Shared.Domain.Migrations
 {
     [DbContext(typeof(DomainDbContext))]
-    partial class DomainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230501155005_Added localhost address")]
+    partial class Addedlocalhostaddress
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,7 +59,7 @@ namespace IMS.Shared.Domain.Migrations
                     b.Property<DateTime>("CreationDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 1, 16, 3, 38, 577, DateTimeKind.Utc).AddTicks(8690))
+                        .HasDefaultValue(new DateTime(2023, 5, 1, 15, 50, 5, 870, DateTimeKind.Utc).AddTicks(2450))
                         .HasColumnName("creation_date");
 
                     b.Property<string>("Name")
@@ -135,13 +138,13 @@ namespace IMS.Shared.Domain.Migrations
                     b.Property<DateTime>("CreationDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 1, 16, 3, 38, 600, DateTimeKind.Utc).AddTicks(6700))
+                        .HasDefaultValue(new DateTime(2023, 5, 1, 15, 50, 5, 883, DateTimeKind.Utc).AddTicks(7230))
                         .HasColumnName("creation_date");
 
                     b.Property<DateTime>("LastModifiedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 1, 16, 3, 38, 600, DateTimeKind.Utc).AddTicks(7020))
+                        .HasDefaultValue(new DateTime(2023, 5, 1, 15, 50, 5, 883, DateTimeKind.Utc).AddTicks(7540))
                         .HasColumnName("last_modified_date");
 
                     b.Property<Guid>("PostId")
@@ -172,7 +175,7 @@ namespace IMS.Shared.Domain.Migrations
                     b.Property<DateTime>("CreationDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 1, 16, 3, 38, 600, DateTimeKind.Utc).AddTicks(5210))
+                        .HasDefaultValue(new DateTime(2023, 5, 1, 15, 50, 5, 883, DateTimeKind.Utc).AddTicks(5780))
                         .HasColumnName("creation_date");
 
                     b.Property<string>("Description")
@@ -186,7 +189,7 @@ namespace IMS.Shared.Domain.Migrations
                     b.Property<DateTime>("LastEditionDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 1, 16, 3, 38, 600, DateTimeKind.Utc).AddTicks(5610))
+                        .HasDefaultValue(new DateTime(2023, 5, 1, 15, 50, 5, 883, DateTimeKind.Utc).AddTicks(6120))
                         .HasColumnName("last_edition_name");
 
                     b.Property<Guid>("PostFrontId")
@@ -252,9 +255,6 @@ namespace IMS.Shared.Domain.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("profile_video_id");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.HasIndex("Id");
@@ -278,7 +278,7 @@ namespace IMS.Shared.Domain.Migrations
                     b.Property<DateTime>("CreationDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 1, 16, 3, 38, 577, DateTimeKind.Utc).AddTicks(7050))
+                        .HasDefaultValue(new DateTime(2023, 5, 1, 15, 50, 5, 870, DateTimeKind.Utc).AddTicks(1050))
                         .HasColumnName("creation_date");
 
                     b.Property<string>("Description")
@@ -292,7 +292,7 @@ namespace IMS.Shared.Domain.Migrations
                     b.Property<DateTime>("LastEditionDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 1, 16, 3, 38, 577, DateTimeKind.Utc).AddTicks(7450))
+                        .HasDefaultValue(new DateTime(2023, 5, 1, 15, 50, 5, 870, DateTimeKind.Utc).AddTicks(1330))
                         .HasColumnName("last_edition_name");
 
                     b.HasKey("Id");

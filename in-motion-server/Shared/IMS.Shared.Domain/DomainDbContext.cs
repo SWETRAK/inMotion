@@ -1,4 +1,3 @@
-using System.Net.WebSockets;
 using IMS.Shared.Domain.Entities.Other;
 using IMS.Shared.Domain.Entities.Post;
 using IMS.Shared.Domain.Entities.User;
@@ -24,7 +23,7 @@ public class DomainDbContext: DbContext
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql();
+        optionsBuilder.UseNpgsql("Host=localhost;Database=inMotion;Username=postgres;Password=postgres");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

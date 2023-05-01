@@ -1,3 +1,5 @@
+using IMS.Shared.Domain.Consts;
+
 namespace IMS.Shared.Domain.Entities.User;
 
 public class User
@@ -10,5 +12,7 @@ public class User
     public string Bio { get; set; }
 
     public Guid ProfileVideoId { get; set; }
-    public virtual UserProfileVideo ProfileVideo{ get; set; }
+    public virtual UserProfileVideo ProfileVideo { get; set; }
+    
+    public Roles Role { get; set; }
 }
