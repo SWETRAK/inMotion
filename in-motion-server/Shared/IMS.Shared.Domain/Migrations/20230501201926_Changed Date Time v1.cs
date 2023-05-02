@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace IMS.Shared.Domain.Migrations
 {
     /// <inheritdoc />
-    public partial class Initmigration : Migration
+    public partial class ChangedDateTimev1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -33,8 +33,8 @@ namespace IMS.Shared.Domain.Migrations
                     author_id = table.Column<Guid>(type: "uuid", nullable: false),
                     filename = table.Column<string>(type: "text", nullable: false),
                     description = table.Column<string>(type: "character varying(2048)", maxLength: 2048, nullable: true),
-                    creation_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2023, 5, 1, 18, 43, 5, 873, DateTimeKind.Utc).AddTicks(8680)),
-                    last_edition_name = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2023, 5, 1, 18, 43, 5, 873, DateTimeKind.Utc).AddTicks(8960))
+                    creation_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    last_edition_name = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -75,8 +75,8 @@ namespace IMS.Shared.Domain.Migrations
                     AuthorId = table.Column<Guid>(type: "uuid", nullable: true),
                     filename = table.Column<string>(type: "text", nullable: false),
                     description = table.Column<string>(type: "character varying(2048)", maxLength: 2048, nullable: true),
-                    creation_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2023, 5, 1, 18, 43, 5, 879, DateTimeKind.Utc).AddTicks(9460)),
-                    last_edition_name = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2023, 5, 1, 18, 43, 5, 879, DateTimeKind.Utc).AddTicks(9770))
+                    creation_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    last_edition_name = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -117,7 +117,7 @@ namespace IMS.Shared.Domain.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     author_id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "character varying(24)", maxLength: 24, nullable: false),
-                    creation_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2023, 5, 1, 18, 43, 5, 874, DateTimeKind.Utc).AddTicks(740))
+                    creation_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -131,28 +131,28 @@ namespace IMS.Shared.Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserProfileVideoReaction",
+                name: "user_profile_video_reactions",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserProfileVideoId = table.Column<Guid>(type: "uuid", nullable: false),
-                    AuthorId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Emoji = table.Column<string>(type: "text", nullable: true),
-                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastModificationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    user_profile_video_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    author_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    emoji = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
+                    creation_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    last_modification_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserProfileVideoReaction", x => x.Id);
+                    table.PrimaryKey("PK_user_profile_video_reactions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserProfileVideoReaction_user_profile_videos_UserProfileVid~",
-                        column: x => x.UserProfileVideoId,
+                        name: "FK_user_profile_video_reactions_user_profile_videos_user_profi~",
+                        column: x => x.user_profile_video_id,
                         principalTable: "user_profile_videos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserProfileVideoReaction_users_AuthorId",
-                        column: x => x.AuthorId,
+                        name: "FK_user_profile_video_reactions_users_author_id",
+                        column: x => x.author_id,
                         principalTable: "users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -166,8 +166,8 @@ namespace IMS.Shared.Domain.Migrations
                     author_id = table.Column<Guid>(type: "uuid", nullable: false),
                     description = table.Column<string>(type: "character varying(2048)", maxLength: 2048, nullable: true),
                     title = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    creation_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2023, 5, 1, 18, 43, 5, 874, DateTimeKind.Utc).AddTicks(3350)),
-                    last_modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2023, 5, 1, 18, 43, 5, 874, DateTimeKind.Utc).AddTicks(3650)),
+                    creation_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    last_modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     localization_id = table.Column<Guid>(type: "uuid", nullable: false),
                     front_video_id = table.Column<Guid>(type: "uuid", nullable: false),
                     rear_video_id = table.Column<Guid>(type: "uuid", nullable: false)
@@ -209,8 +209,8 @@ namespace IMS.Shared.Domain.Migrations
                     PostId = table.Column<Guid>(type: "uuid", nullable: false),
                     author_id = table.Column<Guid>(type: "uuid", nullable: false),
                     content = table.Column<string>(type: "character varying(1024)", maxLength: 1024, nullable: false),
-                    creation_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2023, 5, 1, 18, 43, 5, 880, DateTimeKind.Utc).AddTicks(1020)),
-                    last_modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTime(2023, 5, 1, 18, 43, 5, 880, DateTimeKind.Utc).AddTicks(1300))
+                    creation_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    last_modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -230,35 +230,35 @@ namespace IMS.Shared.Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostReaction",
+                name: "post_reactions",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    PostId = table.Column<Guid>(type: "uuid", nullable: false),
-                    AuthorId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Emoji = table.Column<string>(type: "text", nullable: true),
-                    CreationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastModificationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    post_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    author_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    emoji = table.Column<string>(type: "text", nullable: false),
+                    creation_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    last_modification_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PostReaction", x => x.Id);
+                    table.PrimaryKey("PK_post_reactions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PostReaction_posts_PostId",
-                        column: x => x.PostId,
+                        name: "FK_post_reactions_posts_post_id",
+                        column: x => x.post_id,
                         principalTable: "posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PostReaction_users_AuthorId",
-                        column: x => x.AuthorId,
+                        name: "FK_post_reactions_users_author_id",
+                        column: x => x.author_id,
                         principalTable: "users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PostTag",
+                name: "posts_tags_relations",
                 columns: table => new
                 {
                     PostId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -266,17 +266,45 @@ namespace IMS.Shared.Domain.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PostTag", x => new { x.PostId, x.TagsId });
+                    table.PrimaryKey("PK_posts_tags_relations", x => new { x.PostId, x.TagsId });
                     table.ForeignKey(
-                        name: "FK_PostTag_posts_PostId",
+                        name: "FK_posts_tags_relations_posts_PostId",
                         column: x => x.PostId,
                         principalTable: "posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PostTag_tags_TagsId",
+                        name: "FK_posts_tags_relations_tags_TagsId",
                         column: x => x.TagsId,
                         principalTable: "tags",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "post_comment_reaction",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    post_comment_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    author_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    emoji = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
+                    creation_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    last_modification_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_post_comment_reaction", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_post_comment_reaction_post_comments_post_comment_id",
+                        column: x => x.post_comment_id,
+                        principalTable: "post_comments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_post_comment_reaction_users_author_id",
+                        column: x => x.author_id,
+                        principalTable: "users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -285,6 +313,21 @@ namespace IMS.Shared.Domain.Migrations
                 name: "IX_localizations_Id",
                 table: "localizations",
                 column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_post_comment_reaction_author_id",
+                table: "post_comment_reaction",
+                column: "author_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_post_comment_reaction_Id",
+                table: "post_comment_reaction",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_post_comment_reaction_post_comment_id",
+                table: "post_comment_reaction",
+                column: "post_comment_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_post_comments_author_id",
@@ -302,6 +345,21 @@ namespace IMS.Shared.Domain.Migrations
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_post_reactions_author_id",
+                table: "post_reactions",
+                column: "author_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_post_reactions_Id",
+                table: "post_reactions",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_post_reactions_post_id",
+                table: "post_reactions",
+                column: "post_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_post_videos_AuthorId",
                 table: "post_videos",
                 column: "AuthorId");
@@ -310,16 +368,6 @@ namespace IMS.Shared.Domain.Migrations
                 name: "IX_post_videos_Id",
                 table: "post_videos",
                 column: "Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PostReaction_AuthorId",
-                table: "PostReaction",
-                column: "AuthorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PostReaction_PostId",
-                table: "PostReaction",
-                column: "PostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_posts_author_id",
@@ -349,8 +397,8 @@ namespace IMS.Shared.Domain.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostTag_TagsId",
-                table: "PostTag",
+                name: "IX_posts_tags_relations_TagsId",
+                table: "posts_tags_relations",
                 column: "TagsId");
 
             migrationBuilder.CreateIndex(
@@ -374,19 +422,24 @@ namespace IMS.Shared.Domain.Migrations
                 column: "Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_user_profile_videos_Id",
-                table: "user_profile_videos",
+                name: "IX_user_profile_video_reactions_author_id",
+                table: "user_profile_video_reactions",
+                column: "author_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_user_profile_video_reactions_Id",
+                table: "user_profile_video_reactions",
                 column: "Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserProfileVideoReaction_AuthorId",
-                table: "UserProfileVideoReaction",
-                column: "AuthorId");
+                name: "IX_user_profile_video_reactions_user_profile_video_id",
+                table: "user_profile_video_reactions",
+                column: "user_profile_video_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserProfileVideoReaction_UserProfileVideoId",
-                table: "UserProfileVideoReaction",
-                column: "UserProfileVideoId");
+                name: "IX_user_profile_videos_Id",
+                table: "user_profile_videos",
+                column: "Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_users_Id",
@@ -404,25 +457,28 @@ namespace IMS.Shared.Domain.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "post_comments");
+                name: "post_comment_reaction");
 
             migrationBuilder.DropTable(
-                name: "PostReaction");
+                name: "post_reactions");
 
             migrationBuilder.DropTable(
-                name: "PostTag");
+                name: "posts_tags_relations");
 
             migrationBuilder.DropTable(
                 name: "providers");
 
             migrationBuilder.DropTable(
-                name: "UserProfileVideoReaction");
+                name: "user_profile_video_reactions");
 
             migrationBuilder.DropTable(
-                name: "posts");
+                name: "post_comments");
 
             migrationBuilder.DropTable(
                 name: "tags");
+
+            migrationBuilder.DropTable(
+                name: "posts");
 
             migrationBuilder.DropTable(
                 name: "localizations");

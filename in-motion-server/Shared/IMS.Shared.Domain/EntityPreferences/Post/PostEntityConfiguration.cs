@@ -38,12 +38,10 @@ public class PostEntityConfiguration: IEntityTypeConfiguration<Entities.Post.Pos
 
         builder.Property(p => p.CreationDate)
             .HasColumnName("creation_date")
-            .HasDefaultValue(DateTime.UtcNow)
             .IsRequired();
 
         builder.Property(p => p.LastModifiedDate)
             .HasColumnName("last_modified_date")
-            .HasDefaultValue(DateTime.UtcNow)
             .IsRequired();
 
         builder.HasOne(p => p.FrontVideo)

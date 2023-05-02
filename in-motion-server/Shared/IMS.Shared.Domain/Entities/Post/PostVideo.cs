@@ -12,4 +12,10 @@ public class PostVideo: BaseVideo
     
     public virtual Post PostRear { get; set; }
     public Guid PostRearId { get; set; }
+
+    public PostVideo()
+    {
+        CreationDate = DateTime.UtcNow;
+        LastEditionDate = DateTime.UtcNow;
+    }
 }

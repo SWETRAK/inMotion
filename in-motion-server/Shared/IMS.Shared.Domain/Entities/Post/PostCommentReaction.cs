@@ -6,4 +6,10 @@ public class PostCommentReaction: BaseReaction
 {
     public virtual PostComment PostComment { get; set; }
     public Guid PostCommentId { get; set; }
+
+    public PostCommentReaction()
+    {
+        CreationDate = DateTime.UtcNow;
+        LastModificationDate = DateTime.UtcNow;
+    }
 }

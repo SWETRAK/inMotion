@@ -23,12 +23,10 @@ public class UserProfileVideoReactionEntityConfiguration: IEntityTypeConfigurati
 
         builder.Property(upvr => upvr.CreationDate)
             .HasColumnName("creation_date")
-            .HasDefaultValue(DateTime.UtcNow)
             .IsRequired();
 
         builder.Property(upvr => upvr.LastModificationDate)
             .HasColumnName("last_modification_date")
-            .HasDefaultValue(DateTime.UtcNow)
             .IsRequired();
         
         builder.Property(upvr => upvr.UserProfileVideoId)

@@ -6,4 +6,10 @@ namespace IMS.Shared.Domain.Entities.User;
 public class UserProfileVideo: BaseVideo
 {
     public virtual IEnumerable<UserProfileVideoReaction> UserProfileVideoReactions { get; set; }
+
+    public UserProfileVideo()
+    {
+        CreationDate = DateTime.UtcNow;
+        LastEditionDate = DateTime.UtcNow;
+    }
 }

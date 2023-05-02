@@ -6,4 +6,10 @@ public class PostReaction: BaseReaction
 {
     public virtual Post Post { get; set; }
     public Guid PostId { get; set; }
+
+    public PostReaction()
+    {
+        CreationDate = DateTime.UtcNow;
+        LastModificationDate = DateTime.UtcNow;
+    }
 }

@@ -23,12 +23,10 @@ public class PostCommentReactionEntityConfiguration: IEntityTypeConfiguration<Po
 
         builder.Property(pcr => pcr.CreationDate)
             .HasColumnName("creation_date")
-            .HasDefaultValue(DateTime.UtcNow)
             .IsRequired();
 
         builder.Property(pcr => pcr.LastModificationDate)
             .HasColumnName("last_modification_date")
-            .HasDefaultValue(DateTime.UtcNow)
             .IsRequired();
 
         builder.Property(pcr => pcr.PostCommentId)

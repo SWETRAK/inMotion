@@ -23,9 +23,8 @@ public class TagEntityConfiguartion: IEntityTypeConfiguration<Tag>
 
         builder.Property(t => t.CreationDate)
             .HasColumnName("creation_date")
-            .IsRequired()
-            .HasDefaultValue(DateTime.UtcNow);
-
+            .IsRequired();
+        
         builder.Property(t => t.AuthorId)
             .HasColumnName("author_id")
             .IsRequired();

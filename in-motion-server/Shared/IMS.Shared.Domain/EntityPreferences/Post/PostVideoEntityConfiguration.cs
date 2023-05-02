@@ -26,13 +26,11 @@ public class PostVideoEntityConfiguration: IEntityTypeConfiguration<PostVideo>
 
         builder.Property(pv => pv.CreationDate)
             .HasColumnName("creation_date")
-            .IsRequired()
-            .HasDefaultValue(DateTime.UtcNow);
+            .IsRequired();
 
         builder.Property(pv => pv.LastEditionDate)
             .HasColumnName("last_edition_name")
-            .IsRequired()
-            .HasDefaultValue(DateTime.UtcNow);
+            .IsRequired();
 
         builder.Property(pv => pv.Type)
             .HasColumnName("type")

@@ -28,4 +28,10 @@ public class Post
 
     public virtual IEnumerable<PostComment> PostComments { get; set; }
     public virtual IEnumerable<PostReaction> PostReactions { get; set; }
+
+    public Post()
+    {
+        CreationDate = DateTime.UtcNow;
+        LastModifiedDate = DateTime.UtcNow;
+    }
 }

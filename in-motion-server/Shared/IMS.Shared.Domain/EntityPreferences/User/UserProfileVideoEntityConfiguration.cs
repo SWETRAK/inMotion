@@ -26,12 +26,10 @@ public class UserProfileVideoEntityConfiguration: IEntityTypeConfiguration<UserP
 
         builder.Property(upv => upv.CreationDate)
             .HasColumnName("creation_date")
-            .IsRequired()
-            .HasDefaultValue(DateTime.UtcNow);
+            .IsRequired();
 
         builder.Property(upv => upv.LastEditionDate)
             .HasColumnName("last_edition_name")
-            .IsRequired()
-            .HasDefaultValue(DateTime.UtcNow);
+            .IsRequired();
     }
 }

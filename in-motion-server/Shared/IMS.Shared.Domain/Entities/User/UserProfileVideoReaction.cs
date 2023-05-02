@@ -6,4 +6,10 @@ public class UserProfileVideoReaction: BaseReaction
 {
     public Guid UserProfileVideoId { get; set; }
     public virtual UserProfileVideo UserProfileVideo { get; set; }
+
+    public UserProfileVideoReaction()
+    {
+        CreationDate = DateTime.UtcNow;
+        LastModificationDate = DateTime.UtcNow;
+    }
 }

@@ -22,12 +22,10 @@ public class PostReactionEntityConfiguration: IEntityTypeConfiguration<PostReact
 
         builder.Property(pr => pr.CreationDate)
             .HasColumnName("creation_date")
-            .HasDefaultValue(DateTime.UtcNow)
             .IsRequired();
 
         builder.Property(pr => pr.LastModificationDate)
             .HasColumnName("last_modification_date")
-            .HasDefaultValue(DateTime.UtcNow)
             .IsRequired();
 
         builder.Property(pr => pr.PostId)

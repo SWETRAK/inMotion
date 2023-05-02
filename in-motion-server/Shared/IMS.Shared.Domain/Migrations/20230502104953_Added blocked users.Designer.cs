@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IMS.Shared.Domain.Migrations
 {
     [DbContext(typeof(DomainDbContext))]
-    [Migration("20230501185021_Added reactions with configuration")]
-    partial class Addedreactionswithconfiguration
+    [Migration("20230502104953_Added blocked users")]
+    partial class Addedblockedusers
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,72 @@ namespace IMS.Shared.Domain.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("IMS.Shared.Domain.Entities.Friendship.BlockedUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("creation_date");
+
+                    b.Property<Guid>("FirstUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("first_user_id");
+
+                    b.Property<Guid>("SecondUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("second_user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FirstUserId");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("SecondUserId");
+
+                    b.ToTable("blocker_user", (string)null);
+                });
+
+            modelBuilder.Entity("IMS.Shared.Domain.Entities.Friendship.Friendship", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("creation_date");
+
+                    b.Property<Guid>("FirstUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("first_user_id");
+
+                    b.Property<DateTime>("LastModificationDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_modification_date");
+
+                    b.Property<Guid>("SecondUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("second_user_id");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FirstUserId");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("SecondUserId");
+
+                    b.ToTable("friendships", (string)null);
+                });
 
             modelBuilder.Entity("IMS.Shared.Domain.Entities.Other.Localization", b =>
                 {
@@ -62,9 +128,7 @@ namespace IMS.Shared.Domain.Migrations
                         .HasColumnName("author_id");
 
                     b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 1, 18, 50, 21, 438, DateTimeKind.Utc).AddTicks(7560))
                         .HasColumnName("creation_date");
 
                     b.Property<string>("Name")
@@ -93,9 +157,7 @@ namespace IMS.Shared.Domain.Migrations
                         .HasColumnName("author_id");
 
                     b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 1, 18, 50, 21, 439, DateTimeKind.Utc).AddTicks(670))
                         .HasColumnName("creation_date");
 
                     b.Property<string>("Description")
@@ -108,9 +170,7 @@ namespace IMS.Shared.Domain.Migrations
                         .HasColumnName("front_video_id");
 
                     b.Property<DateTime>("LastModifiedDate")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 1, 18, 50, 21, 439, DateTimeKind.Utc).AddTicks(1030))
                         .HasColumnName("last_modified_date");
 
                     b.Property<Guid>("LocalizationId")
@@ -144,7 +204,7 @@ namespace IMS.Shared.Domain.Migrations
                     b.ToTable("posts", (string)null);
                 });
 
-            modelBuilder.Entity("IMS.Shared.Domain.Entities.Post.PostBaseComment", b =>
+            modelBuilder.Entity("IMS.Shared.Domain.Entities.Post.PostComment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -161,15 +221,11 @@ namespace IMS.Shared.Domain.Migrations
                         .HasColumnName("content");
 
                     b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 1, 18, 50, 21, 446, DateTimeKind.Utc).AddTicks(1380))
                         .HasColumnName("creation_date");
 
                     b.Property<DateTime>("LastModifiedDate")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 1, 18, 50, 21, 446, DateTimeKind.Utc).AddTicks(1740))
                         .HasColumnName("last_modified_date");
 
                     b.Property<Guid>("PostId")
@@ -186,6 +242,45 @@ namespace IMS.Shared.Domain.Migrations
                     b.ToTable("post_comments", (string)null);
                 });
 
+            modelBuilder.Entity("IMS.Shared.Domain.Entities.Post.PostCommentReaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("author_id");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("creation_date");
+
+                    b.Property<string>("Emoji")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("emoji");
+
+                    b.Property<DateTime>("LastModificationDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_modification_date");
+
+                    b.Property<Guid>("PostCommentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("post_comment_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("PostCommentId");
+
+                    b.ToTable("post_comment_reaction", (string)null);
+                });
+
             modelBuilder.Entity("IMS.Shared.Domain.Entities.Post.PostReaction", b =>
                 {
                     b.Property<Guid>("Id")
@@ -197,9 +292,7 @@ namespace IMS.Shared.Domain.Migrations
                         .HasColumnName("author_id");
 
                     b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 1, 18, 50, 21, 446, DateTimeKind.Utc).AddTicks(2910))
                         .HasColumnName("creation_date");
 
                     b.Property<string>("Emoji")
@@ -208,9 +301,7 @@ namespace IMS.Shared.Domain.Migrations
                         .HasColumnName("emoji");
 
                     b.Property<DateTime>("LastModificationDate")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 1, 18, 50, 21, 446, DateTimeKind.Utc).AddTicks(3260))
                         .HasColumnName("last_modification_date");
 
                     b.Property<Guid>("PostId")
@@ -242,9 +333,7 @@ namespace IMS.Shared.Domain.Migrations
                         .HasColumnName("author_id");
 
                     b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 1, 18, 50, 21, 445, DateTimeKind.Utc).AddTicks(9320))
                         .HasColumnName("creation_date");
 
                     b.Property<string>("Description")
@@ -258,9 +347,7 @@ namespace IMS.Shared.Domain.Migrations
                         .HasColumnName("filename");
 
                     b.Property<DateTime>("LastEditionDate")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 1, 18, 50, 21, 445, DateTimeKind.Utc).AddTicks(9740))
                         .HasColumnName("last_edition_name");
 
                     b.Property<Guid>("PostFrontId")
@@ -356,9 +443,7 @@ namespace IMS.Shared.Domain.Migrations
                         .HasColumnName("author_id");
 
                     b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 1, 18, 50, 21, 438, DateTimeKind.Utc).AddTicks(410))
                         .HasColumnName("creation_date");
 
                     b.Property<string>("Description")
@@ -372,9 +457,7 @@ namespace IMS.Shared.Domain.Migrations
                         .HasColumnName("filename");
 
                     b.Property<DateTime>("LastEditionDate")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 1, 18, 50, 21, 438, DateTimeKind.Utc).AddTicks(760))
                         .HasColumnName("last_edition_name");
 
                     b.HasKey("Id");
@@ -395,9 +478,7 @@ namespace IMS.Shared.Domain.Migrations
                         .HasColumnName("author_id");
 
                     b.Property<DateTime>("CreationDate")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 1, 18, 50, 21, 438, DateTimeKind.Utc).AddTicks(2130))
                         .HasColumnName("creation_date");
 
                     b.Property<string>("Emoji")
@@ -407,9 +488,7 @@ namespace IMS.Shared.Domain.Migrations
                         .HasColumnName("emoji");
 
                     b.Property<DateTime>("LastModificationDate")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2023, 5, 1, 18, 50, 21, 438, DateTimeKind.Utc).AddTicks(2490))
                         .HasColumnName("last_modification_date");
 
                     b.Property<Guid>("UserProfileVideoId")
@@ -439,7 +518,45 @@ namespace IMS.Shared.Domain.Migrations
 
                     b.HasIndex("TagsId");
 
-                    b.ToTable("PostTag");
+                    b.ToTable("posts_tags_relations", (string)null);
+                });
+
+            modelBuilder.Entity("IMS.Shared.Domain.Entities.Friendship.BlockedUser", b =>
+                {
+                    b.HasOne("IMS.Shared.Domain.Entities.User.User", "FirstUser")
+                        .WithMany()
+                        .HasForeignKey("FirstUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IMS.Shared.Domain.Entities.User.User", "SecondUser")
+                        .WithMany()
+                        .HasForeignKey("SecondUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FirstUser");
+
+                    b.Navigation("SecondUser");
+                });
+
+            modelBuilder.Entity("IMS.Shared.Domain.Entities.Friendship.Friendship", b =>
+                {
+                    b.HasOne("IMS.Shared.Domain.Entities.User.User", "FirstUser")
+                        .WithMany()
+                        .HasForeignKey("FirstUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IMS.Shared.Domain.Entities.User.User", "SecondUser")
+                        .WithMany()
+                        .HasForeignKey("SecondUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FirstUser");
+
+                    b.Navigation("SecondUser");
                 });
 
             modelBuilder.Entity("IMS.Shared.Domain.Entities.Other.Tag", b =>
@@ -490,7 +607,7 @@ namespace IMS.Shared.Domain.Migrations
                     b.Navigation("RearVideo");
                 });
 
-            modelBuilder.Entity("IMS.Shared.Domain.Entities.Post.PostBaseComment", b =>
+            modelBuilder.Entity("IMS.Shared.Domain.Entities.Post.PostComment", b =>
                 {
                     b.HasOne("IMS.Shared.Domain.Entities.User.User", "Author")
                         .WithMany()
@@ -507,6 +624,25 @@ namespace IMS.Shared.Domain.Migrations
                     b.Navigation("Author");
 
                     b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("IMS.Shared.Domain.Entities.Post.PostCommentReaction", b =>
+                {
+                    b.HasOne("IMS.Shared.Domain.Entities.User.User", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IMS.Shared.Domain.Entities.Post.PostComment", "PostComment")
+                        .WithMany()
+                        .HasForeignKey("PostCommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("PostComment");
                 });
 
             modelBuilder.Entity("IMS.Shared.Domain.Entities.Post.PostReaction", b =>
