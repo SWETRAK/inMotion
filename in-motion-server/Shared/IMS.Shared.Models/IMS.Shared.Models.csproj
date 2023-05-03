@@ -11,6 +11,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Dto\Post\Comment\Reaction\" />
+      <Folder Include="Dto\User\Video\Reaction\" />
       <Folder Include="Validators\User\" />
     </ItemGroup>
 

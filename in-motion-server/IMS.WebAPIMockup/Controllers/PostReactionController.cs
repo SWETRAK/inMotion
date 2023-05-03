@@ -1,6 +1,10 @@
+using Microsoft.AspNetCore.Mvc;
+
 namespace IMS.WebAPIMockup.Controllers;
 
-public class PostReactionController
+[ApiController]
+[Route("api/post/reactions")]
+public class PostReactionController: Controller
 {
     
 }
