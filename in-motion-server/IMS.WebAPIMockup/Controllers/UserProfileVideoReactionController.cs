@@ -2,11 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IMS.WebAPIMockup.Controllers;
 
-// TODO: Finish documentation
 // TODO: Implement logic
+// TODO: Finish documentation
 [ApiController]
-[Route("api/post/reactions")]
-public class PostReactionController: Controller
+[Route("user/video/reactions")]
+public class UserProfileVideoReactionController: Controller
 {
     
 }

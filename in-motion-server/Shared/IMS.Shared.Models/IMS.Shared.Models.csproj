@@ -10,10 +10,4 @@
       <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Dto\Post\Comment\Reaction\" />
-      <Folder Include="Dto\User\Video\Reaction\" />
-      <Folder Include="Validators\User\" />
-    </ItemGroup>
-
 </Project>

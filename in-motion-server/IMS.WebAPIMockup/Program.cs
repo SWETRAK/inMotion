@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 //Validators 
 builder.Services.AddValidators();
 
+// TODO: Implement friendships dto, validators and logic
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

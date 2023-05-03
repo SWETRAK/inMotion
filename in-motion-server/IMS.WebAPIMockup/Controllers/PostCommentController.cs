@@ -1,13 +1,12 @@
-using System.Net;
 using System.Security;
 using IMS.Shared.Models.Dto.Post.Comment;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMS.WebAPIMockup.Controllers;
 
+// TODO: Finish documentation
 [ApiController]
-[Route("api/post/comments")]
+[Route("api/posts/comments")]
 public class PostCommentController: Controller
 {
     /// <summary>

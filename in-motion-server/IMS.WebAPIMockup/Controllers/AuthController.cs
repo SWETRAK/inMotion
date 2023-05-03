@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IMS.WebAPIMockup.Controllers;
 
+// TODO: Finish documentation 
 [ApiController]
 [Route("api/auth")]
 public class AuthController: Controller
