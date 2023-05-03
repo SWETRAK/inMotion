@@ -20,9 +20,9 @@ public class UserProfileVideoEntityConfiguration: IEntityTypeConfiguration<UserP
             .HasColumnName("filename")
             .IsRequired();
 
-        builder.Property(upv => upv.Description)
-            .HasColumnName("description")
-            .HasMaxLength(2048);
+        builder.Property(upv => upv.ContentType)
+            .HasColumnName("content_type")
+            .IsRequired();
 
         builder.Property(upv => upv.CreationDate)
             .HasColumnName("creation_date")

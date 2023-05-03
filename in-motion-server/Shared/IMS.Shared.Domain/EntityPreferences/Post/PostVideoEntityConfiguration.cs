@@ -20,9 +20,9 @@ public class PostVideoEntityConfiguration: IEntityTypeConfiguration<PostVideo>
             .HasColumnName("filename")
             .IsRequired();
 
-        builder.Property(pv => pv.Description)
-            .HasColumnName("description")
-            .HasMaxLength(2048);
+        builder.Property(pv => pv.ContentType)
+            .HasColumnName("content_type")
+            .IsRequired();
 
         builder.Property(pv => pv.CreationDate)
             .HasColumnName("creation_date")

@@ -8,7 +8,7 @@ public class BaseVideo
     public virtual User.User Author { get; set; }
     
     public string Filename { get; set; }
-    public string Description { get; set; }
+    public string ContentType { get; set; }
     public DateTime CreationDate { get; set; }
     public DateTime LastEditionDate { get; set; }
 }
