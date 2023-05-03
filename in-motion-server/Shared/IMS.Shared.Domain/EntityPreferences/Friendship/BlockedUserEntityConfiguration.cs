@@ -8,7 +8,7 @@ public class BlockedUserEntityConfiguration: IEntityTypeConfiguration<BlockedUse
 {
     public void Configure(EntityTypeBuilder<BlockedUser> builder)
     {
-        builder.ToTable("blocker_user");
+        builder.ToTable("blocked_user");
 
         builder.HasIndex(bu => bu.Id);
 

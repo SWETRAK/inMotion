@@ -18,7 +18,7 @@ public class DomainDbContext: DbContext
     public DbSet<UserProfileVideoReaction> UserProfileVideoReactions { get; set; }
     
     public DbSet<Friendship> Friendships { get; set; }
-    public DbSet<BlockedUser> BlockedUsers { get; set; }
+    // public DbSet<BlockedUser> BlockedUsers { get; set; }
 
     public DbSet<Post> Posts { get; set; }
     public DbSet<PostVideo> PostVideos { get; set; }
@@ -45,7 +45,7 @@ public class DomainDbContext: DbContext
         new TagEntityConfiguartion().Configure(modelBuilder.Entity<Tag>());
         
         new FriendshipEntityConfiguration().Configure(modelBuilder.Entity<Friendship>());
-        new BlockedUserEntityConfiguration().Configure(modelBuilder.Entity<BlockedUser>());
+        // new BlockedUserEntityConfiguration().Configure(modelBuilder.Entity<BlockedUser>());
         
         new PostEntityConfiguration().Configure(modelBuilder.Entity<Post>());
         new PostVideoEntityConfiguration().Configure(modelBuilder.Entity<PostVideo>());
