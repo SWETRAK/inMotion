@@ -26,6 +26,13 @@ public class PostCommentController: ControllerBase
         return Ok(new PostCommentDto());
     }
     
+    /// <summary>
+    /// Create comment for post
+    /// </summary>
+    /// <param name="createPostCommentDto"></param>
+    /// <returns>PostCommentDto with new post content</returns>
+    /// <rresponse>
+    /// 
     [ProducesResponseType(typeof(PostCommentDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
