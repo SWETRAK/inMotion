@@ -6,8 +6,8 @@ namespace IMS.WebAPIMockup.Controllers;
 
 // TODO: Finish documentation
 [ApiController]
-[Route("api/posts/comments")]
-public class PostCommentController: Controller
+[Route("api/v{version:apiVersion}/posts/comments")]
+public class PostCommentController: ControllerBase
 {
     /// <summary>
     /// Get comment from id

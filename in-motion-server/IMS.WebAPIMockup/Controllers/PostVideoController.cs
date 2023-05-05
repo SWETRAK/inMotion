@@ -4,8 +4,8 @@ namespace IMS.WebAPIMockup.Controllers;
 
 // TODO: Finish documentation
 [ApiController]
-[Route("api/posts/videos")]
-public class PostVideoController: Controller
+[Route("api/v{version:apiVersion}/posts/videos")]
+public class PostVideoController: ControllerBase
 {
     [Produces("video/mp4")]
     [HttpGet("{videoId}")]

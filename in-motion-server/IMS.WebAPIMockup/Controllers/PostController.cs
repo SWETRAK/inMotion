@@ -5,9 +5,9 @@ namespace IMS.WebAPIMockup.Controllers;
 
 // TODO: Finish documentation
 [ApiController]
-[Route("api/posts")]
+[Route("api/v{version:apiVersion}/posts")]
 [Produces("application/json")]
-public class PostController: Controller
+public class PostController: ControllerBase
 {
     [HttpGet]
     public ActionResult<IEnumerable<PostDetailsDto>> GetPosts()

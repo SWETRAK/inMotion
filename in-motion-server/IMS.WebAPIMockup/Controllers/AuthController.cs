@@ -5,8 +5,8 @@ namespace IMS.WebAPIMockup.Controllers;
 
 // TODO: Finish documentation 
 [ApiController]
-[Route("api/auth")]
-public class AuthController: Controller
+[Route("api/v{version:apiVersion}/auth")]
+public class AuthController: ControllerBase
 {
     [ProducesResponseType(typeof(UserInfoDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]

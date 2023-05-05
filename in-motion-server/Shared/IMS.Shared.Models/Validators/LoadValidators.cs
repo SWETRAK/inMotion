@@ -1,6 +1,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using IMS.Shared.Models.Dto.Auth;
+using IMS.Shared.Models.Dto.Friends;
 using IMS.Shared.Models.Dto.Other;
 using IMS.Shared.Models.Dto.Post;
 using IMS.Shared.Models.Dto.Post.Comment;
@@ -9,6 +10,7 @@ using IMS.Shared.Models.Dto.Post.Reaction;
 using IMS.Shared.Models.Dto.User.Video;
 using IMS.Shared.Models.Dto.User.Video.Reaction;
 using IMS.Shared.Models.Validators.Auth;
+using IMS.Shared.Models.Validators.Friends;
 using IMS.Shared.Models.Validators.Other;
 using IMS.Shared.Models.Validators.Post;
 using IMS.Shared.Models.Validators.Post.Comment;
@@ -44,6 +46,9 @@ public static class LoadValidators
         
         // Post reaction 
         services.AddScoped<IValidator<CreatePostReactionDto>, CreatePostReactionDtoValidator>();
+        
+        // Friendship
+        services.AddScoped<IValidator<CreateFriendshipDto>, CreateFriendshipDtoValidator>(); 
         
         services.AddScoped<IValidator<LocalizationDto>, LocalizationDtoValidator>();
         services.AddScoped<IValidator<TagDto>, TagDtoValidator>();

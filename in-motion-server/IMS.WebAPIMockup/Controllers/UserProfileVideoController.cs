@@ -1,14 +1,15 @@
 using System.Text.Json;
 using FluentValidation;
 using IMS.Shared.Models.Dto.User.Video;
+using IMS.Shared.Utils.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMS.WebAPIMockup.Controllers;
 
 // TODO: Finish documentation
 [ApiController]
-[Route("user/profileVideo")]
-public class UserProfileVideoController: Controller
+[Route("user/v{version:apiVersion}/profileVideo")]
+public class UserProfileVideoController: ControllerBase
 {
     private readonly IValidator<CreateUserProfileVideoDto> _createUserProfileVideoValidator;
 
@@ -33,6 +34,8 @@ public class UserProfileVideoController: Controller
         var createUserProfileVideoDto = JsonSerializer.Deserialize<CreateUserProfileVideoDto>(data); // can throw JsonException and can be null
         if (createUserProfileVideoDto is null) throw new Exception();
         var validationResult = await _createUserProfileVideoValidator.ValidateAsync(createUserProfileVideoDto); // throw specific exception with this data
+        if (!validationResult.IsValid) throw new InvalidIncomingDataException(validationResult);
+        
         
         return Created("", new UserProfileVideoDto());
     }
@@ -46,6 +49,7 @@ public class UserProfileVideoController: Controller
         var createUserProfileVideoDto = JsonSerializer.Deserialize<CreateUserProfileVideoDto>(data); // can throw JsonException and can be null
         if (createUserProfileVideoDto is null) throw new Exception();
         var validationResult = await _createUserProfileVideoValidator.ValidateAsync(createUserProfileVideoDto); // throw specific exception with this data
+        if (!validationResult.IsValid) throw new InvalidIncomingDataException(validationResult);
         
         return Ok(new UserProfileVideoDto());
     }

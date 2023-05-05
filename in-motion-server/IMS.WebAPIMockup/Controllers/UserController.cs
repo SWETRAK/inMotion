@@ -5,8 +5,8 @@ namespace IMS.WebAPIMockup.Controllers;
 // TODO: Implement logic
 // TODO: Finish documentation
 [ApiController]
-[Route("api/users")]
-public class UserController: Controller
+[Route("api/v{version:apiVersion}/users")]
+public class UserController: ControllerBase
 {
     
 }
