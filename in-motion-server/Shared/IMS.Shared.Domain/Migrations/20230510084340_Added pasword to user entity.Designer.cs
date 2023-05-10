@@ -3,6 +3,7 @@ using System;
 using IMS.Shared.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IMS.Shared.Domain.Migrations
 {
     [DbContext(typeof(DomainDbContext))]
-    partial class DomainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230510084340_Added pasword to user entity")]
+    partial class Addedpaswordtouserentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -300,16 +303,6 @@ namespace IMS.Shared.Domain.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("author_id");
 
-                    b.Property<string>("BucketLocation")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("bucket_location");
-
-                    b.Property<string>("BucketName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("bucket_name");
-
                     b.Property<string>("ContentType")
                         .IsRequired()
                         .HasColumnType("text")
@@ -386,18 +379,15 @@ namespace IMS.Shared.Domain.Migrations
                     b.Property<string>("Bio")
                         .IsRequired()
                         .HasMaxLength(1024)
-                        .HasColumnType("character varying(1024)")
-                        .HasColumnName("bio");
+                        .HasColumnType("character varying(1024)");
 
                     b.Property<string>("HashedPassword")
-                        .HasColumnType("text")
-                        .HasColumnName("hashed_password");
+                        .HasColumnType("text");
 
                     b.Property<string>("Nickname")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
-                        .HasColumnName("nickname");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<Guid>("ProfileVideoId")
                         .HasColumnType("uuid")
@@ -426,16 +416,6 @@ namespace IMS.Shared.Domain.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("author_id");
 
-                    b.Property<string>("BucketLocation")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("bucket_location");
-
-                    b.Property<string>("BucketName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("bucket_name");
-
                     b.Property<string>("ContentType")
                         .IsRequired()
                         .HasColumnType("text")
@@ -459,6 +439,45 @@ namespace IMS.Shared.Domain.Migrations
                     b.HasIndex("Id");
 
                     b.ToTable("user_profile_videos", (string)null);
+                });
+
+            modelBuilder.Entity("IMS.Shared.Domain.Entities.User.UserProfileVideoReaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("author_id");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("creation_date");
+
+                    b.Property<string>("Emoji")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("emoji");
+
+                    b.Property<DateTime>("LastModificationDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_modification_date");
+
+                    b.Property<Guid>("UserProfileVideoId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_profile_video_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("Id");
+
+                    b.HasIndex("UserProfileVideoId");
+
+                    b.ToTable("user_profile_video_reactions", (string)null);
                 });
 
             modelBuilder.Entity("PostTag", b =>
@@ -632,6 +651,25 @@ namespace IMS.Shared.Domain.Migrations
                     b.Navigation("ProfileVideo");
                 });
 
+            modelBuilder.Entity("IMS.Shared.Domain.Entities.User.UserProfileVideoReaction", b =>
+                {
+                    b.HasOne("IMS.Shared.Domain.Entities.User.User", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IMS.Shared.Domain.Entities.User.UserProfileVideo", "UserProfileVideo")
+                        .WithMany("UserProfileVideoReactions")
+                        .HasForeignKey("UserProfileVideoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("UserProfileVideo");
+                });
+
             modelBuilder.Entity("PostTag", b =>
                 {
                     b.HasOne("IMS.Shared.Domain.Entities.Post.Post", null)
@@ -669,6 +707,8 @@ namespace IMS.Shared.Domain.Migrations
             modelBuilder.Entity("IMS.Shared.Domain.Entities.User.UserProfileVideo", b =>
                 {
                     b.Navigation("Author");
+
+                    b.Navigation("UserProfileVideoReactions");
                 });
 #pragma warning restore 612, 618
         }

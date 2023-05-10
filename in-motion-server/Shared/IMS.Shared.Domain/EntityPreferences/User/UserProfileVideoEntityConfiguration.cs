@@ -28,6 +28,14 @@ public class UserProfileVideoEntityConfiguration: IEntityTypeConfiguration<UserP
             .HasColumnName("creation_date")
             .IsRequired();
 
+        builder.Property(upv => upv.BucketLocation)
+            .HasColumnName("bucket_location")
+            .IsRequired();
+
+        builder.Property(upv => upv.BucketName)
+            .HasColumnName("bucket_name")
+            .IsRequired();
+
         builder.Property(upv => upv.LastEditionDate)
             .HasColumnName("last_edition_name")
             .IsRequired();

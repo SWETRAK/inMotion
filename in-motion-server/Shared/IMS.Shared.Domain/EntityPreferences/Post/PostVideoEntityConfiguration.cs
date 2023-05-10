@@ -43,5 +43,13 @@ public class PostVideoEntityConfiguration: IEntityTypeConfiguration<PostVideo>
         builder.Property(pv => pv.PostRearId)
             .HasColumnName("post_rear_id")
             .IsRequired();
+        
+        builder.Property(pv => pv.BucketLocation)
+            .HasColumnName("bucket_location")
+            .IsRequired();
+
+        builder.Property(pv => pv.BucketName)
+            .HasColumnName("bucket_name")
+            .IsRequired();
     }
 }

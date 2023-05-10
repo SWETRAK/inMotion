@@ -3,6 +3,7 @@ using System;
 using IMS.Shared.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IMS.Shared.Domain.Migrations
 {
     [DbContext(typeof(DomainDbContext))]
-    partial class DomainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230510085730_Removed user profile video reactions")]
+    partial class Removeduserprofilevideoreactions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -461,6 +464,36 @@ namespace IMS.Shared.Domain.Migrations
                     b.ToTable("user_profile_videos", (string)null);
                 });
 
+            modelBuilder.Entity("IMS.Shared.Domain.Entities.User.UserProfileVideoReaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Emoji")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("LastModificationDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserProfileVideoId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("UserProfileVideoId");
+
+                    b.ToTable("UserProfileVideoReaction");
+                });
+
             modelBuilder.Entity("PostTag", b =>
                 {
                     b.Property<Guid>("PostId")
@@ -632,6 +665,25 @@ namespace IMS.Shared.Domain.Migrations
                     b.Navigation("ProfileVideo");
                 });
 
+            modelBuilder.Entity("IMS.Shared.Domain.Entities.User.UserProfileVideoReaction", b =>
+                {
+                    b.HasOne("IMS.Shared.Domain.Entities.User.User", "Author")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IMS.Shared.Domain.Entities.User.UserProfileVideo", "UserProfileVideo")
+                        .WithMany("UserProfileVideoReactions")
+                        .HasForeignKey("UserProfileVideoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("UserProfileVideo");
+                });
+
             modelBuilder.Entity("PostTag", b =>
                 {
                     b.HasOne("IMS.Shared.Domain.Entities.Post.Post", null)
@@ -669,6 +721,8 @@ namespace IMS.Shared.Domain.Migrations
             modelBuilder.Entity("IMS.Shared.Domain.Entities.User.UserProfileVideo", b =>
                 {
                     b.Navigation("Author");
+
+                    b.Navigation("UserProfileVideoReactions");
                 });
 #pragma warning restore 612, 618
         }

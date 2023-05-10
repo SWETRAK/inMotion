@@ -11,6 +11,8 @@ public class User
     public string Nickname { get; set; }
     public string Bio { get; set; }
 
+    public string HashedPassword { get; set; }
+
     public Guid ProfileVideoId { get; set; }
     public virtual UserProfileVideo ProfileVideo { get; set; }
     

@@ -15,10 +15,8 @@ public class DomainDbContext: DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<UserProfileVideo> UserProfileVideos { get; set; } 
     public DbSet<Provider> Providers { get; set; }
-    public DbSet<UserProfileVideoReaction> UserProfileVideoReactions { get; set; }
-    
+
     public DbSet<Friendship> Friendships { get; set; }
-    // public DbSet<BlockedUser> BlockedUsers { get; set; }
 
     public DbSet<Post> Posts { get; set; }
     public DbSet<PostVideo> PostVideos { get; set; }
@@ -39,14 +37,12 @@ public class DomainDbContext: DbContext
         new UserEntityConfiguration().Configure(modelBuilder.Entity<User>());
         new ProviderEntityConfiguration().Configure(modelBuilder.Entity<Provider>());
         new UserProfileVideoEntityConfiguration().Configure(modelBuilder.Entity<UserProfileVideo>());
-        new UserProfileVideoReactionEntityConfiguration().Configure(modelBuilder.Entity<UserProfileVideoReaction>());
-        
+
         new LocalizationEntityConfiguration().Configure(modelBuilder.Entity<Localization>());
         new TagEntityConfiguartion().Configure(modelBuilder.Entity<Tag>());
         
         new FriendshipEntityConfiguration().Configure(modelBuilder.Entity<Friendship>());
-        // new BlockedUserEntityConfiguration().Configure(modelBuilder.Entity<BlockedUser>());
-        
+
         new PostEntityConfiguration().Configure(modelBuilder.Entity<Post>());
         new PostVideoEntityConfiguration().Configure(modelBuilder.Entity<PostVideo>());
         new PostCommentEntityConfiguration().Configure(modelBuilder.Entity<PostComment>());
