@@ -1,9 +1,12 @@
 using System.Reflection;
+using System.Text;
 using IMS.Shared.Models.Validators;
 using IMS.WebAPIMockup;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,21 +14,51 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Versioning
 builder.Services.AddApiVersioning(opt =>
-{
-    opt.DefaultApiVersion = new ApiVersion(1, 0);
-    opt.AssumeDefaultVersionWhenUnspecified = true;
-    opt.ReportApiVersions = true;
-    opt.ApiVersionReader = ApiVersionReader.Combine(
-        new UrlSegmentApiVersionReader(),
-        new HeaderApiVersionReader("x-api-version"),
-        new MediaTypeApiVersionReader("x-api-version"));
-});
+    {
+        opt.DefaultApiVersion = new ApiVersion(1, 0);
+        opt.AssumeDefaultVersionWhenUnspecified = true;
+        opt.ReportApiVersions = true;
+        opt.ApiVersionReader = ApiVersionReader.Combine(
+            new UrlSegmentApiVersionReader(),
+            new HeaderApiVersionReader("x-api-version"),
+            new MediaTypeApiVersionReader("x-api-version"));
+    }).AddVersionedApiExplorer(opt =>
+    {
+        opt.GroupNameFormat = "'v'VVV";
+        opt.SubstituteApiVersionInUrl = true;
+    });
 
-builder.Services.AddVersionedApiExplorer(opt =>
-{
-    opt.GroupNameFormat = "'v'VVV";
-    opt.SubstituteApiVersionInUrl = true;
-});
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = "Bearer";
+        options.DefaultScheme = "Bearer";
+        options.DefaultChallengeScheme = "Bearer";
+    })
+    .AddJwtBearer(cfg =>
+    {
+                
+        cfg.RequireHttpsMetadata = false;
+        cfg.SaveToken = true;
+        cfg.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidIssuer = "localhost",
+            ValidAudience = "localhost",
+            IssuerSigningKey = new SymmetricSecurityKey("JWT_SECRET"u8.ToArray())
+        };
+                
+        cfg.Events = new JwtBearerEvents()
+        {
+            OnMessageReceived = context =>
+            {
+                if (context.Request.Cookies.ContainsKey("X-Access-Token"))
+                {
+                    context.Token = context.Request.Cookies["X-Access-Token"];
+                }
+                return Task.CompletedTask;
+            }
+        };
+    });
+
 
 //Validators 
 builder.Services.AddValidators();

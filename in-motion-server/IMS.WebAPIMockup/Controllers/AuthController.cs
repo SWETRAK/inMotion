@@ -53,6 +53,8 @@ public class AuthController: ControllerBase
     /// Logout user removed cookie authorization key from frontend
     /// </summary>
     /// <returns></returns>
+    /// <response code="204">If user is successfully logged out</response>
+    /// <response code="401">If user haven't got access</response>
     [HttpDelete]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
