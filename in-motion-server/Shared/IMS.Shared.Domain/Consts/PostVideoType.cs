@@ -2,6 +2,6 @@ namespace IMS.Shared.Domain.Consts;
 
 public enum PostVideoType
 {
-    Front = 1, 
-    Rear = 2
+    Front = 0, 
+    Rear = 1
 }
