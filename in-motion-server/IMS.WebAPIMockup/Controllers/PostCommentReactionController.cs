@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using IMS.Shared.Models.Dto.Post.Comment.Reaction;
 using Microsoft.AspNetCore.Mvc;
 
@@ -5,6 +6,7 @@ namespace IMS.WebAPIMockup.Controllers;
 // TODO: Finish documentation
 [ApiController]
 [Route("api/v{version:apiVersion}/posts/comments/reactions")]
+[Produces(MediaTypeNames.Application.Json)]
 public class PostCommentReactionController: ControllerBase
 {
     [HttpGet("{reactionId}")]

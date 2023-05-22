@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using IMS.Shared.Models.Dto.User.Video.Reaction;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,6 +7,7 @@ namespace IMS.WebAPIMockup.Controllers;
 // TODO: Finish documentation
 [ApiController]
 [Route("user/v{version:apiVersion}/video/reactions")]
+[Produces(MediaTypeNames.Application.Json)]
 public class UserProfileVideoReactionController: ControllerBase
 {
     [HttpGet("{reactionId}")]

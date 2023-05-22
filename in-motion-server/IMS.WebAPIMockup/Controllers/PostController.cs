@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using IMS.Shared.Models.Dto.Post;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,7 +7,7 @@ namespace IMS.WebAPIMockup.Controllers;
 // TODO: Finish documentation
 [ApiController]
 [Route("api/v{version:apiVersion}/posts")]
-[Produces("application/json")]
+[Produces(MediaTypeNames.Application.Json)]
 public class PostController: ControllerBase
 {
     [HttpGet]

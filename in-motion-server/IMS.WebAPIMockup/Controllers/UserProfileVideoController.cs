@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using System.Text.Json;
 using FluentValidation;
 using IMS.Shared.Models.Dto.User.Video;
@@ -9,6 +10,7 @@ namespace IMS.WebAPIMockup.Controllers;
 // TODO: Finish documentation
 [ApiController]
 [Route("user/v{version:apiVersion}/profileVideo")]
+[Produces(MediaTypeNames.Application.Json)]
 public class UserProfileVideoController: ControllerBase
 {
     private readonly IValidator<CreateUserProfileVideoDto> _createUserProfileVideoValidator;

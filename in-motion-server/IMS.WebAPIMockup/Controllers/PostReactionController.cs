@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using IMS.Shared.Models.Dto.Post.Reaction;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,6 +7,7 @@ namespace IMS.WebAPIMockup.Controllers;
 // TODO: Finish documentation
 [ApiController]
 [Route("api/v{version:apiVersion}/post/reactions")]
+[Produces(MediaTypeNames.Application.Json)]
 public class PostReactionController: ControllerBase
 {
     [HttpGet("{reactionId}")]

@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using System.Security;
 using IMS.Shared.Models.Dto.Post.Comment;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ namespace IMS.WebAPIMockup.Controllers;
 // TODO: Finish documentation
 [ApiController]
 [Route("api/v{version:apiVersion}/posts/comments")]
+[Produces(MediaTypeNames.Application.Json)]
 public class PostCommentController: ControllerBase
 {
     /// <summary>
@@ -31,8 +33,9 @@ public class PostCommentController: ControllerBase
     /// </summary>
     /// <param name="createPostCommentDto"></param>
     /// <returns>PostCommentDto with new post content</returns>
-    /// <rresponse>
-    /// 
+    /// <response code="200">Returns founded item</response>
+    /// <response code="404">If the item is not existing</response>
+    /// <response code="403">If user is unauthorized</response>
     [ProducesResponseType(typeof(PostCommentDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
