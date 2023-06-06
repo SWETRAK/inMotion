@@ -10,12 +10,27 @@ namespace IMS.WebAPIMockup.Controllers;
 [Produces(MediaTypeNames.Application.Json)]
 public class PostController: ControllerBase
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    /// <response code="200">Returns founded item</response>
+    /// <response code="404">If the item is not existing</response>
+    /// <response code="403">If user is unauthorized</response>
     [HttpGet]
     public ActionResult<IEnumerable<PostDetailsDto>> GetPosts()
     {
         return Ok(new List<PostDetailsDto>());
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="postId"></param>
+    /// <returns></returns>
+    /// <response code="200">Returns founded item</response>
+    /// <response code="404">If the item is not existing</response>
+    /// <response code="403">If user is unauthorized</response>
     [HttpGet("{postId}")]
     public ActionResult<PostDetailsDto> GetSpecificPost([FromRoute] string postId)
     {
@@ -48,6 +63,14 @@ public class PostController: ControllerBase
         return Created("", new PostDetailsDto());
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="createPostDto"></param>
+    /// <returns></returns>
+    /// <response code="200">Returns founded item</response>
+    /// <response code="404">If the item is not existing</response>
+    /// <response code="403">If user is unauthorized</response>
     [HttpPut("{postId}")]
     public ActionResult<PostDetailsDto> UpdatePost([FromBody] CreatePostDto createPostDto)
     {

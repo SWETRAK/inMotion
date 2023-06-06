@@ -9,15 +9,16 @@ namespace IMS.WebAPIMockup.Controllers;
 [Produces(MediaTypeNames.Application.Json)]
 public class FriendshipController: ControllerBase
 {
+    
     /// <summary>
     /// Return lists of friends
     /// </summary>
     /// <returns>List of user friend</returns>
     /// <response code="200">When user is authorized their friendships</response>
-    /// <response code="401">If user is unauthorized</response>
+    /// <response code="403">If user is unauthorized</response>
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<FriendshipsDto>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public ActionResult<IEnumerable<FriendshipsDto>> GetFriendships()
     {
         return Ok(new List<FriendshipsDto>() {new FriendshipsDto(), new FriendshipsDto()});
@@ -28,9 +29,9 @@ public class FriendshipController: ControllerBase
     /// </summary>
     /// <returns>List of friendship requests</returns>
     /// <response code="200">If friendship list is returned</response>
-    /// <response code="401">If user is unauthorized</response>
+    /// <response code="403">If user is unauthorized</response>
     [ProducesResponseType(typeof(IEnumerable<FriendshipsDto>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [HttpGet("requests")]
     public ActionResult<IEnumerable<FriendshipsDto>> GetRequests()
     {
@@ -43,9 +44,9 @@ public class FriendshipController: ControllerBase
     /// <param name="createFriendshipDto">Data needed to create friendship</param>
     /// <returns>Newly created relationship</returns>
     /// <response code="200">If user send request to other user</response>
-    /// <response code="401">If user is unauthorized</response>
+    /// <response code="403">If user is unauthorized</response>
     [ProducesResponseType(typeof(FriendshipsDto), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [HttpPost]
     public ActionResult<FriendshipsDto> SendRequest([FromBody] CreateFriendshipDto createFriendshipDto)
     {
@@ -59,10 +60,10 @@ public class FriendshipController: ControllerBase
     /// <param name="status">Is Enum value in range of Waiting = 0, Accepted = 1, Rejected = 2</param>
     /// <returns>Updated friendship data</returns>
     /// <response code="200">If friendship status was changed</response>
-    /// <response code="401">If user is unauthorized</response>
+    /// <response code="403">If user is unauthorized</response>
     /// <response code="404">If relation is notfound</response> 
     [ProducesResponseType(typeof(FriendshipsDto), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpPut("{friendshipId}/{status}")]
     public ActionResult<FriendshipsDto> ChangeStatus(

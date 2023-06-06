@@ -9,7 +9,15 @@ namespace IMS.WebAPIMockup.Controllers;
 [Produces(MediaTypeNames.Application.Json)]
 public class WallController: ControllerBase
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    /// <response code="200">Returns founded item</response>
+    /// <response code="403">If user is unauthorized</response>
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(IEnumerable<PostDetailsDto>), StatusCodes.Status200OK)]
     public ActionResult<IEnumerable<PostDetailsDto>> GetWallPosts()
     {
         return Ok(new List<PostDetailsDto>() { new PostDetailsDto(), new PostDetailsDto() });

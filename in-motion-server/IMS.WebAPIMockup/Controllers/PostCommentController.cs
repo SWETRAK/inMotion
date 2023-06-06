@@ -11,6 +11,7 @@ namespace IMS.WebAPIMockup.Controllers;
 [Produces(MediaTypeNames.Application.Json)]
 public class PostCommentController: ControllerBase
 {
+    
     /// <summary>
     /// Get comment from id
     /// </summary>
@@ -45,6 +46,15 @@ public class PostCommentController: ControllerBase
         return Created("", new PostCommentDto());
     }
     
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="commentId"></param>
+    /// <param name="createPostCommentDto"></param>
+    /// <returns></returns>
+    /// <response code="200">Returns founded item</response>
+    /// <response code="404">If the item is not existing</response>
+    /// <response code="403">If user is unauthorized</response>
     [ProducesResponseType(typeof(PostCommentDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -53,7 +63,15 @@ public class PostCommentController: ControllerBase
     {
         return Ok(new PostCommentDto());
     }
-
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="commentId"></param>
+    /// <returns></returns>
+    /// <response code="200">Returns founded item</response>
+    /// <response code="404">If the item is not existing</response>
+    /// <response code="403">If user is unauthorized</response>
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

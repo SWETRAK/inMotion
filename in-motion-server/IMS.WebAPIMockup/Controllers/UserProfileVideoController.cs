@@ -20,6 +20,14 @@ public class UserProfileVideoController: ControllerBase
         _createUserProfileVideoValidator = createUserProfileVideoValidator;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="videoId"></param>
+    /// <returns></returns>
+    /// <response code="200">Returns founded item</response>
+    /// <response code="404">If the item is not existing</response>
+    /// <response code="403">If user is unauthorized</response>
     [Produces("video/mp4")]
     [HttpGet("{videoId}")]
     public IActionResult GetUserProfileVideo([FromRoute] string videoId)
@@ -28,6 +36,18 @@ public class UserProfileVideoController: ControllerBase
         return File(stream, "video/mp4", "filename");
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="video"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    /// <exception cref="InvalidIncomingDataException"></exception>
+    /// <exception cref="JsonException"></exception>
+    /// <response code="200">Returns founded item</response>
+    /// <response code="404">If the item is not existing</response>
+    /// <response code="403">If user is unauthorized</response>
     [HttpPost]
     public async Task<ActionResult<UserProfileVideoDto>> CreateUserProfileVideo(
         [FromForm(Name = "video")] IFormFile[] video,
@@ -42,6 +62,19 @@ public class UserProfileVideoController: ControllerBase
         return Created("", new UserProfileVideoDto());
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="videoId"></param>
+    /// <param name="video"></param>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    /// <exception cref="InvalidIncomingDataException"></exception>
+    /// <exception cref="JsonException"></exception>
+    /// <response code="200">Returns founded item</response>
+    /// <response code="404">If the item is not existing</response>
+    /// <response code="403">If user is unauthorized</response>
     [HttpPut("{videoId}")]
     public async Task<ActionResult<UserProfileVideoDto>> UpdateUserProfileVideo(
         [FromRoute(Name = "videoId")] string videoId,
@@ -56,6 +89,14 @@ public class UserProfileVideoController: ControllerBase
         return Ok(new UserProfileVideoDto());
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="videoId"></param>
+    /// <returns></returns>
+    /// <response code="200">Returns founded item</response>
+    /// <response code="404">If the item is not existing</response>
+    /// <response code="403">If user is unauthorized</response>
     [HttpDelete("{videoId}")]
     public IActionResult RemoveUserProfileVideo([FromRoute(Name = "videoId")] string videoId)
     {

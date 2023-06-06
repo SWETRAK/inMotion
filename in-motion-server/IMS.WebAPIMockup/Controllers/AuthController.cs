@@ -8,6 +8,7 @@ namespace IMS.WebAPIMockup.Controllers;
 [Route("api/v{version:apiVersion}/auth")]
 public class AuthController: ControllerBase
 {
+    
     /// <summary>
     /// Login user with email and password
     /// </summary>
@@ -35,6 +36,7 @@ public class AuthController: ControllerBase
     {
         return Ok(new UserSuccessLoginResultDto());
     }
+    
     /// <summary>
     /// Login and register user with oAuth providers
     /// </summary>
