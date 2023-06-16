@@ -8,8 +8,22 @@
 import SwiftUI
 
 struct FindFriendView: View {
+    @Environment(\.managedObjectContext) private var viewContext
+    @State var nickname: String = "";
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            VStack {
+                TextField(text: $nickname){
+                    Text("Find a friend...")
+                }
+                Divider() .overlay(Color.blue)
+            }.padding(.horizontal)
+            ScrollView {
+                FindFriendRowView()
+                FindFriendRowView()
+                FindFriendRowView()
+            }
+        }
     }
 }
 

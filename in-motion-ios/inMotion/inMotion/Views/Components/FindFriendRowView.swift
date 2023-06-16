@@ -7,11 +7,27 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct FindFriendRowView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack(alignment: .center){
+            Image("google-logo").resizable().frame(width:50, height:50)
+            VStack(alignment: .leading){
+                Text("Username")
+                Text("Last seen: 1h ago")
+            }
+            Spacer()
+            Button{
+                
+            } label: {
+                Image(systemName: "plus")
+            } . padding(.horizontal)
+                .buttonStyle(.plain)
+        } .padding(.horizontal)
     }
 }
+
 
 struct FindFriendRowView_Previews: PreviewProvider {
     static var previews: some View {

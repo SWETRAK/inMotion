@@ -1,52 +1,54 @@
-//
-//  MainWallPost.swift
-//  inMotion
-//
-//  Created by Kamil Pietrak on 06/06/2023.
-//
-
 import SwiftUI
 
 struct MainWallPost: View {
+    
+    @State var liked: Bool = true
     var body: some View {
-        VStack {
-            
-            HStack{
-                Image("google-logo")
-                    .resizable()
-                    .frame(width: 70, height: 70)
-                VStack{
-                    Text("Nickname")
-                    Text("Last seen 12")
-                }
-            }.frame(maxWidth: .infinity, alignment: .leading)
-            
-            GeometryReader {
-                proxy in
-                ZStack(alignment: .topTrailing) {
+        NavigationLink {
+            PostDetailsView()
+        } label: {
+            VStack {
+                HStack{
                     Image("google-logo")
                         .resizable()
-                        .frame(width: proxy.size.width, height: proxy.size.width)
-                    Image("facebook-logo")
-                        .resizable()
-                        .frame(width: proxy.size.width/2, height: proxy.size.width/2)
-                        .padding()
-                }
-            }
-            
-            HStack{
-                HStack{
-                    Text("👍")
-                    Text("12")
-                }
+                        .frame(width: 70, height: 70)
+                    VStack(alignment: .leading){
+                        Text("Nickname")
+                        Text("Last seen 12")
+                    }
+                }.frame(maxWidth: .infinity, alignment: .leading)
                 
-            }
-            
-            Divider()
-//                .foregroundColor(Color("accent"))
-            Spacer()
-            
-        }.padding()
+                Image("google-logo")
+                    .resizable()
+                    .frame(width: UIScreen.main.bounds.width-20, height: UIScreen.main.bounds.width-20)
+                
+                HStack{
+                    HStack{
+                        Image(systemName: liked ? "heart.fill" : "heart") // heart.fill if liked
+                            .resizable()
+                            .foregroundColor(liked ? .red : .black) // .red if liked
+                            .frame(width: 20, height: 20)
+                            .onTapGesture {
+                                self.liked = !self.liked
+                            }
+                        Text("12")
+                    }
+                    
+                    Spacer()
+                    
+                    HStack{
+                        Image(systemName: "text.bubble.rtl")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                        Text("12")
+                    }
+                }
+                Divider()
+                
+            }.padding()
+        }
+        .buttonStyle(.plain)
+        
     }
 }
 

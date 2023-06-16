@@ -8,23 +8,28 @@
 import SwiftUI
 
 struct LoginView: View {
+    @Environment(\.managedObjectContext) private var viewContext
     
+    @Binding var logged: Bool
     @State var email: String = ""
     @State var password: String = ""
     
     var body: some View {
         VStack {
-            Image("logo")
+            Spacer()
+            Text("inMotion").font(.custom("Roboto", fixedSize: 50))
             
             Spacer()
             
-            VStack {
+            VStack(spacing: 20.0) {
                 TextField("Email", text: $email)
-                
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+    
                 TextField("Password", text: $password)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
                 
                 Button("Login with email") {
-                    
+                    self.logged = true
                 }
                 
                 Divider()
@@ -54,17 +59,17 @@ struct LoginView: View {
             
             Spacer()
             
-            Button("Register new account") {
-                
-            }
+            NavigationLink("Register new account", destination: RegisterView(logged: $logged))
             
-        }.padding()
+        }
+        .padding()
+        .navigationBarHidden(true)
     }
     
 }
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        LoginView(logged: .constant(false))
     }
 }

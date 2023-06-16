@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @Environment(\.managedObjectContext) private var viewContext
+    
     @State var name: String = "inMotion"
     @State var username: String = "username"
     var body: some View {

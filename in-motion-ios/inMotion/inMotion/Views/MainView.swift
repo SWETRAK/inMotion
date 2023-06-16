@@ -8,8 +8,25 @@
 import SwiftUI
 
 struct MainView: View {
+    @Environment(\.managedObjectContext) private var viewContext
+    
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack{
+            ScrollView() {
+                MainWallPost()
+                MainWallPost()
+                MainWallPost()
+            }
+        }.toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                NavigationLink {
+                    FriendsView()
+                } label: {
+                    Image(systemName: "person.2.fill")
+                }.buttonStyle(.plain)
+            }
+        }
     }
 }
 

@@ -12,7 +12,6 @@ struct RequestFriendRowView: View {
     var friend: Friend
     var body: some View {
         HStack{
-            
             Image(friend.avatar).resizable().frame(width:50, height:50)
             VStack{
                 Text(friend.username).fontWeight(Font.Weight.bold).frame(maxWidth: .infinity, alignment: .leading)
@@ -21,14 +20,14 @@ struct RequestFriendRowView: View {
             }
             Spacer()
             Button{} label: {
-                Image(systemName: "checkmark").foregroundColor(.green)     } .padding()
+                Image(systemName: "checkmark").foregroundColor(.green)     } .padding(.horizontal)
             Button{} label: {
-                Image(systemName: "multiply").foregroundColor(.red)     }  .padding()      }.frame(maxWidth: .infinity, alignment: .leading) .padding()
+                Image(systemName: "multiply").foregroundColor(.red)     }  .padding(.horizontal)      }.frame(maxWidth: .infinity, alignment: .leading) .padding(.horizontal)
     }
-   }
+}
 
-//struct RequestFriendRowView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        RequestFriendRowView()
-//    }
-//}
+struct RequestFriendRowView_Previews: PreviewProvider {
+    static var previews: some View {
+        RequestFriendRowView(friend: .constant(Friend(nickname: "kamil", lastseen: "1233142", avatar: "google-logo")))
+    }
+}

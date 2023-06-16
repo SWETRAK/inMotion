@@ -10,7 +10,7 @@ import SwiftUI
 struct CommentView: View {
     
     @Binding
-    var comment: Comment
+    var comment: MyComment
     
     var body: some View {
         HStack{
@@ -21,14 +21,13 @@ struct CommentView: View {
                     Text("\(comment.location), \(comment.time)").font(.system(size: 12)).foregroundColor(Color.blue)
                 }.frame(maxWidth: .infinity, alignment: .leading)
                 Text(comment.comment).frame(maxWidth: .infinity, alignment: .leading)
-                
             }
-        }.padding()
+        }.padding(.horizontal)
     }
 }
 
-struct Comment_Previews: PreviewProvider {
+struct CommentView_Previews: PreviewProvider {
     static var previews: some View {
-        Comment()
+        CommentView(comment: .constant(MyComment(username: "kamil_pietrak", comment: "test comment", location: "Sieprawki", time: "12.23", avatar: "google-logo")))
     }
 }

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct RequestsView: View {
+    @Environment(\.managedObjectContext) private var viewContext
+    
     @State var nickname: String = "";
     @State var name: String = "inMotion";
     @State var friends = [
