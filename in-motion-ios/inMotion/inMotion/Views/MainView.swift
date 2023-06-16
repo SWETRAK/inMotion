@@ -6,17 +6,25 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct MainView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @EnvironmentObject var appState: AppState
     
+    @State var posts: [Post] = []
     
     var body: some View {
         VStack{
             ScrollView() {
-                MainWallPost()
-                MainWallPost()
-                MainWallPost()
+                ForEach(posts, id:\.id) { post in
+                    MainWallPost().environmentObject(appState).environmentObject(post)
+                }
+            }
+            
+            Button("Logout") {
+                self.appState.logged = false
+                self.appState.user = nil
             }
         }.toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -26,6 +34,17 @@ struct MainView: View {
                     Image(systemName: "person.2.fill")
                 }.buttonStyle(.plain)
             }
+        }.onAppear{
+            LoadPosts()
+        }
+    }
+    
+    private func LoadPosts() {
+        let request: NSFetchRequest<Post> = Post.fetchRequest()
+        do {
+            self.posts = try viewContext.fetch(request)
+        } catch {
+            print("Error fetching data from context \(error)")
         }
     }
 }

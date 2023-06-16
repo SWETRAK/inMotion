@@ -9,18 +9,17 @@ import SwiftUI
 
 struct CommentView: View {
     
-    @Binding
-    var comment: MyComment
+    @EnvironmentObject var comment: Comment
     
     var body: some View {
         HStack{
-            Image(comment.avatar).resizable().frame(width: 50, height: 50)
+            Image(comment.author?.profile_photo ?? "google-logo").resizable().frame(width: 50, height: 50)
             VStack{
                 HStack{
-                    Text(comment.username).fontWeight(Font.Weight.bold)
-                    Text("\(comment.location), \(comment.time)").font(.system(size: 12)).foregroundColor(Color.blue)
+                    Text(comment.author?.nickname ?? "nickname").fontWeight(Font.Weight.bold)
+                    Text(comment.time?.formatted(date: .numeric, time: .shortened) ?? "Monday: 12.43").font(.system(size: 12)).foregroundColor(Color.blue)
                 }.frame(maxWidth: .infinity, alignment: .leading)
-                Text(comment.comment).frame(maxWidth: .infinity, alignment: .leading)
+                Text(comment.comment ?? "description").frame(maxWidth: .infinity, alignment: .leading)
             }
         }.padding(.horizontal)
     }
@@ -28,6 +27,6 @@ struct CommentView: View {
 
 struct CommentView_Previews: PreviewProvider {
     static var previews: some View {
-        CommentView(comment: .constant(MyComment(username: "kamil_pietrak", comment: "test comment", location: "Sieprawki", time: "12.23", avatar: "google-logo")))
+        CommentView()
     }
 }

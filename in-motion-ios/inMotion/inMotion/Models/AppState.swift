@@ -8,8 +8,8 @@
 import Foundation
 
 class AppState: ObservableObject {
-    var logged: Bool = false
-    var user: User? = nil
+    @Published var logged: Bool = false
+    @Published var user: User? = nil
 
     init(logged: Bool, user: User?) {
         self.logged = logged

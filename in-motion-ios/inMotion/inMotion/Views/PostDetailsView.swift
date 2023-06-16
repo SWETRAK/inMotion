@@ -6,20 +6,21 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct PostDetailsView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @EnvironmentObject var post: Post
+    @EnvironmentObject var appState: AppState
     
-    @State var nickname : String = "stephen_mustache";
-    @State var imageFront: String = "Post";
-    @State var imageBack: String = "Post";
-    @State var comments = [
-        MyComment(username: "Pavelek69", comment: "Fajne fajne", location: "Lublin", time: "13:07", avatar: "google-logo"),
-        MyComment(username: "Andrzejek01", comment: "No ciekawe", location: "Lublin", time: "21:37", avatar: "google-logo"),
-        MyComment(username: "Gibon024", comment: "Wooow", location: "Lublin", time: "4:20", avatar: "google-logo")
-    ]
+    
+    @State var comments: [Comment] = []
     @State var newComment: String = ""
+    
     @State var liked: Bool = true
+    @State var myLike: Like? = nil
+    @State var likesCount: Int = 0
+    
     @State var showingMap: Bool = false
     
     @State var mapDetails = MapDetail(name: "Test", latitude: 12321.43, longitude: 23432.23)
@@ -29,7 +30,7 @@ struct PostDetailsView: View {
             VStack {
                 ScrollView {
                     VStack{
-                        Text("\(comments[0].location), \(comments[0].time)")
+                        Text(post.localization_name ?? "Warsaw")
                             .font(.system(size: 12))
                             .foregroundColor(Color.blue)
                             .onTapGesture {
@@ -38,7 +39,7 @@ struct PostDetailsView: View {
                                 MapView(mapDetails: $mapDetails)
                             }
                         
-                        Image("google-logo")
+                        Image(post.video_link ?? "google-logo")
                             .resizable()
                             .frame(width: UIScreen.main.bounds.width-20, height: UIScreen.main.bounds.width-20)
                         
@@ -49,9 +50,13 @@ struct PostDetailsView: View {
                                     .foregroundColor(liked ? .red : .black) // .red if liked
                                     .frame(width: 20, height: 20)
                                     .onTapGesture {
-                                        self.liked = !self.liked
+                                        if (self.liked) {
+                                            UnlikePost()
+                                        } else {
+                                            LikePost()
+                                        }
                                     }
-                                Text("12")
+                                Text("")
                             }
                             
                             Spacer()
@@ -60,37 +65,113 @@ struct PostDetailsView: View {
                                 Image(systemName: "text.bubble.rtl")
                                     .resizable()
                                     .frame(width: 20, height: 20)
-                                Text("12")
+                                Text(String(self.comments.count))
                             }
                         }
                         Divider()
                     }
                     
-                    CommentView(comment: $comments[0])
-                    CommentView(comment: $comments[1])
-                    CommentView(comment: $comments[2])
-                    CommentView(comment: $comments[2])
-                    CommentView(comment: $comments[2])
-                    CommentView(comment: $comments[2])
-                    
+                    ForEach(self.comments, id:\.id) { comment in
+                        CommentView().environmentObject(comment)
+                    }
                 }
-                
-                
+            
                 Divider()
                 HStack{
                     TextField(text: $newComment){
                         Text("Add a comment...")
                     }
-                    Image(systemName: "paperplane.fill")
+                    Button {
+                        AddComment()
+                        LoadComments()
+                    } label: {
+                        Image(systemName: "paperplane.fill")
+                    }
                 }
             }
         }
         .padding()
-        .navigationBarTitle(nickname, displayMode: .inline)
+        .navigationBarTitle(post.author?.nickname ?? "nickname", displayMode: .inline)
+        .onAppear{
+            GetMapDetails()
+            GetLikesCount()
+        }
+    }
+    
+    private func GetMapDetails() {
+        self.mapDetails = MapDetail(name: "Test", latitude: post.localization_latitude, longitude: post.localization_longitude)
+    }
+    
+    private func LoadComments() {
+        let request: NSFetchRequest<Comment> = Comment.fetchRequest()
+        let predictate = NSPredicate(format: "post.@id == %@", post.id! as CVarArg)
+        request.predicate = predictate
+        do {
+            self.comments = try viewContext.fetch(request)
+        } catch {
+            print("Error fetching data from context \(error)")
+        }
+    }
+    
+    private func GetLikesCount() {
+        let request: NSFetchRequest<Like> = Like.fetchRequest()
+        let prediction = NSPredicate()
+        request.predicate = prediction
+        do {
+            let result = try viewContext.fetch(request)
+            self.likesCount = result.count
+        } catch {
+            print("Error fetching data from context \(error)")
+        }
+    }
+    
+    private func LikePost() {
+        let like = Like(context: viewContext)
+        like.post = post
+        like.author = appState.user
+        like.time = Date.now
+        if (viewContext.hasChanges) {
+            do {
+                try viewContext.save()
+                self.myLike = like
+                self.liked = true
+            } catch {
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
+    }
+    
+    private func UnlikePost() {
+        if let safeLike = myLike {
+            viewContext.delete(safeLike)
+            self.myLike = nil
+            self.liked = false
+            do {
+                try viewContext.save()
+            } catch {
+                print("error while saving \(error)")
+            }
+        }
+    }
+    
+    private func AddComment() {
+        let comment = Comment(context: viewContext)
+        comment.id = UUID()
+        comment.post = post
+        comment.author = appState.user
+        comment.comment = self.newComment
+        
+        if (viewContext.hasChanges) {
+            do {
+                try viewContext.save()
+            } catch {
+                let nserror = error as NSError
+                print("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
     }
 }
-
-
 
 struct PostDetailsView_Previews: PreviewProvider {
     static var previews: some View {
