@@ -21,7 +21,6 @@ struct MainView: View {
                     MainWallPost().environmentObject(appState).environmentObject(post)
                 }
             }
-            
             Button("Logout") {
                 self.appState.logged = false
                 self.appState.user = nil

@@ -61,8 +61,14 @@ struct LoginView: View {
                             .resizable()
                             .frame(width: 50, height: 50)
                     }
+                    
                     Spacer()
                 }
+                
+                Button ("Load Data") {
+                    self.LoadData()
+                }
+                
             }
             
             Spacer()
@@ -88,6 +94,62 @@ struct LoginView: View {
             print("Error fetching data from context \(error)")
         }
         return nil
+    }
+    
+    private func LoadData() {
+        
+        let user1 = User(context: viewContext)
+        user1.id = UUID()
+        user1.nickname = "swetrak"
+        user1.profile_photo = "google-logo"
+        user1.email = "kamilpietrak123@gmail.com"
+        user1.password = "Ssmr1234"
+        
+        let user2 = User(context: viewContext)
+        user2.id = UUID()
+        user2.nickname = "userDwa"
+        user2.profile_photo = "facebook-logo"
+        user2.email = "kamilpietrak123@icloud.com"
+        user2.password = "Password2"
+        
+        let post1 = Post(context: viewContext)
+        post1.id = UUID()
+        post1.author = user1
+        post1.localization_longitude = 21.00558
+        post1.localization_latitude = 52.23105
+        post1.localization_name = "Warsaw"
+        post1.video_link = "facebook-logo"
+        
+        let post2 = Post(context: viewContext)
+        post2.id = UUID()
+        post2.author = user1
+        post2.localization_longitude = 21.00558
+        post2.localization_latitude = 52.23105
+        post2.localization_name = "Warsaw"
+        post2.video_link = "facebook-logo"
+        
+        let comment1 = Comment(context: viewContext)
+        comment1.id = UUID()
+        comment1.post = post1
+        comment1.time = Date.now
+        comment1.author = user1
+        comment1.comment = "Test comment 1"
+        
+        let comment2 = Comment(context: viewContext)
+        comment2.id = UUID()
+        comment2.post = post1
+        comment2.time = Date.now
+        comment2.author = user2
+        comment2.comment = "Test comment 2"
+        
+        if (viewContext.hasChanges) {
+            do {
+                try viewContext.save()
+            } catch {
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
     }
 }
 

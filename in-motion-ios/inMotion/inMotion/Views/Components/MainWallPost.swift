@@ -8,7 +8,7 @@ struct MainWallPost: View {
     
     @State var myLike: Like? = nil
     @State var likesCount: Int = 0
-    @State var liked: Bool = true
+    @State var liked: Bool = false
     
     @State var commentsCount: Int = 0
     
@@ -39,12 +39,13 @@ struct MainWallPost: View {
                             .resizable()
                             .foregroundColor(liked ? .red : .black) // .red if liked
                             .frame(width: 20, height: 20)
-                            .onTapGesture {
+                            .onTapGesture(count: 2) {
                                 if (self.liked) {
                                     UnlikePost()
                                 } else {
                                     LikePost()
                                 }
+                                GetLikesCount()
                             }
                         Text(String(self.likesCount))
                     }
@@ -71,7 +72,7 @@ struct MainWallPost: View {
     
     private func GetCommentsCount() {
         let request: NSFetchRequest<Comment> = Comment.fetchRequest()
-        let prediction = NSPredicate()
+        let prediction = NSPredicate(format: "post.id == %@", post.id! as CVarArg)
         request.predicate = prediction
         do {
             let result = try viewContext.fetch(request)
@@ -83,10 +84,13 @@ struct MainWallPost: View {
     
     private func GetLikesCount() {
         let request: NSFetchRequest<Like> = Like.fetchRequest()
-        let prediction = NSPredicate()
+        let prediction = NSPredicate(format: "post.id == %@", post.id! as CVarArg)
         request.predicate = prediction
         do {
             let result = try viewContext.fetch(request)
+            if (result.contains(where: {$0.author?.id == appState.user?.id})) {
+                self.liked = true;
+            }
             self.likesCount = result.count
         } catch {
             print("Error fetching data from context \(error)")

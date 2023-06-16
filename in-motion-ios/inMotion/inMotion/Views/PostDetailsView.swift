@@ -17,7 +17,7 @@ struct PostDetailsView: View {
     @State var comments: [Comment] = []
     @State var newComment: String = ""
     
-    @State var liked: Bool = true
+    @State var liked: Bool = false
     @State var myLike: Like? = nil
     @State var likesCount: Int = 0
     
@@ -55,8 +55,9 @@ struct PostDetailsView: View {
                                         } else {
                                             LikePost()
                                         }
+                                        GetLikesCount()
                                     }
-                                Text("")
+                                Text(String(self.likesCount))
                             }
                             
                             Spacer()
@@ -95,6 +96,7 @@ struct PostDetailsView: View {
         .onAppear{
             GetMapDetails()
             GetLikesCount()
+            LoadComments()
         }
     }
     
@@ -104,7 +106,7 @@ struct PostDetailsView: View {
     
     private func LoadComments() {
         let request: NSFetchRequest<Comment> = Comment.fetchRequest()
-        let predictate = NSPredicate(format: "post.@id == %@", post.id! as CVarArg)
+        let predictate = NSPredicate(format: "post.id == %@", post.id! as CVarArg)
         request.predicate = predictate
         do {
             self.comments = try viewContext.fetch(request)
@@ -115,10 +117,13 @@ struct PostDetailsView: View {
     
     private func GetLikesCount() {
         let request: NSFetchRequest<Like> = Like.fetchRequest()
-        let prediction = NSPredicate()
+        let prediction = NSPredicate(format: "post.id == %@", post.id! as CVarArg)
         request.predicate = prediction
         do {
             let result = try viewContext.fetch(request)
+            if (result.contains(where: {$0.author?.id == appState.user?.id})) {
+                self.liked = true;
+            }
             self.likesCount = result.count
         } catch {
             print("Error fetching data from context \(error)")
