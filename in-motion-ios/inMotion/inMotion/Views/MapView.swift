@@ -10,6 +10,7 @@ import SwiftUI
 
 struct MapView: View {
     @Binding public var mapDetails: MapDetail
+    @Binding public var isPresented: Bool
     @State private var region: MKCoordinateRegion = MKCoordinateRegion()
     
     var body: some View {
@@ -21,6 +22,9 @@ struct MapView: View {
                 annotationItems: [mapDetails]) { info in
                     MapMarker(coordinate: info.coordinates, tint: .blue)
                 }
+            Button("Close"){
+                self.isPresented = false
+            }
         }.onAppear{
             CreateRegion()
         }
@@ -33,6 +37,6 @@ struct MapView: View {
 
 struct MapView_Previews: PreviewProvider {
     static var previews: some View {
-        MapView(mapDetails: .constant(MapDetail(name: "Test", latitude: 52.23105, longitude: 21.00558)))
+        MapView(mapDetails: .constant(MapDetail(name: "Test", latitude: 52.23105, longitude: 21.00558)), isPresented: .constant(true))
     }
 }

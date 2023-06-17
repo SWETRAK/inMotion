@@ -1,16 +1,18 @@
 import SwiftUI
 import CoreData
+import AVKit
 
 struct MainWallPost: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @EnvironmentObject var post: Post
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject private var post: Post
+    @EnvironmentObject private var appState: AppState
     
-    @State var myLike: Like? = nil
-    @State var likesCount: Int = 0
-    @State var liked: Bool = false
+    @State private var myLike: Like? = nil
+    @State private var likesCount: Int = 0
+    @State private var liked: Bool = false
     
-    @State var commentsCount: Int = 0
+    @State private var commentsCount: Int = 0
+    @State private var avPlayer: AVPlayer? = nil
     
     var body: some View {
         NavigationLink {
@@ -19,8 +21,9 @@ struct MainWallPost: View {
                 .environmentObject(appState)
         } label: {
             VStack {
+                
                 HStack{
-                    Image(post.author?.profile_photo ?? "google-login")
+                    Image(post.author?.profile_photo ?? "avatar-placeholder")
                         .resizable()
                         .frame(width: 70, height: 70)
                     VStack(alignment: .leading){
@@ -29,15 +32,27 @@ struct MainWallPost: View {
                     }
                 }.frame(maxWidth: .infinity, alignment: .leading)
                 
-                Image(post.video_link ?? "google-logo")
-                    .resizable()
-                    .frame(width: UIScreen.main.bounds.width-20, height: UIScreen.main.bounds.width-20)
-                    .onTapGesture(count: 2) {
-                        if(!self.liked) {
-                            LikePost()
-                            GetLikesCount()
+                
+                if(self.avPlayer != nil){
+                    VideoPlayer(player: self.avPlayer)
+                        .frame(width: UIScreen.main.bounds.width-20, height: (UIScreen.main.bounds.width-20)/16*9)
+                        .onDisappear{
+                            self.avPlayer?.pause()
                         }
-                    }
+                        .onAppear{
+                            self.avPlayer?.play()
+                            NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: .main) { _ in
+                                self.avPlayer?.seek(to: .zero)
+                                self.avPlayer?.play()
+                            }
+                        }
+                        .onTapGesture(count: 2) {
+                            if(!self.liked) {
+                                LikePost()
+                                GetLikesCount()
+                            }
+                        }
+                }
                 
                 HStack{
                     HStack{
@@ -68,13 +83,23 @@ struct MainWallPost: View {
                 Divider()
                 
             }.padding()
-        }
-        .buttonStyle(.plain)
-        .onAppear {
-            GetCommentsCount()
-            GetLikesCount()
-        }
+                .onAppear {
+                    GetCommentsCount()
+                    GetLikesCount()
+                    PreparePlayer()
+                }.onDisappear{
+                    self.avPlayer?.pause()
+                    self.avPlayer?.replaceCurrentItem(with: nil)
+                    self.avPlayer = nil
+                }
+        }.buttonStyle(.plain)
     }
+    
+    private func PreparePlayer() {
+        self.avPlayer = AVPlayer(url: Bundle.main.url(forResource: post.video_link ?? "warsaw", withExtension: "mp4")!)
+        self.avPlayer?.isMuted = true
+    }
+    
     
     private func GetCommentsCount() {
         let request: NSFetchRequest<Comment> = Comment.fetchRequest()

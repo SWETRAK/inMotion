@@ -32,6 +32,10 @@
 		86A4179B2A3DCC9A00A52516 /* FriendshipStatusEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A4179A2A3DCC9A00A52516 /* FriendshipStatusEnum.swift */; };
 		86A4179D2A3DE31300A52516 /* PersonRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A4179C2A3DE31300A52516 /* PersonRowView.swift */; };
 		86A417A32A3DF86700A52516 /* InitData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A417A22A3DF86700A52516 /* InitData.swift */; };
+		86A417A72A3E1A9200A52516 /* warsaw.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 86A417A42A3E1A9000A52516 /* warsaw.mp4 */; };
+		86A417A82A3E1A9200A52516 /* paris.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 86A417A52A3E1A9100A52516 /* paris.mp4 */; };
+		86A417A92A3E1A9200A52516 /* newyork.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 86A417A62A3E1A9200A52516 /* newyork.mp4 */; };
+		86A417AC2A3E237600A52516 /* AVPlayerViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A417AB2A3E237600A52516 /* AVPlayerViewControllerExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +84,10 @@
 		86A4179A2A3DCC9A00A52516 /* FriendshipStatusEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendshipStatusEnum.swift; sourceTree = "<group>"; };
 		86A4179C2A3DE31300A52516 /* PersonRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonRowView.swift; sourceTree = "<group>"; };
 		86A417A22A3DF86700A52516 /* InitData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitData.swift; sourceTree = "<group>"; };
+		86A417A42A3E1A9000A52516 /* warsaw.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = warsaw.mp4; sourceTree = "<group>"; };
+		86A417A52A3E1A9100A52516 /* paris.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = paris.mp4; sourceTree = "<group>"; };
+		86A417A62A3E1A9200A52516 /* newyork.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = newyork.mp4; sourceTree = "<group>"; };
+		86A417AB2A3E237600A52516 /* AVPlayerViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerViewControllerExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +118,9 @@
 		865237FE2A2F21C6002E6605 = {
 			isa = PBXGroup;
 			children = (
+				86A417A62A3E1A9200A52516 /* newyork.mp4 */,
+				86A417A52A3E1A9100A52516 /* paris.mp4 */,
+				86A417A42A3E1A9000A52516 /* warsaw.mp4 */,
 				865238092A2F21C6002E6605 /* inMotion */,
 				8652381F2A2F21C8002E6605 /* inMotionTests */,
 				865238292A2F21C8002E6605 /* inMotionUITests */,
@@ -130,6 +141,7 @@
 		865238092A2F21C6002E6605 /* inMotion */ = {
 			isa = PBXGroup;
 			children = (
+				86A417AA2A3E235800A52516 /* Utils */,
 				86A417A12A3DF85200A52516 /* Data */,
 				8655FF272A2FD63E00D407F2 /* Models */,
 				865238392A2F2270002E6605 /* Views */,
@@ -211,6 +223,14 @@
 				86A417A22A3DF86700A52516 /* InitData.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		86A417AA2A3E235800A52516 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				86A417AB2A3E237600A52516 /* AVPlayerViewControllerExtension.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -317,6 +337,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86A417A72A3E1A9200A52516 /* warsaw.mp4 in Resources */,
+				86A417A82A3E1A9200A52516 /* paris.mp4 in Resources */,
+				86A417A92A3E1A9200A52516 /* newyork.mp4 in Resources */,
 				865238122A2F21C8002E6605 /* Preview Assets.xcassets in Resources */,
 				8652380F2A2F21C8002E6605 /* Assets.xcassets in Resources */,
 			);
@@ -355,6 +378,7 @@
 				86A4179D2A3DE31300A52516 /* PersonRowView.swift in Sources */,
 				862D75812A3A166700B6D02F /* FriendsView.swift in Sources */,
 				862D75932A3C4FA800B6D02F /* inMotion.xcdatamodeld in Sources */,
+				86A417AC2A3E237600A52516 /* AVPlayerViewControllerExtension.swift in Sources */,
 				862D756F2A3A0A5600B6D02F /* RegisterView.swift in Sources */,
 				862D757B2A3A163C00B6D02F /* YourFriendRowView.swift in Sources */,
 				862D758E2A3C47C200B6D02F /* AppState.swift in Sources */,

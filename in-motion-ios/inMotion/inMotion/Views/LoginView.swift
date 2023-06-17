@@ -16,6 +16,7 @@ struct LoginView: View {
     @State private var password: String = ""
     @State private var emailError: Bool = false
     @State private var passwordError: Bool = false
+    @State private var loginError: Bool = false
     
     var body: some View {
         VStack {
@@ -25,7 +26,9 @@ struct LoginView: View {
             Spacer()
             
             VStack(spacing: 20.0) {
-                
+                if self.loginError {
+                    Text("Incorect login data")
+                }
                 VStack {
                     if self.emailError {
                         Text("Incorect email address")
@@ -96,12 +99,13 @@ struct LoginView: View {
         do {
             let result = try viewContext.fetch(request)
             if(result.count == 1) {
+                self.loginError = false
                 return result[0]
             }
-            return nil
         } catch {
             print("Error fetching data from context \(error)")
         }
+        self.loginError = true
         return nil
     }
     

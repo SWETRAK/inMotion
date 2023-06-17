@@ -13,7 +13,7 @@ struct CommentView: View {
     
     var body: some View {
         HStack{
-            Image(comment.author?.profile_photo ?? "google-logo").resizable().frame(width: 50, height: 50)
+            Image(comment.author?.profile_photo ?? "avatar-placeholder").resizable().frame(width: 50, height: 50)
             VStack{
                 HStack{
                     Text(comment.author?.nickname ?? "nickname").fontWeight(Font.Weight.bold)

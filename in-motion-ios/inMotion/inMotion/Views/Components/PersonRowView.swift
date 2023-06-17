@@ -13,7 +13,7 @@ struct PersonRowView: View {
     
     var body: some View {
         HStack{
-            Image(person.profile_photo ?? "google-logo").resizable().frame(width:50, height:50)
+            Image(person.profile_photo ?? "avatar-placeholder").resizable().frame(width:50, height:50)
             VStack(alignment: .leading){
                 Text(person.nickname ?? "nickname").fontWeight(Font.Weight.bold).frame(maxWidth: .infinity, alignment: .leading)
             }

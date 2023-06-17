@@ -15,7 +15,7 @@ struct YourFriendRowView: View {
     
     var body: some View {
         HStack{
-            Image((appState.user?.id == friendship.userOne?.id ? friendship.userTwo?.profile_photo : friendship.userOne?.profile_photo) ?? "google-logo").resizable().frame(width:50, height:50)
+            Image((appState.user?.id == friendship.userOne?.id ? friendship.userTwo?.profile_photo : friendship.userOne?.profile_photo) ?? "avatar-placeholder").resizable().frame(width:50, height:50)
             VStack(alignment: .leading){
                 Text((appState.user?.id == friendship.userOne?.id ? friendship.userTwo?.nickname : friendship.userOne?.nickname) ?? "nickname").fontWeight(Font.Weight.bold).frame(maxWidth: .infinity, alignment: .leading)
             }

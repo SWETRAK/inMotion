@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import AVKit
 
 struct PostDetailsView: View {
     @Environment(\.managedObjectContext) private var viewContext
@@ -23,6 +24,8 @@ struct PostDetailsView: View {
     @State private var showingMap: Bool = false
     @State private var mapDetails = MapDetail(name: "Test", latitude: 12321.43, longitude: 23432.23)
     
+    @State private var avPlayer: AVPlayer? = nil
+    
     var body: some View {
         VStack{
             VStack {
@@ -34,12 +37,23 @@ struct PostDetailsView: View {
                             .onTapGesture {
                                 showingMap.toggle()
                             }.sheet(isPresented: $showingMap) {
-                                MapView(mapDetails: $mapDetails)
+                                MapView(mapDetails: $mapDetails, isPresented: $showingMap)
                             }
                         
-                        Image(post.video_link ?? "google-logo")
-                            .resizable()
-                            .frame(width: UIScreen.main.bounds.width-20, height: UIScreen.main.bounds.width-20)
+                        if(self.avPlayer != nil){
+                            VideoPlayer(player: self.avPlayer)
+                                .frame(width: UIScreen.main.bounds.width-20, height: (UIScreen.main.bounds.width-20)/16*9)
+                                .onDisappear{
+                                    self.avPlayer?.pause()
+                                }
+                                .onAppear{
+                                    self.avPlayer?.play()
+                                    NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: .main) { _ in
+                                        self.avPlayer?.seek(to: .zero)
+                                        self.avPlayer?.play()
+                                    }
+                                }
+                        }
                         
                         HStack{
                             HStack{
@@ -81,8 +95,10 @@ struct PostDetailsView: View {
                         Text("Add a comment...")
                     }
                     Button {
-                        AddComment()
-                        LoadComments()
+                        if(!self.newComment.isEmpty) {
+                            AddComment()
+                            LoadComments()
+                        }
                     } label: {
                         Image(systemName: "paperplane.fill")
                     }
@@ -95,8 +111,20 @@ struct PostDetailsView: View {
             GetMapDetails()
             GetLikesCount()
             LoadComments()
+            PreparePlayer()
+        }
+        .onDisappear{
+            self.avPlayer?.pause()
+            self.avPlayer?.replaceCurrentItem(with: nil)
+            self.avPlayer = nil
         }
     }
+    
+    private func PreparePlayer() {
+        self.avPlayer = AVPlayer(url: Bundle.main.url(forResource: post.video_link ?? "warsaw", withExtension: "mp4")!)
+        self.avPlayer?.isMuted = false
+    }
+    
     
     private func GetMapDetails() {
         self.mapDetails = MapDetail(name: "Test", latitude: self.post.localization_latitude, longitude: post.localization_longitude)

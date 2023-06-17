@@ -145,7 +145,7 @@ struct RegisterView: View {
             user.email = email
             user.password = password
             user.id = UUID()
-            user.profile_photo = "google-logo"
+            user.profile_photo = "avatar-placeholder"
             if (viewContext.hasChanges) {
                 do {
                     try viewContext.save()
