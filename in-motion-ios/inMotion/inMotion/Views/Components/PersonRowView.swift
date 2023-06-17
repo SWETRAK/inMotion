@@ -8,8 +8,19 @@
 import SwiftUI
 
 struct PersonRowView: View {
+    @Environment(\.managedObjectContext) private var viewContext
+    @EnvironmentObject var person: User
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack{
+            Image(person.profile_photo ?? "google-logo").resizable().frame(width:50, height:50)
+            VStack(alignment: .leading){
+                Text(person.nickname ?? "nickname").fontWeight(Font.Weight.bold).frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            Spacer()
+        }
+        .frame(alignment: .leading)
     }
 }
 

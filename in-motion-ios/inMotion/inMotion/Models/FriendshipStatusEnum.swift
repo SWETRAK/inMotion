@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+enum FriendshipStatusEnum: String {
+    case Accepted = "accepted"
+    case Requested = "requested"
+}

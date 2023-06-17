@@ -10,17 +10,17 @@ import CoreData
 
 struct RegisterView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject private var appState: AppState
     
-    @State var nickname: String = ""
-    @State var email: String = ""
-    @State var password: String = ""
-    @State var repeatPassword: String = ""
+    @State private var nickname: String = ""
+    @State private var email: String = ""
+    @State private var password: String = ""
+    @State private var repeatPassword: String = ""
     
-    @State var emailError: Bool = false
-    @State var nicknameError: Bool = false
-    @State var passwordError: Bool = false
-    @State var repeatPasswordError: Bool = false
+    @State private var emailError: Bool = false
+    @State private var nicknameError: Bool = false
+    @State private var passwordError: Bool = false
+    @State private var repeatPasswordError: Bool = false
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     var body: some View {

@@ -32,6 +32,12 @@ struct MainWallPost: View {
                 Image(post.video_link ?? "google-logo")
                     .resizable()
                     .frame(width: UIScreen.main.bounds.width-20, height: UIScreen.main.bounds.width-20)
+                    .onTapGesture(count: 2) {
+                        if(!self.liked) {
+                            LikePost()
+                            GetLikesCount()
+                        }
+                    }
                 
                 HStack{
                     HStack{
@@ -39,7 +45,7 @@ struct MainWallPost: View {
                             .resizable()
                             .foregroundColor(liked ? .red : .black) // .red if liked
                             .frame(width: 20, height: 20)
-                            .onTapGesture(count: 2) {
+                            .onTapGesture {
                                 if (self.liked) {
                                     UnlikePost()
                                 } else {
@@ -88,8 +94,9 @@ struct MainWallPost: View {
         request.predicate = prediction
         do {
             let result = try viewContext.fetch(request)
-            if (result.contains(where: {$0.author?.id == appState.user?.id})) {
+            if let mySafeLike = result.first(where: {$0.author?.id == appState.user?.id}) {
                 self.liked = true;
+                self.myLike = mySafeLike
             }
             self.likesCount = result.count
         } catch {

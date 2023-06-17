@@ -9,10 +9,8 @@ import MapKit
 import SwiftUI
 
 struct MapView: View {
-    
-
-    @Binding var mapDetails: MapDetail
-    @State var region: MKCoordinateRegion = MKCoordinateRegion()
+    @Binding public var mapDetails: MapDetail
+    @State private var region: MKCoordinateRegion = MKCoordinateRegion()
     
     var body: some View {
         VStack{
@@ -26,13 +24,11 @@ struct MapView: View {
         }.onAppear{
             CreateRegion()
         }
-       
     }
     
     private func CreateRegion() {
         self.region = MKCoordinateRegion(center: mapDetails.coordinates, latitudinalMeters: 250, longitudinalMeters: 250)
     }
-    
 }
 
 struct MapView_Previews: PreviewProvider {

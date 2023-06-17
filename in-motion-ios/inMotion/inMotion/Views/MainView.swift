@@ -10,9 +10,9 @@ import CoreData
 
 struct MainView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject private var appState: AppState
     
-    @State var posts: [Post] = []
+    @State private var posts: [Post] = []
     
     var body: some View {
         VStack{
@@ -28,7 +28,7 @@ struct MainView: View {
         }.toolbar {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink {
-                    FriendsView()
+                    FriendsView().environmentObject(appState)
                 } label: {
                     Image(systemName: "person.2.fill")
                 }.buttonStyle(.plain)

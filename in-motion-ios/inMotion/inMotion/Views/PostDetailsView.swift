@@ -10,20 +10,18 @@ import CoreData
 
 struct PostDetailsView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @EnvironmentObject var post: Post
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject private var post: Post
+    @EnvironmentObject private var appState: AppState
     
+    @State private var comments: [Comment] = []
+    @State private var newComment: String = ""
     
-    @State var comments: [Comment] = []
-    @State var newComment: String = ""
+    @State private var liked: Bool = false
+    @State private var myLike: Like? = nil
+    @State private var likesCount: Int = 0
     
-    @State var liked: Bool = false
-    @State var myLike: Like? = nil
-    @State var likesCount: Int = 0
-    
-    @State var showingMap: Bool = false
-    
-    @State var mapDetails = MapDetail(name: "Test", latitude: 12321.43, longitude: 23432.23)
+    @State private var showingMap: Bool = false
+    @State private var mapDetails = MapDetail(name: "Test", latitude: 12321.43, longitude: 23432.23)
     
     var body: some View {
         VStack{
@@ -101,7 +99,7 @@ struct PostDetailsView: View {
     }
     
     private func GetMapDetails() {
-        self.mapDetails = MapDetail(name: "Test", latitude: post.localization_latitude, longitude: post.localization_longitude)
+        self.mapDetails = MapDetail(name: "Test", latitude: self.post.localization_latitude, longitude: post.localization_longitude)
     }
     
     private func LoadComments() {
@@ -121,8 +119,9 @@ struct PostDetailsView: View {
         request.predicate = prediction
         do {
             let result = try viewContext.fetch(request)
-            if (result.contains(where: {$0.author?.id == appState.user?.id})) {
+            if let mySafeLike = result.first(where: {$0.author?.id == appState.user?.id}) {
                 self.liked = true;
+                self.myLike = mySafeLike
             }
             self.likesCount = result.count
         } catch {
@@ -159,7 +158,7 @@ struct PostDetailsView: View {
             }
         }
     }
-    
+
     private func AddComment() {
         let comment = Comment(context: viewContext)
         comment.id = UUID()

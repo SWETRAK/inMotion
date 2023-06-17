@@ -6,22 +6,50 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct FindFriendView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @State var nickname: String = "";
+    @EnvironmentObject private var appState: AppState
+    @State private var nickname: String = "";
+    
+    @State private var persons: [User] = []
+    @State private var refresh: Bool = false
+    
     var body: some View {
         VStack {
-            VStack {
-                TextField(text: $nickname){
-                    Text("Find a friend...")
+            TextField("Find a friend...", text: $nickname)
+                .textFieldStyle(RoundedBorderTextFieldStyle()).padding(.horizontal)
+                .textInputAutocapitalization(.never)
+                .onChange(of: nickname) { newValue in
+                    FindUsers()
                 }
-                Divider() .overlay(Color.blue)
-            }.padding(.horizontal)
-            ScrollView {
-                FindFriendRowView()
-                FindFriendRowView()
-                FindFriendRowView()
+
+
+            List(persons, id: \.id){
+                person in
+                PersonRowView()
+                    .environmentObject(person)
+                    .swipeActions {
+                        Button {
+                        } label: {
+                            Image(systemName: "person.fill.xmark.rtl")
+                        }
+                        .tint(.blue)
+                    }
+            }
+        }
+    }
+    
+    private func FindUsers() {
+        if let safeUser = appState.user {
+            let request: NSFetchRequest<User> = User.fetchRequest()
+            let predictate = NSPredicate(format: "nickname LIKE %@ && id != %@", "*\(nickname)*", safeUser.id! as CVarArg)
+            request.predicate = predictate
+            do {
+                self.persons = try viewContext.fetch(request)
+            } catch {
+                print("Error fetching data from context \(error)")
             }
         }
     }

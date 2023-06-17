@@ -9,9 +9,10 @@ import SwiftUI
 
 struct ProfileView: View {
     @Environment(\.managedObjectContext) private var viewContext
+
+    @State private var name: String = "inMotion"
+    @State private var username: String = "username"
     
-    @State var name: String = "inMotion"
-    @State var username: String = "username"
     var body: some View {
         VStack{
             HStack{

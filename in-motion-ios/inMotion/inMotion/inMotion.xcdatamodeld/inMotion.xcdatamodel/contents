@@ -7,8 +7,11 @@
         <relationship name="author" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User"/>
         <relationship name="post" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Post"/>
     </entity>
-    <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
-        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+    <entity name="Friendship" representedClassName="Friendship" syncable="YES" codeGenerationType="class">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="status" attributeType="String"/>
+        <relationship name="userOne" maxCount="1" deletionRule="Nullify" destinationEntity="User"/>
+        <relationship name="userTwo" maxCount="1" deletionRule="Nullify" destinationEntity="User"/>
     </entity>
     <entity name="Like" representedClassName="Like" syncable="YES" codeGenerationType="class">
         <attribute name="time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>

@@ -6,28 +6,28 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct YourFriendRowView: View {
-    @Binding
-    var friend: Friend
+    @Environment(\.managedObjectContext) private var viewContext
+    @EnvironmentObject var appState: AppState
+    @EnvironmentObject var friendship: Friendship
+    
     var body: some View {
         HStack{
-            Image(friend.avatar).resizable().frame(width:50, height:50)
+            Image((appState.user?.id == friendship.userOne?.id ? friendship.userTwo?.profile_photo : friendship.userOne?.profile_photo) ?? "google-logo").resizable().frame(width:50, height:50)
             VStack(alignment: .leading){
-                Text(friend.username).fontWeight(Font.Weight.bold).frame(maxWidth: .infinity, alignment: .leading)
-                Text("Last seen: \(friend.lastseen)").font(.system(size: 12)).frame(maxWidth: .infinity, alignment: .leading)
-                
+                Text((appState.user?.id == friendship.userOne?.id ? friendship.userTwo?.nickname : friendship.userOne?.nickname) ?? "nickname").fontWeight(Font.Weight.bold).frame(maxWidth: .infinity, alignment: .leading)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             Spacer()
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal)
+        .frame(alignment: .leading)
     }
 }
 
 struct YourFriendRowView_Previews: PreviewProvider {
     static var previews: some View {
-        YourFriendRowView(friend: .constant(Friend(nickname: "kamil Pietrak", lastseen: "12.343", avatar: "google-logo")))
+        YourFriendRowView()
     }
 }
