@@ -113,7 +113,7 @@ struct LoginView: View {
         if(self.email.isEmpty) {
             self.emailError = true
         } else {
-            let emailFormat = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}" // short format
+            let emailFormat = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
             let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
             self.emailError = !emailPredicate.evaluate(with: self.email)
         }

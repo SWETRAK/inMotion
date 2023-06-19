@@ -8,6 +8,8 @@
 import Foundation
 import CoreData
 
+
+// Structure with initial data for project
 public struct InitData {
     
     public static func CheckIfEmpty(context: NSManagedObjectContext) -> Bool{

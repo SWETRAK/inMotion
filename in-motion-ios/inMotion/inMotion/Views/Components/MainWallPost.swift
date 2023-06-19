@@ -46,10 +46,9 @@ struct MainWallPost: View {
                                 self.avPlayer?.play()
                             }
                         }
-                        .onTapGesture(count: 2) {
+                        .onLongPressGesture {
                             if(!self.liked) {
                                 LikePost()
-                                GetLikesCount()
                             }
                         }
                 }
@@ -66,7 +65,6 @@ struct MainWallPost: View {
                                 } else {
                                     LikePost()
                                 }
-                                GetLikesCount()
                             }
                         Text(String(self.likesCount))
                     }
@@ -144,6 +142,7 @@ struct MainWallPost: View {
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
+        GetLikesCount()
     }
     
     private func UnlikePost() {
@@ -157,6 +156,7 @@ struct MainWallPost: View {
                 print("error while saving \(error)")
             }
         }
+        GetLikesCount()
     }
 }
 
