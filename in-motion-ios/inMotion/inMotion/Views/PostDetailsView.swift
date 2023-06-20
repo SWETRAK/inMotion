@@ -98,6 +98,7 @@ struct PostDetailsView: View {
                         if(!self.newComment.isEmpty) {
                             AddComment()
                             LoadComments()
+                            self.newComment = ""
                         }
                     } label: {
                         Image(systemName: "paperplane.fill")
