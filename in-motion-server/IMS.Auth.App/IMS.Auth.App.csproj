@@ -5,6 +5,7 @@
         <Nullable>disable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <RootNamespace>IMS.Auth.App</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -20,6 +21,10 @@
 
     <ItemGroup>
       <Folder Include="Controllers\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\IMS.Auth.BLL\IMS.Auth.BLL.csproj" />
     </ItemGroup>
 
 </Project>

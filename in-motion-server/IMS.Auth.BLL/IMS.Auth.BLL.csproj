@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <RootNamespace>IMS.Auth.BLL</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\IMS.Auth.DAL\IMS.Auth.DAL.csproj" />
+      <ProjectReference Include="..\IMS.Auth.Models\IMS.Auth.Models.csproj" />
+    </ItemGroup>
+
+</Project>
