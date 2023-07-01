@@ -4,12 +4,11 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
-        <RootNamespace>IMS.Auth.BLL</RootNamespace>
+        <RootNamespace>IMS.Auth.DAL</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\IMS.Auth.DAL\IMS.Auth.DAL.csproj" />
-      <ProjectReference Include="..\IMS.Auth.Models\IMS.Auth.Models.csproj" />
+      <ProjectReference Include="..\..\Shared\IMS.Shared.Domain\IMS.Shared.Domain.csproj" />
     </ItemGroup>
-
+    
 </Project>
