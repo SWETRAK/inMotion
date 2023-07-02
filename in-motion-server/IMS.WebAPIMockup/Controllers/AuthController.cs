@@ -18,9 +18,9 @@ public class AuthController: ControllerBase
     [ProducesResponseType(typeof(UserInfoDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [HttpPost("login")]
-    public ActionResult<UserSuccessLoginResultDto> LoginUserWithEmailAndPassword()
+    public ActionResult<UserSuccessfullyLoggedInResultDto> LoginUserWithEmailAndPassword()
     {
-        return Ok(new UserSuccessLoginResultDto());
+        return Ok(new UserSuccessfullyLoggedInResultDto());
     }
 
     /// <summary>
@@ -32,9 +32,9 @@ public class AuthController: ControllerBase
     [ProducesResponseType(typeof(UserInfoDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [HttpPost("register")]
-    public ActionResult<UserSuccessLoginResultDto> RegisterUserWithEmailAndPassword()
+    public ActionResult<UserSuccessfullyLoggedInResultDto> RegisterUserWithEmailAndPassword()
     {
-        return Ok(new UserSuccessLoginResultDto());
+        return Ok(new UserSuccessfullyLoggedInResultDto());
     }
     
     /// <summary>
@@ -46,9 +46,9 @@ public class AuthController: ControllerBase
     [ProducesResponseType(typeof(UserInfoDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [HttpPost("provider")]
-    public ActionResult<UserSuccessLoginResultDto> AccessWithProvider()
+    public ActionResult<UserSuccessfullyLoggedInResultDto> AccessWithProvider()
     {
-        return Ok(new UserSuccessLoginResultDto());
+        return Ok(new UserSuccessfullyLoggedInResultDto());
     }
 
     /// <summary>

@@ -17,11 +17,11 @@ public class FriendshipController: ControllerBase
     /// <response code="200">When user is authorized their friendships</response>
     /// <response code="403">If user is unauthorized</response>
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<FriendshipsDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<FriendshipDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    public ActionResult<IEnumerable<FriendshipsDto>> GetFriendships()
+    public ActionResult<IEnumerable<FriendshipDto>> GetFriendships()
     {
-        return Ok(new List<FriendshipsDto>() {new FriendshipsDto(), new FriendshipsDto()});
+        return Ok(new List<FriendshipDto>() {new FriendshipDto(), new FriendshipDto()});
     }
 
     /// <summary>
@@ -30,12 +30,12 @@ public class FriendshipController: ControllerBase
     /// <returns>List of friendship requests</returns>
     /// <response code="200">If friendship list is returned</response>
     /// <response code="403">If user is unauthorized</response>
-    [ProducesResponseType(typeof(IEnumerable<FriendshipsDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<FriendshipDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [HttpGet("requests")]
-    public ActionResult<IEnumerable<FriendshipsDto>> GetRequests()
+    public ActionResult<IEnumerable<FriendshipDto>> GetRequests()
     {
-        return Ok(new List<FriendshipsDto>() {new FriendshipsDto(), new FriendshipsDto()});
+        return Ok(new List<FriendshipDto>() {new FriendshipDto(), new FriendshipDto()});
     }
 
     /// <summary>
@@ -45,12 +45,12 @@ public class FriendshipController: ControllerBase
     /// <returns>Newly created relationship</returns>
     /// <response code="200">If user send request to other user</response>
     /// <response code="403">If user is unauthorized</response>
-    [ProducesResponseType(typeof(FriendshipsDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(FriendshipDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [HttpPost]
-    public ActionResult<FriendshipsDto> SendRequest([FromBody] CreateFriendshipDto createFriendshipDto)
+    public ActionResult<FriendshipDto> SendRequest([FromBody] CreateFriendshipDto createFriendshipDto)
     {
-        return Created("", new FriendshipsDto());
+        return Created("", new FriendshipDto());
     }
 
     /// <summary>
@@ -62,14 +62,14 @@ public class FriendshipController: ControllerBase
     /// <response code="200">If friendship status was changed</response>
     /// <response code="403">If user is unauthorized</response>
     /// <response code="404">If relation is notfound</response> 
-    [ProducesResponseType(typeof(FriendshipsDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(FriendshipDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpPut("{friendshipId}/{status}")]
-    public ActionResult<FriendshipsDto> ChangeStatus(
+    public ActionResult<FriendshipDto> ChangeStatus(
         [FromRoute(Name = "friendshipId")] string friendshipId,
         [FromRoute(Name = "status")] int status)
     {
-        return Ok(new FriendshipsDto());
+        return Ok(new FriendshipDto());
     }
 }

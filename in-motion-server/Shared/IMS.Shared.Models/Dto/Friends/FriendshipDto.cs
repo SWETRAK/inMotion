@@ -2,7 +2,7 @@ using IMS.Shared.Models.Dto.User;
 
 namespace IMS.Shared.Models.Dto.Friends;
 
-public class FriendshipsDto
+public class FriendshipDto
 {
     public string Id { get; set; }
     public AuthorInfoDto FirstUsers { get; set; }
