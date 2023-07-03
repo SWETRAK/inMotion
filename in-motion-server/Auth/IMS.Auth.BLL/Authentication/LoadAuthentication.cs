@@ -9,7 +9,7 @@ namespace IMS.Auth.BLL.Authentication;
 
 public static class LoadAuthentication
 {
-    public static IServiceCollection AddAuthenticationCustom(this IServiceCollection services, WebApplicationBuilder builder)
+    public static IServiceCollection AddAuthAuthentication(this IServiceCollection services, WebApplicationBuilder builder)
     {
         var configuration = builder.Configuration;
 

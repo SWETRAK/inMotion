@@ -1,10 +1,8 @@
 using System.Net;
-using System.Runtime.InteropServices;
 using IMS.Auth.IBLL.Services;
 using IMS.Auth.Models.Dto;
 using IMS.Shared.Models.Dto;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMS.Auth.App.Controllers;
@@ -20,6 +18,7 @@ public class AuthController: ControllerBase
         _emailAuthService = emailAuthService;
     }
     
+    [HttpPost("login")]
     public async Task<ActionResult<ImsHttpMessage<UserInfoDto>>> LoginWithEmailAndPassword(LoginUserWithEmailAndPasswordDto requestDto)
     {
         var serverRequestTime = DateTime.UtcNow;
@@ -33,24 +32,25 @@ public class AuthController: ControllerBase
         });
     }
 
+    [HttpPost("register")]
     public async Task<ActionResult> RegisterWithEmailAndPassword()
     {
         // var result = await _emailAuthService.RegisterWithEmail();
         return Ok();
     }
-
     
-    public async Task<ActionResult> LoginWithGoogle()
-    {
-        return Ok();
-    }
-    
-    public async Task<ActionResult> LoginWithFacebook()
-    {
-        return Ok();
-    }
+    // public async Task<ActionResult> LoginWithGoogle()
+    // {
+    //     return Ok();
+    // }
+    //
+    // public async Task<ActionResult> LoginWithFacebook()
+    // {
+    //     return Ok();
+    // }
     
     [Authorize]
+    [HttpDelete("logout")]
     public async Task<ActionResult> Logout()
     {
         return Ok();

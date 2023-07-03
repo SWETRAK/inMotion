@@ -1,4 +1,5 @@
 using IMS.Auth.BLL;
+using IMS.Auth.BLL.Authentication;
 using IMS.Auth.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddAuthServices();
+
+builder.Services.AddAuthAuthentication(builder);
 
 builder.Services.AddAuthRepositories();
 
