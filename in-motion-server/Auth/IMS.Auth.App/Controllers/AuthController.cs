@@ -1,5 +1,8 @@
+using System.Net;
 using System.Runtime.InteropServices;
 using IMS.Auth.IBLL.Services;
+using IMS.Auth.Models.Dto;
+using IMS.Shared.Models.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,12 +19,18 @@ public class AuthController: ControllerBase
     {
         _emailAuthService = emailAuthService;
     }
-
     
-    public async Task<ActionResult> LoginWithEmailAndPassword()
+    public async Task<ActionResult<ImsHttpMessage<UserInfoDto>>> LoginWithEmailAndPassword(LoginUserWithEmailAndPasswordDto requestDto)
     {
-        // var result = await _emailAuthService.LoginWithEmail();
-        return Ok();
+        var serverRequestTime = DateTime.UtcNow;
+        var result = await _emailAuthService.LoginWithEmail(requestDto);
+        return Ok(new ImsHttpMessage<UserInfoDto>
+        {
+            Data = result,
+            ServerRequestTime = serverRequestTime,
+            ServerResponseTime = DateTime.UtcNow,
+            Status = (int)HttpStatusCode.OK
+        });
     }
 
     public async Task<ActionResult> RegisterWithEmailAndPassword()

@@ -5,7 +5,7 @@ namespace IMS.Auth.IBLL.Services;
 
 public interface IEmailAuthService
 {
-    public Task<ImsHttpMessage<UserInfoDto>> LoginWithEmail(LoginUserWithEmailAndPasswordDto requestData);
+    public Task<UserInfoDto> LoginWithEmail(LoginUserWithEmailAndPasswordDto requestData);
 
     public Task RegisterWithEmail();
 }
