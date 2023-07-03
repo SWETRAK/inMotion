@@ -20,7 +20,7 @@ public class UserEntityConfiguration: IEntityTypeConfiguration<Entities.User.Use
         builder.Property(u => u.Nickname)
             .HasColumnName("nickname")
             .IsRequired()
-            .HasMaxLength(256);
+            .HasMaxLength(24);
 
         builder.Property(u => u.ProfileVideoId)
             .HasColumnName("profile_video_id");
