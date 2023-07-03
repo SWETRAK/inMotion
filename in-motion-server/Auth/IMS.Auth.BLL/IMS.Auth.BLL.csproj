@@ -9,7 +9,16 @@
 
     <ItemGroup>
       <ProjectReference Include="..\IMS.Auth.DAL\IMS.Auth.DAL.csproj" />
+      <ProjectReference Include="..\IMS.Auth.IBLL\IMS.Auth.IBLL.csproj" />
       <ProjectReference Include="..\IMS.Auth.Models\IMS.Auth.Models.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Utils\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.8" />
     </ItemGroup>
     
 

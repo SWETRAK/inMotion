@@ -20,10 +20,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\IMS.Auth.BLL\IMS.Auth.BLL.csproj" />
     </ItemGroup>
 
