@@ -1,6 +1,5 @@
 using System.Net;
 using IMS.Auth.IBLL.Services;
-using IMS.Auth.Models.Dto;
 using IMS.Auth.Models.Dto.Incoming;
 using IMS.Auth.Models.Dto.Outgoing;
 using IMS.Shared.Models.Dto;

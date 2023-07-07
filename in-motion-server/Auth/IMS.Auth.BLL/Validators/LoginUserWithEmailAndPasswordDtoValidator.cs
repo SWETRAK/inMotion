@@ -1,5 +1,4 @@
 using FluentValidation;
-using IMS.Auth.Models.Dto;
 using IMS.Auth.Models.Dto.Incoming;
 
 namespace IMS.Auth.BLL.Validators;

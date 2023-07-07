@@ -1,5 +1,4 @@
-using AutoMapper; 
-using IMS.Auth.Models.Dto;
+using AutoMapper;
 using IMS.Auth.Models.Dto.Outgoing;
 using IMS.Shared.Domain.Entities.User;
 
