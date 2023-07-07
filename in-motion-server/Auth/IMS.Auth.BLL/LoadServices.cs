@@ -13,6 +13,11 @@ public static class LoadServices
         serviceCollection.AddScoped<IEmailAuthService, EmailAuthService>();
         serviceCollection.AddScoped<IJwtService, JwtService>();
         serviceCollection.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+        
+        serviceCollection.AddAuthorization((options) =>
+        {
+            
+        });
         return serviceCollection;
     }
 }

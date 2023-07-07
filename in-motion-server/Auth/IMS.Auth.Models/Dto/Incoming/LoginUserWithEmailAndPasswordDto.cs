@@ -1,6 +1,4 @@
-using Microsoft.VisualBasic.CompilerServices;
-
-namespace IMS.Auth.Models.Dto;
+namespace IMS.Auth.Models.Dto.Incoming;
 
 public class LoginUserWithEmailAndPasswordDto
 {

@@ -46,7 +46,7 @@ public class JwtService: IJwtService
 
     public JwtValidatedUser ValidateToken(string token)
     {
-        if (token is null)
+        if (token.IsNullOrEmpty())
         {
             throw new MissingTokenException();
         }

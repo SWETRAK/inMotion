@@ -1,6 +1,8 @@
 using System.Net;
 using IMS.Auth.IBLL.Services;
 using IMS.Auth.Models.Dto;
+using IMS.Auth.Models.Dto.Incoming;
+using IMS.Auth.Models.Dto.Outgoing;
 using IMS.Shared.Models.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +19,17 @@ public class AuthController: ControllerBase
     {
         _emailAuthService = emailAuthService;
     }
-    
+
+    [HttpGet("confirm/{email}/{activationCode}")]
+    public async Task<ActionResult> ConfirmAccount(
+        [FromRoute(Name = "email")] string email, 
+        [FromRoute(Name="activationCode")]string activationCode
+    )
+    {
+        await _emailAuthService.ConfirmRegisterWithEmail(email, activationCode);
+        return Ok();
+    }
+
     [HttpPost("login")]
     public async Task<ActionResult<ImsHttpMessage<UserInfoDto>>> LoginWithEmailAndPassword(LoginUserWithEmailAndPasswordDto requestDto)
     {
@@ -33,10 +45,17 @@ public class AuthController: ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult> RegisterWithEmailAndPassword()
+    public async Task<ActionResult<ImsHttpMessage<RegisterSuccessDto>>> RegisterWithEmailAndPassword(RegisterUserWithEmailAndPasswordDto requestDto)
     {
-        // var result = await _emailAuthService.RegisterWithEmail();
-        return Ok();
+        var serverRequestTime = DateTime.UtcNow;
+        var result = await _emailAuthService.RegisterWithEmail(requestDto);
+        return Created("",new ImsHttpMessage<RegisterSuccessDto>
+        {
+            Data = result,
+            ServerRequestTime = serverRequestTime,
+            ServerResponseTime = DateTime.UtcNow,
+            Status = (int)HttpStatusCode.Created
+        });
     }
     
     // public async Task<ActionResult> LoginWithGoogle()

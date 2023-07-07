@@ -1,4 +1,4 @@
-namespace IMS.Auth.Models.Dto;
+namespace IMS.Auth.Models.Dto.Outgoing;
 
 public class UserInfoDto
 {

@@ -1,5 +1,6 @@
 using AutoMapper; 
 using IMS.Auth.Models.Dto;
+using IMS.Auth.Models.Dto.Outgoing;
 using IMS.Shared.Domain.Entities.User;
 
 namespace IMS.Auth.DAL.Mappers;

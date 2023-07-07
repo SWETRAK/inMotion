@@ -15,6 +15,12 @@ public class UserEntityConfiguration: IEntityTypeConfiguration<Entities.User.Use
         builder.Property(u => u.Email)
             .IsRequired();
 
+        builder.Property(u => u.ActivationToken)
+            .HasColumnName("activation_token");
+
+        builder.Property(u => u.ConfirmedAccount)
+            .IsRequired();
+
         builder.Property(u => u.Bio)
             .HasColumnName("bio")
             .IsRequired()

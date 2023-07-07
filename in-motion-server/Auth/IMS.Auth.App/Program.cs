@@ -12,6 +12,10 @@ builder.Services.AddAuthServices();
 
 builder.Services.AddAuthAuthentication(builder);
 
+builder.Services.AddAuthMiddlewares();
+
+builder.Services.AddAuthValidators();
+
 builder.Services.AddAuthRepositories();
 
 builder.Services.AddAuthMappers();
@@ -29,7 +33,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
+
 app.UseHttpsRedirection();
+
+app.UseAuthMiddlewares();
 
 app.UseAuthorization();
 

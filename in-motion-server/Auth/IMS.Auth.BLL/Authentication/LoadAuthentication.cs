@@ -25,7 +25,6 @@ public static class LoadAuthentication
             })
             .AddJwtBearer(cfg =>
             {
-                
                 cfg.RequireHttpsMetadata = false;
                 cfg.SaveToken = true;
                 cfg.TokenValidationParameters = new TokenValidationParameters
@@ -33,18 +32,6 @@ public static class LoadAuthentication
                     ValidIssuer = authenticationConfiguration.JwtIssuer,
                     ValidAudience = authenticationConfiguration.JwtIssuer,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationConfiguration.JwtKey))
-                };
-                
-                cfg.Events = new JwtBearerEvents()
-                {
-                    OnMessageReceived = context =>
-                    {
-                        if (context.Request.Cookies.ContainsKey("X-Access-Token"))
-                        {
-                            context.Token = context.Request.Cookies["X-Access-Token"];
-                        }
-                        return Task.CompletedTask;
-                    }
                 };
             });
 

@@ -14,7 +14,12 @@ public class UserRepository: IUserRepository
     {
         _context = context;
     }
-
+    
+    public User GetByEmail(string email)
+    {
+        return _context.Users.FirstOrDefault(u => u.Email == email);
+    }
+    
     public async Task<User> GetByEmailAsync(string email)
     {
         return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
@@ -25,12 +30,12 @@ public class UserRepository: IUserRepository
         return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
     }
 
-    public async void Insert(User user)
+    public async Task Insert(User user)
     {
         await _context.Users.AddAsync(user);
     }
 
-    public async void Save()
+    public async Task Save()
     {
         await _context.SaveChangesAsync();
     }
