@@ -52,6 +52,13 @@
             <artifactId>javacv-platform</artifactId>
             <version>1.5.9</version>
         </dependency>
+        <dependency>
+            <groupId>com.aspose</groupId>
+            <artifactId>aspose-imaging</artifactId>
+            <version>23.6</version>
+        </dependency>
+
+
     </dependencies>
 
 
