@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace IMS.Shared.Domain.Migrations
 {
     /// <inheritdoc />
-    public partial class ChangedDateTimev1 : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,7 +32,9 @@ namespace IMS.Shared.Domain.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     author_id = table.Column<Guid>(type: "uuid", nullable: false),
                     filename = table.Column<string>(type: "text", nullable: false),
-                    description = table.Column<string>(type: "character varying(2048)", maxLength: 2048, nullable: true),
+                    bucket_location = table.Column<string>(type: "text", nullable: false),
+                    bucket_name = table.Column<string>(type: "text", nullable: false),
+                    content_type = table.Column<string>(type: "text", nullable: false),
                     creation_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     last_edition_name = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -47,8 +49,12 @@ namespace IMS.Shared.Domain.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Nickname = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    Bio = table.Column<string>(type: "character varying(1024)", maxLength: 1024, nullable: false),
+                    email = table.Column<string>(name: "email`", type: "text", nullable: false),
+                    hashed_password = table.Column<string>(type: "text", nullable: true),
+                    ConfirmedAccount = table.Column<bool>(type: "boolean", nullable: false),
+                    activation_token = table.Column<string>(type: "text", nullable: true),
+                    nickname = table.Column<string>(type: "character varying(24)", maxLength: 24, nullable: false),
+                    bio = table.Column<string>(type: "character varying(1024)", maxLength: 1024, nullable: true),
                     profile_video_id = table.Column<Guid>(type: "uuid", nullable: false),
                     Role = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -64,6 +70,34 @@ namespace IMS.Shared.Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "friendships",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    first_user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    second_user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    status = table.Column<int>(type: "integer", nullable: false),
+                    creation_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    last_modification_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_friendships", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_friendships_users_first_user_id",
+                        column: x => x.first_user_id,
+                        principalTable: "users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_friendships_users_second_user_id",
+                        column: x => x.second_user_id,
+                        principalTable: "users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "post_videos",
                 columns: table => new
                 {
@@ -74,7 +108,9 @@ namespace IMS.Shared.Domain.Migrations
                     author_id = table.Column<Guid>(type: "uuid", nullable: false),
                     AuthorId = table.Column<Guid>(type: "uuid", nullable: true),
                     filename = table.Column<string>(type: "text", nullable: false),
-                    description = table.Column<string>(type: "character varying(2048)", maxLength: 2048, nullable: true),
+                    bucket_location = table.Column<string>(type: "text", nullable: false),
+                    bucket_name = table.Column<string>(type: "text", nullable: false),
+                    content_type = table.Column<string>(type: "text", nullable: false),
                     creation_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     last_edition_name = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
@@ -124,34 +160,6 @@ namespace IMS.Shared.Domain.Migrations
                     table.PrimaryKey("PK_tags", x => x.Id);
                     table.ForeignKey(
                         name: "FK_tags_users_author_id",
-                        column: x => x.author_id,
-                        principalTable: "users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "user_profile_video_reactions",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    user_profile_video_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    author_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    emoji = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
-                    creation_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    last_modification_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_user_profile_video_reactions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_user_profile_video_reactions_user_profile_videos_user_profi~",
-                        column: x => x.user_profile_video_id,
-                        principalTable: "user_profile_videos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_user_profile_video_reactions_users_author_id",
                         column: x => x.author_id,
                         principalTable: "users",
                         principalColumn: "Id",
@@ -310,6 +318,21 @@ namespace IMS.Shared.Domain.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_friendships_first_user_id",
+                table: "friendships",
+                column: "first_user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_friendships_Id",
+                table: "friendships",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_friendships_second_user_id",
+                table: "friendships",
+                column: "second_user_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_localizations_Id",
                 table: "localizations",
                 column: "Id");
@@ -422,21 +445,6 @@ namespace IMS.Shared.Domain.Migrations
                 column: "Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_user_profile_video_reactions_author_id",
-                table: "user_profile_video_reactions",
-                column: "author_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_user_profile_video_reactions_Id",
-                table: "user_profile_video_reactions",
-                column: "Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_user_profile_video_reactions_user_profile_video_id",
-                table: "user_profile_video_reactions",
-                column: "user_profile_video_id");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_user_profile_videos_Id",
                 table: "user_profile_videos",
                 column: "Id");
@@ -457,6 +465,9 @@ namespace IMS.Shared.Domain.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "friendships");
+
+            migrationBuilder.DropTable(
                 name: "post_comment_reaction");
 
             migrationBuilder.DropTable(
@@ -467,9 +478,6 @@ namespace IMS.Shared.Domain.Migrations
 
             migrationBuilder.DropTable(
                 name: "providers");
-
-            migrationBuilder.DropTable(
-                name: "user_profile_video_reactions");
 
             migrationBuilder.DropTable(
                 name: "post_comments");

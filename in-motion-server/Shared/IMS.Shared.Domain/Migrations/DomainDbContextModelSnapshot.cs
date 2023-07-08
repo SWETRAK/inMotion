@@ -383,11 +383,22 @@ namespace IMS.Shared.Domain.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("ActivationToken")
+                        .HasColumnType("text")
+                        .HasColumnName("activation_token");
+
                     b.Property<string>("Bio")
-                        .IsRequired()
                         .HasMaxLength(1024)
                         .HasColumnType("character varying(1024)")
                         .HasColumnName("bio");
+
+                    b.Property<bool>("ConfirmedAccount")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("email`");
 
                     b.Property<string>("HashedPassword")
                         .HasColumnType("text")
@@ -395,8 +406,8 @@ namespace IMS.Shared.Domain.Migrations
 
                     b.Property<string>("Nickname")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)")
+                        .HasMaxLength(24)
+                        .HasColumnType("character varying(24)")
                         .HasColumnName("nickname");
 
                     b.Property<Guid>("ProfileVideoId")

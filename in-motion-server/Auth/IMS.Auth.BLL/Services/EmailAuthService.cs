@@ -41,7 +41,7 @@ public class EmailAuthService : IEmailAuthService
     public async Task<UserInfoDto> LoginWithEmail(LoginUserWithEmailAndPasswordDto requestData)
     {
         var user = await _userRepository.GetByEmailAsync(requestData.Email);
-        if (user is null || user.HashedPassword.IsNullOrEmpty())
+        if (user is null || user.HashedPassword.IsNullOrEmpty() || user.ConfirmedAccount is not true)
         {
             throw new IncorrectLoginDataException(requestData.Email);
         }

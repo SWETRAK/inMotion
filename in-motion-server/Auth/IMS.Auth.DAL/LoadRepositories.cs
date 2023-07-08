@@ -9,7 +9,7 @@ public static class LoadRepositories
 {
     public static IServiceCollection AddAuthRepositories(this IServiceCollection serviceCollection)
     {
-        serviceCollection.AddDbContext<DomainDbContext>();
+        serviceCollection.AddDbContext<ImsDbContext>();
         serviceCollection.AddScoped<IUserRepository, UserRepository>();
         return serviceCollection;
     }

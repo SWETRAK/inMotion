@@ -7,10 +7,10 @@ namespace IMS.Auth.DAL.Repositories;
 
 public class UserRepository: IUserRepository
 {
-    private readonly DomainDbContext _context;
+    private readonly ImsDbContext _context;
     private bool _disposed = false;
 
-    public UserRepository(DomainDbContext context)
+    public UserRepository(ImsDbContext context)
     {
         _context = context;
     }
