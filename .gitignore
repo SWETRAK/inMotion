@@ -12,6 +12,9 @@
 **/dataSources/**
 **/dataSources.local.xml
 
+**/Logs/**
+**/Logs/
+
 **/*.swp
 **/*.*~
 **/project.lock.json

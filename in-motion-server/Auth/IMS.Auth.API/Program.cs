@@ -5,6 +5,7 @@ using IMS.Auth.DAL;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Host.AddAuthSerilog();
 
 builder.Services.AddControllers();
 
