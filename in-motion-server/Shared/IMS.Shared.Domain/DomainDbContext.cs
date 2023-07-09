@@ -15,7 +15,7 @@ To create migrations execute command
 - dotnet ef migrations add Initial --context DomainDbContext 
 
 To generate sql script execute command 
-- dotnet ef migrations script --output "version1.sql"      
+- dotnet ef migrations script --context DomainDbContext --output "../../../in-motion-database/scripts/ims-db-09.07.2023.sql"   
 */
 
 /// <summary>

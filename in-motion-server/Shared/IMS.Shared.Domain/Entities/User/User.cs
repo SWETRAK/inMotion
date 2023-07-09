@@ -16,7 +16,9 @@ public class User
 
     public string Nickname { get; set; }
     public string Bio { get; set; }
-    public Guid ProfileVideoId { get; set; }
+    
+    // This should be nullable because of null user profile video in registration 
+    public Guid? ProfileVideoId { get; set; }
     public virtual UserProfileVideo ProfileVideo { get; set; }
     
     public Roles Role { get; set; }

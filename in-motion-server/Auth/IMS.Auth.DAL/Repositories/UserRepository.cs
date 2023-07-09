@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IMS.Auth.DAL.Repositories;
 
-public class UserRepository: IUserRepository
+public sealed class UserRepository: IUserRepository
 {
     private readonly ImsDbContext _context;
     private bool _disposed = false;
@@ -39,8 +39,8 @@ public class UserRepository: IUserRepository
     {
         await _context.SaveChangesAsync();
     }
-    
-    protected virtual void Dispose(bool disposing)
+
+    private void Dispose(bool disposing)
     {
         if (!this._disposed)
         {

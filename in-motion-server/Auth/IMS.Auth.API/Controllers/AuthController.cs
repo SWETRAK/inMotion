@@ -67,10 +67,10 @@ public class AuthController: ControllerBase
     //     return Ok();
     // }
     
-    [Authorize]
-    [HttpDelete("logout")]
-    public async Task<ActionResult> Logout()
-    {
-        return Ok();
-    }
+    // [Authorize]
+    // [HttpDelete("logout")]
+    // public async Task<ActionResult> Logout()
+    // {
+    //     return Ok();
+    // }
 }
