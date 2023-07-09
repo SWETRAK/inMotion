@@ -7,7 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+      <ProjectReference Include="..\IMS.Auth.DAL\IMS.Auth.DAL.csproj" />
+      <ProjectReference Include="..\IMS.Auth.Models\IMS.Auth.Models.csproj" />
     </ItemGroup>
 
 </Project>

@@ -9,6 +9,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Shared\IMS.Shared.Domain\IMS.Shared.Domain.csproj" />
+      <ProjectReference Include="..\IMS.Auth.IDAL\IMS.Auth.IDAL.csproj" />
+      <ProjectReference Include="..\IMS.Auth.Models\IMS.Auth.Models.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     </ItemGroup>
     
 </Project>

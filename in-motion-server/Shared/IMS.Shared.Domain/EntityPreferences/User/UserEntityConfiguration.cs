@@ -12,9 +12,18 @@ public class UserEntityConfiguration: IEntityTypeConfiguration<Entities.User.Use
 
         builder.HasIndex(u => u.Id);
 
+        builder.Property(u => u.Email)
+            .HasColumnName("email")
+            .IsRequired();
+
+        builder.Property(u => u.ActivationToken)
+            .HasColumnName("activation_token");
+
+        builder.Property(u => u.ConfirmedAccount)
+            .IsRequired();
+
         builder.Property(u => u.Bio)
             .HasColumnName("bio")
-            .IsRequired()
             .HasMaxLength(1024);
 
         builder.Property(u => u.Nickname)

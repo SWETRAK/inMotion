@@ -9,9 +9,20 @@ using IMS.Shared.Domain.EntityPreferences.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMS.Shared.Domain;
+ 
+/*
+To create migrations execute command 
+- dotnet ef migrations add Initial --context DomainDbContext 
 
+To generate sql script execute command 
+- dotnet ef migrations script --context DomainDbContext --output "../../../in-motion-database/scripts/ims-db-09.07.2023.sql"   
+*/
+
+/// <summary>
+/// Dont use this class for development instead use ImsDbContext
+/// </summary>
 public class DomainDbContext: DbContext
-{
+{ 
     public DbSet<User> Users { get; set; }
     public DbSet<UserProfileVideo> UserProfileVideos { get; set; } 
     public DbSet<Provider> Providers { get; set; }
@@ -29,7 +40,7 @@ public class DomainDbContext: DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql("Host=localhost;Database=inMotion;Username=postgres;Password=postgres");
+        optionsBuilder.UseNpgsql("");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

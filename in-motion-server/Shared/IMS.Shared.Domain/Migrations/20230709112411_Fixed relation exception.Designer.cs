@@ -3,6 +3,7 @@ using System;
 using IMS.Shared.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IMS.Shared.Domain.Migrations
 {
     [DbContext(typeof(DomainDbContext))]
-    partial class DomainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230709112411_Fixed relation exception")]
+    partial class Fixedrelationexception
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -398,7 +401,7 @@ namespace IMS.Shared.Domain.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("email");
+                        .HasColumnName("email`");
 
                     b.Property<string>("HashedPassword")
                         .HasColumnType("text")

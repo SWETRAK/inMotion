@@ -3,6 +3,7 @@ using System;
 using IMS.Shared.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IMS.Shared.Domain.Migrations
 {
     [DbContext(typeof(DomainDbContext))]
-    partial class DomainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230709111306_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -398,7 +401,7 @@ namespace IMS.Shared.Domain.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("email");
+                        .HasColumnName("email`");
 
                     b.Property<string>("HashedPassword")
                         .HasColumnType("text")
@@ -410,7 +413,7 @@ namespace IMS.Shared.Domain.Migrations
                         .HasColumnType("character varying(24)")
                         .HasColumnName("nickname");
 
-                    b.Property<Guid?>("ProfileVideoId")
+                    b.Property<Guid>("ProfileVideoId")
                         .HasColumnType("uuid")
                         .HasColumnName("profile_video_id");
 
@@ -636,7 +639,9 @@ namespace IMS.Shared.Domain.Migrations
                     b.HasOne("IMS.Shared.Domain.Entities.User.UserProfileVideo", "ProfileVideo")
                         .WithOne("Author")
                         .HasForeignKey("IMS.Shared.Domain.Entities.User.User", "ProfileVideoId")
-                        .HasPrincipalKey("IMS.Shared.Domain.Entities.User.UserProfileVideo", "AuthrorId");
+                        .HasPrincipalKey("IMS.Shared.Domain.Entities.User.UserProfileVideo", "AuthrorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ProfileVideo");
                 });
