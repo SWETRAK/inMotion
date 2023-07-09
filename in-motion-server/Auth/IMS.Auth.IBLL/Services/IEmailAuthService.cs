@@ -20,7 +20,7 @@ public interface IEmailAuthService
     /// </summary>
     /// <param name="requestDto">Request data which contains needed info</param>
     /// <returns>Registered user result</returns>
-    public Task<RegisterSuccessDto> RegisterWithEmail(RegisterUserWithEmailAndPasswordDto requestDto);
+    public Task<SuccessfulRegistrationResponseDto> RegisterWithEmail(RegisterUserWithEmailAndPasswordDto requestDto);
 
     /// <summary>
     /// Confirm user account via email

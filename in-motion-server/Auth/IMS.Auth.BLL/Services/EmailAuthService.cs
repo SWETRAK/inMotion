@@ -66,7 +66,7 @@ public class EmailAuthService : IEmailAuthService
     /// </summary>
     /// <param name="requestDto">Request data which contains needed info</param>
     /// <returns>Registered user result</returns>
-    public async Task<RegisterSuccessDto> RegisterWithEmail(RegisterUserWithEmailAndPasswordDto requestDto)
+    public async Task<SuccessfulRegistrationResponseDto> RegisterWithEmail(RegisterUserWithEmailAndPasswordDto requestDto)
     {
         var activationCode = Guid.NewGuid().ToString();
         
@@ -83,7 +83,7 @@ public class EmailAuthService : IEmailAuthService
         await _userRepository.Insert(newUser);
         await _userRepository.Save();
 
-        var result = new RegisterSuccessDto()
+        var result = new SuccessfulRegistrationResponseDto()
         {
             Email = newUser.Email
         };

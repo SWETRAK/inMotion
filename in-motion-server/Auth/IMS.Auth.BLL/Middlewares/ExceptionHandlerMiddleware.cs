@@ -22,7 +22,7 @@ public class ExceptionHandlerMiddleware: IMiddleware
         }
         catch (IncorrectLoginDataException exception)
         {
-            _logger.LogWarning("User with {RequestDataEmail} try to login but not found, {Exception}, {Message}", 
+            _logger.LogWarning("User with {RequestDataEmail} tried to login but wasn't found in database, {Exception}, {Message}", 
                 exception.Email, nameof(exception), exception.Message);
             await SendErrorResponse(context, StatusCodes.Status404NotFound, "User with this email not found", nameof(exception));
         }
@@ -40,7 +40,7 @@ public class ExceptionHandlerMiddleware: IMiddleware
         }
     }
 
-    private async Task SendErrorResponse(HttpContext context, int statusCode, string message, string exceptionTypeName)
+    private static async Task SendErrorResponse(HttpContext context, int statusCode, string message, string exceptionTypeName)
     {
         context.Response.StatusCode = statusCode;
         await context.Response.WriteAsJsonAsync(new ImsHttpError

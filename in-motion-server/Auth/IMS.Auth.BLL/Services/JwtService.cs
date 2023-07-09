@@ -5,6 +5,7 @@ using IMS.Auth.BLL.Authentication;
 using IMS.Auth.IBLL.Services;
 using IMS.Auth.Models;
 using IMS.Auth.Models.Exceptions;
+using IMS.Auth.Models.Models;
 using IMS.Shared.Domain.Entities.User;
 using Microsoft.IdentityModel.Tokens;
 
@@ -44,7 +45,7 @@ public class JwtService: IJwtService
         return tokenHandler.WriteToken(token);
     }
 
-    public JwtValidatedUser ValidateToken(string token)
+    public UserSuccessfulJwtValidation ValidateToken(string token)
     {
         if (token.IsNullOrEmpty())
         {
@@ -72,7 +73,7 @@ public class JwtService: IJwtService
             throw new IncorrectTokenUserIdException();
         }
         
-        return new JwtValidatedUser
+        return new UserSuccessfulJwtValidation
         {
             Id = userId,
             Email = jwtToken.Claims.First(x => x.Type == ClaimTypes.Email).Value,

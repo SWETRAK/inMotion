@@ -43,11 +43,11 @@ public class AuthController: ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<ImsHttpMessage<RegisterSuccessDto>>> RegisterWithEmailAndPassword(RegisterUserWithEmailAndPasswordDto requestDto)
+    public async Task<ActionResult<ImsHttpMessage<SuccessfulRegistrationResponseDto>>> RegisterWithEmailAndPassword(RegisterUserWithEmailAndPasswordDto requestDto)
     {
         var serverRequestTime = DateTime.UtcNow;
         var result = await _emailAuthService.RegisterWithEmail(requestDto);
-        return Created("",new ImsHttpMessage<RegisterSuccessDto>
+        return Created("",new ImsHttpMessage<SuccessfulRegistrationResponseDto>
         {
             Data = result,
             ServerRequestTime = serverRequestTime,

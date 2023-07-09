@@ -1,6 +1,6 @@
-namespace IMS.Auth.Models;
+namespace IMS.Auth.Models.Models;
 
-public class JwtValidatedUser
+public class UserSuccessfulJwtValidation
 {
     public Guid Id { get; set; }
     public string Email { get; set; }

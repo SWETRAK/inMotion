@@ -1,6 +1,6 @@
 namespace IMS.Auth.Models.Dto.Outgoing;
 
-public class RegisterSuccessDto
+public class SuccessfulRegistrationResponseDto
 {
     public string Email { get; set; }
 }
