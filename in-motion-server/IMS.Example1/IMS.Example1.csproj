@@ -22,4 +22,8 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Shared\IMS.Shared.Messaging\IMS.Shared.Messaging.csproj" />
+    </ItemGroup>
+
 </Project>

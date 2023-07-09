@@ -1,3 +1,5 @@
+using IMS.Shared.Messaging.Messages;
+using IMS.Shared.Messaging.Messages.JWT;
 using MassTransit;
 
 namespace IMS.Example1;
@@ -9,11 +11,15 @@ public static class MassTransitConfig
         serviceCollection.AddMassTransit(x =>
         {
             // If event should return something you need add AddRequestClient to sending object type 
-            x.AddConsumer<OrderConsumer>().Endpoint(e =>
-            {
-                e.Name = "order-service";
-            });
-            x.AddRequestClient<OrderDto>();
+            // x.AddConsumer<OrderConsumer>().Endpoint(e =>
+            // {
+            //     e.Name = "order-service";
+            // });
+            // x.AddRequestClient<OrderDto>();
+            
+            
+            //Add this line to have access to rabbitmq auth event queues 
+            x.AddRequestClient<ImsBaseMessage<RequestJwtValidationMessage>>(new Uri("exchange:validate-jwt-event"));
 
             x.UsingRabbitMq((context, cfg) =>
             {
