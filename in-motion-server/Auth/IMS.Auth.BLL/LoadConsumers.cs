@@ -1,32 +1,43 @@
 using IMS.Auth.BLL.Consumers;
+using IMS.Shared.Messaging;
 using MassTransit;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IMS.Auth.BLL;
 
 public static class LoadConsumers
 {
-    public static IServiceCollection AddAuthMassTransit(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddAuthMassTransit(this IServiceCollection serviceCollection, WebApplicationBuilder builder)
     {
+        var configuration = builder.Configuration;
+
+        var rabbitMqConfiguration = new RabbitMqConfiguration();
+        
+        configuration.GetSection("EventBus").Bind(rabbitMqConfiguration);
+        
         serviceCollection.AddMassTransit(x =>
         {
             x.AddConsumer<ValidateJwtTokenConsumer>().Endpoint(e =>
             {
-                e.Name = "validate-jwt-event";
+                e.Name = EventsBusNames.ValidateJwtEventName;
             });
 
             x.UsingRabbitMq((ctx, cfg) =>
             {
-                cfg.Host("localhost", "/", h =>
+                cfg.Host(rabbitMqConfiguration.Host, rabbitMqConfiguration.Port, "/", h =>
                 {
-                    h.Username("guest");
-                    h.Password("guest");
+                    h.Username(rabbitMqConfiguration.Username);
+                    h.Password(rabbitMqConfiguration.Password);
                 });
 
                 cfg.UseMessageRetry(r => r.Immediate(2));
                 cfg.ConfigureEndpoints(ctx);
             });
         });
+
+        serviceCollection.AddSingleton<RabbitMqConfiguration>(rabbitMqConfiguration);
         return serviceCollection;
     }
 }

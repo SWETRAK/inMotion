@@ -1,3 +1,4 @@
+using IMS.Shared.Messaging;
 using IMS.Shared.Messaging.Messages;
 using IMS.Shared.Messaging.Messages.JWT;
 using MassTransit;
@@ -19,7 +20,7 @@ public static class MassTransitConfig
             
             
             //Add this line to have access to rabbitmq auth event queues 
-            x.AddRequestClient<ImsBaseMessage<RequestJwtValidationMessage>>(new Uri("exchange:validate-jwt-event"));
+            x.AddRequestClient<ImsBaseMessage<RequestJwtValidationMessage>>(new Uri($"exchange:{EventsBusNames.ValidateJwtEventName}"));
 
             x.UsingRabbitMq((context, cfg) =>
             {
