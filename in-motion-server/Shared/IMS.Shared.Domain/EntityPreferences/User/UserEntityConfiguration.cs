@@ -13,7 +13,7 @@ public class UserEntityConfiguration: IEntityTypeConfiguration<Entities.User.Use
         builder.HasIndex(u => u.Id);
 
         builder.Property(u => u.Email)
-            .HasColumnName("email`")
+            .HasColumnName("email")
             .IsRequired();
 
         builder.Property(u => u.ActivationToken)

@@ -225,3 +225,12 @@ VALUES ('20230709112411_Fixed relation exception', '7.0.5');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE users RENAME COLUMN "email`" TO email;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20230709112908_Fixed user email name', '7.0.5');
+
+COMMIT;
+

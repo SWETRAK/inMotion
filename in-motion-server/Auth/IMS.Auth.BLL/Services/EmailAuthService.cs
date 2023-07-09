@@ -99,8 +99,9 @@ public class EmailAuthService : IEmailAuthService
     /// <exception cref="UserNotFoundException">If user with this email and activation code not found</exception>
     public async Task ConfirmRegisterWithEmail(string email, string token)
     {
+        Console.WriteLine(email);
         var user = await _userRepository.GetByEmailAsync(email);
-        if (user is null || user.ActivationToken == token)
+        if (user is null || !user.ActivationToken.Equals(token))
         {
             throw new UserNotFoundException(email);
         }
