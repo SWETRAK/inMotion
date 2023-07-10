@@ -37,6 +37,16 @@
             <artifactId>spring-boot</artifactId>
             <version>3.1.0</version>
         </dependency>
+
+        <!-- Data storage -->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>8.5.4</version>
+        </dependency>
+
+
+        <!-- Video and image manipulation -->
         <dependency>
             <groupId>com.squareup</groupId>
             <artifactId>gifencoder</artifactId>
@@ -52,14 +62,8 @@
             <artifactId>javacv-platform</artifactId>
             <version>1.5.9</version>
         </dependency>
-        <dependency>
-            <groupId>com.aspose</groupId>
-            <artifactId>aspose-imaging</artifactId>
-            <version>23.6</version>
-        </dependency>
-
-
     </dependencies>
+
 
 
     <build>
