@@ -7,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Host.AddAuthSerilog();
 
+builder.Services.AddAuthMassTransit(builder);
+
 builder.Services.AddControllers();
 
 builder.Services.AddAuthServices();

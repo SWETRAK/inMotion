@@ -40,10 +40,10 @@ public class EmailAuthService : IEmailAuthService
     /// <exception cref="IncorrectLoginDataException">Throws exception if user is not found</exception>
     public async Task<UserInfoDto> LoginWithEmail(LoginUserWithEmailAndPasswordDto requestData)
     {
-        var user = await _userRepository.GetByEmailAsync(requestData.Email);
+        var user = await _userRepository.GetByEmailAsync(requestData.Email.Trim().ToLower());
         if (user is null || user.HashedPassword.IsNullOrEmpty() || user.ConfirmedAccount is not true)
         {
-            throw new IncorrectLoginDataException(requestData.Email);
+            throw new IncorrectLoginDataException(requestData.Email.Trim().ToLower());
         }
 
         var passwordCheckResult = _passwordHasher.VerifyHashedPassword(user, user.HashedPassword, requestData.Password);
@@ -72,7 +72,7 @@ public class EmailAuthService : IEmailAuthService
         
         var newUser = new User
         {
-            Email = requestDto.Email,
+            Email = requestDto.Email.Trim().ToLower(),
             Nickname = requestDto.Nickname,
             ConfirmedAccount = false,
             ActivationToken = activationCode
