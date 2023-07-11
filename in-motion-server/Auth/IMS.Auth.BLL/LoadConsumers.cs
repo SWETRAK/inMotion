@@ -26,7 +26,7 @@ public static class LoadConsumers
 
             x.UsingRabbitMq((ctx, cfg) =>
             {
-                cfg.Host(rabbitMqConfiguration.Host, rabbitMqConfiguration.Port, "/", h =>
+                cfg.Host(rabbitMqConfiguration.Host, (ushort)rabbitMqConfiguration.Port, "/", h =>
                 {
                     h.Username(rabbitMqConfiguration.Username);
                     h.Password(rabbitMqConfiguration.Password);

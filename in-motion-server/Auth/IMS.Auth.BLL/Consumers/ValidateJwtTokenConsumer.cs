@@ -26,7 +26,7 @@ public class ValidateJwtTokenConsumer: IConsumer<ImsBaseMessage<RequestJwtValida
         var responseMessage = new ImsBaseMessage<ValidatedUserInfoMessage>();
         try
         {
-            var validationResult = _jwtService.ValidateToken(message.Data.JwtToken);
+            var validationResult = await _jwtService.ValidateToken(message.Data.JwtToken);
             var validationResultMessage = _mapper.Map<ValidatedUserInfoMessage>(validationResult);
             responseMessage.Data = validationResultMessage;
         }

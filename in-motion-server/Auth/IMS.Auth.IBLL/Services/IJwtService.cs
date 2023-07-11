@@ -7,5 +7,5 @@ namespace IMS.Auth.IBLL.Services;
 public interface IJwtService
 {
     public string GenerateJwtToken(User user);
-    public UserSuccessfulJwtValidation ValidateToken(string token);
+    public Task<UserSuccessfulJwtValidation> ValidateToken(string token);
 }

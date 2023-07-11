@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using IMS.Auth.BLL.Authentication;
 using IMS.Auth.IBLL.Services;
-using IMS.Auth.Models;
+using IMS.Auth.IDAL.Repositories;
 using IMS.Auth.Models.Exceptions;
 using IMS.Auth.Models.Models;
 using IMS.Shared.Domain.Entities.User;
@@ -14,21 +14,24 @@ namespace IMS.Auth.BLL.Services;
 public class JwtService: IJwtService
 {
     private readonly AuthenticationConfiguration _authenticationConfiguration;
+    private readonly IUserRepository _userRepository;
 
-    public JwtService(AuthenticationConfiguration authenticationConfiguration)
+    public JwtService(AuthenticationConfiguration authenticationConfiguration, IUserRepository userRepository)
     {
         _authenticationConfiguration = authenticationConfiguration;
+        _userRepository = userRepository;
     }
 
     public string GenerateJwtToken(User user)
     {
-        var claims = new List<Claim>()
+        var claims = new List<Claim>
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Email, user.Email),
-            new(ClaimTypes.Name, user.Nickname),    
+            new(ClaimTypes.Name, user.Nickname),
+            new (ClaimTypes.Role, user.Role.ToString())
         };
-        
+
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authenticationConfiguration.JwtKey));
         var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var expires = DateTime.Now.AddDays(_authenticationConfiguration.JwtExpireDays);
@@ -45,7 +48,7 @@ public class JwtService: IJwtService
         return tokenHandler.WriteToken(token);
     }
 
-    public UserSuccessfulJwtValidation ValidateToken(string token)
+    public async Task<UserSuccessfulJwtValidation> ValidateToken(string token)
     {
         if (token.IsNullOrEmpty())
         {
@@ -72,12 +75,19 @@ public class JwtService: IJwtService
         {
             throw new IncorrectTokenUserIdException();
         }
-        
+
+        var user = await _userRepository.GetByIdAsync(userId);
+        if (user is null)
+        {
+            throw new IncorrectTokenUserIdException();
+        }
+
         return new UserSuccessfulJwtValidation
         {
-            Id = userId,
-            Email = jwtToken.Claims.First(x => x.Type == ClaimTypes.Email).Value,
-            Nickname = jwtToken.Claims.First(x =>x.Type == ClaimTypes.Name).Value
+            Id = user.Id,
+            Email = user.Email,
+            Nickname = user.Nickname,
+            Role = user.Role.ToString(),
         };
     }
 }
