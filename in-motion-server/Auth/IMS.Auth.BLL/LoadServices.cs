@@ -11,6 +11,7 @@ public static class LoadServices
     public static IServiceCollection AddAuthServices(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddScoped<IEmailAuthService, EmailAuthService>();
+        serviceCollection.AddScoped<IGoogleAuthService, GoogleAuthService>();
         serviceCollection.AddScoped<IJwtService, JwtService>();
         serviceCollection.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
         

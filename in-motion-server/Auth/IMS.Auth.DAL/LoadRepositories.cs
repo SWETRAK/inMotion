@@ -11,6 +11,7 @@ public static class LoadRepositories
     {
         serviceCollection.AddDbContext<ImsDbContext>();
         serviceCollection.AddScoped<IUserRepository, UserRepository>();
+        serviceCollection.AddScoped<IProviderRepository, ProviderRepository>();
         return serviceCollection;
     }
 }

@@ -4,6 +4,7 @@ using IMS.Auth.IDAL.Repositories;
 using IMS.Auth.Models.Dto.Incoming;
 using IMS.Auth.Models.Dto.Outgoing;
 using IMS.Auth.Models.Exceptions;
+using IMS.Shared.Domain.Consts;
 using IMS.Shared.Domain.Entities.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -75,7 +76,8 @@ public class EmailAuthService : IEmailAuthService
             Email = requestDto.Email.Trim().ToLower(),
             Nickname = requestDto.Nickname,
             ConfirmedAccount = false,
-            ActivationToken = activationCode
+            ActivationToken = activationCode,
+            Role = Roles.User
         };
 
         // TODO: Send email to confirm user creation with email and activation code 
