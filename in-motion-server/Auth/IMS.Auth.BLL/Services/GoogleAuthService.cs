@@ -1,9 +1,11 @@
 using AutoMapper;
 using Google.Apis.Auth;
+using IMS.Auth.BLL.Authentication;
 using IMS.Auth.IBLL.Services;
 using IMS.Auth.IDAL.Repositories;
 using IMS.Auth.Models.Dto.Incoming;
 using IMS.Auth.Models.Dto.Outgoing;
+using IMS.Auth.Models.Exceptions;
 using IMS.Shared.Domain.Consts;
 using IMS.Shared.Domain.Entities.User;
 using IMS.Shared.Models.Dto;
@@ -17,19 +19,21 @@ public class GoogleAuthService : IGoogleAuthService
     private readonly ILogger<GoogleAuthService> _logger;
     private readonly IUserRepository _userRepository;
     private readonly IProviderRepository _providerRepository;
+    private readonly GoogleAuthenticationConfiguration _googleAuthenticationConfiguration;
     private readonly IMapper _mapper;
 
     public GoogleAuthService(
         IUserRepository userRepository,
         ILogger<GoogleAuthService> logger,
         IMapper mapper,
-        IProviderRepository providerRepository
-    )
+        IProviderRepository providerRepository, 
+        GoogleAuthenticationConfiguration googleAuthenticationConfiguration)
     {
         _userRepository = userRepository;
         _logger = logger;
         _mapper = mapper;
         _providerRepository = providerRepository;
+        _googleAuthenticationConfiguration = googleAuthenticationConfiguration;
     }
 
     public async Task<ImsHttpMessage<UserInfoDto>> SignIn(AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto)
@@ -37,9 +41,10 @@ public class GoogleAuthService : IGoogleAuthService
         var requestTime = DateTime.UtcNow;
         
         var payload = await ValidateGooglePayload(authenticateWithGoogleProviderDto.IdToken);
-        User user;
         
-        var provider = await _providerRepository.GetByTokenWithUserAsync(Providers.Google, authenticateWithGoogleProviderDto.IdToken);
+        User user;
+        var provider = await _providerRepository.GetByTokenWithUserAsync(
+            Providers.Google, authenticateWithGoogleProviderDto.IdToken);
         if (provider is null)
         {
             user = await CheckIfEmailTaken(payload, authenticateWithGoogleProviderDto.ProviderKey);
@@ -51,6 +56,7 @@ public class GoogleAuthService : IGoogleAuthService
 
         var userInfoDto = _mapper.Map<UserInfoDto>(user);
 
+        _logger.LogInformation("User successfully logged in with email {Email}",userInfoDto.Email);
         return new ImsHttpMessage<UserInfoDto>
         {
             ServerRequestTime = requestTime,
@@ -64,15 +70,14 @@ public class GoogleAuthService : IGoogleAuthService
     {
         var googleSettings = new GoogleJsonWebSignature.ValidationSettings
         {
-            Audience = new List<string>() { "https://accounts.google.com/o/oauth2/token" }
+            Audience = new List<string>() { _googleAuthenticationConfiguration.ClientId },
         };
 
         var payload = await GoogleJsonWebSignature.ValidateAsync(idToken, googleSettings);
 
         if (payload is null)
         {
-            // User not validated by Google
-            throw new Exception();
+            throw new IncorrectGoogleTokenException();
         }
 
         return payload;
@@ -83,8 +88,7 @@ public class GoogleAuthService : IGoogleAuthService
         var tempUser = await _userRepository.GetByEmailAsync(payload.Email);
         if (tempUser is not null)
         {
-            // User with email already exists
-            throw new Exception();
+            throw new UserWithEmailAlreadyExistsException(payload.Email);
         }
         return await CreateNewUserFromPayload(payload, providerKey);
     }
@@ -93,8 +97,7 @@ public class GoogleAuthService : IGoogleAuthService
     {
         if (provider.User.ConfirmedAccount is not true)
         {
-            // User is not active
-            throw new Exception();
+            throw new UserNotFoundException(provider.User.Email);
         }
         return provider.User;
     }

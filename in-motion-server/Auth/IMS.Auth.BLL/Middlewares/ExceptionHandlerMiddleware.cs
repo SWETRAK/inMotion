@@ -22,14 +22,24 @@ public class ExceptionHandlerMiddleware: IMiddleware
         }
         catch (IncorrectLoginDataException exception)
         {
-            _logger.LogWarning("User with {RequestDataEmail} tried to login but wasn't found in database, {Exception}, {Message}", 
+            _logger.LogWarning("User with {RequestDataEmail} tried to login but wasn't found in database, {Exception}, {Message}",
                 exception.Email, nameof(exception), exception.Message);
             await SendErrorResponse(context, StatusCodes.Status404NotFound, "User with this email not found", nameof(exception));
         }
         catch (UserNotFoundException exception)
         {
-            _logger.LogWarning("User with {Email} try to activate account, {Exception}, {Message}",exception.Email, nameof(exception), exception.Message);
-            await SendErrorResponse(context, StatusCodes.Status403Forbidden, "User not found or incorrect activation token", nameof(exception));
+            _logger.LogWarning("User with {Email} try to activate account, {Exception}, {Message}", exception.Email, nameof(exception), exception.Message);
+            await SendErrorResponse(context, StatusCodes.Status401Unauthorized, "User not found or incorrect activation token", nameof(exception));
+        }
+        catch (IncorrectGoogleTokenException exception)
+        {
+            _logger.LogWarning("User try to authenticate with incorrect google token, {Exception}, {Message}", exception, exception.Message);
+            await SendErrorResponse(context, StatusCodes.Status401Unauthorized, "User try to authenticate with incorrect google token", nameof(exception));
+        }
+        catch (UserWithEmailAlreadyExistsException exception)
+        {
+            _logger.LogError("User with {Email} try login with provider, {Exception}, {Message}", exception.Email, nameof(exception), exception.Message);
+            await SendErrorResponse(context, StatusCodes.Status401Unauthorized, "User try login with provider not related to account", nameof(exception));
         }
         catch (Exception exception)
         {

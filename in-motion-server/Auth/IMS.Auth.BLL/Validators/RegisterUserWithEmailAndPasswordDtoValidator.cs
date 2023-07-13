@@ -26,7 +26,5 @@ public class RegisterUserWithEmailAndPasswordDtoValidator: AbstractValidator<Reg
         RuleFor(dto => dto.RepeatPassword)
             .NotEmpty()
             .Equal(e => e.Password);
-
-
     }
 }
