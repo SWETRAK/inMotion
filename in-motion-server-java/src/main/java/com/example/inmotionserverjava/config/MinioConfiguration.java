@@ -1,5 +1,6 @@
 package com.example.inmotionserverjava.config;
 
+import com.example.inmotionserverjava.exceptions.minio.MinioConfigurationException;
 import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
@@ -21,6 +22,12 @@ import java.security.NoSuchAlgorithmException;
 @Configuration
 public class MinioConfiguration {
 
+    @Value("${minio.buckets.profile_videos}")
+    private String profileVideosBucket;
+
+    @Value("${minio.buckets.posts}")
+    private String postsBucket;
+
     @Value("${minio.access.key}")
     private String accessKey;
 
@@ -39,13 +46,18 @@ public class MinioConfiguration {
                 .endpoint(minioUrl)
                 .build();
         try {
-            if (!client.bucketExists(BucketExistsArgs.builder().bucket("cinehub").build())){
-                client.makeBucket(MakeBucketArgs.builder().bucket("cinehub").build());
+            if (!client.bucketExists(BucketExistsArgs.builder().bucket(profileVideosBucket).build())){
+                client.makeBucket(MakeBucketArgs.builder().bucket(profileVideosBucket).build());
             }
+
+            if (!client.bucketExists(BucketExistsArgs.builder().bucket(postsBucket).build())){
+                client.makeBucket(MakeBucketArgs.builder().bucket(postsBucket).build());
+            }
+
         } catch (InsufficientDataException | ErrorResponseException | IOException | NoSuchAlgorithmException |
                  InvalidKeyException | InvalidResponseException | XmlParserException | InternalException |
                  ServerException e) {
-            throw new RuntimeException(e);
+            throw new MinioConfigurationException(e.getMessage());
         }
 
         return client;

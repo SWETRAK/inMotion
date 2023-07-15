@@ -1,7 +1,9 @@
 package com.example.inmotionserverjava;
 
+import com.example.inmotionserverjava.exceptions.minio.MinioFilePostingException;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,54 +13,42 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 
 @Service
+@RequiredArgsConstructor
 public class MediaService {
 
-    @Value("${minio.bucket.name}")
-    private String bucketName;
+    @Value("${minio.buckets.profile_videos}")
+    private String profileVideosBucket;
+
+    @Value("${minio.buckets.posts}")
+    private String postsBucket;
     private final MinioClient minioClient;
+    private final Logger logger = LoggerFactory.getLogger(MediaService.class);
+    private final MP4ToSmallGifConverter mp4ToGifConverter;
 
-    private final Logger logger;
+    public void addProfileVideo(String filename, MultipartFile mp4File, String nickname) {
 
-    public MediaService(MinioClient minioClient) {
-        this.minioClient = minioClient;
-        this.logger = LoggerFactory.getLogger(MediaService.class);
-    }
+        byte[] gifFileBytes = mp4ToGifConverter.convert(mp4File);
 
-    public void addProfileGif(String filename, MultipartFile mp4File) {
-        MP4ToSmallGifConverter converter = new MP4ToSmallGifConverter(mp4File);
-        converter.convert();
-        byte[] gifFile = converter.getOutput();
         try {
             minioClient.putObject(PutObjectArgs.builder()
-                    .bucket(bucketName)
-                    .object(filename)
-                    .stream(new ByteArrayInputStream(gifFile), gifFile.length, -1)
+                    .bucket(profileVideosBucket)
+                    .object(nickname + "/gif/" + filename + ".gif")
+                    .stream(new ByteArrayInputStream(gifFileBytes), gifFileBytes.length, -1)
                     .contentType("image/gif")
                     .build());
+
+            byte[] mp4FileBytes =  mp4File.getBytes();
+
+            minioClient.putObject(PutObjectArgs.builder()
+                    .bucket(profileVideosBucket)
+                    .object(nickname + "/mp4/" + filename + ".mp4")
+                    .stream(new ByteArrayInputStream(mp4FileBytes), mp4FileBytes.length, -1)
+                    .contentType("video/mp4")
+                    .build());
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            throw new MinioFilePostingException();
         }
+
+        logger.info("User {} posted new profile video", nickname);
     }
-
-//    public Object getByFilename(String filename) {
-//        InputStream stream;
-//        try {
-//            stream = minioClient.getObject(GetObjectArgs.builder()
-//                    .bucket("cinehub")
-//                    .object(filename)
-//                    .build());
-//            return IOUtils.toByteArray(stream);
-//        } catch (Exception e) {
-//            throw new PosterNotFoundException(filename);
-//        }
-//    }
-
-//    @Override
-//    public void deleteByFilename(String filename) {
-//        try {
-//            minioClient.removeObject(RemoveObjectArgs.builder().bucket(bucketName).object(filename).build());
-//        } catch (Exception e){
-//            throw new PosterNotFoundException(filename);
-//        }
-//    }
 }
