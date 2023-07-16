@@ -11,7 +11,6 @@ services:
   postgres:
     image: postgres:14-alpine
     container_name: inMotion_postgresql
-    restart: always
     environment:
       - POSTGRES_PASSWORD=inMotionSecretPassword
     networks:
@@ -20,7 +19,6 @@ services:
   minio:
     image: bitnami/minio:latest
     container_name: inMotion_minio
-    restart: always
     ports:
       - "9000:9000"
       - "9001:9001"
@@ -33,7 +31,6 @@ services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: inMotion_rabbitmq
-    restart: always
     ports:    
       - "15672:15672"
     networks:
@@ -42,7 +39,6 @@ services:
   redis:
     image: redis:7-alpine
     container_name: inMotion_redis
-    restart: always
     networks:
       - backend
       
