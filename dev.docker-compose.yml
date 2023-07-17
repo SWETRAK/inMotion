@@ -1,0 +1,45 @@
+version: '3.9'
+
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    driver: bridge
+
+services:
+
+  postgres:
+    image: postgres:14-alpine
+    container_name: inMotion_postgresql
+    environment:
+      - POSTGRES_PASSWORD=inMotionSecretPassword
+    networks:
+      - backend
+
+  minio:
+    image: bitnami/minio:latest
+    container_name: inMotion_minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=inMotionMinioUser
+      - MINIO_ROOT_PASSWORD=inMotionSecretPassword
+    networks:
+      - backend
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: inMotion_rabbitmq
+    ports:    
+      - "15672:15672"
+    networks:
+      - backend
+
+  redis:
+    image: redis:7-alpine
+    container_name: inMotion_redis
+    networks:
+      - backend
+      
+  

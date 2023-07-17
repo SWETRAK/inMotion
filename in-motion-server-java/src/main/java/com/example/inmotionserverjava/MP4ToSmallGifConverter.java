@@ -1,5 +1,8 @@
 package com.example.inmotionserverjava;
 
+import com.example.inmotionserverjava.exceptions.converter.BadFileExtensionException;
+import com.example.inmotionserverjava.exceptions.converter.ConversionException;
+import com.example.inmotionserverjava.exceptions.converter.FrameExtractionException;
 import com.squareup.gifencoder.FloydSteinbergDitherer;
 import com.squareup.gifencoder.GifEncoder;
 import com.squareup.gifencoder.ImageOptions;
@@ -8,104 +11,112 @@ import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.Java2DFrameConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import static org.bytedeco.ffmpeg.global.swscale.SWS_BICUBIC;
 
+@Component
 public class MP4ToSmallGifConverter {
 
     private static final int OUTPUT_IMAGE_WIDTH = 96;
     private static final int OUTPUT_IMAGE_HEIGHT = 128;
     private static final int OUTPUT_IMAGE_FRAME_QUANTITY = 75;
-
     private static final int DELAY = 50;
-
-    private final MultipartFile mp4File;
-
-    private final byte[] output;
-
+    private MultipartFile mp4File;
+    private byte[] output;
+    private FFmpegFrameGrabber frameGrabber;
+    private ImageOptions imageOptions;
     private final Logger logger;
 
-    private final FFmpegFrameGrabber frameGrabber;
-
-    private final ImageOptions imageOptions;
-
-
-    public MP4ToSmallGifConverter(MultipartFile mp4File) {
-        this.mp4File = mp4File;
-        this.output = null;
+    public MP4ToSmallGifConverter() {
         this.logger = LoggerFactory.getLogger(this.getClass());
-        this.frameGrabber = frameGrabber();
-        this.imageOptions = imageOptions();
-
     }
 
-    public void convert() {
+    public byte[] convert(MultipartFile mp4File) {
+        init(mp4File);
+
         long startTime = System.currentTimeMillis();
         logger.info("Begining gif creation");
-        try (OutputStream outputStream = new ByteArrayOutputStream()) {
-            GifEncoder gifEncoder = new GifEncoder(outputStream, OUTPUT_IMAGE_WIDTH, OUTPUT_IMAGE_HEIGHT, 0);
-            for (BufferedImage singleFrame : getVideoFrames()) {
-                gifEncoder.addImage(convertImageToArray(singleFrame), imageOptions);
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+            GifEncoder gifEncoder = new GifEncoder(outputStream, OUTPUT_IMAGE_WIDTH, OUTPUT_IMAGE_HEIGHT, 100);
+
+            int[][][] videoFrames = getVideoFrames();
+
+            for (int i = 0; i < OUTPUT_IMAGE_FRAME_QUANTITY; i++) {
+                gifEncoder.addImage(videoFrames[i], imageOptions);
             }
+
             gifEncoder.finishEncoding();
-            outputStream.write(output);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
+            this.output = outputStream.toByteArray();
+        } catch (IOException e) {
+            throw new ConversionException(e.getMessage());
         }
 
         String finishMessage = String.format("Conversion time: %d seconds ", (System.currentTimeMillis() - startTime) / 1000);
         logger.info(finishMessage);
+
+        return this.output;
     }
 
-    private BufferedImage[] getVideoFrames() {
+    private void init(MultipartFile mp4File){
+        if(!Objects.requireNonNull(mp4File.getOriginalFilename()).toLowerCase().endsWith("mp4")){
+            throw new BadFileExtensionException();
+        }
+        this.mp4File = mp4File;
+        this.output = null;
+        this.frameGrabber = frameGrabber();
+        this.imageOptions = imageOptions();
+    }
+
+    private int[][][] getVideoFrames() {
+        int[][][] frames = new int[OUTPUT_IMAGE_FRAME_QUANTITY][OUTPUT_IMAGE_WIDTH][OUTPUT_IMAGE_HEIGHT];
         try (Java2DFrameConverter frameConverter = new Java2DFrameConverter()) {
+            int pendingFrame = 0;
             int parsedFrame = 0;
             int skipFrames = (int) frameGrabber.getFrameRate() / 15;
             Frame frame;
-            BufferedImage[] videoFrames = new BufferedImage[OUTPUT_IMAGE_FRAME_QUANTITY];
+
             while (parsedFrame < OUTPUT_IMAGE_FRAME_QUANTITY) {
                 frame = frameGrabber.grabFrame(false, true, true, false, false);
-                if (parsedFrame % skipFrames == 0)
-                    videoFrames[parsedFrame] = frameConverter.convert(frame);
-                parsedFrame++;
+                if (pendingFrame % skipFrames == 0) {
+                    frames[parsedFrame] = convertImageToArray(frameConverter.convert(frame));
+                    parsedFrame++;
+                }
+                pendingFrame++;
             }
+
             frameGrabber.stop();
-            return videoFrames;
         } catch (FFmpegFrameGrabber.Exception e) {
-            logger.error(e.getMessage());
+            throw new FrameExtractionException(e.getMessage());
         }
-        return new BufferedImage[0];
+
+        return frames;
     }
 
     private FFmpegFrameGrabber frameGrabber() {
         try {
             FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(mp4File.getInputStream());
-
             grabber.start();
             grabber.setImageWidth(96);
             grabber.setImageHeight(128);
             grabber.setImageScalingFlags(SWS_BICUBIC);
             return grabber;
-        } catch (FFmpegFrameGrabber.Exception ex) {
-            logger.error("Couldn't start frameGrabber");
         } catch (IOException e) {
-            logger.error("Couldn't get input stream of file");
+            throw new FrameExtractionException(e.getMessage());
         }
-
-        return null;
     }
 
     private ImageOptions imageOptions() {
         ImageOptions options = new ImageOptions();
-        options.setDitherer(FloydSteinbergDitherer.INSTANCE);
         options.setDelay(DELAY, TimeUnit.MILLISECONDS);
+        options.setDitherer(FloydSteinbergDitherer.INSTANCE);
         return options;
     }
 
