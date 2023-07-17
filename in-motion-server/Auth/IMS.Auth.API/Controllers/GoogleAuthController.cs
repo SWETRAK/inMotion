@@ -19,18 +19,12 @@ public class GoogleAuthController: ControllerBase
         _logger = logger;
     }
 
-    [HttpPost]
+    [HttpPost("login")]
     public async Task<ActionResult<ImsHttpMessage<UserInfoDto>>> SignIn(
         AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto)
     {
         var token = await _googleAuthService.SignIn(authenticateWithGoogleProviderDto);
+        _logger.LogInformation("User logged in successfully with Google provider");
         return Ok(token);
     }
-
-    // [HttpPost]
-    // public async Task<ActionResult<ImsHttpMessage<bool>>> AddGoogleProviderToExistingAccount(
-    //     AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto)
-    // {
-    //     throw new NotImplementedException();
-    // }
 }
