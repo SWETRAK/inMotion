@@ -27,10 +27,10 @@ public class GoogleAuthController: ControllerBase
         return Ok(token);
     }
 
-    [HttpPost]
-    public async Task<ActionResult<ImsHttpMessage<bool>>> AddGoogleProviderToExistingAccount(
-        AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto)
-    {
-        throw new NotImplementedException();
-    }
+    // [HttpPost]
+    // public async Task<ActionResult<ImsHttpMessage<bool>>> AddGoogleProviderToExistingAccount(
+    //     AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto)
+    // {
+    //     throw new NotImplementedException();
+    // }
 }
