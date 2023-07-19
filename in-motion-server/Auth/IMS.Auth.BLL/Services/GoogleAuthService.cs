@@ -81,16 +81,27 @@ public class GoogleAuthService : IGoogleAuthService
         }
 
         var payload = await ValidateGooglePayload(authenticateWithGoogleProviderDto.IdToken);
-
+        
+        if (payload is null)
+        {
+            throw new Exception();
+        }
+        
         var user = await _userRepository.GetByIdAsync(userId);
 
         if (user is null)
         {
             throw new Exception();
         }
+        
+        var oldProvider = user.Providers.FirstOrDefault(x => x.AuthKey == authenticateWithGoogleProviderDto.ProviderKey);
 
-        var newProvider = CreateNewProvider(authenticateWithGoogleProviderDto.ProviderKey);
-        newProvider.User = user;
+        if (oldProvider is not null)
+        {
+            throw new Exception();
+        }
+
+        user.Providers = user.Providers.Append(CreateNewProvider(authenticateWithGoogleProviderDto.ProviderKey));
 
         await _userRepository.Save();
     }
