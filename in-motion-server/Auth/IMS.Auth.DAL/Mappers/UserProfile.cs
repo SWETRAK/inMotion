@@ -1,7 +1,7 @@
 using AutoMapper;
+using IMS.Auth.Domain.Entities;
 using IMS.Auth.Models.Dto.Outgoing;
 using IMS.Auth.Models.Models;
-using IMS.Shared.Domain.Entities.User;
 using IMS.Shared.Messaging.Messages.JWT;
 
 namespace IMS.Auth.DAL.Mappers;

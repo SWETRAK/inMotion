@@ -1,17 +1,17 @@
+using IMS.Auth.Domain;
+using IMS.Auth.Domain.Consts;
+using IMS.Auth.Domain.Entities;
 using IMS.Auth.IDAL.Repositories;
-using IMS.Shared.Domain;
-using IMS.Shared.Domain.Consts;
-using IMS.Shared.Domain.Entities.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMS.Auth.DAL.Repositories;
 
 public class ProviderRepository: IProviderRepository
 {
-    private readonly ImsDbContext _context;
+    private readonly ImsAuthDbContext _context;
     private bool _disposed = false;
 
-    public ProviderRepository(ImsDbContext context)
+    public ProviderRepository(ImsAuthDbContext context)
     {
         _context = context;
     }

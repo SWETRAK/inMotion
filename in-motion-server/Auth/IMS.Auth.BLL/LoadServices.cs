@@ -1,6 +1,6 @@
 using IMS.Auth.BLL.Services;
+using IMS.Auth.Domain.Entities;
 using IMS.Auth.IBLL.Services;
-using IMS.Shared.Domain.Entities.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 

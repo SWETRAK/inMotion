@@ -1,6 +1,5 @@
-using IMS.Auth.Models;
+using IMS.Auth.Domain.Entities;
 using IMS.Auth.Models.Models;
-using IMS.Shared.Domain.Entities.User;
 
 namespace IMS.Auth.IBLL.Services;
 

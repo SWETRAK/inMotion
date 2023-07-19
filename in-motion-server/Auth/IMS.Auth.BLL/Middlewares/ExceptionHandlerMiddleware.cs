@@ -38,12 +38,12 @@ public class ExceptionHandlerMiddleware: IMiddleware
         }
         catch (UserWithEmailAlreadyExistsException exception)
         {
-            _logger.LogError("User with {Email} try login with provider, {Exception}, {Message}", exception.Email, nameof(exception), exception.Message);
+            _logger.LogWarning("User with {Email} try login with provider, {Exception}, {Message}", exception.Email, nameof(exception), exception.Message);
             await SendErrorResponse(context, StatusCodes.Status401Unauthorized, "User try login with provider not related to account", nameof(exception));
         }
         catch (Exception exception)
         {
-            _logger.LogWarning("{ExceptionName}, {Exception}, {Message}",
+            _logger.LogError("{ExceptionName}, {Exception}, {Message}",
                 nameof(exception), exception, exception.Message);
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             await SendErrorResponse(context, StatusCodes.Status500InternalServerError, "InternalServerError", nameof(exception));

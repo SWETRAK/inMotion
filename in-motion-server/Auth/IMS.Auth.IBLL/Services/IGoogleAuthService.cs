@@ -7,4 +7,6 @@ namespace IMS.Auth.IBLL.Services;
 public interface IGoogleAuthService
 {
     Task<ImsHttpMessage<UserInfoDto>> SignIn(AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto);
+
+    Task AddGoogleProvider(AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto, string userIdString);
 }

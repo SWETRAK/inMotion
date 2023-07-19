@@ -14,10 +14,11 @@ public class ValidateJwtTokenConsumer: IConsumer<ImsBaseMessage<RequestJwtValida
     private readonly IMapper _mapper;
     private readonly ILogger<ValidateJwtTokenConsumer> _logger;
 
-    public ValidateJwtTokenConsumer(IJwtService jwtService, IMapper mapper)
+    public ValidateJwtTokenConsumer(IJwtService jwtService, IMapper mapper, ILogger<ValidateJwtTokenConsumer> logger)
     {
         _jwtService = jwtService;
         _mapper = mapper;
+        _logger = logger;
     }
     
     public async Task Consume(ConsumeContext<ImsBaseMessage<RequestJwtValidationMessage>> context)

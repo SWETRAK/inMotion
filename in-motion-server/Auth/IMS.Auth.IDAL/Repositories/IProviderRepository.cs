@@ -1,5 +1,5 @@
-using IMS.Shared.Domain.Consts;
-using IMS.Shared.Domain.Entities.User;
+using IMS.Auth.Domain.Consts;
+using IMS.Auth.Domain.Entities;
 
 namespace IMS.Auth.IDAL.Repositories;
 

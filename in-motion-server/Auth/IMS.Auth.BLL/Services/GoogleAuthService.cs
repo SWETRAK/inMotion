@@ -1,13 +1,13 @@
 using AutoMapper;
 using Google.Apis.Auth;
 using IMS.Auth.BLL.Authentication;
+using IMS.Auth.Domain.Consts;
+using IMS.Auth.Domain.Entities;
 using IMS.Auth.IBLL.Services;
 using IMS.Auth.IDAL.Repositories;
 using IMS.Auth.Models.Dto.Incoming;
 using IMS.Auth.Models.Dto.Outgoing;
 using IMS.Auth.Models.Exceptions;
-using IMS.Shared.Domain.Consts;
-using IMS.Shared.Domain.Entities.User;
 using IMS.Shared.Models.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -29,10 +29,10 @@ public class GoogleAuthService : IGoogleAuthService
         IProviderRepository providerRepository, 
         GoogleAuthenticationConfiguration googleAuthenticationConfiguration)
     {
-        _userRepository = userRepository;
         _logger = logger;
         _mapper = mapper;
         _providerRepository = providerRepository;
+        _userRepository = userRepository;
         _googleAuthenticationConfiguration = googleAuthenticationConfiguration;
     }
 
@@ -66,6 +66,35 @@ public class GoogleAuthService : IGoogleAuthService
         };
     }
 
+    public async Task AddGoogleProvider(AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto, string userIdString)
+    {
+        var requestTime = DateTime.UtcNow;
+
+        if (userIdString is null)
+        {
+            throw new Exception();
+        }
+
+        if (!Guid.TryParse(userIdString, out var userId))
+        {
+            throw new Exception();
+        }
+
+        var payload = await ValidateGooglePayload(authenticateWithGoogleProviderDto.IdToken);
+
+        var user = await _userRepository.GetByIdAsync(userId);
+
+        if (user is null)
+        {
+            throw new Exception();
+        }
+
+        var newProvider = CreateNewProvider(authenticateWithGoogleProviderDto.ProviderKey);
+        newProvider.User = user;
+
+        await _userRepository.Save();
+    }
+    
     private async Task<GoogleJsonWebSignature.Payload> ValidateGooglePayload(string idToken)
     {
         var googleSettings = new GoogleJsonWebSignature.ValidationSettings
@@ -105,12 +134,8 @@ public class GoogleAuthService : IGoogleAuthService
     private async Task<User> CreateNewUserFromPayload(GoogleJsonWebSignature.Payload payload, string providerKey)
     {
         var activationCode = Guid.NewGuid().ToString();
-        
-        var newProvider = new Provider
-        {
-            AuthKey = providerKey,
-            Name = Providers.Google,
-        };
+
+        var newProvider = CreateNewProvider(providerKey);
         
         var user = new User
         {
@@ -126,5 +151,14 @@ public class GoogleAuthService : IGoogleAuthService
         await _userRepository.Save();
         
         return user;
+    }
+
+    private Provider CreateNewProvider(string providerKey)
+    {
+        return new Provider
+        {
+            AuthKey = providerKey,
+            Name = Providers.Google,
+        };
     }
 }

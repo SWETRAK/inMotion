@@ -1,7 +1,9 @@
+using IMS.Auth.BLL.Utils;
 using IMS.Auth.IBLL.Services;
 using IMS.Auth.Models.Dto.Incoming;
 using IMS.Auth.Models.Dto.Outgoing;
 using IMS.Shared.Models.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMS.Auth.App.Controllers;
@@ -21,10 +23,20 @@ public class GoogleAuthController: ControllerBase
 
     [HttpPost("login")]
     public async Task<ActionResult<ImsHttpMessage<UserInfoDto>>> SignIn(
-        AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto)
+        [FromBody] AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto)
     {
-        var token = await _googleAuthService.SignIn(authenticateWithGoogleProviderDto);
+        var result = await _googleAuthService.SignIn(authenticateWithGoogleProviderDto);
         _logger.LogInformation("User logged in successfully with Google provider");
-        return Ok(token);
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpPost("add/google")]
+    public async Task<ActionResult> AddGoogleProvider(
+        [FromBody] AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto)
+    {
+        var userIdString = AuthenticationUtil.GetUserId(HttpContext.User);
+        await _googleAuthService.AddGoogleProvider(authenticateWithGoogleProviderDto, userIdString);
+        return Ok();
     }
 }
