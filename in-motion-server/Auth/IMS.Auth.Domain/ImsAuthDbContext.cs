@@ -19,11 +19,15 @@ public class ImsAuthDbContext: DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql(_configuration.GetConnectionString("WebApiDatabase"));
+        optionsBuilder.UseNpgsql(_configuration.GetConnectionString("WebApiDatabase"), x =>
+        {
+            x.MigrationsAssembly("IMS.Auth.API");
+        });
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasDefaultSchema("auth");
         new UserEntityConfiguration().Configure(modelBuilder.Entity<User>());
         new ProviderEntityConfiguration().Configure(modelBuilder.Entity<Provider>());
     }
