@@ -30,12 +30,13 @@ public class GoogleAuthController: ControllerBase
         return Ok(result);
     }
 
-    [Authorize]
+    // [Authorize]
     [HttpPost("add/google")]
     public async Task<ActionResult> AddGoogleProvider(
         [FromBody] AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto)
     {
-        var userIdString = AuthenticationUtil.GetUserId(HttpContext.User);
+        // var userIdString = AuthenticationUtil.GetUserId(HttpContext.User);
+        var userIdString = "b28b528c-64d5-4f87-b43b-cc5d167c0180";
         await _googleAuthService.AddGoogleProvider(authenticateWithGoogleProviderDto, userIdString);
         return Ok();
     }

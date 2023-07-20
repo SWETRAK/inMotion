@@ -94,16 +94,23 @@ public class GoogleAuthService : IGoogleAuthService
         {
             throw new Exception();
         }
-        
-        var oldProvider = user.Providers.FirstOrDefault(x => x.AuthKey == authenticateWithGoogleProviderDto.ProviderKey);
 
-        if (oldProvider is not null)
+        if (user.Providers == null)
         {
-            throw new Exception();
+            user.Providers = new [] {CreateNewProvider(authenticateWithGoogleProviderDto.ProviderKey)};
         }
+        else
+        {
+            var oldProvider = user.Providers.FirstOrDefault(x => x.AuthKey == authenticateWithGoogleProviderDto.ProviderKey);
 
-        user.Providers = user.Providers.Append(CreateNewProvider(authenticateWithGoogleProviderDto.ProviderKey));
+            if (oldProvider is not null)
+            {
+                throw new Exception();
+            }
 
+            user.Providers = user.Providers.Append(CreateNewProvider(authenticateWithGoogleProviderDto.ProviderKey));
+        }
+        
         await _userRepository.Save();
     }
     
@@ -115,7 +122,7 @@ public class GoogleAuthService : IGoogleAuthService
         };
 
         var payload = await GoogleJsonWebSignature.ValidateAsync(idToken, googleSettings);
-
+        
         if (payload is null)
         {
             throw new IncorrectGoogleTokenException();
@@ -167,6 +174,7 @@ public class GoogleAuthService : IGoogleAuthService
 
     private Provider CreateNewProvider(string providerKey)
     {
+        Console.WriteLine(providerKey);
         return new Provider
         {
             AuthKey = providerKey,
