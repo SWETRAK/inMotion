@@ -65,34 +65,33 @@ public class GoogleAuthService : IGoogleAuthService
             Data = userInfoDto
         };
     }
-
-    //TODO: Implement exceptions instead of throwing default exception
-    public async Task AddGoogleProvider(AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto, string userIdString)
+    
+    public async Task<ImsHttpMessage<bool>> AddGoogleProvider(AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto, string userIdString)
     {
         var requestTime = DateTime.UtcNow;
 
         if (userIdString is null)
         {
-            throw new Exception();
+            throw new InvalidUserGuidStringException();
         }
 
         if (!Guid.TryParse(userIdString, out var userId))
         {
-            throw new Exception();
+            throw new UserGuidStringEmptyException();
         }
 
         var payload = await ValidateGooglePayload(authenticateWithGoogleProviderDto.IdToken);
         
         if (payload is null)
         {
-            throw new Exception();
+            throw new InvalidUserGuidStringException();
         }
         
         var user = await _userRepository.GetByIdAsync(userId);
 
         if (user is null)
         {
-            throw new Exception();
+            throw new UserNotFoundException();
         }
 
         if (user.Providers == null)
@@ -112,6 +111,14 @@ public class GoogleAuthService : IGoogleAuthService
         }
         
         await _userRepository.Save();
+
+        return new ImsHttpMessage<bool>()
+        {
+            ServerRequestTime = requestTime,
+            ServerResponseTime = DateTime.UtcNow,
+            Status = StatusCodes.Status200OK,
+            Data = true
+        };
     }
     
     private async Task<GoogleJsonWebSignature.Payload> ValidateGooglePayload(string idToken)

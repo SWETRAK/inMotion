@@ -19,5 +19,5 @@ public interface IGoogleAuthService
     /// <param name="authenticateWithGoogleProviderDto"></param>
     /// <param name="userIdString"></param>
     /// <returns></returns>
-    Task AddGoogleProvider(AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto, string userIdString);
+    Task<ImsHttpMessage<bool>> AddGoogleProvider(AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto, string userIdString);
 }

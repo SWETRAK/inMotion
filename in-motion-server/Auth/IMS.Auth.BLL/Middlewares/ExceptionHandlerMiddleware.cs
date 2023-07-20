@@ -41,6 +41,16 @@ public class ExceptionHandlerMiddleware: IMiddleware
             _logger.LogWarning("User with {Email} try login with provider, {Exception}, {Message}", exception.Email, nameof(exception), exception.Message);
             await SendErrorResponse(context, StatusCodes.Status401Unauthorized, "User try login with provider not related to account", nameof(exception));
         }
+        catch (InvalidUserGuidStringException exception)
+        {
+            _logger.LogWarning("User Guid cant be Parsed, {Exception}, {Message}", exception, exception.Message);
+            await SendErrorResponse(context, StatusCodes.Status401Unauthorized, "User try to authenticate with incorrect google token", nameof(exception));
+        }
+        catch (UserGuidStringEmptyException exception)
+        {
+            _logger.LogWarning("User Guid string is empty, {Exception}, {Message}", exception, exception.Message);
+            await SendErrorResponse(context, StatusCodes.Status401Unauthorized, "User Guid string is empty", nameof(exception));
+        }
         catch (Exception exception)
         {
             _logger.LogError("{ExceptionName}, {Exception}, {Message}",
