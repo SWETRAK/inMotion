@@ -5,13 +5,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace IMS.Auth.Domain;
 
-public class ImsAuthDbContext: DbContext
+public class ImsAuthDbContext : DbContext
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Provider> Providers { get; set; }
-    
+
     private readonly IConfiguration _configuration;
-    
+
     public ImsAuthDbContext(IConfiguration configuration)
     {
         _configuration = configuration;
@@ -19,10 +19,9 @@ public class ImsAuthDbContext: DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseNpgsql(_configuration.GetConnectionString("WebApiDatabase"), x =>
-        {
-            x.MigrationsAssembly("IMS.Auth.API");
-        });
+        optionsBuilder.UseNpgsql(
+            _configuration.GetConnectionString("WebApiDatabase"),
+            x => x.MigrationsAssembly("IMS.Auth.API"));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

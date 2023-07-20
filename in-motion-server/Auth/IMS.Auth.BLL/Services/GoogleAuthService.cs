@@ -66,6 +66,7 @@ public class GoogleAuthService : IGoogleAuthService
         };
     }
 
+    //TODO: Implement exceptions instead of throwing default exception
     public async Task AddGoogleProvider(AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto, string userIdString)
     {
         var requestTime = DateTime.UtcNow;
