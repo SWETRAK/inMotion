@@ -29,10 +29,9 @@ public class GoogleAuthController: ControllerBase
         _logger.LogInformation("User logged in successfully with Google provider");
         return Ok(result);
     }
-
-    //TODO: Move this to separate controller in future  
+    
     [Authorize]
-    [HttpPost("add/google")]
+    [HttpPost("add")]
     public async Task<ActionResult<ImsHttpMessage<bool>>> AddGoogleProvider(
         [FromBody] AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto)
     {
