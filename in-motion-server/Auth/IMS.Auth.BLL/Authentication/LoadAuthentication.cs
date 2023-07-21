@@ -14,7 +14,10 @@ public static class LoadAuthentication
 
         var authenticationConfiguration = new AuthenticationConfiguration();
         configuration.GetSection("Authentication").Bind(authenticationConfiguration);
-        
+
+        var googleAuthenticationConfiguration = new GoogleAuthenticationConfiguration();
+        configuration.GetSection("GoogleAuthentication").Bind(googleAuthenticationConfiguration);
+
         services
             .AddAuthentication(options =>
             {
@@ -35,6 +38,7 @@ public static class LoadAuthentication
             });
 
         services.AddSingleton<AuthenticationConfiguration>(authenticationConfiguration);
+        services.AddSingleton<GoogleAuthenticationConfiguration>(googleAuthenticationConfiguration);
         return services;
     }
 }

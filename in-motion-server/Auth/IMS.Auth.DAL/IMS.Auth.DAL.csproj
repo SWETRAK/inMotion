@@ -8,7 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Shared\IMS.Shared.Domain\IMS.Shared.Domain.csproj" />
       <ProjectReference Include="..\..\Shared\IMS.Shared.Messaging\IMS.Shared.Messaging.csproj" />
       <ProjectReference Include="..\IMS.Auth.IDAL\IMS.Auth.IDAL.csproj" />
       <ProjectReference Include="..\IMS.Auth.Models\IMS.Auth.Models.csproj" />

@@ -1,16 +1,16 @@
+using IMS.Auth.Domain;
+using IMS.Auth.Domain.Entities;
 using IMS.Auth.IDAL.Repositories;
-using IMS.Shared.Domain;
-using IMS.Shared.Domain.Entities.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMS.Auth.DAL.Repositories;
 
 public sealed class UserRepository: IUserRepository
 {
-    private readonly ImsDbContext _context;
+    private readonly ImsAuthDbContext _context;
     private bool _disposed = false;
 
-    public UserRepository(ImsDbContext context)
+    public UserRepository(ImsAuthDbContext context)
     {
         _context = context;
     }
@@ -28,6 +28,14 @@ public sealed class UserRepository: IUserRepository
     public async Task<User> GetByIdAsync(Guid userId)
     {
         return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+    }
+
+    public async Task<User> GetByIdWithProvidersAsync(Guid userId)
+    {
+        return await _context
+            .Users
+            .Include(x => x.Providers)
+            .FirstOrDefaultAsync(u => u.Id == userId);
     }
 
     public async Task Insert(User user)

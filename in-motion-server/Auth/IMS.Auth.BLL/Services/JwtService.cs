@@ -2,11 +2,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using IMS.Auth.BLL.Authentication;
+using IMS.Auth.Domain.Entities;
 using IMS.Auth.IBLL.Services;
 using IMS.Auth.IDAL.Repositories;
 using IMS.Auth.Models.Exceptions;
 using IMS.Auth.Models.Models;
-using IMS.Shared.Domain.Entities.User;
 using Microsoft.IdentityModel.Tokens;
 
 namespace IMS.Auth.BLL.Services;

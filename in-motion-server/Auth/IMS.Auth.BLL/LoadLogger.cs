@@ -11,7 +11,7 @@ public static class LoadLogger
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .Enrich.FromLogContext()
-            .WriteTo.File(System.IO.Path.Combine("Logs", "history.log"),
+            .WriteTo.File(Path.Combine("Logs", "history.log"),
                 rollingInterval: RollingInterval.Day,
                 fileSizeLimitBytes: 10 * 1024 * 1024,
                 retainedFileCountLimit: 2,

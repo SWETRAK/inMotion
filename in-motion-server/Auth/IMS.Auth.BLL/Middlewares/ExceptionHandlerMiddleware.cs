@@ -22,18 +22,38 @@ public class ExceptionHandlerMiddleware: IMiddleware
         }
         catch (IncorrectLoginDataException exception)
         {
-            _logger.LogWarning("User with {RequestDataEmail} tried to login but wasn't found in database, {Exception}, {Message}", 
+            _logger.LogWarning("User with {RequestDataEmail} tried to login but wasn't found in database, {Exception}, {Message}",
                 exception.Email, nameof(exception), exception.Message);
             await SendErrorResponse(context, StatusCodes.Status404NotFound, "User with this email not found", nameof(exception));
         }
         catch (UserNotFoundException exception)
         {
-            _logger.LogWarning("User with {Email} try to activate account, {Exception}, {Message}",exception.Email, nameof(exception), exception.Message);
-            await SendErrorResponse(context, StatusCodes.Status403Forbidden, "User not found or incorrect activation token", nameof(exception));
+            _logger.LogWarning("User with {Email} try to activate account, {Exception}, {Message}", exception.Email, nameof(exception), exception.Message);
+            await SendErrorResponse(context, StatusCodes.Status401Unauthorized, "User not found or incorrect activation token", nameof(exception));
+        }
+        catch (IncorrectGoogleTokenException exception)
+        {
+            _logger.LogWarning("User try to authenticate with incorrect google token, {Exception}, {Message}", exception, exception.Message);
+            await SendErrorResponse(context, StatusCodes.Status401Unauthorized, "User try to authenticate with incorrect google token", nameof(exception));
+        }
+        catch (UserWithEmailAlreadyExistsException exception)
+        {
+            _logger.LogWarning("User with {Email} try login with provider, {Exception}, {Message}", exception.Email, nameof(exception), exception.Message);
+            await SendErrorResponse(context, StatusCodes.Status401Unauthorized, "User try login with provider not related to account", nameof(exception));
+        }
+        catch (InvalidUserGuidStringException exception)
+        {
+            _logger.LogWarning("User Guid cant be Parsed, {Exception}, {Message}", exception, exception.Message);
+            await SendErrorResponse(context, StatusCodes.Status401Unauthorized, "User try to authenticate with incorrect google token", nameof(exception));
+        }
+        catch (UserGuidStringEmptyException exception)
+        {
+            _logger.LogWarning("User Guid string is empty, {Exception}, {Message}", exception, exception.Message);
+            await SendErrorResponse(context, StatusCodes.Status401Unauthorized, "User Guid string is empty", nameof(exception));
         }
         catch (Exception exception)
         {
-            _logger.LogWarning("{ExceptionName}, {Exception}, {Message}",
+            _logger.LogError("{ExceptionName}, {Exception}, {Message}",
                 nameof(exception), exception, exception.Message);
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             await SendErrorResponse(context, StatusCodes.Status500InternalServerError, "InternalServerError", nameof(exception));

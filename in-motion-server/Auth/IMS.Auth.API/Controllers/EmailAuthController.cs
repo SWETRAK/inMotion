@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace IMS.Auth.App.Controllers;
 
 [ApiController]
-[Route("")]
-public class AuthController: ControllerBase
+[Route("email")]
+public class EmailAuthController: ControllerBase
 {
     private readonly IEmailAuthService _emailAuthService;
 
-    public AuthController(IEmailAuthService emailAuthService)
+    public EmailAuthController(IEmailAuthService emailAuthService)
     {
         _emailAuthService = emailAuthService;
     }
@@ -55,21 +55,4 @@ public class AuthController: ControllerBase
             Status = (int)HttpStatusCode.Created
         });
     }
-    
-    // public async Task<ActionResult> LoginWithGoogle()
-    // {
-    //     return Ok();
-    // }
-    //
-    // public async Task<ActionResult> LoginWithFacebook()
-    // {
-    //     return Ok();
-    // }
-    
-    // [Authorize]
-    // [HttpDelete("logout")]
-    // public async Task<ActionResult> Logout()
-    // {
-    //     return Ok();
-    // }
 }
