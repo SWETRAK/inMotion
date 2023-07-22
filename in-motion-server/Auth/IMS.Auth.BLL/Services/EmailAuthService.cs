@@ -43,9 +43,8 @@ public class EmailAuthService : IEmailAuthService
     {
         var user = await _userRepository.GetByEmailAsync(requestData.Email.Trim().ToLower());
         if (user is null || user.HashedPassword.IsNullOrEmpty() || user.ConfirmedAccount is not true)
-        {
             throw new IncorrectLoginDataException(requestData.Email.Trim().ToLower());
-        }
+        
 
         var passwordCheckResult = _passwordHasher.VerifyHashedPassword(user, user.HashedPassword, requestData.Password);
         if (passwordCheckResult == PasswordVerificationResult.Failed)
@@ -53,7 +52,7 @@ public class EmailAuthService : IEmailAuthService
             // TODO: Send email if try login 
             throw new IncorrectLoginDataException(requestData.Email);
         }
-
+        
         // TODO: Send email if login success
         var result = _mapper.Map<UserInfoDto>(user);
         
@@ -105,10 +104,8 @@ public class EmailAuthService : IEmailAuthService
         Console.WriteLine(email);
         var user = await _userRepository.GetByEmailAsync(email);
         if (user is null || !user.ActivationToken.Equals(token))
-        {
             throw new UserNotFoundException(email);
-        }
-
+        
         user.ActivationToken = null;
         user.ConfirmedAccount = true;
         await _userRepository.Save();

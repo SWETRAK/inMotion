@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {GoogleLoginProvider, SocialAuthService} from "@abacritt/angularx-social-login";
+import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthService} from "@abacritt/angularx-social-login";
 import {HttpClient} from "@angular/common/http";
 
 @Component({
@@ -23,25 +23,16 @@ export class AppComponent implements OnInit , OnDestroy{
     ngOnInit(): void {
         this.authService.authState.subscribe((user) => {
             console.log(user);
+            //TODO: Here if user is not null call backend function
         });
     }
 
-    getAccessToken(): void {
-        this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(a => {
-            console.log(a);
-        })
+    loginWithFacebook(): void {
+        this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+    }
+    signOut(): void {
+        this.authService.signOut();
     }
 
-    getGoogleCalendarData(): void {
-        if (!this.accessToken) return;
 
-        this.httpClient
-            .get('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
-                headers: { Authorization: `Bearer ${this.accessToken}` },
-            })
-            .subscribe((events) => {
-                alert('Look at your console');
-                console.log('events', events);
-            });
-    }
 }

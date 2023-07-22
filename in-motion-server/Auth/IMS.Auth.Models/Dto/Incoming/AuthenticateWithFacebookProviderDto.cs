@@ -2,5 +2,6 @@ namespace IMS.Auth.Models.Dto.Incoming;
 
 public class AuthenticateWithFacebookProviderDto
 {
-    public string FacebookToken { get; set; }
+    public string Token { get; set; }
+    public string UserId { get; set; }
 }

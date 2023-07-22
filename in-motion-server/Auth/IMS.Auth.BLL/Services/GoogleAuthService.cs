@@ -40,14 +40,14 @@ public class GoogleAuthService : IGoogleAuthService
     {
         var requestTime = DateTime.UtcNow;
         
-        var payload = await ValidateGooglePayload(authenticateWithGoogleProviderDto.IdToken);
+        var payload = await ValidateGooglePayload(authenticateWithGoogleProviderDto.Token);
         
         User user;
         var provider = await _providerRepository.GetByTokenWithUserAsync(
-            Providers.Google, authenticateWithGoogleProviderDto.IdToken);
+            Providers.Google, authenticateWithGoogleProviderDto.Token);
         if (provider is null)
         {
-            user = await CheckIfEmailTaken(payload, authenticateWithGoogleProviderDto.ProviderKey);
+            user = await CheckIfEmailTaken(payload, authenticateWithGoogleProviderDto.UserId);
         }
         else
         {
@@ -80,7 +80,7 @@ public class GoogleAuthService : IGoogleAuthService
             throw new UserGuidStringEmptyException();
         }
 
-        var payload = await ValidateGooglePayload(authenticateWithGoogleProviderDto.IdToken);
+        var payload = await ValidateGooglePayload(authenticateWithGoogleProviderDto.Token);
         
         if (payload is null)
         {
@@ -96,18 +96,18 @@ public class GoogleAuthService : IGoogleAuthService
 
         if (user.Providers == null)
         {
-            user.Providers = new [] {CreateNewProvider(authenticateWithGoogleProviderDto.ProviderKey)};
+            user.Providers = new [] {CreateNewProvider(authenticateWithGoogleProviderDto.UserId)};
         }
         else
         {
-            var oldProvider = user.Providers.FirstOrDefault(x => x.AuthKey == authenticateWithGoogleProviderDto.ProviderKey);
+            var oldProvider = user.Providers.FirstOrDefault(x => x.AuthKey == authenticateWithGoogleProviderDto.UserId);
 
             if (oldProvider is not null)
             {
                 throw new Exception();
             }
 
-            user.Providers = user.Providers.Append(CreateNewProvider(authenticateWithGoogleProviderDto.ProviderKey));
+            user.Providers = user.Providers.Append(CreateNewProvider(authenticateWithGoogleProviderDto.UserId));
         }
         
         await _userRepository.Save();
@@ -131,9 +131,7 @@ public class GoogleAuthService : IGoogleAuthService
         var payload = await GoogleJsonWebSignature.ValidateAsync(idToken, googleSettings);
         
         if (payload is null)
-        {
             throw new IncorrectGoogleTokenException();
-        }
 
         return payload;
     }
@@ -142,18 +140,14 @@ public class GoogleAuthService : IGoogleAuthService
     {
         var tempUser = await _userRepository.GetByEmailAsync(payload.Email);
         if (tempUser is not null)
-        {
             throw new UserWithEmailAlreadyExistsException(payload.Email);
-        }
         return await CreateNewUserFromPayload(payload, providerKey);
     }
 
     private static User CheckIfActiveUser(Provider provider)
     {
         if (provider.User.ConfirmedAccount is not true)
-        {
             throw new UserNotFoundException(provider.User.Email);
-        }
         return provider.User;
     }
     
