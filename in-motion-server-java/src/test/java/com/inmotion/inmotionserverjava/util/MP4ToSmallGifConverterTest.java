@@ -5,20 +5,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
+import static com.inmotion.inmotionserverjava.TestConstants.INPUT_VIDEO_PATH;
+import static com.inmotion.inmotionserverjava.TestConstants.OUTPUT_GIF_PATH;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class MP4ToSmallGifConverterTest {
-    private static final Path INPUT_VIDEO_PATH = Paths.get("src/test/resources/converter_test_resources/input_video.mp4");
-    private static final Path OUTPUT_GIF_PATH =  Paths.get("src/test/resources/converter_test_resources/output_gif.gif");
+
     private final MP4ToSmallGifConverter converter = new MP4ToSmallGifConverter();
 
     @Test
