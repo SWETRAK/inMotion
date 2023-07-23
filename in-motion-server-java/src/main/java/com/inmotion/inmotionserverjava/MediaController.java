@@ -1,9 +1,10 @@
-package com.example.inmotionserverjava;
+package com.inmotion.inmotionserverjava;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,9 +17,10 @@ public class MediaController {
 
     MediaService mediaService;
 
-    @PostMapping()
-    public ResponseEntity<String> postMp4File(@RequestParam("mp4File") MultipartFile mp4File, @RequestParam("nickname") String nickname){
-        mediaService.addProfileVideo("profile_video", mp4File, nickname);
+    @PostMapping("/profile_image")
+    public ResponseEntity<String> postMp4File(@RequestParam("mp4File") MultipartFile mp4File,
+                                              @RequestHeader("authentication") String jwtToken){
+        mediaService.addProfileVideo(mp4File, jwtToken);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 }

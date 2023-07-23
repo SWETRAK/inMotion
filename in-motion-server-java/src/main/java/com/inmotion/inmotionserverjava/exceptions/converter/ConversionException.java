@@ -1,4 +1,4 @@
-package com.example.inmotionserverjava.exceptions.converter;
+package com.inmotion.inmotionserverjava.exceptions.converter;
 
 public class ConversionException extends RuntimeException{
     public ConversionException(String message) {

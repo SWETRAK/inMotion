@@ -1,16 +1,16 @@
-package com.example.inmotionserverjava;
+package com.inmotion.inmotionserverjava.util;
 
-import com.example.inmotionserverjava.exceptions.converter.BadFileExtensionException;
-import com.example.inmotionserverjava.exceptions.converter.ConversionException;
-import com.example.inmotionserverjava.exceptions.converter.FrameExtractionException;
+import com.inmotion.inmotionserverjava.exceptions.converter.BadFileExtensionException;
+import com.inmotion.inmotionserverjava.exceptions.converter.ConversionException;
+import com.inmotion.inmotionserverjava.exceptions.converter.FrameExtractionException;
 import com.squareup.gifencoder.FloydSteinbergDitherer;
 import com.squareup.gifencoder.GifEncoder;
 import com.squareup.gifencoder.ImageOptions;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.Frame;
 import org.bytedeco.javacv.Java2DFrameConverter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,7 +22,9 @@ import java.util.concurrent.TimeUnit;
 
 import static org.bytedeco.ffmpeg.global.swscale.SWS_BICUBIC;
 
+@Slf4j
 @Component
+@NoArgsConstructor
 public class MP4ToSmallGifConverter {
 
     private static final int OUTPUT_IMAGE_WIDTH = 96;
@@ -33,17 +35,12 @@ public class MP4ToSmallGifConverter {
     private byte[] output;
     private FFmpegFrameGrabber frameGrabber;
     private ImageOptions imageOptions;
-    private final Logger logger;
-
-    public MP4ToSmallGifConverter() {
-        this.logger = LoggerFactory.getLogger(this.getClass());
-    }
 
     public byte[] convert(MultipartFile mp4File) {
         init(mp4File);
 
         long startTime = System.currentTimeMillis();
-        logger.info("Begining gif creation");
+        log.info("Begining gif creation");
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             GifEncoder gifEncoder = new GifEncoder(outputStream, OUTPUT_IMAGE_WIDTH, OUTPUT_IMAGE_HEIGHT, 100);
 
@@ -60,7 +57,7 @@ public class MP4ToSmallGifConverter {
         }
 
         String finishMessage = String.format("Conversion time: %d seconds ", (System.currentTimeMillis() - startTime) / 1000);
-        logger.info(finishMessage);
+        log.info(finishMessage);
 
         return this.output;
     }

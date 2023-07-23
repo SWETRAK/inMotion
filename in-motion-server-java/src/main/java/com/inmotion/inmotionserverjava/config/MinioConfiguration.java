@@ -1,6 +1,6 @@
-package com.example.inmotionserverjava.config;
+package com.inmotion.inmotionserverjava.config;
 
-import com.example.inmotionserverjava.exceptions.minio.MinioConfigurationException;
+import com.inmotion.inmotionserverjava.exceptions.minio.MinioConfigurationException;
 import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
