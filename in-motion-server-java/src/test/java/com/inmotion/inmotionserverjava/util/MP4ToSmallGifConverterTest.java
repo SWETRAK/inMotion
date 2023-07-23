@@ -18,7 +18,7 @@ class MP4ToSmallGifConverterTest {
     private final MP4ToSmallGifConverter converter = new MP4ToSmallGifConverter();
 
     @Test
-    void SuccessfullConversionTest() throws IOException {
+    void SuccessfulConversionTest() throws IOException {
         String inputVideoName = INPUT_VIDEO_PATH.getFileName().toString();
         String inputVideoContentType = Files.probeContentType(INPUT_VIDEO_PATH);
         String outputGifName = OUTPUT_GIF_PATH.getFileName().toString();

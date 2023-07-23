@@ -40,7 +40,7 @@ public class MP4ToSmallGifConverter {
         init(mp4File);
 
         long startTime = System.currentTimeMillis();
-        log.info("Begining gif creation");
+        log.info("Beginning gif creation");
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             GifEncoder gifEncoder = new GifEncoder(outputStream, OUTPUT_IMAGE_WIDTH, OUTPUT_IMAGE_HEIGHT, 100);
 
