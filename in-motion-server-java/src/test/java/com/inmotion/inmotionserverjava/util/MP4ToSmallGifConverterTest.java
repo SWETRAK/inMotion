@@ -32,7 +32,7 @@ class MP4ToSmallGifConverterTest {
 
 
     @Test
-    void wrongFileExtensionTest() throws IOException {
+    void WrongFileExtensionTest() throws IOException {
         String wrongVideoFileName = OUTPUT_GIF_PATH.getFileName().toString();
         String wrongVideoFileContentType = Files.probeContentType(OUTPUT_GIF_PATH);
         MultipartFile wrongInputVideo = new MockMultipartFile(wrongVideoFileName, wrongVideoFileName, wrongVideoFileContentType,

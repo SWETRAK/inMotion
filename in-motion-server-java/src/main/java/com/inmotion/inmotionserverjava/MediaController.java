@@ -17,8 +17,8 @@ public class MediaController {
 
     MediaService mediaService;
 
-    @PostMapping("/profile_image")
-    public ResponseEntity<String> postMp4File(@RequestParam("mp4File") MultipartFile mp4File,
+    @PostMapping("/profile/video")
+    public ResponseEntity<String> postProfileVideo(@RequestParam("mp4File") MultipartFile mp4File,
                                               @RequestHeader("authentication") String jwtToken){
         mediaService.addProfileVideo(mp4File, jwtToken);
         return new ResponseEntity<>("OK", HttpStatus.OK);
