@@ -1,0 +1,8 @@
+minio:
+  buckets:
+    profile_videos: in-motion-profile-videos
+    posts: in-motion-posts
+  access:
+    key: inMotionMinioUser
+    secret: inMotionSecretPassword
+  url: http://localhost:9000

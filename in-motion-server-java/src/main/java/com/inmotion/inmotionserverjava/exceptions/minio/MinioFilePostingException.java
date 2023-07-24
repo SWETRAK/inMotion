@@ -1,4 +1,4 @@
-package com.example.inmotionserverjava.exceptions.minio;
+package com.inmotion.inmotionserverjava.exceptions.minio;
 
 public class MinioFilePostingException extends RuntimeException{
     public MinioFilePostingException() {

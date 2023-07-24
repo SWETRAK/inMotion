@@ -1,4 +1,4 @@
-package com.example.inmotionserverjava.exceptions.minio;
+package com.inmotion.inmotionserverjava.exceptions.minio;
 
 public class MinioConfigurationException extends RuntimeException{
 
