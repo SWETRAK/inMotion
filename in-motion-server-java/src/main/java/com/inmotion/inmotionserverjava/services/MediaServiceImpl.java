@@ -1,23 +1,22 @@
 package com.inmotion.inmotionserverjava.services;
 
 import com.inmotion.inmotionserverjava.exceptions.minio.MinioFilePostingException;
+import com.inmotion.inmotionserverjava.model.PostDto;
+import com.inmotion.inmotionserverjava.model.PostUploadInfoDto;
 import com.inmotion.inmotionserverjava.model.ProfileVideoUploadInfoDto;
 import com.inmotion.inmotionserverjava.model.UserInfoDto;
 import com.inmotion.inmotionserverjava.services.interfaces.MediaService;
 import com.inmotion.inmotionserverjava.services.interfaces.MinioService;
 import com.inmotion.inmotionserverjava.util.MP4ToSmallGifConverter;
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -25,18 +24,18 @@ import java.io.IOException;
 public class MediaServiceImpl implements MediaService {
 
     private static final String PROFILE_VIDEO_NAME_TEMPLATE = "%s/%s/profile_%s%s";
-    //TODO: write proper path
-    private static final String PROFILE_VIDEO_MP4_GET_ADDRESS = "http://localhost:8080/api/media/profile/video/mp4/";
-    private static final String PROFILE_VIDEO_GIF_GET_ADDRESS = "http://localhost:8080/api/media/profile/video/mp4/";
+    private static final String POST_FILE_NAME_TEMPLATE = "%s/%s%s.mp4";
+    private static final String PROFILE_VIDEO_MP4_GET_ADDRESS_PREFIX = "http://localhost:8080/api/media/profile/video/mp4/";
+    private static final String PROFILE_VIDEO_GIF_GET_ADDRESS_PREFIX = "http://localhost:8080/api/media/profile/video/gif/";
+    private static final String POST_GET_ADDRESS_PREFIX = "http://localhost:8080/api/media/post/";
+    private static final MediaType VIDEO_MEDIA_TYPE =  MediaType.parseMediaType("video/mp4");
 
     @Value("${minio.buckets.profile_videos}")
     private String profileVideosBucket;
 
     @Value("${minio.buckets.posts}")
     private String postsBucket;
-
     private final MinioService minioService;
-
     private final MP4ToSmallGifConverter mp4ToGifConverter;
 
     // TODO: Rollback mechanism if one of files not uploaded
@@ -51,7 +50,7 @@ public class MediaServiceImpl implements MediaService {
 
         try {
             byte[] mp4FileBytes = mp4File.getBytes();
-            minioService.uploadFile(profileVideosBucket, outputVideoPath, mp4FileBytes, MediaType.parseMediaType("video/mp4"));
+            minioService.uploadFile(profileVideosBucket, outputVideoPath, mp4FileBytes, VIDEO_MEDIA_TYPE);
         } catch (IOException e) {
             throw new MinioFilePostingException();
         }
@@ -59,9 +58,25 @@ public class MediaServiceImpl implements MediaService {
 
         log.info("User {} posted new profile video", user.getNickname());
         return new ProfileVideoUploadInfoDto(
-                PROFILE_VIDEO_MP4_GET_ADDRESS + user.getNickname() + "/" + user.getId(),
-                PROFILE_VIDEO_GIF_GET_ADDRESS + user.getNickname() + "/" + user.getId()
+                PROFILE_VIDEO_MP4_GET_ADDRESS_PREFIX + user.getNickname() + "/" + user.getId(),
+                PROFILE_VIDEO_GIF_GET_ADDRESS_PREFIX + user.getNickname() + "/" + user.getId()
         );
+    }
+
+    @Override
+    public PostUploadInfoDto addPost(MultipartFile frontVideo, MultipartFile backVideo, String jwtToken) {
+        UserInfoDto user = validateJwt(jwtToken);
+        String postId = UUID.randomUUID().toString();
+        String frontVideoPath = String.format(POST_FILE_NAME_TEMPLATE, postId, "/front_", postId);
+        String backVideoPath = String.format(POST_FILE_NAME_TEMPLATE, postId,"/back_", postId);
+        try {
+            minioService.uploadFile(postsBucket, frontVideoPath, frontVideo.getBytes(), VIDEO_MEDIA_TYPE);
+            minioService.uploadFile(postsBucket, backVideoPath, frontVideo.getBytes(), VIDEO_MEDIA_TYPE);
+            log.info("User {} added a post", user.getNickname());
+            return new PostUploadInfoDto(postId, POST_GET_ADDRESS_PREFIX + postId);
+        } catch (IOException e){
+            throw new MinioFilePostingException();
+        }
     }
 
     @Override
@@ -74,6 +89,15 @@ public class MediaServiceImpl implements MediaService {
     public byte[] getProfileVideoAsGif(String nickname, String userId) {
         String requestedFilePath = String.format(PROFILE_VIDEO_NAME_TEMPLATE, nickname, "/gif/", userId, ".gif");
         return minioService.getFile(profileVideosBucket, requestedFilePath);
+    }
+
+    @Override
+    public PostDto getPostById(String postId) {
+        String frontVideoFilePath = String.format(POST_FILE_NAME_TEMPLATE, postId, "front_", postId);
+        String backVideoFilePath = String.format(POST_FILE_NAME_TEMPLATE, postId, "back_", postId);
+        byte[] frontVideo = minioService.getFile(postsBucket, frontVideoFilePath);
+        byte[] backVideo = minioService.getFile(postsBucket, backVideoFilePath);
+        return new PostDto(frontVideo, backVideo);
     }
 
     // Temporary solution before adding RabbitMQ support
