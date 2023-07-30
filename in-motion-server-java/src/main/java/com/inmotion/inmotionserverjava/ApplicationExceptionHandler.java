@@ -1,6 +1,7 @@
 package com.inmotion.inmotionserverjava;
 
 import com.inmotion.inmotionserverjava.exceptions.ErrorResponse;
+import com.inmotion.inmotionserverjava.exceptions.minio.MinioFileNotFoundException;
 import com.inmotion.inmotionserverjava.exceptions.minio.MinioFilePostingException;
 import com.inmotion.inmotionserverjava.exceptions.converter.BadFileExtensionException;
 import com.inmotion.inmotionserverjava.exceptions.converter.ConversionException;
@@ -18,17 +19,24 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler {
 
+    @ExceptionHandler({MinioFileNotFoundException.class})
+    private ResponseEntity<ErrorResponse> handleMinioFileNotFoundException(MinioFileNotFoundException e) {
+        ErrorResponse error = new ErrorResponse(e.getMessage());
+        log.error(error.message());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler({MultipartException.class})
     private ResponseEntity<ErrorResponse> handleMultipartException(MultipartException e){
         ErrorResponse error = new ErrorResponse(e.getMessage());
-        log.warn(error.message());
+        log.error(error.message());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({MinioFilePostingException.class})
     private ResponseEntity<ErrorResponse> handleMinioFilePostingException(MinioFilePostingException e) {
         ErrorResponse error = new ErrorResponse(e.getMessage());
-        log.warn(error.message());
+        log.error(error.message());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
@@ -36,7 +44,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
             FrameGrabberInitializationException.class})
     private ResponseEntity<ErrorResponse> handleMp4ToGIFConverterExceptions(RuntimeException e){
         ErrorResponse error = new ErrorResponse(e.getMessage());
-        log.warn(error.message());
+        log.error(error.message());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }

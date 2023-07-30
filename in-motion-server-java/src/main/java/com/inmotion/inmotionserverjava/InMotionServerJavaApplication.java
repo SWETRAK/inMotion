@@ -10,5 +10,4 @@ public class InMotionServerJavaApplication {
     public static void main(String[] args) {
         SpringApplication.run(InMotionServerJavaApplication.class, args);
     }
-
 }
