@@ -8,8 +8,6 @@ using IMS.Auth.IDAL.Repositories;
 using IMS.Auth.Models.Dto.Incoming;
 using IMS.Auth.Models.Dto.Outgoing;
 using IMS.Auth.Models.Exceptions;
-using IMS.Shared.Models.Dto;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace IMS.Auth.BLL.Services;
@@ -78,11 +76,8 @@ public class GoogleAuthService : IGoogleAuthService
         {
             var oldProvider = user.Providers.FirstOrDefault(x => x.AuthKey == authenticateWithGoogleProviderDto.UserId);
 
-            if (oldProvider is not null)
-            {
-                throw new Exception();
-            }
-
+            if (oldProvider is not null) throw new UserWithThisProviderExists();
+            
             user.Providers = user.Providers.Append(CreateNewProvider(authenticateWithGoogleProviderDto.UserId));
         }
         
@@ -112,7 +107,7 @@ public class GoogleAuthService : IGoogleAuthService
         var payload = await GoogleJsonWebSignature.ValidateAsync(idToken, googleSettings);
         
         if (payload is null)
-            throw new IncorrectGoogleTokenException();
+            throw new IncorrectProviderTokenException();
 
         return payload;
     }

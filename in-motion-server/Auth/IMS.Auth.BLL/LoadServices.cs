@@ -17,6 +17,8 @@ public static class LoadServices
         
         serviceCollection.AddScoped<IJwtService, JwtService>();
         serviceCollection.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
+        serviceCollection.AddScoped<IUserService, UserService>();
         
         serviceCollection.AddAuthorization((options) =>
         {

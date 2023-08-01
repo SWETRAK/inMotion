@@ -1,4 +1,3 @@
-using System.Net;
 using IMS.Auth.BLL.Utils;
 using IMS.Auth.IBLL.Services;
 using IMS.Auth.Models.Dto.Incoming;

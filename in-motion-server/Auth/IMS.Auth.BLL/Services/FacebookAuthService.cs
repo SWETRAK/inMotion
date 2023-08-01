@@ -9,8 +9,6 @@ using IMS.Auth.Models.Dto.Incoming;
 using IMS.Auth.Models.Dto.Outgoing;
 using IMS.Auth.Models.Exceptions;
 using IMS.Auth.Models.Models;
-using IMS.Shared.Models.Dto;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -87,11 +85,8 @@ public class FacebookAuthService : IFacebookAuthService
         {
             var oldProvider = user.Providers.FirstOrDefault(x => x.AuthKey == authenticateWithFacebookProviderDto.UserId);
 
-            if (oldProvider is not null)
-            {
-                throw new Exception();
-            }
-
+            if (oldProvider is not null) throw new UserWithThisProviderExists();
+            
             user.Providers = user.Providers.Append(CreateNewProvider(authenticateWithFacebookProviderDto.UserId));
         }
         
@@ -111,7 +106,7 @@ public class FacebookAuthService : IFacebookAuthService
         var response = await _httpClient.GetAsync($"me?access_token={accessToken}&fields=email,first_name,last_name");
 
         if (!response.IsSuccessStatusCode)
-            throw new Exception("User from this token not exist");
+            throw new IncorrectProviderTokenException();
         
         var responseBodyString = await response.Content.ReadAsStringAsync();
         var data = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseBodyString);

@@ -31,7 +31,7 @@ public class ExceptionHandlerMiddleware: IMiddleware
             _logger.LogWarning("User with {Email} try to activate account, {Exception}, {Message}", exception.Email, nameof(exception), exception.Message);
             await SendErrorResponse(context, StatusCodes.Status401Unauthorized, "User not found or incorrect activation token", nameof(exception));
         }
-        catch (IncorrectGoogleTokenException exception)
+        catch (IncorrectProviderTokenException exception)
         {
             _logger.LogWarning("User try to authenticate with incorrect google token, {Exception}, {Message}", exception, exception.Message);
             await SendErrorResponse(context, StatusCodes.Status401Unauthorized, "User try to authenticate with incorrect google token", nameof(exception));
@@ -50,6 +50,11 @@ public class ExceptionHandlerMiddleware: IMiddleware
         {
             _logger.LogWarning("User Guid string is empty, {Exception}, {Message}", exception, exception.Message);
             await SendErrorResponse(context, StatusCodes.Status401Unauthorized, "User Guid string is empty", nameof(exception));
+        }
+        catch (UserWithThisProviderExists exception)
+        {
+            _logger.LogWarning("User with this provider exists, {Exception}, {Message}", exception, exception.Message);
+            await SendErrorResponse(context, StatusCodes.Status409Conflict, "User with this provider exists", nameof(exception));
         }
         catch (Exception exception)
         {
