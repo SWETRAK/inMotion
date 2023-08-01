@@ -25,9 +25,16 @@ public class GoogleAuthController: ControllerBase
     public async Task<ActionResult<ImsHttpMessage<UserInfoDto>>> SignIn(
         [FromBody] AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto)
     {
+        var serverRequestTime = DateTime.UtcNow;
         var result = await _googleAuthService.SignIn(authenticateWithGoogleProviderDto);
         _logger.LogInformation("User logged in successfully with Google provider");
-        return Ok(result);
+        return Ok(new ImsHttpMessage<UserInfoDto>
+        {
+            Data = result,
+            ServerRequestTime = serverRequestTime,
+            ServerResponseTime = DateTime.UtcNow,
+            Status = StatusCodes.Status200OK
+        });
     }
     
     [Authorize]
@@ -35,8 +42,15 @@ public class GoogleAuthController: ControllerBase
     public async Task<ActionResult<ImsHttpMessage<bool>>> AddGoogleProvider(
         [FromBody] AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto)
     {
+        var serverRequestTime = DateTime.UtcNow;
         var userIdString = AuthenticationUtil.GetUserId(HttpContext.User);
         var result = await _googleAuthService.AddGoogleProvider(authenticateWithGoogleProviderDto, userIdString);
-        return Ok(result);
+        return Ok(new ImsHttpMessage<bool>
+        {
+            Data = result,
+            ServerRequestTime = serverRequestTime,
+            ServerResponseTime = DateTime.UtcNow,
+            Status = StatusCodes.Status204NoContent
+        });
     }
 }

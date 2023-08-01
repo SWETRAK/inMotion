@@ -33,21 +33,25 @@ public class ValidateJwtTokenConsumer: IConsumer<ImsBaseMessage<RequestJwtValida
         }
         catch (MissingTokenException missingTokenException)
         {
+            _logger.LogWarning("Token is null or empty, {Exception}", missingTokenException);
             responseMessage.Error = true;
             responseMessage.ErrorMessage = "Token is null or empty";
         }
         catch (WrongTokenException wrongTokenException)
         {
+            _logger.LogWarning("This token isn\'t valid JWT Token, {Exception}", wrongTokenException);
             responseMessage.Error = true;
             responseMessage.ErrorMessage = "This token isn\'t valid JWT Token";
         }
         catch (IncorrectTokenUserIdException incorrectTokenUserIdException)
         {
+            _logger.LogWarning("User id is unknown, {Exception}", incorrectTokenUserIdException);
             responseMessage.Error = true;
             responseMessage.ErrorMessage = "User id is unknown";
         }
         catch (Exception exception)
         {
+            _logger.LogWarning("Unknown error, {Exception}", exception);
             responseMessage.Error = true;
             responseMessage.ErrorMessage = "Unknown error";
         }

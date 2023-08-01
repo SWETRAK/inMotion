@@ -1,7 +1,9 @@
+using IMS.Auth.BLL.Utils;
 using IMS.Auth.IBLL.Services;
 using IMS.Auth.Models.Dto.Incoming;
 using IMS.Auth.Models.Dto.Outgoing;
 using IMS.Shared.Models.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMS.Auth.App.Controllers;
@@ -26,8 +28,32 @@ public class FacebookAuthController: ControllerBase
     public async Task<ActionResult<ImsHttpMessage<UserInfoDto>>> SignIn(
         [FromBody] AuthenticateWithFacebookProviderDto authenticateWithFacebookProviderDto)
     {
+        var serverRequestTime = DateTime.UtcNow;
         var result = await _facebookAuthService.SignIn(authenticateWithFacebookProviderDto);
-        _logger.LogInformation("User logged in successfully with Facebook provider");
-        return Ok(result);
+
+        return Ok(new ImsHttpMessage<UserInfoDto>
+        {
+            ServerRequestTime = serverRequestTime,
+            ServerResponseTime = DateTime.UtcNow,
+            Data = result,
+            Status = StatusCodes.Status204NoContent
+        });
+    }
+    
+    [Authorize]
+    [HttpPost("add")]
+    public async Task<ActionResult<ImsHttpMessage<bool>>> AddGoogleProvider(
+        [FromBody] AuthenticateWithFacebookProviderDto authenticateWithFacebookProviderDto)
+    {
+        var serverRequestTime = DateTime.UtcNow;
+        var userIdString = AuthenticationUtil.GetUserId(HttpContext.User);
+        var result = await _facebookAuthService.AddFacebookProvider(authenticateWithFacebookProviderDto, userIdString);
+        return Ok(new ImsHttpMessage<bool>
+        {
+            ServerRequestTime = serverRequestTime,
+            ServerResponseTime = DateTime.UtcNow,
+            Data = result,
+            Status = StatusCodes.Status204NoContent
+        });
     }
 }

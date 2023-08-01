@@ -45,7 +45,6 @@ public class EmailAuthService : IEmailAuthService
         if (user is null || user.HashedPassword.IsNullOrEmpty() || user.ConfirmedAccount is not true)
             throw new IncorrectLoginDataException(requestData.Email.Trim().ToLower());
         
-
         var passwordCheckResult = _passwordHasher.VerifyHashedPassword(user, user.HashedPassword, requestData.Password);
         if (passwordCheckResult == PasswordVerificationResult.Failed)
         {
@@ -101,7 +100,6 @@ public class EmailAuthService : IEmailAuthService
     /// <exception cref="UserNotFoundException">If user with this email and activation code not found</exception>
     public async Task ConfirmRegisterWithEmail(string email, string token)
     {
-        Console.WriteLine(email);
         var user = await _userRepository.GetByEmailAsync(email);
         if (user is null || !user.ActivationToken.Equals(token))
             throw new UserNotFoundException(email);
@@ -109,5 +107,34 @@ public class EmailAuthService : IEmailAuthService
         user.ActivationToken = null;
         user.ConfirmedAccount = true;
         await _userRepository.Save();
+    }
+
+    public async Task<bool> UpdatePassword(UpdatePasswordDto updatePasswordDto, string userIdString)
+    {
+        if(Guid.TryParse(userIdString, out var userIdGuid)) throw new UserGuidStringEmptyException();
+        var user = await _userRepository.GetByIdAsync(userIdGuid);
+
+        if (user is null) throw new UserNotFoundException();
+
+        var passwordValidationResult = _passwordHasher.VerifyHashedPassword(user, user.HashedPassword, updatePasswordDto.OldPassword);
+        if (passwordValidationResult == PasswordVerificationResult.Failed)
+            throw new IncorrectLoginDataException(user.Email);
+
+        user.HashedPassword = _passwordHasher.HashPassword(user, updatePasswordDto.NewPassword);
+        
+        await _userRepository.Save();
+        return true;
+    }
+
+    public async Task<bool> AddPasswordToExistingAccount(AddPasswordDto addPasswordDto, string userIdString)
+    {
+        if(Guid.TryParse(userIdString, out var userIdGuid)) throw new UserGuidStringEmptyException();
+        var user = await _userRepository.GetByIdAsync(userIdGuid);
+        if (user is null) throw new UserNotFoundException();
+        
+        user.HashedPassword = _passwordHasher.HashPassword(user, addPasswordDto.NewPassword);
+        
+        await _userRepository.Save();
+        return true;
     }
 }

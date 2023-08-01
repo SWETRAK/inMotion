@@ -21,80 +21,56 @@ public class GoogleAuthService : IGoogleAuthService
     private readonly IProviderRepository _providerRepository;
     private readonly GoogleAuthenticationConfiguration _googleAuthenticationConfiguration;
     private readonly IMapper _mapper;
+    private readonly IJwtService _jwtService;
 
     public GoogleAuthService(
         IUserRepository userRepository,
         ILogger<GoogleAuthService> logger,
         IMapper mapper,
         IProviderRepository providerRepository, 
-        GoogleAuthenticationConfiguration googleAuthenticationConfiguration)
+        GoogleAuthenticationConfiguration googleAuthenticationConfiguration, 
+        IJwtService jwtService)
     {
         _logger = logger;
         _mapper = mapper;
         _providerRepository = providerRepository;
         _userRepository = userRepository;
         _googleAuthenticationConfiguration = googleAuthenticationConfiguration;
+        _jwtService = jwtService;
     }
 
-    public async Task<ImsHttpMessage<UserInfoDto>> SignIn(AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="authenticateWithGoogleProviderDto"></param>
+    /// <returns></returns>
+    public async Task<UserInfoDto> SignIn(AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto)
     {
         var requestTime = DateTime.UtcNow;
-        
         var payload = await ValidateGooglePayload(authenticateWithGoogleProviderDto.Token);
         
-        User user;
-        var provider = await _providerRepository.GetByTokenWithUserAsync(
-            Providers.Google, authenticateWithGoogleProviderDto.Token);
-        if (provider is null)
-        {
-            user = await CheckIfEmailTaken(payload, authenticateWithGoogleProviderDto.UserId);
-        }
-        else
-        {
-            user = CheckIfActiveUser(provider);
-        }
-
+        var user = await GetUserFromProvider(payload, authenticateWithGoogleProviderDto);
         var userInfoDto = _mapper.Map<UserInfoDto>(user);
+        userInfoDto.Token = _jwtService.GenerateJwtToken(user);
 
         _logger.LogInformation("User successfully logged in with email {Email}",userInfoDto.Email);
-        return new ImsHttpMessage<UserInfoDto>
-        {
-            ServerRequestTime = requestTime,
-            ServerResponseTime = DateTime.UtcNow,
-            Status = StatusCodes.Status200OK,
-            Data = userInfoDto
-        };
+        return userInfoDto;
     }
     
-    public async Task<ImsHttpMessage<bool>> AddGoogleProvider(AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto, string userIdString)
+    public async Task<bool> AddGoogleProvider(AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto, string userIdString)
     {
         var requestTime = DateTime.UtcNow;
 
-        if (userIdString is null)
-        {
-            throw new InvalidUserGuidStringException();
-        }
-
-        if (!Guid.TryParse(userIdString, out var userId))
-        {
-            throw new UserGuidStringEmptyException();
-        }
-
-        var payload = await ValidateGooglePayload(authenticateWithGoogleProviderDto.Token);
+        if (userIdString is null) throw new InvalidUserGuidStringException();
+        if (!Guid.TryParse(userIdString, out var userId)) throw new UserGuidStringEmptyException();
         
-        if (payload is null)
-        {
-            throw new InvalidUserGuidStringException();
-        }
-        
+        await ValidateGooglePayload(authenticateWithGoogleProviderDto.Token);
+
         var user = await _userRepository.GetByIdAsync(userId);
 
-        if (user is null)
-        {
-            throw new UserNotFoundException();
-        }
+        if (user is null) throw new UserNotFoundException();
 
-        if (user.Providers == null)
+        if (user.Providers is null)
         {
             user.Providers = new [] {CreateNewProvider(authenticateWithGoogleProviderDto.UserId)};
         }
@@ -112,15 +88,20 @@ public class GoogleAuthService : IGoogleAuthService
         
         await _userRepository.Save();
 
-        return new ImsHttpMessage<bool>()
-        {
-            ServerRequestTime = requestTime,
-            ServerResponseTime = DateTime.UtcNow,
-            Status = StatusCodes.Status200OK,
-            Data = true
-        };
+        return true;
     }
-    
+
+    private async Task<User> GetUserFromProvider(GoogleJsonWebSignature.Payload payload, AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto)
+    {
+        var provider = await _providerRepository.GetByTokenWithUserAsync(
+            Providers.Google, authenticateWithGoogleProviderDto.Token);
+        if (provider is null)
+        {
+            return await CheckIfEmailTaken(payload, authenticateWithGoogleProviderDto.UserId);
+        }
+        return CheckIfActiveUser(provider);
+    }
+
     private async Task<GoogleJsonWebSignature.Payload> ValidateGooglePayload(string idToken)
     {
         var googleSettings = new GoogleJsonWebSignature.ValidationSettings
@@ -173,9 +154,8 @@ public class GoogleAuthService : IGoogleAuthService
         return user;
     }
 
-    private Provider CreateNewProvider(string providerKey)
+    private static Provider CreateNewProvider(string providerKey)
     {
-        Console.WriteLine(providerKey);
         return new Provider
         {
             AuthKey = providerKey,
