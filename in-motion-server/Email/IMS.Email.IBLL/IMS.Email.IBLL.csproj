@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\IMS.Shared.Messaging\IMS.Shared.Messaging.csproj" />
+      <ProjectReference Include="..\IMS.Email.Models\IMS.Email.Models.csproj" />
+    </ItemGroup>
+
+</Project>

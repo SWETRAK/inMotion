@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <RootNamespace>IMS.Email.BLL</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="12.0.1" />
+        <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.8" />
+        <PackageReference Include="MassTransit" Version="8.0.16" />
+        <PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.16" />
+        <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\IMS.Shared.Messaging\IMS.Shared.Messaging.csproj" />
+      <ProjectReference Include="..\IMS.Email.IBLL\IMS.Email.IBLL.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="resources\" />
+      <Folder Include="Middlewares\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="resources\activateaccount.html" />
+      <EmbeddedResource Include="resources\activateaccount.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <None Remove="resources\correctlogin.html" />
+      <EmbeddedResource Include="resources\correctlogin.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+      <None Remove="resources\failedlogin.html" />
+      <EmbeddedResource Include="resources\failedlogin.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </EmbeddedResource>
+    </ItemGroup>
+
+</Project>
