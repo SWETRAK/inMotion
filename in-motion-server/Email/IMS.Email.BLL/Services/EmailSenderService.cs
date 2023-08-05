@@ -4,7 +4,6 @@ using IMS.Email.BLL.Configurations;
 using IMS.Email.BLL.Utils;
 using IMS.Email.IBLL.Services;
 using IMS.Email.Models.Models;
-using IMS.Shared.Messaging.Messages.Email;
 using Microsoft.Extensions.Logging;
 
 namespace IMS.Email.BLL.Services;
@@ -23,50 +22,55 @@ public class EmailSenderService : IEmailSenderService
         _logger = logger;
         _emailConfiguration = emailConfiguration;
 
-        _smtpClient = new SmtpClient(_emailConfiguration.Host)
+        _smtpClient = new SmtpClient
         {
+            Host = _emailConfiguration.Host,
             Port = _emailConfiguration.Port,
             Credentials = new NetworkCredential(_emailConfiguration.UserName, _emailConfiguration.Password),
             EnableSsl = true,
+            DeliveryMethod = SmtpDeliveryMethod.Network,
+            UseDefaultCredentials = false
         };
     }
 
-    public void SendUserLoggedInWithEmail(UserLoggedInEmailMessage userLoggedInEmailMessage)
+    public async Task SendUserLoggedInWithEmail(SendUserLoggedInEmail sendUserLoggedInEmail)
     {
-        var emailBody = EmailBodyUtil.GetSuccessLoginBody();
+        var emailBody = EmailBodyUtil.GetSuccessLoginBody(_logger);
         emailBody = emailBody
-            .Replace("{loginDate}", userLoggedInEmailMessage.LoggedDate.ToString("MM/dd/yyyy"))
-            .Replace("{loginTime}", userLoggedInEmailMessage.LoggedDate.ToString("HH:mm:ss zz"));
-        var emailSubject = $"You just logged in {userLoggedInEmailMessage.LoggedDate:MM/dd/yyyy}";
+            .Replace("{loginDate}", sendUserLoggedInEmail.DateTime.ToString("MM/dd/yyyy"))
+            .Replace("{loginTime}", sendUserLoggedInEmail.DateTime.ToString("HH:mm:ss zz"));
+        var emailSubject = $"You just logged in {sendUserLoggedInEmail.DateTime:MM/dd/yyyy}";
         
-        SendEmail(userLoggedInEmailMessage.Email, emailSubject, emailBody);   
+        await SendEmail(sendUserLoggedInEmail.Email, emailSubject, emailBody);   
     }
 
-    public void SendFailedLoginAttempt(SendFailedLoginAttempt sendFailedLoginAttempt)
+    public async Task SendFailedLoginAttempt(SendFailedLoginAttempt sendFailedLoginAttempt)
     {
-        var emailBody = EmailBodyUtil.GetFailedLogginAttemptsBody();
+        var emailBody = EmailBodyUtil.GetFailedLogginAttemptsBody(_logger);
         emailBody = emailBody
             .Replace("{loginDate}", sendFailedLoginAttempt.AttemptDateTime.ToString("MM/dd/yyyy"))
             .Replace("{loginTime}", sendFailedLoginAttempt.AttemptDateTime.ToString("HH:mm:ss zz"));
 
         var emailSubject = $"Failed login attempt";
 
-        SendEmail(sendFailedLoginAttempt.Email, emailSubject, emailBody);
+        await SendEmail(sendFailedLoginAttempt.Email, emailSubject, emailBody);
     }
-
-    public void SendAccountActivation(SendAccountActivation sendAccountActivation)
+    
+    public async Task SendAccountActivation(SendAccountActivation sendAccountActivation)
     {
-        // var emailBody = EmailBodyUtil.GetFailedLogginAttemptsBody();
-        // emailBody = emailBody
-        //     .Replace("{loginDate}", sendFailedLoginAttempt.AttemptDateTime.ToString("MM/dd/yyyy"))
-        //     .Replace("{loginTime}", sendFailedLoginAttempt.AttemptDateTime.ToString("HH:mm:ss zz"));
-        //
-        // var emailSubject = $"Failed login attempt";
-        //
-        // SendEmail(sendFailedLoginAttempt.Email, emailSubject, emailBody);
+        var emailBody = EmailBodyUtil.GetAccountActivationBody(_logger);
+        // TODO: Do proper activation code setting
+        emailBody = emailBody
+            .Replace("{loginDate}", sendAccountActivation.RegisterTime.ToString("MM/dd/yyyy"))
+            .Replace("{loginTime}", sendAccountActivation.RegisterTime.ToString("HH:mm:ss zz"))
+            .Replace("{activationCode}", sendAccountActivation.ActivationCode);
+
+        var emailSubject = $"Welcome to InMotion, activate your new account";
+        
+        await SendEmail(sendAccountActivation.Email, emailSubject, emailBody);
     }
 
-    private void SendEmail(string email, string subject, string body)
+    private async Task SendEmail(string email, string subject, string body)
     {
         var mailMessage = new MailMessage
         {
@@ -78,7 +82,14 @@ public class EmailSenderService : IEmailSenderService
         };
         
         mailMessage.To.Add(email);
-        _smtpClient.Send(mailMessage);
-        _logger.LogInformation("Email to user {Email} with topic \"{Subject}\"", email, subject);
+        try
+        {
+            await _smtpClient.SendMailAsync(mailMessage);
+            _logger.LogInformation("Email to user {Email} with topic \"{Subject}\"", email, subject);
+        }
+        catch (Exception exception)
+        {
+            _logger.LogWarning(exception, "Email to user {Email} not send, Exception thrown with message {Message} ", email, exception.Message);
+        }
     }
 }

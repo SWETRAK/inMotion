@@ -14,7 +14,7 @@ public static class LoadServices
         var configuration = builder.Configuration;
         
         var emailConfiguration = new EmailConfiguration();
-        configuration.GetSection("EventBus").Bind(emailConfiguration);
+        configuration.GetSection("EmailServer").Bind(emailConfiguration);
 
         serviceCollection.AddSingleton<EmailConfiguration>(emailConfiguration);
         

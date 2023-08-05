@@ -1,8 +1,13 @@
-using IMS.Shared.Messaging.Messages.Email;
+using IMS.Email.Models.Models;
+using Microsoft.Extensions.Logging;
 
 namespace IMS.Email.IBLL.Services;
 
 public interface IEmailSenderService
 {
-    public void SendUserLoggedInWithEmail(UserLoggedInEmailMessage userLoggedInEmailMessage);
+    public Task SendUserLoggedInWithEmail(SendUserLoggedInEmail sendUserLoggedInEmail);
+
+    public Task SendFailedLoginAttempt(SendFailedLoginAttempt sendFailedLoginAttempt);
+
+    public Task SendAccountActivation(SendAccountActivation sendAccountActivation);
 }

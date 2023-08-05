@@ -1,4 +1,5 @@
 using IMS.Email.BLL;
+using IMS.Email.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,8 @@ builder.Services.AddEmailServices(builder);
 builder.Services.AddEmailMiddlewares();
 
 builder.Services.AddEmailValidators();
+
+builder.Services.AddEmailMappers();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

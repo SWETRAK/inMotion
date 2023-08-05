@@ -16,15 +16,15 @@ public class TestController: ControllerBase
         _emailSenderService = emailSenderService;
     }
 
-    [HttpGet("send")]
-    public ActionResult SendEmail()
-    {
-        _emailSenderService.SendUserLoggedInWithEmail(new UserLoggedInEmailMessage
-        {
-            Email = "kamilpietrak123@gmail.com",
-            LoggedDate = DateTime.UtcNow
-        });
-
-        return Ok();
-    }
+    // [HttpGet("send")]
+    // public ActionResult SendEmail()
+    // {
+    //     _emailSenderService.SendUserLoggedInWithEmail(new UserLoggedInEmailMessage
+    //     {
+    //         Email = "kamilpietrak123@icloud.com",
+    //         LoggedDate = DateTime.UtcNow
+    //     });
+    //
+    //     return Ok();
+    // }
 }
