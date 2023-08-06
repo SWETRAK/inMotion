@@ -1,7 +1,6 @@
 using AutoMapper;
 using IMS.Email.Models.Models;
 using IMS.Shared.Messaging.Messages.Email;
-using Microsoft.VisualBasic.CompilerServices;
 
 namespace IMS.Email.Models.Mappers;
 
