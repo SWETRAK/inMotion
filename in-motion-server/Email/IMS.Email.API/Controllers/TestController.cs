@@ -1,5 +1,4 @@
 using IMS.Email.IBLL.Services;
-using IMS.Shared.Messaging.Messages.Email;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMS.Email.API.Controllers;

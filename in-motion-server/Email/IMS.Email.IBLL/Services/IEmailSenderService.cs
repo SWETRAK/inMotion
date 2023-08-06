@@ -1,5 +1,4 @@
 using IMS.Email.Models.Models;
-using Microsoft.Extensions.Logging;
 
 namespace IMS.Email.IBLL.Services;
 
