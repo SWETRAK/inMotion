@@ -1,6 +1,7 @@
 using AutoMapper;
 using IMS.Email.Models.Models;
 using IMS.Shared.Messaging.Messages.Email;
+using IMS.Shared.Messaging.Messages.Email.Auth;
 
 namespace IMS.Email.Models.Mappers;
 

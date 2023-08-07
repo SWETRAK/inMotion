@@ -1,4 +1,4 @@
-namespace IMS.Shared.Messaging.Messages.Email;
+namespace IMS.Shared.Messaging.Messages.Email.Auth;
 
 public class FailureLoginAttemptEmailMessage
 {

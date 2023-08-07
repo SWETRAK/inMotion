@@ -3,6 +3,7 @@ using IMS.Email.IBLL.Services;
 using IMS.Email.Models.Models;
 using IMS.Shared.Messaging.Messages;
 using IMS.Shared.Messaging.Messages.Email;
+using IMS.Shared.Messaging.Messages.Email.Auth;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 
