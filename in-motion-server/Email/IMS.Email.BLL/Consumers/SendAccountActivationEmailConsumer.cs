@@ -24,7 +24,6 @@ public class SendAccountActivationEmailConsumer: IConsumer<ImsBaseMessage<Activa
     public async Task Consume(ConsumeContext<ImsBaseMessage<ActivateAccountEmailMessage>> context)
     {
         var message = context.Message;
-
         var sendAccountActivation = _mapper.Map<SendAccountActivation>(message.Data);
 
         await _emailSenderService.SendAccountActivation(sendAccountActivation);

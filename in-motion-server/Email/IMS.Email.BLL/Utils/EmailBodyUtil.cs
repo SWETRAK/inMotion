@@ -1,4 +1,5 @@
 using System.Reflection;
+using IMS.Email.BLL.Consts;
 using Microsoft.Extensions.Logging;
 
 namespace IMS.Email.BLL.Utils;
@@ -7,17 +8,17 @@ public static class EmailBodyUtil
 {
     public static string GetSuccessLoginBody(ILogger logger)
     {
-        return GetResource("IMS.Email.BLL.resources.correctlogin.html", logger);
+        return GetResource(EmailTemplatesNames.SuccessLoginName, logger);
     }
 
-    public static string GetFailedLogginAttemptsBody(ILogger logger)
+    public static string GetFailedLogInAttemptsBody(ILogger logger)
     {
-        return GetResource("IMS.Email.BLL.resources.failedlogin.html", logger);
+        return GetResource(EmailTemplatesNames.FailedLoginName, logger);
     }
     
     public static string GetAccountActivationBody(ILogger logger)
     {
-        return GetResource("IMS.Email.BLL.resources.activateaccount.html", logger);
+        return GetResource(EmailTemplatesNames.ActivateAccountName, logger);
     }
     
     private static string GetResource(string resourceName, ILogger logger)

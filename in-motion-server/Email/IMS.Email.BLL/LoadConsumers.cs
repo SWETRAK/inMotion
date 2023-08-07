@@ -27,6 +27,11 @@ public static class LoadConsumers
             {
                 e.Name = EventsBusNames.SendFailureLoggedInEmail;
             });
+            
+            x.AddConsumer<SendAccountActivationEmailConsumer>().Endpoint(e =>
+            {
+                e.Name = EventsBusNames.SendAccountActivationEmail;
+            });
 
             x.UsingRabbitMq((ctx, cfg) =>
             {

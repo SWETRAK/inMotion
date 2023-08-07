@@ -46,7 +46,7 @@ public class EmailSenderService : IEmailSenderService
 
     public async Task SendFailedLoginAttempt(SendFailedLoginAttempt sendFailedLoginAttempt)
     {
-        var emailBody = EmailBodyUtil.GetFailedLogginAttemptsBody(_logger);
+        var emailBody = EmailBodyUtil.GetFailedLogInAttemptsBody(_logger);
         emailBody = emailBody
             .Replace("{loginDate}", sendFailedLoginAttempt.AttemptDateTime.ToString("MM/dd/yyyy"))
             .Replace("{loginTime}", sendFailedLoginAttempt.AttemptDateTime.ToString("HH:mm:ss zz"));
