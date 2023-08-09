@@ -29,4 +29,9 @@ public interface IEmailAuthService
     /// <param name="token">Gets user activation code</param>
     /// <exception cref="UserNotFoundException">If user with this email and activation code not found</exception>
     public Task ConfirmRegisterWithEmail(string email, string token);
+
+    public Task<bool> UpdatePassword(UpdatePasswordDto updatePasswordDto, string userIdString);
+    
+    public Task<bool> AddPasswordToExistingAccount(AddPasswordDto addPasswordDto, string userIdString);
+    
 }

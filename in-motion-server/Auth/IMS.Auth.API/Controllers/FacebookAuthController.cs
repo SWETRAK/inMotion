@@ -9,47 +9,50 @@ using Microsoft.AspNetCore.Mvc;
 namespace IMS.Auth.App.Controllers;
 
 [ApiController]
-[Route("google")]
-public class GoogleAuthController: ControllerBase
+[Route("facebook")]
+public class FacebookAuthController: ControllerBase
 {
-    private readonly IGoogleAuthService _googleAuthService;
-    private readonly ILogger<GoogleAuthController> _logger;
-    
-    public GoogleAuthController(IGoogleAuthService googleAuthService, ILogger<GoogleAuthController> logger)
-    {
-        _googleAuthService = googleAuthService;
-        _logger = logger;
-    }
+    private readonly ILogger<FacebookAuthController> _logger;
+    private readonly IFacebookAuthService _facebookAuthService;
 
+    public FacebookAuthController(
+        ILogger<FacebookAuthController> logger, 
+        IFacebookAuthService facebookAuthService
+    )
+    {
+        _logger = logger;
+        _facebookAuthService = facebookAuthService;
+    }
+    
     [HttpPost("login")]
     public async Task<ActionResult<ImsHttpMessage<UserInfoDto>>> SignIn(
-        [FromBody] AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto)
+        [FromBody] AuthenticateWithFacebookProviderDto authenticateWithFacebookProviderDto)
     {
         var serverRequestTime = DateTime.UtcNow;
-        var result = await _googleAuthService.SignIn(authenticateWithGoogleProviderDto);
-        _logger.LogInformation("User logged in successfully with Google provider");
+        var result = await _facebookAuthService.SignIn(authenticateWithFacebookProviderDto);
+
         return Ok(new ImsHttpMessage<UserInfoDto>
         {
-            Data = result,
             ServerRequestTime = serverRequestTime,
             ServerResponseTime = DateTime.UtcNow,
-            Status = StatusCodes.Status200OK
+            Data = result,
+            Status = StatusCodes.Status204NoContent
         });
     }
     
     [Authorize]
     [HttpPost("add")]
     public async Task<ActionResult<ImsHttpMessage<bool>>> AddGoogleProvider(
-        [FromBody] AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto)
+        [FromBody] AuthenticateWithFacebookProviderDto authenticateWithFacebookProviderDto)
     {
         var serverRequestTime = DateTime.UtcNow;
         var userIdString = AuthenticationUtil.GetUserId(HttpContext.User);
-        var result = await _googleAuthService.AddGoogleProvider(authenticateWithGoogleProviderDto, userIdString);
+        var result = await _facebookAuthService.AddFacebookProvider(authenticateWithFacebookProviderDto, userIdString);
         return Ok(new ImsHttpMessage<bool>
         {
-            Data = result,
             ServerRequestTime = serverRequestTime,
             ServerResponseTime = DateTime.UtcNow,
+            Data = result,
             Status = StatusCodes.Status204NoContent
         });
     }

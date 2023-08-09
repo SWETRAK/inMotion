@@ -2,6 +2,6 @@ namespace IMS.Auth.Models.Dto.Incoming;
 
 public class AuthenticateWithGoogleProviderDto
 {
-    public string ProviderKey { get; set; }
-    public string IdToken { get; set; }
+    public string UserId { get; set; }
+    public string Token { get; set; }
 }

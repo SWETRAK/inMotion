@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {
+    FacebookLoginProvider,
     GoogleLoginProvider,
     GoogleSigninButtonModule,
     SocialAuthServiceConfig,
@@ -31,13 +32,19 @@ import {HttpClientModule} from "@angular/common/http";
                   {
                       id: GoogleLoginProvider.PROVIDER_ID,
                       provider: new GoogleLoginProvider(
-                          '189597209032-ca0gmusn1k9b430o1le7g6homn2tn7hm.apps.googleusercontent.com'
+                          '435519606946-ps5v1hfb25fsh00biaam6rnf91ged72r.apps.googleusercontent.com'
                       )
                   },
-                  // {
-                  //     id: FacebookLoginProvider.PROVIDER_ID,
-                  //     provider: new FacebookLoginProvider('clientId')
-                  // }
+                  {
+                      id: FacebookLoginProvider.PROVIDER_ID,
+                      provider: new FacebookLoginProvider(
+                          "1046377159865274",
+                          {
+                          scope: 'email',
+                          return_scopes: true,
+                          enable_profile_selector: true
+                      })
+                  }
               ],
               onError: (error) => {
                   console.error(error);

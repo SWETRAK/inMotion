@@ -14,6 +14,14 @@ public static class LoadValidators
 
         serviceCollection.AddScoped<IValidator<LoginUserWithEmailAndPasswordDto>, LoginUserWithEmailAndPasswordDtoValidator>();
         serviceCollection.AddScoped<IValidator<RegisterUserWithEmailAndPasswordDto>, RegisterUserWithEmailAndPasswordDtoValidator>();
+
+        serviceCollection.AddScoped<IValidator<AuthenticateWithFacebookProviderDto>, AuthenticateWithFacebookProviderDtoValidator>();
+        serviceCollection.AddScoped<IValidator<AuthenticateWithGoogleProviderDto>, AuthenticateWithGoogleProviderDtoValidator>();
+
+        serviceCollection.AddScoped<IValidator<AddPasswordDto>, AddPasswordDtoValidator>();
+        serviceCollection.AddScoped<IValidator<UpdateEmailDto>, UpdateEmailDtoValidator>();
+        serviceCollection.AddScoped<IValidator<UpdateNicknameDto>, UpdateNicknameDtoValidator>();
+        serviceCollection.AddScoped<IValidator<UpdatePasswordDto>, UpdatePasswordDtoValidator>();
         
         return serviceCollection;
     }
