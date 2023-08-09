@@ -53,6 +53,9 @@ services:
     links:
       - postgres
       - rabbitmq
+    depends_on:
+      - postgres
+      - rabbitmq
   
   imsemail:
     build:
@@ -65,5 +68,7 @@ services:
     networks:
       - backend
     links:
+      - rabbitmq
+    depends_on:
       - rabbitmq
       

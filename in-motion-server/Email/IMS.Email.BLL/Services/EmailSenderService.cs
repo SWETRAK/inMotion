@@ -61,11 +61,13 @@ public class EmailSenderService : IEmailSenderService
         var emailBody = EmailBodyUtil.GetAccountActivationBody(_logger);
         // TODO: Do proper activation code setting
         emailBody = emailBody
-            .Replace("{loginDate}", sendAccountActivation.RegisterTime.ToString("MM/dd/yyyy"))
-            .Replace("{loginTime}", sendAccountActivation.RegisterTime.ToString("HH:mm:ss zz"))
+            .Replace("{registerDate}", sendAccountActivation.RegisterTime.ToString("MM/dd/yyyy"))
+            .Replace("{registerTime}", sendAccountActivation.RegisterTime.ToString("HH:mm:ss zz"))
             .Replace("{activationCode}", sendAccountActivation.ActivationCode);
 
         var emailSubject = $"Welcome to InMotion, activate your new account";
+        // TODO: Remove this when all starts working
+        Console.WriteLine(sendAccountActivation.ActivationCode);
         
         await SendEmail(sendAccountActivation.Email, emailSubject, emailBody);
     }
