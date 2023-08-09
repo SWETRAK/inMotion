@@ -11,8 +11,10 @@ services:
   postgres:
     image: postgres:14-alpine
     container_name: inMotion_postgresql
+    ports:
+      - "5432:5432"
     environment:
-      - POSTGRES_PASSWORD=inMotionSecretPassword
+      - POSTGRES_PASSWORD=postgres
     networks:
       - backend
 
@@ -29,17 +31,39 @@ services:
       - backend
 
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    image: rabbitmq:3.11-management-alpine
     container_name: inMotion_rabbitmq
     ports:    
       - "15672:15672"
+      - "5672:5672"
     networks:
       - backend
 
-  redis:
-    image: redis:7-alpine
-    container_name: inMotion_redis
+  # DOTNET packages
+  imsauth:
+    build:
+      context: ./in-motion-server/Auth/IMS.Auth.API
+      dockerfile: development.Dockerfile
+    container_name: inMotion_imsAuth
+    ports:
+      - "801:80"
+      - "4431:443"
     networks:
       - backend
-      
+    links:
+      - postgres
+      - rabbitmq
   
+  imsemail:
+    build:
+      context: ./in-motion-server/Email/IMS.Email.API
+      dockerfile: development.Dockerfile
+    container_name: inMotion_imsEmail
+    ports:
+      - "802:80"
+      - "4432:443"
+    networks:
+      - backend
+    links:
+      - rabbitmq
+      

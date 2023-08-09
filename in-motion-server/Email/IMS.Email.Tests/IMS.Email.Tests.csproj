@@ -21,4 +21,9 @@
         </PackageReference>
     </ItemGroup>
 
+
+    <ItemGroup>
+      <ProjectReference Include="..\IMS.Email.BLL\IMS.Email.BLL.csproj" />
+    </ItemGroup>
+
 </Project>
