@@ -4,7 +4,7 @@ using IMS.Auth.Models.Dto.Outgoing;
 using IMS.Auth.Models.Models;
 using IMS.Shared.Messaging.Messages.JWT;
 
-namespace IMS.Auth.DAL.Mappers;
+namespace IMS.Auth.Models.Mappers;
 
 public class UserProfile: Profile
 {

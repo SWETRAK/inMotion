@@ -1,7 +1,7 @@
-using IMS.Auth.DAL.Mappers;
+using IMS.Auth.Models.Mappers;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IMS.Auth.DAL;
+namespace IMS.Auth.Models;
 
 public static class LoadMappers
 {

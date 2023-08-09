@@ -8,7 +8,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Shared\IMS.Shared.Messaging\IMS.Shared.Messaging.csproj" />
       <ProjectReference Include="..\..\Shared\IMS.Shared.Models\IMS.Shared.Models.csproj" />
+      <ProjectReference Include="..\IMS.Auth.Domain\IMS.Auth.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="12.0.1" />
+      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     </ItemGroup>
 
 </Project>

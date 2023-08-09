@@ -1,29 +1,24 @@
-using IMS.Auth.BLL;
-using IMS.Auth.BLL.Authentication;
-using IMS.Auth.DAL;
-using IMS.Auth.Models;
+using IMS.Email.BLL;
+using IMS.Email.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Host.AddAuthSerilog();
+builder.Host.AddEmailSerilog();
 
-builder.Services.AddAuthMassTransit(builder);
+builder.Services.AddEmailMassTransit(builder);
 
 builder.Services.AddControllers();
 
-builder.Services.AddAuthServices();
+builder.Services.AddEmailServices(builder);
 
-builder.Services.AddAuthAuthentication(builder);
+builder.Services.AddEmailMiddlewares();
 
-builder.Services.AddAuthMiddlewares();
+builder.Services.AddEmailValidators();
 
-builder.Services.AddAuthValidators();
+builder.Services.AddEmailMappers();
 
-builder.Services.AddAuthRepositories();
-
-builder.Services.AddAuthMappers();
-
+builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -37,11 +32,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseAuthentication();
-
 app.UseHttpsRedirection();
 
-app.UseAuthMiddlewares();
+app.UseEmailMiddlewares();
 
 app.UseAuthorization();
 

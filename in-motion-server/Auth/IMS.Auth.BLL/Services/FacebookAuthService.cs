@@ -55,7 +55,6 @@ public class FacebookAuthService : IFacebookAuthService
     /// <returns></returns>
     public async Task<UserInfoDto> SignIn(AuthenticateWithFacebookProviderDto authenticateWithFacebookProviderDto)
     {
-        var requestTime = DateTime.UtcNow;
         var facebookResponseData = await GetFacebookUserAsync(authenticateWithFacebookProviderDto.Token);
         var user = await CheckProvider(authenticateWithFacebookProviderDto, facebookResponseData);
         var responseData = _mapper.Map<UserInfoDto>(user);
@@ -65,15 +64,24 @@ public class FacebookAuthService : IFacebookAuthService
         return responseData;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="authenticateWithFacebookProviderDto"></param>
+    /// <param name="userIdString"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidUserGuidStringException"></exception>
+    /// <exception cref="UserGuidStringEmptyException"></exception>
+    /// <exception cref="UserNotFoundException"></exception>
+    /// <exception cref="UserWithThisProviderExists"></exception>
     public async Task<bool> AddFacebookProvider(AuthenticateWithFacebookProviderDto authenticateWithFacebookProviderDto, string userIdString)
     {
-        var requestTime = DateTime.UtcNow;
 
         if (userIdString is null) throw new InvalidUserGuidStringException();
         if (!Guid.TryParse(userIdString, out var userId)) throw new UserGuidStringEmptyException();
-
-        var facebookResult = await GetFacebookUserAsync(authenticateWithFacebookProviderDto.Token);
-
+        
+        await GetFacebookUserAsync(authenticateWithFacebookProviderDto.Token);
+        
         var user = await _userRepository.GetByIdAsync(userId);
         if (user is null) throw new UserNotFoundException();
 
@@ -99,8 +107,8 @@ public class FacebookAuthService : IFacebookAuthService
     /// Method to verify facebook login token
     /// </summary>
     /// <param name="accessToken">Token from frontend application</param>
-    /// <returns>Dictionary with email, first name, second name and user id field</returns>
-    /// <exception cref="Exception"></exception>
+    /// <returns>FacebookUserResource object with authenticated facebook user</returns>
+    /// <exception cref="IncorrectProviderTokenException"></exception>
     private async Task<FacebookUserResource> GetFacebookUserAsync(string accessToken)
     {
         var response = await _httpClient.GetAsync($"me?access_token={accessToken}&fields=email,first_name,last_name");
