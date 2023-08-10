@@ -25,9 +25,9 @@ public class MediaServiceImpl implements MediaService {
 
     private static final String PROFILE_VIDEO_NAME_TEMPLATE = "%s/%s/profile_%s%s";
     private static final String POST_FILE_NAME_TEMPLATE = "%s/%s%s.mp4";
-    private static final String PROFILE_VIDEO_MP4_GET_ADDRESS_PREFIX = "http://localhost:8080/api/media/profile/video/mp4/";
-    private static final String PROFILE_VIDEO_GIF_GET_ADDRESS_PREFIX = "http://localhost:8080/api/media/profile/video/gif/";
-    private static final String POST_GET_ADDRESS_PREFIX = "http://localhost:8080/api/media/post/";
+    private static final String PROFILE_VIDEO_MP4_GET_ADDRESS_PREFIX = "/api/media/profile/video/mp4/";
+    private static final String PROFILE_VIDEO_GIF_GET_ADDRESS_PREFIX = "/api/media/profile/video/gif/";
+    private static final String POST_GET_ADDRESS_PREFIX = "/api/media/post/";
     private static final MediaType VIDEO_MEDIA_TYPE =  MediaType.parseMediaType("video/mp4");
 
     @Value("${minio.buckets.profile_videos}")
