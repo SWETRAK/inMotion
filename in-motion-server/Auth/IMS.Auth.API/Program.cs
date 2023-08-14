@@ -1,7 +1,9 @@
 using IMS.Auth.BLL;
 using IMS.Auth.BLL.Authentication;
 using IMS.Auth.DAL;
+using IMS.Auth.Domain;
 using IMS.Auth.Models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +37,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    
+    // Auto migrations are enabled in development mode
+    using var scope = app.Services.CreateScope();
+    var dbContext = scope.ServiceProvider.GetRequiredService<ImsAuthDbContext>();
+    dbContext.Database.Migrate();
 }
 
 app.UseAuthentication();

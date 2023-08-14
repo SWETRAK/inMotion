@@ -14,16 +14,4 @@ public class TestController: ControllerBase
     {
         _emailSenderService = emailSenderService;
     }
-
-    // [HttpGet("send")]
-    // public ActionResult SendEmail()
-    // {
-    //     _emailSenderService.SendUserLoggedInWithEmail(new UserLoggedInEmailMessage
-    //     {
-    //         Email = "kamilpietrak123@icloud.com",
-    //         LoggedDate = DateTime.UtcNow
-    //     });
-    //
-    //     return Ok();
-    // }
 }

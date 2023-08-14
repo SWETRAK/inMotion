@@ -45,6 +45,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMS.Email.Models", "Email\I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMS.Email.Tests", "Email\IMS.Email.Tests\IMS.Email.Tests.csproj", "{09D5C656-E7D9-49F6-9DEA-FA29841C9981}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0429CF02-1960-4DA2-B1D5-98C3C0752845}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

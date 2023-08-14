@@ -1,5 +1,7 @@
 using IMS.Auth.BLL.Consumers;
 using IMS.Shared.Messaging;
+using IMS.Shared.Messaging.Messages;
+using IMS.Shared.Messaging.Messages.Email.Auth;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +25,11 @@ public static class LoadConsumers
             {
                 e.Name = EventsBusNames.ValidateJwtEventName;
             });
+            
+            // Email service rabbitMq service
+            x.AddRequestClient<ImsBaseMessage<ActivateAccountEmailMessage>>(new Uri($"exchange:{EventsBusNames.SendAccountActivationEmail}"));
+            x.AddRequestClient<ImsBaseMessage<FailureLoginAttemptEmailMessage>>(new Uri($"exchange:{EventsBusNames.SendFailureLoggedInEmail}"));
+            x.AddRequestClient<ImsBaseMessage<UserLoggedInEmailMessage>>(new Uri($"exchange:{EventsBusNames.SendUserLoggedInEmail}"));
 
             x.UsingRabbitMq((ctx, cfg) =>
             {
