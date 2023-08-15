@@ -1,16 +1,20 @@
+using IMS.Friends.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace IMS.Shared.Domain.EntityPreferences.Friendship;
+namespace IMS.Friends.Domain.EntityPreferences;
 
-public class FriendshipEntityConfiguration: IEntityTypeConfiguration<Entities.Friendship.Friendship>
+public class FriendshipEntityConfiguration: IEntityTypeConfiguration<Friendship>
 {
-    public void Configure(EntityTypeBuilder<Entities.Friendship.Friendship> builder)
+    public void Configure(EntityTypeBuilder<Friendship> builder)
     {
         builder.ToTable("friendships");
 
-        builder.HasIndex(f => f.Id);
-
+        builder.HasIndex(f => f.Id)
+            .IncludeProperties(p =>
+                new { p.SecondUserId, p.FirstUserId }
+             );
+        
         builder.Property(f => f.Status)
             .HasColumnName("status")
             .IsRequired();
@@ -30,13 +34,5 @@ public class FriendshipEntityConfiguration: IEntityTypeConfiguration<Entities.Fr
         builder.Property(f => f.LastModificationDate)
             .HasColumnName("last_modification_date")
             .IsRequired();
-
-        builder.HasOne(f => f.FirstUser)
-            .WithMany()
-            .HasForeignKey(f => f.FirstUserId);
-
-        builder.HasOne(f => f.SecondUser)
-            .WithMany()
-            .HasForeignKey(f => f.SecondUserId);
     }
 }

@@ -6,4 +6,8 @@
         <Nullable>disable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\IMS.Friends.IBLL\IMS.Friends.IBLL.csproj" />
+    </ItemGroup>
+
 </Project>

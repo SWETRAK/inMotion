@@ -1,4 +1,4 @@
-namespace IMS.Shared.Domain.Consts;
+namespace IMS.Friends.Domain.Consts;
 
 public enum FriendshipStatus
 {

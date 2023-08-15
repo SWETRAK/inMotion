@@ -72,3 +72,19 @@ services:
     depends_on:
       - rabbitmq
       
+  imsfriends:
+    build:
+      context: ./in-motion-server/Friends/IMS.Friends.API
+      dockerfile: development.Dockerfile
+    container_name: inMotion_imsFriends
+    ports:
+      - "803:80"
+      - "4433:443"
+    networks:
+      - backend
+    links:
+      - rabbitmq
+      - postgres
+    depends_on:
+       - rabbitmq
+       - postgres

@@ -6,4 +6,8 @@
         <Nullable>disable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\IMS.Friends.Domain\IMS.Friends.Domain.csproj" />
+    </ItemGroup>
+
 </Project>

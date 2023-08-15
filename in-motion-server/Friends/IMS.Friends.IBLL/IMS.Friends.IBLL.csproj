@@ -6,4 +6,9 @@
         <Nullable>disable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\IMS.Friends.DAL\IMS.Friends.DAL.csproj" />
+      <ProjectReference Include="..\IMS.Friends.Models\IMS.Friends.Models.csproj" />
+    </ItemGroup>
+
 </Project>
