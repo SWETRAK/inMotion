@@ -63,11 +63,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMS.Friends.DAL", "Friends\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMS.Friends.Tests", "Friends\IMS.Friends.Tests\IMS.Friends.Tests.csproj", "{00ADADDC-BEB7-4240-BE45-3692E5C6990A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0429CF02-1960-4DA2-B1D5-98C3C0752845}"
-	ProjectSection(SolutionItems) = preProject
-		docker-compose.yml = docker-compose.yml
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
