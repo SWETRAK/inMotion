@@ -10,4 +10,5 @@
       <ProjectReference Include="..\IMS.Friends.Domain\IMS.Friends.Domain.csproj" />
     </ItemGroup>
 
+
 </Project>
