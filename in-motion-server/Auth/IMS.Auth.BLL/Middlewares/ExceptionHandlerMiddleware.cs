@@ -58,8 +58,8 @@ public class ExceptionHandlerMiddleware: IMiddleware
         }
         catch (Exception exception)
         {
-            _logger.LogError("{ExceptionName}, {Exception}, {Message}",
-                nameof(exception), exception, exception.Message);
+            _logger.LogError(exception, "{ExceptionName}, {Message}",
+                nameof(exception), exception.Message);
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             await SendErrorResponse(context, StatusCodes.Status500InternalServerError, "InternalServerError", nameof(exception));
         }
