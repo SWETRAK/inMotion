@@ -21,5 +21,4 @@ public class FriendsListsService : IFriendsListsService
         _logger = logger;
         _mapper = mapper;
     }
-    
 }

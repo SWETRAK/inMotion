@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using IMS.Shared.Messaging.Messages;
 using IMS.Shared.Messaging.Messages.JWT;
 using IMS.Shared.Models.Dto;
@@ -21,23 +22,58 @@ public class SharedAuthMiddleware: IMiddleware
         _requestClient = requestClient;
     }
 
+    //TODO: Clean this up
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
         try
         {
-            var message = new ImsBaseMessage<RequestJwtValidationMessage>();
+            var jwtAuthString = context.Request.Headers.Authorization.FirstOrDefault();
+            if (jwtAuthString is null) throw new Exception();
+            
+            var jwtTokenArray = jwtAuthString.Split(" ");
+            if (jwtTokenArray.Length != 2 && jwtTokenArray[0].Equals("Bearer")) throw new Exception();
+            
+            var jwtToken = jwtTokenArray[1];
+            var message = new ImsBaseMessage<RequestJwtValidationMessage>
+            {
+                Data = new RequestJwtValidationMessage
+                {
+                    JwtToken = jwtToken
+                }
+            };
+
             var userInfoMessageResponse = await _requestClient.GetResponse<ImsBaseMessage<ValidatedUserInfoMessage>>(message);
             
-            // TODO: Implement logging user validation;
-            
+            if (userInfoMessageResponse.Message.Data is null) throw new Exception("Invalid token");
+         
+            var responseData = userInfoMessageResponse.Message.Data;
+            var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(
+                new Claim[]
+                {
+                    new(ClaimTypes.NameIdentifier, responseData.Id),
+                    new(ClaimTypes.Email, responseData.Email),
+                    new(ClaimTypes.Name, responseData.Nickname),
+                    new(ClaimTypes.Role, responseData.Role)
+                },
+                "token",
+                ClaimTypes.Email,
+                ClaimTypes.Role
+            ));
+
+            context.User = claimsPrincipal;
             await next.Invoke(context);
+
+        }
+        catch (InvalidOperationException exception)
+        {
+            _logger.LogWarning(exception, "Authorization fail");
+            await SendErrorResponse(context, StatusCodes.Status403Forbidden, null, exception.GetType().FullName);
         }
         catch (Exception exception)
         {
-            _logger.LogError(exception , "{ExceptionName}, {Message}",
+            _logger.LogError(exception, "{ExceptionName}, {Message}",
                 nameof(exception), exception.Message);
-            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            await SendErrorResponse(context, StatusCodes.Status500InternalServerError, "InternalServerError", nameof(exception));
+            await SendErrorResponse(context, StatusCodes.Status500InternalServerError, "InternalServerError", exception.GetType().FullName);
         }
     }
     

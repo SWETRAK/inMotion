@@ -18,8 +18,4 @@ public class FriendsListController: ControllerBase
         _friendsListsService = friendsListsService;
         _logger = logger;
     }
-    
-    
-    
-
 }

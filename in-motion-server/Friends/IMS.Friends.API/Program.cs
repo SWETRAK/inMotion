@@ -10,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Host.AddFriendsSerilog();
 
+builder.Services.AddAuthorization();
+
 builder.Services.AddFriendsMassTransit(builder);
 
 builder.Services.AddControllers();
