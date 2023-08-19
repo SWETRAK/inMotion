@@ -5,6 +5,7 @@ using IMS.Shared.Models.Dto;
 using MassTransit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 
 namespace IMS.Shared.Messaging.Authorization;
 
@@ -21,48 +22,48 @@ public class SharedAuthMiddleware: IMiddleware
         _logger = logger;
         _requestClient = requestClient;
     }
-
-    //TODO: Clean this up
+    
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
         try
         {
-            var jwtAuthString = context.Request.Headers.Authorization.FirstOrDefault();
-            if (jwtAuthString is null) throw new Exception();
+            var jwtAuthString = !context.Request.Headers.Authorization.IsNullOrEmpty() ? 
+                                    context.Request.Headers.Authorization.FirstOrDefault() :
+                                    default;
             
-            var jwtTokenArray = jwtAuthString.Split(" ");
-            if (jwtTokenArray.Length != 2 && jwtTokenArray[0].Equals("Bearer")) throw new Exception();
-            
-            var jwtToken = jwtTokenArray[1];
-            var message = new ImsBaseMessage<RequestJwtValidationMessage>
+            if (jwtAuthString is not null && !jwtAuthString.Equals(string.Empty))
             {
-                Data = new RequestJwtValidationMessage
+
+                var jwtTokenArray = jwtAuthString.Split(" ");
+                if (jwtTokenArray.Length == 2 && jwtTokenArray[0].Equals("Bearer"))
                 {
-                    JwtToken = jwtToken
+                    var message = new ImsBaseMessage<RequestJwtValidationMessage>
+                    {
+                        Data = new RequestJwtValidationMessage
+                        {
+                            JwtToken = jwtTokenArray[1]
+                        }
+                    };
+
+                    var userInfoMessageResponse = await _requestClient.GetResponse<ImsBaseMessage<ValidatedUserInfoMessage>>(message);
+
+                    if (userInfoMessageResponse.Message.Data is not null) 
+                    {
+                        context.User = new ClaimsPrincipal(new ClaimsIdentity(
+                            new Claim[]
+                            {
+                                new(ClaimTypes.NameIdentifier, userInfoMessageResponse.Message.Data.Id),
+                                new(ClaimTypes.Email, userInfoMessageResponse.Message.Data.Email),
+                                new(ClaimTypes.Name, userInfoMessageResponse.Message.Data.Nickname),
+                                new(ClaimTypes.Role, userInfoMessageResponse.Message.Data.Role)
+                            },
+                            "Token"
+                        ));
+                    }
                 }
-            };
-
-            var userInfoMessageResponse = await _requestClient.GetResponse<ImsBaseMessage<ValidatedUserInfoMessage>>(message);
+            }
             
-            if (userInfoMessageResponse.Message.Data is null) throw new Exception("Invalid token");
-         
-            var responseData = userInfoMessageResponse.Message.Data;
-            var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(
-                new Claim[]
-                {
-                    new(ClaimTypes.NameIdentifier, responseData.Id),
-                    new(ClaimTypes.Email, responseData.Email),
-                    new(ClaimTypes.Name, responseData.Nickname),
-                    new(ClaimTypes.Role, responseData.Role)
-                },
-                "token",
-                ClaimTypes.Email,
-                ClaimTypes.Role
-            ));
-
-            context.User = claimsPrincipal;
             await next.Invoke(context);
-
         }
         catch (InvalidOperationException exception)
         {
