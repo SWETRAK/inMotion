@@ -13,9 +13,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Dto\" />
+      <Folder Include="Dto\Incoming\" />
       <Folder Include="Exceptions\" />
-      <Folder Include="Mappers\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\IMS.Shared.Messaging\IMS.Shared.Messaging.csproj" />
+      <ProjectReference Include="..\IMS.Friends.Domain\IMS.Friends.Domain.csproj" />
     </ItemGroup>
     
 </Project>

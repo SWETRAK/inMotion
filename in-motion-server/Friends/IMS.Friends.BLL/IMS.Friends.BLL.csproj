@@ -13,7 +13,6 @@
 
     <ItemGroup>
       <Folder Include="Consumers\" />
-      <Folder Include="Utils\" />
       <Folder Include="Validators\" />
     </ItemGroup>
 

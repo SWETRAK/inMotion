@@ -31,7 +31,7 @@ public class FriendshipRepository : IFriendshipRepository
             );
     }
 
-    public async Task<IEnumerable<Friendship>> GetRequested(Guid id)
+    public async Task<List<Friendship>> GetRequested(Guid id)
     {
         return await _context
             .Friendships
@@ -39,7 +39,15 @@ public class FriendshipRepository : IFriendshipRepository
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Friendship>> GetAccepted(Guid id)
+    public async Task<List<Friendship>> GetInvitation(Guid id)
+    {
+        return await _context
+            .Friendships
+            .Where(f => f.FirstUserId.Equals(id) && f.Status == FriendshipStatus.Waiting)
+            .ToListAsync();
+    }
+    
+    public async Task<List<Friendship>> GetAccepted(Guid id)
     {
         return await _context
             .Friendships
@@ -47,7 +55,7 @@ public class FriendshipRepository : IFriendshipRepository
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Friendship>> GetRejected(Guid id)
+    public async Task<List<Friendship>> GetRejected(Guid id)
     {
         return await _context
             .Friendships
