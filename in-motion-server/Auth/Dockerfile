@@ -8,6 +8,7 @@ WORKDIR /src
 COPY ["InMotionServer.Auth.App/InMotionServer.Auth.App.csproj", "InMotionServer.Auth.App/"]
 RUN dotnet restore "InMotionServer.Auth.App/InMotionServer.Auth.App.csproj"
 COPY . .
+COPY ../Shared ./Shared
 WORKDIR "/src/InMotionServer.Auth.App"
 RUN dotnet build "InMotionServer.Auth.App.csproj" -c Release -o /app/build
 

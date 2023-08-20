@@ -5,10 +5,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["IMS.Auth.API/IMS.Auth.API.csproj", "IMS.Auth.API/"]
-RUN dotnet restore "ISM.Auth.API/IMS.Auth.API.csproj"
+COPY ["./Auth/IMS.Auth.API/IMS.Auth.API.csproj", "./Auth/IMS.Auth.API/"]
+RUN dotnet restore "./Auth/IMS.Auth.API/IMS.Auth.API.csproj"
 COPY . .
-WORKDIR "/src/IMS.Auth.API"
+WORKDIR "/src/Auth/IMS.Auth.API"
 RUN dotnet build "IMS.Auth.API.csproj" -c Development -o /app/build
 
 FROM build AS publish
@@ -17,4 +17,4 @@ RUN dotnet publish "IMS.Auth.API.csproj" -c Development -o /app/publish /p:UseAp
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "IMS.Auth.App.dll"]
+ENTRYPOINT ["dotnet", "IMS.Auth.API.dll"]
