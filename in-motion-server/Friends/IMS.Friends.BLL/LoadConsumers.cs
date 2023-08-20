@@ -1,5 +1,7 @@
 using IMS.Shared.Messaging;
 using IMS.Shared.Messaging.Authorization;
+using IMS.Shared.Messaging.Messages;
+using IMS.Shared.Messaging.Messages.Users;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -21,10 +23,9 @@ public static class LoadConsumers
         
         serviceCollection.AddMassTransit(x =>
         {
-            // x.AddConsumer<ValidateJwtTokenConsumer>().Endpoint(e =>
-            // {
-            //     e.Name = EventsBusNames.ValidateJwtEventName;
-            // });
+            // TODO: Add this endpoints to user service
+            x.AddRequestClient<ImsBaseMessage<GetUserInfoMessage>>(new Uri($"exchange:{EventsBusNames.GetUserInfoName}"));
+            x.AddRequestClient<ImsBaseMessage<GetUsersInfoMessage>>(new Uri($"exchange:{EventsBusNames.GetUsersInfoName}"));
             
             x.UsingRabbitMq((ctx, cfg) =>
             {
