@@ -5,10 +5,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["Email/IMS.Email.API/IMS.Email.API.csproj", "Email/IMS.Email.API/"]
+COPY ["IMS.Email.API/IMS.Email.API.csproj", "IMS.Email.API/"]
 RUN dotnet restore "Email/IMS.Email.API/IMS.Email.API.csproj"
 COPY . .
-WORKDIR "/src/Email/IMS.Email.API"
+WORKDIR "/src/IMS.Email.API"
 RUN dotnet build "IMS.Email.API.csproj" -c Development -o /app/build
 
 FROM build AS publish

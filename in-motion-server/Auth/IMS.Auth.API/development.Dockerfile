@@ -5,16 +5,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["InMotionServer.Auth.App/InMotionServer.Auth.App.csproj", "InMotionServer.Auth.App/"]
-RUN dotnet restore "InMotionServer.Auth.App/InMotionServer.Auth.App.csproj"
+COPY ["IMS.Auth.API/IMS.Auth.API.csproj", "IMS.Auth.API/"]
+RUN dotnet restore "ISM.Auth.API/IMS.Auth.API.csproj"
 COPY . .
-WORKDIR "/src/InMotionServer.Auth.App"
-RUN dotnet build "InMotionServer.Auth.App.csproj" -c Development -o /app/build
+WORKDIR "/src/IMS.Auth.API"
+RUN dotnet build "IMS.Auth.API.csproj" -c Development -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "InMotionServer.Auth.App.csproj" -c Development -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "IMS.Auth.API.csproj" -c Development -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "InMotionServer.Auth.App.dll"]
+ENTRYPOINT ["dotnet", "IMS.Auth.App.dll"]
