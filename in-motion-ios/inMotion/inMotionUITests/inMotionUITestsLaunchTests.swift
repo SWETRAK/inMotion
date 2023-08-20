@@ -2,7 +2,7 @@
 //  inMotionUITestsLaunchTests.swift
 //  inMotionUITests
 //
-//  Created by Kamil Pietrak on 08/04/2023.
+//  Created by Kamil Pietrak on 06/06/2023.
 //
 
 import XCTest
