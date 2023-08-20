@@ -17,12 +17,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\IMS.Friends.BLL\IMS.Friends.BLL.csproj" />
     </ItemGroup>
 
