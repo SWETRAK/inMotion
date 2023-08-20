@@ -42,8 +42,8 @@ services:
   # DOTNET packages
   imsauth:
     build:
-      context: ./in-motion-server/Auth/IMS.Auth.API
-      dockerfile: development.Dockerfile
+      context: ./in-motion-server/
+      dockerfile: ./Auth/development.Dockerfile
     container_name: inMotion_imsAuth
     ports:
       - "801:80"
@@ -59,8 +59,8 @@ services:
   
   imsemail:
     build:
-      context: ./in-motion-server/Email/IMS.Email.API
-      dockerfile: development.Dockerfile
+      context: ./in-motion-server/
+      dockerfile: ./Email/development.Dockerfile
     container_name: inMotion_imsEmail
     ports:
       - "802:80"
