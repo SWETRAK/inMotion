@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "FB7F9305-630F-4274-8065-FBC5C3ADB985"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "02C749AC-9907-4FFD-B4A8-DB923D5762A9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "inMotion/Views/RegisterView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "141"
+            endingLineNumber = "141"
+            landmarkName = "SaveUser()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A49ECE85-0F3F-4167-81BB-B86B06496D50"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "inMotion/Views/RegisterView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "93DD786B-4007-4233-8C1C-43448C292AB4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "inMotion/Views/RegisterView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
+            landmarkName = "GetUser()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E93F1544-69FC-4DFB-8E0A-268A7474116D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "inMotion/Views/PostDetailsView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "136"
+            endingLineNumber = "136"
+            landmarkName = "LoadComments()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "E93F1544-69FC-4DFB-8E0A-268A7474116D - 9ab655946b7baa26"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "inMotion.PostDetailsView.LoadComments() -&gt; ()"
+                  moduleName = "inMotion"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kamilpietrak/Documents/projekt/in-motion-ios/inMotion/inMotion/Views/PostDetailsView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "108"
+                  endingLineNumber = "108"
+                  offsetFromSymbolStart = "298">
+               </Location>
+               <Location
+                  uuid = "E93F1544-69FC-4DFB-8E0A-268A7474116D - 9ab655946b7baa26"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "inMotion.PostDetailsView.LoadComments() -&gt; ()"
+                  moduleName = "inMotion"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kamilpietrak/Documents/projekt/in-motion-ios/inMotion/inMotion/Views/PostDetailsView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "108"
+                  endingLineNumber = "108"
+                  offsetFromSymbolStart = "510">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3A0F014C-96E9-4838-B6FC-B31C2B9A12CD"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "inMotion/Views/LoginView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
+            landmarkName = "LoginUser()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B9F2F4D1-1CDF-42C4-A548-362B7716263E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "inMotion/Views/PostDetailsView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "191"
+            endingLineNumber = "191"
+            landmarkName = "AddComment()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "59A6F699-5FF2-4E79-AE28-3A457FB23644"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "inMotion/Views/Components/YourFriendRowView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "18"
+            endingLineNumber = "18"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "21132378-00E7-4422-9B34-390B143B6CD8"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "inMotion/Views/FriendsView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
+            landmarkName = "LoadFriends()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5A2F3ECB-B121-4BDE-BF91-C6D9E196526F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "inMotion/Views/FindFriendView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "FindFriendView"
+            landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "5A2F3ECB-B121-4BDE-BF91-C6D9E196526F - 1b8fcea6e8558ada"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "property wrapper backing initializer of inMotion.FindFriendView.persons : Swift.Array&lt;inMotion.User&gt;"
+                  moduleName = "inMotion"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kamilpietrak/Documents/projekt/in-motion-ios/inMotion/inMotion/Views/FindFriendView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  uuid = "5A2F3ECB-B121-4BDE-BF91-C6D9E196526F - b393ba3cc5a33610"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "inMotion.FindFriendView.persons.getter : Swift.Array&lt;inMotion.User&gt;"
+                  moduleName = "inMotion"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kamilpietrak/Documents/projekt/in-motion-ios/inMotion/inMotion/Views/FindFriendView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "117">
+               </Location>
+               <Location
+                  uuid = "5A2F3ECB-B121-4BDE-BF91-C6D9E196526F - ced556e75178cffc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "inMotion.FindFriendView.persons.setter : Swift.Array&lt;inMotion.User&gt;"
+                  moduleName = "inMotion"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kamilpietrak/Documents/projekt/in-motion-ios/inMotion/inMotion/Views/FindFriendView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "131">
+               </Location>
+               <Location
+                  uuid = "5A2F3ECB-B121-4BDE-BF91-C6D9E196526F - 4c2983ae41e307b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "inMotion.FindFriendView.persons.modify : Swift.Array&lt;inMotion.User&gt;"
+                  moduleName = "inMotion"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kamilpietrak/Documents/projekt/in-motion-ios/inMotion/inMotion/Views/FindFriendView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "0">
+               </Location>
+               <Location
+                  uuid = "5A2F3ECB-B121-4BDE-BF91-C6D9E196526F - e2a4aa1cc484e555"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "inMotion.FindFriendView.persons.modify : Swift.Array&lt;inMotion.User&gt; with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "inMotion"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kamilpietrak/Documents/projekt/in-motion-ios/inMotion/inMotion/Views/FindFriendView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "46">
+               </Location>
+               <Location
+                  uuid = "5A2F3ECB-B121-4BDE-BF91-C6D9E196526F - fabfccefd66dd97c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "inMotion.FindFriendView.$persons.getter : SwiftUI.Binding&lt;Swift.Array&lt;inMotion.User&gt;&gt;"
+                  moduleName = "inMotion"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kamilpietrak/Documents/projekt/in-motion-ios/inMotion/inMotion/Views/FindFriendView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "150">
+               </Location>
+               <Location
+                  uuid = "5A2F3ECB-B121-4BDE-BF91-C6D9E196526F - 33c643b3afc04126"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "inMotion.FindFriendView.init() -&gt; inMotion.FindFriendView"
+                  moduleName = "inMotion"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/kamilpietrak/Documents/projekt/in-motion-ios/inMotion/inMotion/Views/FindFriendView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "323">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4A55726E-D704-421D-A5F5-B56C6F0FBE7F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "inMotion/Repositories/UserRepository.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "13"
+            endingLineNumber = "13"
+            landmarkName = "GetUserByEmailAndPassword(context:email:password:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3000D242-96CC-49F0-BD91-29FC840994F1"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "inMotion/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C31ACCEF-AE24-4CA3-9106-5B12F237DF32"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "inMotion/ContentView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
