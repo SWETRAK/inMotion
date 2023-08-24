@@ -20,9 +20,7 @@ public static class LoadLogger
                 flushToDiskInterval: TimeSpan.FromSeconds(1))
             .WriteTo.Console()
             .CreateBootstrapLogger();
-        
+
         host.UseSerilog();
-        
-        
     }
 }

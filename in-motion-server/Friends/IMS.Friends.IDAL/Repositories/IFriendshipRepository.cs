@@ -10,6 +10,7 @@ public interface IFriendshipRepository: IDisposable
     Task<List<Friendship>> GetAccepted(Guid id);
     Task<List<Friendship>> GetInvitation(Guid id);
     Task<List<Friendship>> GetRejected(Guid id);
+    void RemoveAsync(Friendship friendship);
     Task InsertAsync(Friendship friendship);
     Task SaveAsync();
 }

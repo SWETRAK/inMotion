@@ -1,4 +1,4 @@
-namespace IMS.Auth.Models.Exceptions;
+namespace IMS.Shared.Models.Exceptions;
 
 public class InvalidUserGuidStringException: Exception
 {

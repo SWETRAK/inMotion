@@ -1,5 +1,6 @@
 using IMS.Auth.Models.Exceptions;
 using IMS.Shared.Models.Dto;
+using IMS.Shared.Models.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 

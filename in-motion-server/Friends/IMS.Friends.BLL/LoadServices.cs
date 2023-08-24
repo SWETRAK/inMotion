@@ -9,6 +9,8 @@ public static class LoadServices
     public static IServiceCollection AddFriendsServices(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddScoped<IFriendsListsService, FriendsListsService>();
+        serviceCollection.AddScoped<IFriendsService, FriendsService>();
+        
         serviceCollection.AddScoped<IUserService, UserService>();
         
         return serviceCollection;

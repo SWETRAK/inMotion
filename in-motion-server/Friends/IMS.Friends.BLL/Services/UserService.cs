@@ -44,8 +44,26 @@ public class UserService: IUserService
         var response = await _usersRequestClient.GetResponse<ImsBaseMessage<IEnumerable<UserInfoMessage>>>(requestData);
         if (response.Message.Data.IsNullOrEmpty()) throw new Exception();
 
+        _logger.LogInformation("Users data downloaded via RabbitMQ from other service");
         var result = _mapper.Map<IEnumerable<UserInfo>>(response.Message.Data);
         return result;
     }
-    
+
+    public async Task<UserInfo> GetUserFromIdArray(Guid userId)
+    {
+        var request = new ImsBaseMessage<GetUserInfoMessage>
+        {
+            Data = new GetUserInfoMessage
+            {
+                UserId = userId.ToString()
+            }
+        };
+        
+        var response = await _userRequestClient.GetResponse<ImsBaseMessage<UserInfoMessage>>(request);
+        if (response.Message.Data is null) throw new Exception();
+        
+        _logger.LogInformation("User data downloaded via RabbitMQ from other service");
+        var result = _mapper.Map<UserInfo>(response.Message.Data);
+        return result;
+    }
 }

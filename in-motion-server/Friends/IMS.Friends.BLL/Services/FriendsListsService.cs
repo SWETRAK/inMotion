@@ -3,6 +3,7 @@ using IMS.Friends.Domain.Entities;
 using IMS.Friends.IBLL.Services;
 using IMS.Friends.IDAL.Repositories;
 using IMS.Friends.Models.Dto.Outgoing;
+using IMS.Shared.Models.Exceptions;
 using Microsoft.Extensions.Logging;
 
 namespace IMS.Friends.BLL.Services;
@@ -30,7 +31,7 @@ public class FriendsListsService : IFriendsListsService
     public async Task<IEnumerable<AcceptedFriendshipDto>> GetFriendsAsync(string userStringId)
     {
         if (!Guid.TryParse(userStringId, out var userGuidId))
-            throw new Exception();
+            throw new InvalidUserGuidStringException();
 
         var acceptedUsers = await _friendshipRepository.GetAccepted(userGuidId);
         var userIds = acceptedUsers.Select(f => !f.FirstUserId.Equals(userGuidId) ? f.FirstUserId : f.SecondUserId);
@@ -57,7 +58,7 @@ public class FriendsListsService : IFriendsListsService
     public async Task<IEnumerable<RequestFriendshipDto>> GetRequestsAsync(string userStringId)
     {
         if (!Guid.TryParse(userStringId, out var userGuidId))
-            throw new Exception();
+            throw new InvalidUserGuidStringException();
 
         var requestUsers = await _friendshipRepository.GetRequested(userGuidId);
 
@@ -86,7 +87,7 @@ public class FriendsListsService : IFriendsListsService
     public async Task<IEnumerable<InvitationFriendshipDto>> GetInvitationsAsync(string userStringId)
     {
         if (!Guid.TryParse(userStringId, out var userGuidId))
-            throw new Exception();
+            throw new InvalidUserGuidStringException();
 
         var invitationUsers = await _friendshipRepository.GetInvitation(userGuidId);
         var userIds = invitationUsers.Select(f => f.SecondUserId);

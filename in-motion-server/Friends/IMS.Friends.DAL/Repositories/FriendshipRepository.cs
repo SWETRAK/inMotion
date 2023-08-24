@@ -63,6 +63,11 @@ public class FriendshipRepository : IFriendshipRepository
             .ToListAsync();
     }
 
+    public void RemoveAsync(Friendship friendship)
+    {
+        _context.Friendships.Remove(friendship);
+    }
+
     public async Task InsertAsync(Friendship friendship)
     {
         await _context.Friendships.AddAsync(friendship);
