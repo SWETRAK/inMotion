@@ -46,7 +46,7 @@ services:
       dockerfile: ./Auth/development.Dockerfile
     container_name: inMotion_imsAuth
     ports:
-      - "801:80"
+      - "8001:80"
       - "4431:443"
     networks:
       - backend
@@ -63,7 +63,7 @@ services:
       dockerfile: ./Email/development.Dockerfile
     container_name: inMotion_imsEmail
     ports:
-      - "802:80"
+      - "8002:80"
       - "4432:443"
     networks:
       - backend
