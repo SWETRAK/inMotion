@@ -4,12 +4,13 @@ using IMS.Friends.Domain.Entities;
 using IMS.Friends.IBLL.Services;
 using IMS.Friends.IDAL.Repositories;
 using IMS.Friends.Models.Dto.Outgoing;
+using IMS.Friends.Models.Exceptions;
 using IMS.Shared.Models.Exceptions;
 using Microsoft.Extensions.Logging;
 
 namespace IMS.Friends.BLL.Services;
 
-// TODO: Implement notification service and connect to it
+// TODO: [EXTRA] Implement notification service and connect to it
 public class FriendsService : IFriendsService
 {
     private readonly IFriendshipRepository _friendshipRepository;
@@ -47,42 +48,8 @@ public class FriendsService : IFriendsService
         var relation = await _friendshipRepository.GetByUsersId(userIdGuid, externalUserIdGuid);
         var externalUserResponse = await _userService.GetUserFromIdArray(externalUserIdGuid);
 
-        Friendship responseFriendship;
+        var responseFriendship = await FriendshipActionWrapper(relation, userIdGuid, externalUserResponse.Id);
         
-        if (relation is not null)
-        {
-            if (relation.Status is FriendshipStatus.Rejected or FriendshipStatus.Inverted)
-            {
-                if (relation.FirstUserId != userIdGuid)
-                {
-                    relation.FirstUserId = userIdGuid;
-                    relation.SecondUserId = externalUserIdGuid;
-                }
-
-                relation.Status = FriendshipStatus.Waiting;
-                await _friendshipRepository.SaveAsync();
-                responseFriendship = relation;
-            }
-            else
-            {
-                throw new Exception();
-            }
-        }
-        else
-        {
-            var newFriendship = new Friendship
-            {
-                FirstUserId = userIdGuid,
-                SecondUserId = externalUserResponse.Id,
-                Status = FriendshipStatus.Waiting
-            };
-
-            await _friendshipRepository.InsertAsync(newFriendship);
-            await _friendshipRepository.SaveAsync();
-
-            responseFriendship = newFriendship;
-        }
-
         var response = _mapper.Map<Friendship, RequestFriendshipDto>(responseFriendship, opt =>
             opt.AfterMap((src, dest) =>
             {
@@ -101,8 +68,8 @@ public class FriendsService : IFriendsService
         if (
             relation is null ||
             !relation.SecondUserId.Equals(userIdGuid) ||
-            !relation.Status.Equals(FriendshipStatus.Waiting)
-        ) throw new Exception();
+            relation.Status is not FriendshipStatus.Waiting
+        ) throw new InvalidFriendshipActionException("Acceptance of friendship is impossible");
 
         var externalUserResponse = await _userService.GetUserFromIdArray(relation.FirstUserId);
 
@@ -129,8 +96,8 @@ public class FriendsService : IFriendsService
         if (
             relation is null ||
             !relation.SecondUserId.Equals(userIdGuid) ||
-            !relation.Status.Equals(FriendshipStatus.Waiting)
-        ) throw new Exception();
+            relation.Status is not FriendshipStatus.Waiting
+        ) throw new InvalidFriendshipActionException("Reject of Friendship is impossible");
 
         var externalUserResponse = await _userService.GetUserFromIdArray(relation.FirstUserId);
 
@@ -155,7 +122,8 @@ public class FriendsService : IFriendsService
      
 
         var relation = await _friendshipRepository.GetById(friendshipIdGuid);
-        if (relation is null || !relation.Status.Equals(FriendshipStatus.Accepted)) throw new Exception();
+        if (relation?.Status is not FriendshipStatus.Accepted) 
+            throw new InvalidFriendshipActionException("Unfriend is impossible");
 
         var externalUserResponse = await _userService.GetUserFromIdArray(relation.FirstUserId);
         
@@ -181,12 +149,56 @@ public class FriendsService : IFriendsService
         var relation = await _friendshipRepository.GetById(friendshipIdGuid);
         if (relation is null ||
             !relation.FirstUserId.Equals(userIdGuid) ||
-            !relation.Status.Equals(FriendshipStatus.Waiting)
-        ) throw new Exception();
+            relation.Status is not FriendshipStatus.Waiting
+        ) throw new InvalidFriendshipActionException("Friendship revert is impossible");
         
         await _userService.GetUserFromIdArray(relation.SecondUserId);
         
         _friendshipRepository.RemoveAsync(relation);
         await _friendshipRepository.SaveAsync();
+    }
+
+    private async Task<Friendship> FriendshipActionWrapper(Friendship relation, Guid firstUserId, Guid secondUserId)
+    {
+        if (relation is not null)
+        {
+            return await UpdateExistingFriendship(relation, firstUserId, secondUserId);
+        }
+
+        return await CreateNewFriendship(firstUserId, secondUserId);
+    }
+    
+    private async Task<Friendship> UpdateExistingFriendship(Friendship relation, Guid firstUserId, Guid secondUserId)
+    {
+        if (relation.Status is FriendshipStatus.Rejected or FriendshipStatus.Inverted)
+        {
+            if (relation.FirstUserId != firstUserId)
+            {
+                relation.FirstUserId = firstUserId;
+                relation.SecondUserId = secondUserId;
+            }
+
+            relation.Status = FriendshipStatus.Waiting;
+            await _friendshipRepository.SaveAsync();
+            return relation;
+        }
+        else
+        {
+            throw new InvalidFriendshipActionException("You cannot create a relationship");
+        }
+    }
+
+    private async Task<Friendship> CreateNewFriendship(Guid userIdGuid, Guid externalUserId)
+    {
+        var newFriendship = new Friendship
+        {
+            FirstUserId = userIdGuid,
+            SecondUserId = externalUserId,
+            Status = FriendshipStatus.Waiting
+        };
+
+        await _friendshipRepository.InsertAsync(newFriendship);
+        await _friendshipRepository.SaveAsync();
+        return newFriendship;
     }
 }

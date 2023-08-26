@@ -1,5 +1,6 @@
 using AutoMapper;
 using IMS.Friends.IBLL.Services;
+using IMS.Friends.Models.Exceptions;
 using IMS.Friends.Models.Models;
 using IMS.Shared.Messaging.Messages;
 using IMS.Shared.Messaging.Messages.Users;
@@ -42,7 +43,7 @@ public class UserService: IUserService
         };
         
         var response = await _usersRequestClient.GetResponse<ImsBaseMessage<IEnumerable<UserInfoMessage>>>(requestData);
-        if (response.Message.Data.IsNullOrEmpty()) throw new Exception();
+        if (response.Message.Data.IsNullOrEmpty()) throw new RabbitMqException("Data is missing");
 
         _logger.LogInformation("Users data downloaded via RabbitMQ from other service");
         var result = _mapper.Map<IEnumerable<UserInfo>>(response.Message.Data);
@@ -60,7 +61,7 @@ public class UserService: IUserService
         };
         
         var response = await _userRequestClient.GetResponse<ImsBaseMessage<UserInfoMessage>>(request);
-        if (response.Message.Data is null) throw new Exception();
+        if (response.Message.Data is null) throw new RabbitMqException("Data is missing");
         
         _logger.LogInformation("User data downloaded via RabbitMQ from other service");
         var result = _mapper.Map<UserInfo>(response.Message.Data);

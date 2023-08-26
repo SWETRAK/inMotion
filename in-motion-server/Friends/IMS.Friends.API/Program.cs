@@ -52,6 +52,8 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
+app.UseFriendsMiddlewares();
+
 app.UseSharedAuth();
 
 app.UseAuthorization();
