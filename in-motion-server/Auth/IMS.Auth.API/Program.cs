@@ -33,16 +33,17 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-    
-    // Auto migrations are enabled in development mode
-    using var scope = app.Services.CreateScope();
-    var dbContext = scope.ServiceProvider.GetRequiredService<ImsAuthDbContext>();
-    dbContext.Database.Migrate();
-}
+// if (app.Environment.IsDevelopment())
+// {
+//     // Auto migrations are enabled in development mode
+// }
+
+using var scope = app.Services.CreateScope();
+var dbContext = scope.ServiceProvider.GetRequiredService<ImsAuthDbContext>();
+dbContext.Database.Migrate();
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseAuthentication();
 
