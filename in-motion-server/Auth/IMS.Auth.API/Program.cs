@@ -36,10 +36,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     // Auto migrations are enabled in development mode
-    using var scope = app.Services.CreateScope();
-    var dbContext = scope.ServiceProvider.GetRequiredService<ImsAuthDbContext>();
-    dbContext.Database.Migrate();
 }
+
+using var scope = app.Services.CreateScope();
+var dbContext = scope.ServiceProvider.GetRequiredService<ImsAuthDbContext>();
+dbContext.Database.Migrate();
 
 app.UseSwagger();
 app.UseSwaggerUI();
