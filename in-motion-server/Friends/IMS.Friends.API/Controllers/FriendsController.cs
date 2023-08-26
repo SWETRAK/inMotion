@@ -32,7 +32,7 @@ public class FriendsController : ControllerBase
         var serverRequestTime = DateTime.UtcNow;
         var userIdString = AuthenticationUtil.GetUserId(HttpContext.User);
 
-        var response = await _friendsService.CreateFriendshipRequest(externalUserIdString, userIdString);
+        var response = await _friendsService.CreateFriendshipRequest( userIdString, externalUserIdString);
         var result = new ImsHttpMessage<RequestFriendshipDto>
         {
             ServerRequestTime = serverRequestTime,

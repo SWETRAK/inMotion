@@ -9,4 +9,6 @@ public static class EventsBusNames
 
     public const string GetUserInfoName = "get-user-info";
     public const string GetUsersInfoName = "get-users-info";
+    
+    public const string CheckFriendshipStatus = "check-friendship-status";
 }

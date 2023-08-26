@@ -4,7 +4,8 @@ namespace IMS.Friends.IBLL.Services;
 
 public interface IFriendsService
 {
-    Task<RequestFriendshipDto> CreateFriendshipRequest(string externalUserDto, string userDto);
+    Task<string> GetFriendshipStatus(string userIdString, string externalUserIdString);
+    Task<RequestFriendshipDto> CreateFriendshipRequest(string userString, string externalUserString);
     Task<AcceptedFriendshipDto> AcceptFriendshipInvitation(string userIdString, string friendshipIdString);
     Task<RejectedFriendshipDto> RejectFriendshipInvitation(string userIdString, string friendshipIdString);
     Task<RejectedFriendshipDto> UnfriendExistingFriendship(string userIdString, string friendshipIdString);

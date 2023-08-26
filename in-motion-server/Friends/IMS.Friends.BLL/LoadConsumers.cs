@@ -1,3 +1,4 @@
+using IMS.Friends.BLL.Consumers;
 using IMS.Shared.Messaging;
 using IMS.Shared.Messaging.Authorization;
 using IMS.Shared.Messaging.Messages;
@@ -26,6 +27,11 @@ public static class LoadConsumers
             // TODO: Add this endpoints to user service
             x.AddRequestClient<ImsBaseMessage<GetUserInfoMessage>>(new Uri($"exchange:{EventsBusNames.GetUserInfoName}"));
             x.AddRequestClient<ImsBaseMessage<GetUsersInfoMessage>>(new Uri($"exchange:{EventsBusNames.GetUsersInfoName}"));
+            
+            x.AddConsumer<CheckFriendshipStatusConsumer>().Endpoint(e =>
+            {
+                e.Name = EventsBusNames.CheckFriendshipStatus;
+            });
             
             x.UsingRabbitMq((ctx, cfg) =>
             {

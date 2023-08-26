@@ -30,27 +30,60 @@ public class FriendsService : IFriendsService
         _mapper = mapper;
     }
 
+    public async Task<string> GetFriendshipStatus(string userIdString, string externalUserIdString)
+    {
+        if (!Guid.TryParse(userIdString, out var userIdGuid)) throw new InvalidUserGuidStringException();
+        if (!Guid.TryParse(externalUserIdString, out var externalUserIdGuid)) throw new InvalidUserGuidStringException();
+        
+        var relation = await _friendshipRepository.GetByUsersId(userIdGuid, externalUserIdGuid);
+        return relation is null ? FriendshipStatus.Unknown.ToString() : relation.Status.ToString();
+    }
+
     public async Task<RequestFriendshipDto> CreateFriendshipRequest(string userString, string externalUserString)
     {
         if (!Guid.TryParse(userString, out var userIdGuid)) throw new InvalidUserGuidStringException();
         if (!Guid.TryParse(externalUserString, out var externalUserIdGuid)) throw new InvalidUserGuidStringException();
-
+        
         var relation = await _friendshipRepository.GetByUsersId(userIdGuid, externalUserIdGuid);
-        if (relation is not null && relation.Status != FriendshipStatus.Rejected) throw new Exception();
-
         var externalUserResponse = await _userService.GetUserFromIdArray(externalUserIdGuid);
 
-        var newFriendship = new Friendship
+        Friendship responseFriendship;
+        
+        if (relation is not null)
         {
-            FirstUserId = userIdGuid,
-            SecondUserId = externalUserResponse.Id,
-            Status = FriendshipStatus.Waiting
-        };
+            if (relation.Status is FriendshipStatus.Rejected or FriendshipStatus.Inverted)
+            {
+                if (relation.FirstUserId != userIdGuid)
+                {
+                    relation.FirstUserId = userIdGuid;
+                    relation.SecondUserId = externalUserIdGuid;
+                }
 
-        await _friendshipRepository.InsertAsync(newFriendship);
-        await _friendshipRepository.SaveAsync();
+                relation.Status = FriendshipStatus.Waiting;
+                await _friendshipRepository.SaveAsync();
+                responseFriendship = relation;
+            }
+            else
+            {
+                throw new Exception();
+            }
+        }
+        else
+        {
+            var newFriendship = new Friendship
+            {
+                FirstUserId = userIdGuid,
+                SecondUserId = externalUserResponse.Id,
+                Status = FriendshipStatus.Waiting
+            };
 
-        var response = _mapper.Map<Friendship, RequestFriendshipDto>(newFriendship, opt =>
+            await _friendshipRepository.InsertAsync(newFriendship);
+            await _friendshipRepository.SaveAsync();
+
+            responseFriendship = newFriendship;
+        }
+
+        var response = _mapper.Map<Friendship, RequestFriendshipDto>(responseFriendship, opt =>
             opt.AfterMap((src, dest) =>
             {
                 dest.ExternalUserId = externalUserResponse.Id.ToString();
