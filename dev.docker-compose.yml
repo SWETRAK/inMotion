@@ -78,7 +78,7 @@ services:
       dockerfile: ./Friends/development.Dockerfile
     container_name: inMotion_imsFriends
     ports:
-      - "803:80"
+      - "8003:80"
       - "4433:443"
     networks:
       - backend

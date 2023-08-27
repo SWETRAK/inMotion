@@ -20,7 +20,7 @@ public static class LoadConsumers
         
         configuration.GetSection("EventBus").Bind(rabbitMqConfiguration);
 
-        serviceCollection.AddSharedAuth(rabbitMqConfiguration);
+        serviceCollection.AddSharedAuthentication(rabbitMqConfiguration);
         
         serviceCollection.AddMassTransit(x =>
         {

@@ -18,8 +18,6 @@ builder.Services.AddControllers();
 
 builder.Services.AddFriendsServices();
 
-// builder.Services.AddFriendsAuthentication(builder);
-
 builder.Services.AddFriendsMiddlewares();
 
 builder.Services.AddFriendsValidators();
@@ -54,8 +52,7 @@ app.UseHttpsRedirection();
 
 app.UseFriendsMiddlewares();
 
-app.UseSharedAuth();
-
+app.UseSharedAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

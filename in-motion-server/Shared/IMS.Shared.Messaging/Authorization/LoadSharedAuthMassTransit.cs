@@ -8,9 +8,14 @@ namespace IMS.Shared.Messaging.Authorization;
 
 public static class LoadSharedAuthMassTransit
 {
-    public static IServiceCollection AddSharedAuth(this IServiceCollection serviceCollection, RabbitMqConfiguration rabbitMqConfiguration)
+    public static IServiceCollection AddSharedAuthentication(this IServiceCollection serviceCollection, RabbitMqConfiguration rabbitMqConfiguration)
     {
-        serviceCollection.AddScoped<SharedAuthMiddleware>();
+        serviceCollection.AddAuthentication(options =>
+        {
+            options.DefaultScheme = RemoteTokenAuthenticationSchemeHandler.SchemaName;
+        }).AddScheme<RemoteTokenAuthenticationSchemeOptions, RemoteTokenAuthenticationSchemeHandler>(
+            RemoteTokenAuthenticationSchemeHandler.SchemaName, options => { });
+        
         serviceCollection.AddMassTransit<ISharedAuthBus>(x =>
         {
             x.AddRequestClient<ImsBaseMessage<RequestJwtValidationMessage>>(new Uri($"exchange:{EventsBusNames.ValidateJwtEventName}"));
@@ -31,8 +36,8 @@ public static class LoadSharedAuthMassTransit
         return serviceCollection;
     }
 
-    public static void UseSharedAuth(this WebApplication app)
+    public static void UseSharedAuthentication(this WebApplication app)
     {
-        app.UseMiddleware<SharedAuthMiddleware>();
+        app.UseAuthentication();
     }
 }
