@@ -24,24 +24,11 @@ public class MediaController {
     private final MediaService mediaService;
     private final RabbitTemplate rabbitTemplate;
 
+    private final Publisher publisher;
+
     @GetMapping
     public void test() {
-        rabbitTemplate.convertAndSend("validate-jwt-event", "",
-                new MasstransitEvent<>(
-                        //--IMS:Shared:Messaging:Messages:JWT:RequestJwtValidationMessage
-                        List.of("IMS:Shared:Messaging:Messages:IMSBaseMessage", "IMS:Shared:Messaging:Messages:JWT:RequestJwtValidationMessage"),
-                        new BaseMessage<>(false, null,
-                                new AuthenticationMessage("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
-                                        "eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2Ns" +
-                                        "YWltcy9uYW1laWRlbnRpZmllciI6IjFkNzI0MDZlLTE1MTYtNDZiNC04MTI2LWMwZDZmNWY1" +
-                                        "NTIyNCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2" +
-                                        "xhaW1zL2VtYWlsYWRkcmVzcyI6InRlc3RAdGVzdC5wbCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvY" +
-                                        "XAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJ0ZXN0IiwiaHR0cDovL3Nj" +
-                                        "aGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXN" +
-                                        "lciIsImV4cCI6MTY5NDM1MTE3MiwiaXNzIjoiaXJsLWJhY2tlbmQ6ODAiLCJhdWQiOiJpcmwtYmF" +
-                                        "ja2VuZDo4MCJ9.QnpfAUMAg4v4WYmxu3aC6JvrbtcYihpYlRjEat63ILU")
-                        )
-                ));
+        publisher.publishTestEvent();
     }
 
     @PostMapping(value = "/profile/video", consumes = "multipart/form-data")

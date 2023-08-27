@@ -1,6 +1,9 @@
 package com.inmotion.inmotionserverjava.config;
 
-import org.springframework.amqp.core.*;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -15,7 +18,8 @@ import org.springframework.context.annotation.Configuration;
 @EnableRabbit
 public class RabbitConfiguration {
 
-    public static final String EXCHANGE = "IMS.Shared.Messaging.Messages:ImsBaseMessage--IMS.Shared.Messaging.Messages.JWT:RequestJwtValidationMessage--";
+    public static final String EXCHANGE = "validate-jwt-event";
+
     private static final String QUEUE = "validate-jwt-event";
 
     @Bean
@@ -51,6 +55,7 @@ public class RabbitConfiguration {
         rabbitTemplate.setMessageConverter(consumerJackson2MessageConverter());
         return rabbitTemplate;
     }
+
 
     @Bean
     public MessageConverter consumerJackson2MessageConverter() {
