@@ -9,6 +9,7 @@ using IMS.Auth.Models.Dto.Incoming;
 using IMS.Auth.Models.Dto.Outgoing;
 using IMS.Auth.Models.Exceptions;
 using IMS.Auth.Models.Models;
+using IMS.Shared.Models.Exceptions;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
