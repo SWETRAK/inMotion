@@ -4,6 +4,7 @@ using IMS.Auth.DAL;
 using IMS.Auth.Domain;
 using IMS.Auth.Models;
 using Microsoft.EntityFrameworkCore;
+using SoapCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,8 @@ builder.Host.AddAuthSerilog();
 builder.Services.AddAuthMassTransit(builder);
 
 builder.Services.AddControllers();
+
+builder.Services.AddAuthSoapService();
 
 builder.Services.AddAuthServices();
 
@@ -44,6 +47,8 @@ dbContext.Database.Migrate();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseAuthSoapService();
 
 app.UseAuthentication();
 
