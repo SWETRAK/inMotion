@@ -1,4 +1,4 @@
-namespace IMS.Shared.Domain.Entities.Bases;
+namespace IMS.Shared.Domain.EntityBases;
 
 public class BaseComment
 {

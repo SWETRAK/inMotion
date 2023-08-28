@@ -1,10 +1,8 @@
 
 using IMS.Shared.Domain.Entities.Other;
 using IMS.Shared.Domain.Entities.Post;
-using IMS.Shared.Domain.Entities.User;
 using IMS.Shared.Domain.EntityPreferences.Other;
 using IMS.Shared.Domain.EntityPreferences.Post;
-using IMS.Shared.Domain.EntityPreferences.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMS.Shared.Domain;
@@ -21,11 +19,7 @@ To generate sql script execute command
 /// Dont use this class for development instead use ImsDbContext
 /// </summary>
 public class DomainDbContext: DbContext
-{ 
-    public DbSet<User> Users { get; set; }
-    public DbSet<UserProfileVideo> UserProfileVideos { get; set; } 
-    public DbSet<Provider> Providers { get; set; }
-    
+{
     public DbSet<Post> Posts { get; set; }
     public DbSet<PostVideo> PostVideos { get; set; }
     public DbSet<PostComment> PostComments { get; set; }
@@ -42,15 +36,9 @@ public class DomainDbContext: DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        new UserEntityConfiguration().Configure(modelBuilder.Entity<User>());
-        new ProviderEntityConfiguration().Configure(modelBuilder.Entity<Provider>());
-        new UserProfileVideoEntityConfiguration().Configure(modelBuilder.Entity<UserProfileVideo>());
-
         new LocalizationEntityConfiguration().Configure(modelBuilder.Entity<Localization>());
         new TagEntityConfiguartion().Configure(modelBuilder.Entity<Tag>());
         
-        // new FriendshipEntityConfiguration().Configure(modelBuilder.Entity<Friendship>());
-
         new PostEntityConfiguration().Configure(modelBuilder.Entity<Post>());
         new PostVideoEntityConfiguration().Configure(modelBuilder.Entity<PostVideo>());
         new PostCommentEntityConfiguration().Configure(modelBuilder.Entity<PostComment>());

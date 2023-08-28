@@ -1,4 +1,5 @@
 using IMS.Shared.Domain.Entities.Bases;
+using IMS.Shared.Domain.EntityBases;
 
 namespace IMS.Shared.Domain.Entities.Post;
 

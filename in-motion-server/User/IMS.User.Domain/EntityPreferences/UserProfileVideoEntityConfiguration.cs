@@ -1,8 +1,8 @@
-using IMS.Shared.Domain.Entities.User;
+using IMS.User.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace IMS.Shared.Domain.EntityPreferences.User;
+namespace IMS.User.Domain.EntityPreferences;
 
 public class UserProfileVideoEntityConfiguration: IEntityTypeConfiguration<UserProfileVideo>
 {
@@ -12,8 +12,11 @@ public class UserProfileVideoEntityConfiguration: IEntityTypeConfiguration<UserP
 
         builder.HasIndex(upv => upv.Id);
 
-        builder.Property(upv => upv.AuthrorId)
-            .HasColumnName("author_id")
+        builder.Property(u => u.Id)
+            .HasColumnName("id");
+
+        builder.Property(upv => upv.AuthorExternalId)
+            .HasColumnName("author_external_id")
             .IsRequired();
 
         builder.Property(upv => upv.Filename)
