@@ -1,10 +1,20 @@
-using IMS.Example1;
+using IMS.User.BLL;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Host.AddUserSerilog();
+builder.Services.AddUserMassTransit(builder);
 
-builder.Services.AddMassTransitServices();
+builder.Services.AddUserServices();
+
+builder.Services.AddUserMiddlewares();
+
+builder.Services.AddUserValidators();
+
+//builder.Services.AddUserRepositories();
+
+//builder.Services.AddUserMappers();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -27,4 +37,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
