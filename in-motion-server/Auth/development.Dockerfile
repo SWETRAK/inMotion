@@ -7,7 +7,8 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["./Auth/IMS.Auth.API/IMS.Auth.API.csproj", "./Auth/IMS.Auth.API/"]
 RUN dotnet restore "./Auth/IMS.Auth.API/IMS.Auth.API.csproj"
-COPY . .
+COPY ./Auth ./Auth
+COPY ./Shared ./Shared
 WORKDIR "/src/Auth/IMS.Auth.API"
 RUN dotnet build "IMS.Auth.API.csproj" -c Development -o /app/build
 

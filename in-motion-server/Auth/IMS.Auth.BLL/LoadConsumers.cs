@@ -26,7 +26,6 @@ public static class LoadConsumers
                 e.Name = EventsBusNames.ValidateJwtEventName;
             });
             
-            // Email service rabbitMq service
             x.AddRequestClient<ImsBaseMessage<ActivateAccountEmailMessage>>(new Uri($"exchange:{EventsBusNames.SendAccountActivationEmail}"));
             x.AddRequestClient<ImsBaseMessage<FailureLoginAttemptEmailMessage>>(new Uri($"exchange:{EventsBusNames.SendFailureLoggedInEmail}"));
             x.AddRequestClient<ImsBaseMessage<UserLoggedInEmailMessage>>(new Uri($"exchange:{EventsBusNames.SendUserLoggedInEmail}"));
