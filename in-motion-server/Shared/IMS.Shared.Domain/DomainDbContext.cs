@@ -1,8 +1,7 @@
-using IMS.Shared.Domain.Entities.Friendship;
+
 using IMS.Shared.Domain.Entities.Other;
 using IMS.Shared.Domain.Entities.Post;
 using IMS.Shared.Domain.Entities.User;
-using IMS.Shared.Domain.EntityPreferences.Friendship;
 using IMS.Shared.Domain.EntityPreferences.Other;
 using IMS.Shared.Domain.EntityPreferences.Post;
 using IMS.Shared.Domain.EntityPreferences.User;
@@ -26,9 +25,7 @@ public class DomainDbContext: DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<UserProfileVideo> UserProfileVideos { get; set; } 
     public DbSet<Provider> Providers { get; set; }
-
-    public DbSet<Friendship> Friendships { get; set; }
-
+    
     public DbSet<Post> Posts { get; set; }
     public DbSet<PostVideo> PostVideos { get; set; }
     public DbSet<PostComment> PostComments { get; set; }
@@ -52,7 +49,7 @@ public class DomainDbContext: DbContext
         new LocalizationEntityConfiguration().Configure(modelBuilder.Entity<Localization>());
         new TagEntityConfiguartion().Configure(modelBuilder.Entity<Tag>());
         
-        new FriendshipEntityConfiguration().Configure(modelBuilder.Entity<Friendship>());
+        // new FriendshipEntityConfiguration().Configure(modelBuilder.Entity<Friendship>());
 
         new PostEntityConfiguration().Configure(modelBuilder.Entity<Post>());
         new PostVideoEntityConfiguration().Configure(modelBuilder.Entity<PostVideo>());

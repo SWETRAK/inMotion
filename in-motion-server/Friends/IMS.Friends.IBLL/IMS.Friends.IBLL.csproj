@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\IMS.Friends.DAL\IMS.Friends.DAL.csproj" />
+      <ProjectReference Include="..\IMS.Friends.Models\IMS.Friends.Models.csproj" />
+    </ItemGroup>
+
+
+</Project>

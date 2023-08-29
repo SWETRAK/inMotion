@@ -21,5 +21,11 @@ public class UserProfile: Profile
             .ForMember(ch => ch.Email, opt => opt.MapFrom(p => p.Email))
             .ForMember(ch => ch.Nickname, opt => opt.MapFrom(p => p.Nickname))
             .ForMember(ch => ch.Role, opt => opt.MapFrom(p => p.Role));
+
+        CreateMap<UserSuccessfulJwtValidation, UserInfoWithRoleDto>()
+            .ForMember(ch => ch.Id, opt => opt.MapFrom(p => p.Id.ToString()))
+            .ForMember(ch => ch.Email, opt => opt.MapFrom(p => p.Email))
+            .ForMember(ch => ch.Nickname, opt => opt.MapFrom(p => p.Nickname))
+            .ForMember(ch => ch.Role, opt => opt.MapFrom(p => p.Role));
     }
 }
