@@ -1,9 +1,13 @@
+using System.Reflection;
 using AutoMapper;
 using IMS.Auth.IBLL.Services;
 using IMS.Auth.IDAL.Repositories;
 using IMS.Auth.Models.Dto.Incoming;
 using IMS.Auth.Models.Dto.Outgoing;
 using IMS.Auth.Models.Exceptions;
+using IMS.Shared.Messaging.Messages.JWT;
+using IMS.Shared.Models.Exceptions;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 
 namespace IMS.Auth.BLL.Services;
@@ -56,5 +60,14 @@ public class UserService: IUserService
         var result = _mapper.Map<UserInfoDto>(user);
         result.Token = _jwtService.GenerateJwtToken(user);
         return result;
+    }
+
+    public async Task<UserInfoDto> GetUserInfo(string userIdString)
+    {
+        if (Guid.TryParse(userIdString, out var userIdGuid))
+            throw new InvalidUserGuidStringException();
+
+        var user = await _userRepository.GetByIdAsync(userIdGuid);
+        return _mapper.Map<UserInfoDto>(user);
     }
 }

@@ -1,5 +1,8 @@
 using IMS.Shared.Messaging;
 using IMS.Shared.Messaging.Authorization;
+using IMS.Shared.Messaging.Messages;
+using IMS.Shared.Messaging.Messages.JWT;
+using IMS.User.BLL.Consumers;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -19,9 +22,18 @@ public static class LoadConsumers
         
         serviceCollection.AddMassTransit(x =>
         {
-            // TODO: Add this endpoints to user service
-            // x.AddRequestClient<ImsBaseMessage<GetUserInfoMessage>>(new Uri($"exchange:{EventsBusNames.GetUserInfoName}"));
-            // x.AddRequestClient<ImsBaseMessage<GetUsersInfoMessage>>(new Uri($"exchange:{EventsBusNames.GetUsersInfoName}"));
+            x.AddConsumer<GetUserInfoConsumer>().Endpoint(e =>
+            {
+                e.Name = EventsBusNames.GetUserInfoName;
+            });
+            
+            x.AddConsumer<GetUsersInfoConsumer>().Endpoint(e =>
+            {
+                e.Name = EventsBusNames.GetUsersInfoName;
+            });
+            
+            x.AddRequestClient<ImsBaseMessage<GetBaseUserInfoMessage>>(new Uri($"exchange:{EventsBusNames.GetBaseUserInfoName}"));
+            x.AddRequestClient<ImsBaseMessage<GetBaseUsersInfoMessage>>(new Uri($"exchange:{EventsBusNames.GetBaseUsersInfoName}"));
             
             x.UsingRabbitMq((ctx, cfg) =>
             {

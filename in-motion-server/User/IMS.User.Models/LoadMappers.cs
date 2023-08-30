@@ -1,3 +1,4 @@
+using IMS.User.Models.Mappers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IMS.User.Models;
@@ -8,7 +9,8 @@ public static class LoadMappers
     {
         serviceCollection.AddAutoMapper(cfg =>
         {
-            // cfg.AddProfile<UserProfile>();
+            cfg.AddProfile<UserMetasProfile>();
+            cfg.AddProfile<UserProfileVideoProfile>();
         });
         return serviceCollection;
     }

@@ -7,9 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Consumers\" />
       <Folder Include="Middlewares\" />
-      <Folder Include="Services\" />
       <Folder Include="SoapServices\" />
       <Folder Include="Utils\" />
       <Folder Include="Validators\" />
@@ -27,6 +25,9 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Shared\IMS.Shared.Messaging\IMS.Shared.Messaging.csproj" />
+      <ProjectReference Include="..\IMS.User.IBLL\IMS.User.IBLL.csproj" />
+      <ProjectReference Include="..\IMS.User.IDAL\IMS.User.IDAL.csproj" />
+      <ProjectReference Include="..\IMS.User.Models\IMS.User.Models.csproj" />
     </ItemGroup>
 
     <ItemGroup>

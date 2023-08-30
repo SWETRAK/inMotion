@@ -26,9 +26,14 @@ public static class LoadConsumers
                 e.Name = EventsBusNames.ValidateJwtEventName;
             });
             
-            x.AddRequestClient<ImsBaseMessage<ActivateAccountEmailMessage>>(new Uri($"exchange:{EventsBusNames.SendAccountActivationEmail}"));
-            x.AddRequestClient<ImsBaseMessage<FailureLoginAttemptEmailMessage>>(new Uri($"exchange:{EventsBusNames.SendFailureLoggedInEmail}"));
-            x.AddRequestClient<ImsBaseMessage<UserLoggedInEmailMessage>>(new Uri($"exchange:{EventsBusNames.SendUserLoggedInEmail}"));
+            x.AddConsumer<GetBaseUserInfoConsumer>().Endpoint(e =>
+            {
+                e.Name = EventsBusNames.GetBaseUserInfoName;
+            });
+            
+            x.AddRequestClient<ImsBaseMessage<ActivateAccountEmailMessage>>(new Uri($"exchange:{EventsBusNames.SendAccountActivationEmailName}"));
+            x.AddRequestClient<ImsBaseMessage<FailureLoginAttemptEmailMessage>>(new Uri($"exchange:{EventsBusNames.SendFailureLoggedInEmailName}"));
+            x.AddRequestClient<ImsBaseMessage<UserLoggedInEmailMessage>>(new Uri($"exchange:{EventsBusNames.SendUserLoggedInEmailName}"));
 
             x.UsingRabbitMq((ctx, cfg) =>
             {

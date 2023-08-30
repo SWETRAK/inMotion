@@ -6,4 +6,9 @@
         <Nullable>disable</Nullable>
     </PropertyGroup>
 
+
+    <ItemGroup>
+      <ProjectReference Include="..\IMS.User.Models\IMS.User.Models.csproj" />
+    </ItemGroup>
+
 </Project>
