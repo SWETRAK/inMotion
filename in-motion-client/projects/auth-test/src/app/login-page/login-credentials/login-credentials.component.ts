@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {FacebookLoginProvider, GoogleLoginProvider, SocialAuthService} from "@abacritt/angularx-social-login";
-import {HttpClient} from "@angular/common/http";
-import { faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
+import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService } from "@abacritt/angularx-social-login";
+import { HttpClient } from "@angular/common/http";
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -9,34 +9,34 @@ import { faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
   templateUrl: './login-credentials.component.html',
   styleUrls: ['./login-credentials.component.css']
 })
-export class LoginCredentialsComponent implements OnInit, OnDestroy{
+export class LoginCredentialsComponent implements OnInit, OnDestroy {
 
-  
+
   private accessToken = '';
 
-    constructor(
-        private authService: SocialAuthService,
-        private httpClient: HttpClient
-    ){
+  constructor(
+    private authService: SocialAuthService,
+    private httpClient: HttpClient
+  ) {
 
-    }
-    ngOnDestroy(): void {
-    }
+  }
+  ngOnDestroy(): void {
+  }
 
-    ngOnInit(): void {
-        this.authService.authState.subscribe((user) => {
-            console.log(user);
-            //TODO: Here if user is not null call backend function
-        });
-    }
+  ngOnInit(): void {
+    this.authService.authState.subscribe((user) => {
+      console.log(user);
+      //TODO: Here if user is not null call backend function
+    });
+  }
   loginWithFacebook(): void {
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
-}
-signOut(): void {
+  }
+  signOut(): void {
     this.authService.signOut();
-}
+  }
 
-public passwordVisible: boolean = false;
+  public passwordVisible: boolean = false;
   faEye = faEye;
   faEyeSlash = faEyeSlash;
 
