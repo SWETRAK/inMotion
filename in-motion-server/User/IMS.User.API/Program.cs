@@ -1,4 +1,6 @@
 using IMS.User.BLL;
+using IMS.User.DAL;
+using IMS.User.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,9 +14,9 @@ builder.Services.AddUserMiddlewares();
 
 builder.Services.AddUserValidators();
 
-//builder.Services.AddUserRepositories();
+builder.Services.AddUserRepositories();
 
-//builder.Services.AddUserMappers();
+builder.Services.AddUserMappers();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

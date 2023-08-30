@@ -25,6 +25,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\IMS.User.BLL\IMS.User.BLL.csproj" />
+      <ProjectReference Include="..\IMS.User.DAL\IMS.User.DAL.csproj" />
+      <ProjectReference Include="..\IMS.User.Models\IMS.User.Models.csproj" />
     </ItemGroup>
 
 </Project>

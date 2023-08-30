@@ -7,7 +7,7 @@ namespace IMS.User.DAL;
 
 public static class LoadRepositories
 {
-    public static IServiceCollection AddFriendsRepositories(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddUserRepositories(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddDbContext<ImsUserDbContext>();
 
