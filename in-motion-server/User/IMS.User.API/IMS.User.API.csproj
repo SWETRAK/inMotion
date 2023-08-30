@@ -2,10 +2,10 @@
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
-        <Nullable>enable</Nullable>
+        <Nullable>disable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        <RootNamespace>ISM.User.API</RootNamespace>
+        <RootNamespace>IMS.User.API</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
