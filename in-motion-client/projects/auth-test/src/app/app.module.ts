@@ -11,17 +11,26 @@ import {
     SocialLoginModule
 } from "@abacritt/angularx-social-login";
 import {HttpClientModule} from "@angular/common/http";
-
+import { LoginPageComponent } from './login-page/login-page.component';
+import { LoginBannerComponent } from './login-page/login-banner/login-banner.component';
+import { LoginCredentialsComponent } from './login-page/login-credentials/login-credentials.component';
+import { LoginTitleComponent } from './login-page/login-title/login-title.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginPageComponent,
+    LoginBannerComponent,
+    LoginCredentialsComponent,
+    LoginTitleComponent
   ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         GoogleSigninButtonModule,
         HttpClientModule,
-        SocialLoginModule
+        SocialLoginModule,
+        FontAwesomeModule,
     ],
   providers: [
       {
