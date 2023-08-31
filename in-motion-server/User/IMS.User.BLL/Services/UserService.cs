@@ -89,8 +89,8 @@ public class UserService : IUserService
         });
 
         var responseFromRabbitMq = await _getBaseUserInfoMessageRequestClient.GetResponse<ImsBaseMessage<GetBaseUserInfoResponseMessage>>(requestBody);
-        if (responseFromRabbitMq.Message.Error is false)
-            throw new Exception();
+        if (responseFromRabbitMq.Message.Error)
+            throw new NestedRabbitMqRequestException(responseFromRabbitMq.Message.ErrorMessage);
 
         return responseFromRabbitMq.Message.Data;
     }
@@ -103,8 +103,8 @@ public class UserService : IUserService
         });
 
         var responseFromRabbitMq = await _getBaseUsersInfoMessageRequestClient.GetResponse<ImsBaseMessage<GetBaseUsersInfoResponseMessage>>(requestBody);
-        if (responseFromRabbitMq.Message.Error is false)
-            throw new Exception();
+        if (responseFromRabbitMq.Message.Error)
+            throw new NestedRabbitMqRequestException(responseFromRabbitMq.Message.ErrorMessage);
 
         return responseFromRabbitMq.Message.Data;
     }

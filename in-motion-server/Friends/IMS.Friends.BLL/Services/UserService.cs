@@ -10,7 +10,6 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace IMS.Friends.BLL.Services;
 
-// TODO: Implement this endpoints
 public class UserService: IUserService
 {
     private readonly ILogger<UserService> _logger;
@@ -42,7 +41,7 @@ public class UserService: IUserService
                 UserIds = idStrings
             }
         };
-        
+        //TODO: Change type of this
         var response = await _usersRequestClient.GetResponse<ImsBaseMessage<IEnumerable<UserInfoMessage>>>(requestData);
         if (response.Message.Data.IsNullOrEmpty()) throw new RabbitMqException("Data is missing");
 
@@ -60,7 +59,7 @@ public class UserService: IUserService
                 UserId = userId.ToString()
             }
         };
-        
+        //TODO: Change type of this
         var response = await _userRequestClient.GetResponse<ImsBaseMessage<UserInfoMessage>>(request);
         if (response.Message.Data is null) throw new RabbitMqException("Data is missing");
         
