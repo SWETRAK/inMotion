@@ -8,6 +8,7 @@ public interface IUserMetasRepository: IDisposable
     Task<UserMetas> GetByIdWithProfileVideoAsync(Guid id);
     Task<UserMetas> GetByExternalUserIdAsync(Guid externalUserId);
     Task<UserMetas> GetByExternalUserIdWithProfileVideoAsync(Guid externalUserId);
+    Task<IList<UserMetas>> GetByExternalUsersIdWithProfileVideoAsync(IEnumerable<Guid>externalUserId);
     Task<UserMetas> GetByProfileVideoIdAsync(Guid profileVideoId);
     Task<UserMetas> GetByProfileVideoIdWithProfileVideoAsync (Guid profileVideoId);
     void RemoveAsync(UserMetas userMetas);

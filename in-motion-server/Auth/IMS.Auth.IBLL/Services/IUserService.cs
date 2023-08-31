@@ -10,4 +10,6 @@ public interface IUserService
     Task<UserInfoDto> UpdateUserNickname(UpdateNicknameDto updateNicknameDto, string userIdString);
 
     Task<UserInfoDto> GetUserInfo(string userIdString);
+
+    Task<IEnumerable<UserInfoDto>> GetUsersInfo(IEnumerable<string> userIdStrings);
 }

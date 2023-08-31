@@ -31,6 +31,11 @@ public static class LoadConsumers
                 e.Name = EventsBusNames.GetBaseUserInfoName;
             });
             
+            x.AddConsumer<GetBaseUsersInfoConsumer>().Endpoint(e =>
+            {
+                e.Name = EventsBusNames.GetUsersInfoName;
+            });
+            
             x.AddRequestClient<ImsBaseMessage<ActivateAccountEmailMessage>>(new Uri($"exchange:{EventsBusNames.SendAccountActivationEmailName}"));
             x.AddRequestClient<ImsBaseMessage<FailureLoginAttemptEmailMessage>>(new Uri($"exchange:{EventsBusNames.SendFailureLoggedInEmailName}"));
             x.AddRequestClient<ImsBaseMessage<UserLoggedInEmailMessage>>(new Uri($"exchange:{EventsBusNames.SendUserLoggedInEmailName}"));

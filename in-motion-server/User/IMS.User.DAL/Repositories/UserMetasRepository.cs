@@ -39,6 +39,14 @@ public class UserMetasRepository: IUserMetasRepository
             .FirstOrDefaultAsync(x => x.UserExternalId.Equals(externalUserId));
     }
 
+    public async Task<IList<UserMetas>> GetByExternalUsersIdWithProfileVideoAsync(IEnumerable<Guid> externalUserId)
+    {
+        return await _context.UserMetas
+            .Include(x => x.ProfileVideo)
+            .Where(x => externalUserId.Contains(x.UserExternalId))
+            .ToListAsync();
+    }
+
     public async Task<UserMetas> GetByProfileVideoIdAsync(Guid profileVideoId)
     {
         return await _context.UserMetas.FirstOrDefaultAsync(x => x.ProfileVideoId.Equals(profileVideoId));

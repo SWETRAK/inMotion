@@ -6,5 +6,5 @@ public interface IUserService
 {
     Task<FullUserInfoDto> GetFullUserInfoAsync(string userIdString);
 
-    Task<IEnumerable<FullUserInfoDto>> GetFullUsersInfoAsync(IEnumerable<string> userId);
+    Task<IEnumerable<FullUserInfoDto>> GetFullUsersInfoAsync(IList<string> userIds);
 }

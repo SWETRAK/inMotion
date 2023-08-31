@@ -54,16 +54,31 @@ public class UserService : IUserService
         return response;
     }
 
-    public async Task<IEnumerable<FullUserInfoDto>> GetFullUsersInfoAsync(IEnumerable<string> userId)
+    public async Task<IEnumerable<FullUserInfoDto>> GetFullUsersInfoAsync(IList<string> userIds)
     {
-        var userIdGuids = userId.Select(s =>
+        var userIdGuids = userIds.Select(s =>
         {
             if (Guid.TryParse(s, out var userIdGuid))
                 throw new InvalidUserGuidStringException($"Invalid parse for id {s}");
             return userIdGuid;
         });
 
-        return new List<FullUserInfoDto>();
+        var rabbitData = await GetBaseUsersInfo(userIds);
+        var userMetaData = await _userMetasRepository.GetByExternalUsersIdWithProfileVideoAsync(userIdGuids);
+        
+        var response = _mapper.Map<IEnumerable<GetBaseUserInfoResponseMessage>, List<FullUserInfoDto>>(
+            rabbitData.UsersInfo,
+            f => f.AfterMap((src, dest) =>
+            {
+                dest.ForEach(element =>
+                {
+                    var userInfo = userMetaData.FirstOrDefault(x => x.Id.ToString().Equals(element.Id));
+                    if (userInfo is null) return;
+                    element.Bio = userInfo.Bio;
+                    element.UserProfileVideo = _mapper.Map<UserProfileVideoDto>(userInfo.ProfileVideo);
+                });
+            }));
+        return response;
     }
 
     private async Task<GetBaseUserInfoResponseMessage> GetBaseUserInfo(string userIdString)
@@ -74,6 +89,20 @@ public class UserService : IUserService
         });
 
         var responseFromRabbitMq = await _getBaseUserInfoMessageRequestClient.GetResponse<ImsBaseMessage<GetBaseUserInfoResponseMessage>>(requestBody);
+        if (responseFromRabbitMq.Message.Error is false)
+            throw new Exception();
+
+        return responseFromRabbitMq.Message.Data;
+    }
+
+    private async Task<GetBaseUsersInfoResponseMessage> GetBaseUsersInfo(IEnumerable<string> userIdStrings)
+    {
+        var requestBody = ImsBaseMessage<GetBaseUsersInfoMessage>.CreateInstance(new GetBaseUsersInfoMessage
+        {
+            UsersId = userIdStrings
+        });
+
+        var responseFromRabbitMq = await _getBaseUsersInfoMessageRequestClient.GetResponse<ImsBaseMessage<GetBaseUsersInfoResponseMessage>>(requestBody);
         if (responseFromRabbitMq.Message.Error is false)
             throw new Exception();
 
