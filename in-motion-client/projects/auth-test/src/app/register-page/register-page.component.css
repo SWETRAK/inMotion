@@ -1,0 +1,15 @@
+.register-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 95vh;
+}
+
+.register-content {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 250px;
+    padding-top: 10px;
+}
