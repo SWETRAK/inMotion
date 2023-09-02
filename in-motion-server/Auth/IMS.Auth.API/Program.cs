@@ -4,7 +4,6 @@ using IMS.Auth.DAL;
 using IMS.Auth.Domain;
 using IMS.Auth.Models;
 using Microsoft.EntityFrameworkCore;
-using SoapCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

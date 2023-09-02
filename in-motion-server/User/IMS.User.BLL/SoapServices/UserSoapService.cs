@@ -1,4 +1,3 @@
-using System.Security.Policy;
 using AutoMapper;
 using IMS.User.IBLL.Services;
 using IMS.User.IBLL.SoapServices;
@@ -12,19 +11,16 @@ namespace IMS.User.BLL.SoapServices;
 public class UserSoapService : IUserSoapService
 {
     private readonly IUserService _userService;
-    private readonly IUserProfileVideoService _userProfileVideoService;
     private readonly IMapper _mapper;
     private readonly ILogger<UserSoapService> _logger;
 
     public UserSoapService(
         IUserService userService,
-        ILogger<UserSoapService> logger,
-        IMapper mapper, IUserProfileVideoService userProfileVideoService)
+        ILogger<UserSoapService> logger, IMapper mapper)
     {
         _userService = userService;
         _logger = logger;
         _mapper = mapper;
-        _userProfileVideoService = userProfileVideoService;
     }
 
     public async Task<FullUserInfoSoapDto> GetFullUserInfo(string userId)
@@ -41,18 +37,33 @@ public class UserSoapService : IUserSoapService
         }
     }
 
-    public async Task<bool> UpdateUserProfileVideo(string userId, UpdateUserProfileVideoSoapDto updateUserProfileVideoSoapDto)
+    public async Task<IEnumerable<FullUserInfoSoapDto>> GetFullUsersInfoByEmail(IEnumerable<string> userIds)
+    {
+        try
+        {
+            var users = await _userService.GetFullUsersInfoAsync(userIds.ToList());
+            return _mapper.Map<IEnumerable<FullUserInfoSoapDto>>(users);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting full users info by email");
+            return null;
+        }
+    }
+
+    public async Task<UpdateUserProfileVideoSoapDto> UpdateUserProfileVideo(string userId, UpdateUserProfileVideoSoapDto updateUserProfileVideoSoapDto)
     {
         var requestData = _mapper.Map<UpdateUserProfileVideoDto>(updateUserProfileVideoSoapDto);
         try
         {
-            await _userProfileVideoService.UpdateUserProfileVideo(userId, requestData);
-            return true;
+            var updatedUserProfileVideo = await _userService.UpdateUserProfileVideo(userId, requestData);
+            var responseMessage = _mapper.Map<UpdateUserProfileVideoSoapDto>(updatedUserProfileVideo);
+            return responseMessage;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error updating user profile video");
-            return false;
+            return null;
         }
     }
 }

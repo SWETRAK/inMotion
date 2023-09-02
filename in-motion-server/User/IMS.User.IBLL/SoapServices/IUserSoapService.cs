@@ -9,7 +9,10 @@ public interface IUserSoapService
 {
     [OperationContract]
     Task<FullUserInfoSoapDto> GetFullUserInfo(string userId);
+    
+    [OperationContract]
+    Task<IEnumerable<FullUserInfoSoapDto>> GetFullUsersInfoByEmail(IEnumerable<string> userIds);
 
     [OperationContract]
-    Task<bool> UpdateUserProfileVideo(string userId, UpdateUserProfileVideoSoapDto updateUserProfileVideoSoapDto);
+    Task<UpdateUserProfileVideoSoapDto> UpdateUserProfileVideo(string userId, UpdateUserProfileVideoSoapDto updateUserProfileVideoSoapDto);
 }
