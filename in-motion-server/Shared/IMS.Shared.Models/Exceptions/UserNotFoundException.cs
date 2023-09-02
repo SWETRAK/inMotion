@@ -1,4 +1,4 @@
-namespace IMS.Auth.Models.Exceptions;
+namespace IMS.Shared.Models.Exceptions;
 
 public class UserNotFoundException: Exception
 {
@@ -11,6 +11,5 @@ public class UserNotFoundException: Exception
     public UserNotFoundException(string email)
     {
         Email = email;
-        
     }
 }

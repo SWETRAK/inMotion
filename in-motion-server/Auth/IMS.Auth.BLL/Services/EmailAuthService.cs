@@ -8,6 +8,7 @@ using IMS.Auth.Models.Dto.Outgoing;
 using IMS.Auth.Models.Exceptions;
 using IMS.Shared.Messaging.Messages;
 using IMS.Shared.Messaging.Messages.Email.Auth;
+using IMS.Shared.Models.Exceptions;
 using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;

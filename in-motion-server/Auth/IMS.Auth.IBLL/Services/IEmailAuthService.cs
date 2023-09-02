@@ -1,6 +1,7 @@
 using IMS.Auth.Models.Dto.Incoming;
 using IMS.Auth.Models.Dto.Outgoing;
 using IMS.Auth.Models.Exceptions;
+using IMS.Shared.Models.Exceptions;
 
 namespace IMS.Auth.IBLL.Services;
 

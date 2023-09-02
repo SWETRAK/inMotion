@@ -2,8 +2,10 @@ using AutoMapper;
 using IMS.Shared.Messaging.Messages;
 using IMS.Shared.Messaging.Messages.JWT;
 using IMS.Shared.Models.Exceptions;
+using IMS.User.Domain.Entities;
 using IMS.User.IBLL.Services;
 using IMS.User.IDAL.Repositories;
+using IMS.User.Models.Dto.Incoming;
 using IMS.User.Models.Dto.Outgoing;
 using MassTransit;
 using Microsoft.Extensions.Logging;
@@ -79,6 +81,85 @@ public class UserService : IUserService
                 });
             }));
         return response;
+    }
+
+    public async Task<UpdatedUserBioDto> UpdateBioAsync(string userId, UpdateUserBioDto updateUserBioDto)
+    {
+        var userIdGuid = Guid.Parse(userId);
+
+        var userMetas = await _userMetasRepository.GetByExternalUserIdAsync(userIdGuid);
+        if (userMetas is null)
+        {
+            userMetas = new UserMetas
+            {
+                UserExternalId = userIdGuid,
+                Bio = updateUserBioDto.Bio
+            };
+
+            await _userMetasRepository.SaveAsync();
+        }
+        else
+        {
+            userMetas.Bio = updateUserBioDto.Bio;
+        }
+        await _userMetasRepository.SaveAsync();
+
+        return new UpdatedUserBioDto
+        {
+            NewBio = userMetas.Bio
+        };
+    }
+    
+    public async Task<UpdatedUserProfileVideoDto> UpdateUserProfileVideo(string userId,
+        UpdateUserProfileVideoDto updateUserProfileVideoDto)
+    {
+        var userIdGuid = Guid.Parse(userId);
+
+        var userMetas = await _userMetasRepository.GetByExternalUserIdWithProfileVideoAsync(userIdGuid);
+        if (userMetas is null)
+        {
+            userMetas = new UserMetas
+            {
+                UserExternalId = userIdGuid,
+                ProfileVideo = new UserProfileVideo
+                {
+                    AuthorExternalId = userIdGuid,
+                    Filename = updateUserProfileVideoDto.Filename,
+                    BucketName = updateUserProfileVideoDto.BucketName,
+                    BucketLocation = updateUserProfileVideoDto.BucketLocation,
+                    ContentType = updateUserProfileVideoDto.ContentType,
+                }
+            };
+
+        } 
+        else if (userMetas.ProfileVideo is null)
+        {
+            userMetas.ProfileVideo = new UserProfileVideo
+            {
+                AuthorExternalId = userIdGuid,
+                Filename = updateUserProfileVideoDto.Filename,
+                BucketName = updateUserProfileVideoDto.BucketName,
+                BucketLocation = updateUserProfileVideoDto.BucketLocation,
+                ContentType = updateUserProfileVideoDto.ContentType,
+            };
+        }
+        else
+        {
+            userMetas.ProfileVideo.Filename = userMetas.ProfileVideo.Filename;
+            userMetas.ProfileVideo.BucketName = userMetas.ProfileVideo.BucketName;
+            userMetas.ProfileVideo.BucketLocation = userMetas.ProfileVideo.BucketLocation;
+            userMetas.ProfileVideo.ContentType = userMetas.ProfileVideo.ContentType;
+        }
+
+        await _userMetasRepository.SaveAsync();
+        return new UpdatedUserProfileVideoDto
+        {
+            Id = userMetas.ProfileVideo.Id.ToString(),
+            Filename = userMetas.ProfileVideo.Filename,
+            BucketName = userMetas.ProfileVideo.BucketName,
+            BucketLocation = userMetas.ProfileVideo.BucketLocation,
+            ContentType = userMetas.ProfileVideo.ContentType
+        };
     }
 
     private async Task<GetBaseUserInfoResponseMessage> GetBaseUserInfo(string userIdString)

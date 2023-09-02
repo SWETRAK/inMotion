@@ -8,7 +8,6 @@
 
     <ItemGroup>
       <Folder Include="Middlewares\" />
-      <Folder Include="SoapServices\" />
       <Folder Include="Utils\" />
       <Folder Include="Validators\" />
     </ItemGroup>

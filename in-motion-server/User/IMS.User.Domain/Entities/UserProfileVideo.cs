@@ -3,9 +3,7 @@ namespace IMS.User.Domain.Entities;
 public class UserProfileVideo
 { 
     public Guid Id { get; set; }
-
     public Guid AuthorExternalId { get; set; }
-
     public Guid UserMetasId { get; set; }
     public virtual UserMetas UserMetas { get; set; }
     public string Filename { get; set; }

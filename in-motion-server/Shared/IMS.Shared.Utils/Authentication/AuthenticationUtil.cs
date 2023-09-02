@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace IMS.Friends.BLL.Utils;
+namespace IMS.Shared.Utils.Authentication;
 
 public static class AuthenticationUtil
 {
