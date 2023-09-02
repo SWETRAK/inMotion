@@ -2,6 +2,7 @@ package com.inmotion.inmotionserverjava;
 
 import com.inmotion.inmotionserverjava.exceptions.ErrorResponse;
 import com.inmotion.inmotionserverjava.model.*;
+import com.inmotion.inmotionserverjava.services.MessagePublisher;
 import com.inmotion.inmotionserverjava.services.interfaces.MediaService;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/media")
 @AllArgsConstructor
@@ -24,11 +23,11 @@ public class MediaController {
     private final MediaService mediaService;
     private final RabbitTemplate rabbitTemplate;
 
-    private final Publisher publisher;
+    private final MessagePublisher messagePublisher;
 
     @GetMapping
     public void test() {
-        publisher.publishTestEvent();
+        messagePublisher.publishTestEvent();
     }
 
     @PostMapping(value = "/profile/video", consumes = "multipart/form-data")

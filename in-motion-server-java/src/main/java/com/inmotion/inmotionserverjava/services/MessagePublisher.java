@@ -1,17 +1,16 @@
-package com.inmotion.inmotionserverjava.model;
+package com.inmotion.inmotionserverjava.services;
 
-import org.springframework.amqp.rabbit.connection.CorrelationData;
+import com.inmotion.inmotionserverjava.model.AuthenticationMessage;
+import com.inmotion.inmotionserverjava.model.BaseMessage;
+import com.inmotion.inmotionserverjava.model.MasstransitEvent;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Component
-public class Publisher {
+public class MessagePublisher {
 
     @Autowired
     RabbitTemplate rabbitTemplate;
