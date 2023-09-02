@@ -2,14 +2,12 @@ package com.inmotion.inmotionserverjava;
 
 import com.inmotion.inmotionserverjava.exceptions.ErrorResponse;
 import com.inmotion.inmotionserverjava.model.*;
-import com.inmotion.inmotionserverjava.services.MessagePublisher;
 import com.inmotion.inmotionserverjava.services.interfaces.MediaService;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,14 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class MediaController {
 
     private final MediaService mediaService;
-    private final RabbitTemplate rabbitTemplate;
-
-    private final MessagePublisher messagePublisher;
-
-    @GetMapping
-    public void test() {
-        messagePublisher.publishTestEvent();
-    }
 
     @PostMapping(value = "/profile/video", consumes = "multipart/form-data")
     @ApiResponses(value = {

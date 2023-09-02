@@ -1,6 +1,7 @@
 package com.inmotion.inmotionserverjava;
 
 import com.inmotion.inmotionserverjava.exceptions.ErrorResponse;
+import com.inmotion.inmotionserverjava.exceptions.UnauthorizedUserException;
 import com.inmotion.inmotionserverjava.exceptions.minio.MinioFileNotFoundException;
 import com.inmotion.inmotionserverjava.exceptions.minio.MinioFilePostingException;
 import com.inmotion.inmotionserverjava.exceptions.converter.BadFileExtensionException;
@@ -18,6 +19,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @Slf4j
 @ControllerAdvice
 public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler {
+
+    @ExceptionHandler({UnauthorizedUserException.class})
+    private ResponseEntity<ErrorResponse> handleUnauthorizedUserException(UnauthorizedUserException e){
+        ErrorResponse error = new ErrorResponse(e.getMessage());
+        log.error(error.message());
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    }
 
     @ExceptionHandler({MinioFileNotFoundException.class})
     private ResponseEntity<ErrorResponse> handleMinioFileNotFoundException(MinioFileNotFoundException e) {
