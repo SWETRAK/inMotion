@@ -1,0 +1,16 @@
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    margin-right: 10px;
+}
+
+.title {
+    color: #4DD9EC;
+    text-align: center;
+    padding-top: 20px;
+    font-size: 90px;
+    font-family: 'Lato', sans-serif;
+}

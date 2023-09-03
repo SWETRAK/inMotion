@@ -16,6 +16,9 @@ import { LoginBannerComponent } from './login-page/login-banner/login-banner.com
 import { LoginCredentialsComponent } from './login-page/login-credentials/login-credentials.component';
 import { LoginTitleComponent } from './login-page/login-title/login-title.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { RegisterPageComponent } from './register-page/register-page.component';
+import { RegisterTitleComponent } from './register-page/register-title/register-title.component';
+import { RegisterCredentialsComponent } from './register-page/register-credentials/register-credentials.component';
 
 @NgModule({
     declarations: [
@@ -23,7 +26,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
         LoginPageComponent,
         LoginBannerComponent,
         LoginCredentialsComponent,
-        LoginTitleComponent
+        LoginTitleComponent,
+        RegisterPageComponent,
+        RegisterTitleComponent,
+        RegisterCredentialsComponent
     ],
     imports: [
         BrowserModule,
