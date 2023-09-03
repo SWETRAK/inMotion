@@ -25,6 +25,7 @@
                             "projects/auth-test/src/assets"
                         ],
                         "styles": [
+                            "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
                             "projects/auth-test/src/styles.css"
                         ],
                         "scripts": []
@@ -92,7 +93,8 @@
                             "projects/auth-test/src/assets"
                         ],
                         "styles": [
-                            "projects/auth-test/src/styles.css"
+                            "node_modules/bootstrap/dist/css/bootstrap.min.css",
+                            "src/styles.css"
                         ],
                         "scripts": []
                     }
@@ -101,6 +103,6 @@
         }
     },
     "cli": {
-      "analytics": "e27fe2f8-6055-49d8-b5bc-7e53894383cc"
+      "analytics": false
     }
 }
