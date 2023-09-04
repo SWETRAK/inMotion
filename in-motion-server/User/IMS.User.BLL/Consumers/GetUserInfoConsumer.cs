@@ -30,7 +30,7 @@ public class GetUserInfoConsumer : IConsumer<ImsBaseMessage<GetUserInfoMessage>>
             var userResponse = await _userService.GetFullUserInfoAsync(message.Data.UserId);
             responseMessage.Data = _mapper.Map<GetUserInfoResponseMessage>(userResponse);
         }
-        catch (InvalidUserGuidStringException exception)
+        catch (InvalidGuidStringException exception)
         {
             responseMessage.Error = true;
             responseMessage.ErrorMessage = "User id invalid format";

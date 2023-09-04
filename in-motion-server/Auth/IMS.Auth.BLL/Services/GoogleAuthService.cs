@@ -60,7 +60,7 @@ public class GoogleAuthService : IGoogleAuthService
     {
         var requestTime = DateTime.UtcNow;
 
-        if (userIdString is null) throw new InvalidUserGuidStringException();
+        if (userIdString is null) throw new InvalidGuidStringException();
         if (!Guid.TryParse(userIdString, out var userId)) throw new UserGuidStringEmptyException();
         
         await ValidateGooglePayload(authenticateWithGoogleProviderDto.Token);

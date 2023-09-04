@@ -30,5 +30,13 @@ public class UserProfileVideoProfile: Profile
             .ForMember(c => c.Filename, opt => opt.MapFrom(p => p.Filename))
             .ForMember(c => c.BucketName, opt => opt.MapFrom(p => p.BucketName))
             .ForMember(c => c.ContentType, opt => opt.MapFrom(p => p.ContentType));
+        
+        CreateMap<UserProfileVideo, UpdatedUserProfileVideoDto>()
+            .ForMember(c => c.Filename, opt => opt.MapFrom(p => p.Filename))
+            .ForMember(c => c.ContentType, opt => opt.MapFrom(p => p.ContentType))
+            .ForMember(c => c.BucketLocation, opt => opt.MapFrom(p => p.BucketLocation))
+            .ForMember(c => c.BucketName, opt => opt.MapFrom(p => p.BucketName))
+            .ForMember(c => c.UserId, opt => opt.MapFrom(p => p.AuthorExternalId.ToString()))
+            .ForMember(c => c.Id, opt => opt.MapFrom(p => p.Id.ToString()));
     }
 }

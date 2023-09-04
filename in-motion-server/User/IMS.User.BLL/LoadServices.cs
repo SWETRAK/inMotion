@@ -9,6 +9,7 @@ public static class LoadServices
     public static IServiceCollection AddUserServices(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddScoped<IUserService, UserService>();
+        serviceCollection.AddScoped<IUserProfileVideoService, UserProfileVideoService>();
         
         return serviceCollection;
     }

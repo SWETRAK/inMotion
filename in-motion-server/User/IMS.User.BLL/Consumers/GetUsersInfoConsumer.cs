@@ -36,7 +36,7 @@ public class GetUsersInfoConsumer : IConsumer<ImsBaseMessage<GetUsersInfoMessage
                 UsersInfo = _mapper.Map<IEnumerable<GetUserInfoResponseMessage>>(userResponse)
             }; 
         }
-        catch (InvalidUserGuidStringException exception)
+        catch (InvalidGuidStringException exception)
         {
             responseMessage.Error = true;
             responseMessage.ErrorMessage = "User id invalid format";

@@ -37,7 +37,7 @@ public class UserService : IUserService
     public async Task<FullUserInfoDto> GetFullUserInfoAsync(string userIdString)
     {
         if (Guid.TryParse(userIdString, out var userIdGuid))
-            throw new InvalidUserGuidStringException();
+            throw new InvalidGuidStringException();
 
         var rabbitData = await GetBaseUserInfo(userIdString);
         var userMetaData = await _userMetasRepository.GetByExternalUserIdWithProfileVideoAsync(userIdGuid);
@@ -61,7 +61,7 @@ public class UserService : IUserService
         var userIdGuids = userIds.Select(s =>
         {
             if (Guid.TryParse(s, out var userIdGuid))
-                throw new InvalidUserGuidStringException($"Invalid parse for id {s}");
+                throw new InvalidGuidStringException($"Invalid parse for id {s}");
             return userIdGuid;
         });
 
@@ -121,27 +121,12 @@ public class UserService : IUserService
             userMetas = new UserMetas
             {
                 UserExternalId = userIdGuid,
-                ProfileVideo = new UserProfileVideo
-                {
-                    AuthorExternalId = userIdGuid,
-                    Filename = updateUserProfileVideoDto.Filename,
-                    BucketName = updateUserProfileVideoDto.BucketName,
-                    BucketLocation = updateUserProfileVideoDto.BucketLocation,
-                    ContentType = updateUserProfileVideoDto.ContentType,
-                }
+                ProfileVideo = CreateNewUserProfileVideo(userIdGuid, updateUserProfileVideoDto)
             };
-
         } 
         else if (userMetas.ProfileVideo is null)
         {
-            userMetas.ProfileVideo = new UserProfileVideo
-            {
-                AuthorExternalId = userIdGuid,
-                Filename = updateUserProfileVideoDto.Filename,
-                BucketName = updateUserProfileVideoDto.BucketName,
-                BucketLocation = updateUserProfileVideoDto.BucketLocation,
-                ContentType = updateUserProfileVideoDto.ContentType,
-            };
+            userMetas.ProfileVideo = CreateNewUserProfileVideo(userIdGuid, updateUserProfileVideoDto);
         }
         else
         {
@@ -149,17 +134,11 @@ public class UserService : IUserService
             userMetas.ProfileVideo.BucketName = userMetas.ProfileVideo.BucketName;
             userMetas.ProfileVideo.BucketLocation = userMetas.ProfileVideo.BucketLocation;
             userMetas.ProfileVideo.ContentType = userMetas.ProfileVideo.ContentType;
+            userMetas.ProfileVideo.LastEditionDate = DateTime.UtcNow;
         }
 
         await _userMetasRepository.SaveAsync();
-        return new UpdatedUserProfileVideoDto
-        {
-            Id = userMetas.ProfileVideo.Id.ToString(),
-            Filename = userMetas.ProfileVideo.Filename,
-            BucketName = userMetas.ProfileVideo.BucketName,
-            BucketLocation = userMetas.ProfileVideo.BucketLocation,
-            ContentType = userMetas.ProfileVideo.ContentType
-        };
+        return _mapper.Map<UpdatedUserProfileVideoDto>(userMetas.ProfileVideo);
     }
 
     private async Task<GetBaseUserInfoResponseMessage> GetBaseUserInfo(string userIdString)
@@ -188,5 +167,18 @@ public class UserService : IUserService
             throw new NestedRabbitMqRequestException(responseFromRabbitMq.Message.ErrorMessage);
 
         return responseFromRabbitMq.Message.Data;
+    }
+
+    private static UserProfileVideo CreateNewUserProfileVideo(Guid userIdGuid,
+        UpdateUserProfileVideoDto updateUserProfileVideoDto)
+    {
+        return new UserProfileVideo
+        {
+            AuthorExternalId = userIdGuid,
+            Filename = updateUserProfileVideoDto.Filename,
+            BucketName = updateUserProfileVideoDto.BucketName,
+            BucketLocation = updateUserProfileVideoDto.BucketLocation,
+            ContentType = updateUserProfileVideoDto.ContentType,
+        };
     }
 }

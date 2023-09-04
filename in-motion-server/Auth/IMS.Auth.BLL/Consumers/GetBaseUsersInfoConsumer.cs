@@ -37,7 +37,7 @@ public class GetBaseUsersInfoConsumer: IConsumer<ImsBaseMessage<GetBaseUsersInfo
                 UsersInfo = _mapper.Map<IEnumerable<GetBaseUserInfoResponseMessage>>(userResponse)
             };
         }
-        catch (InvalidUserGuidStringException exception)
+        catch (InvalidGuidStringException exception)
         {
             _logger.LogWarning(exception, "User guid is incorrect");
             responseMessage.Error = true;

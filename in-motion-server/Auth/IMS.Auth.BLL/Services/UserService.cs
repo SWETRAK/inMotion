@@ -62,7 +62,7 @@ public class UserService: IUserService
     public async Task<UserInfoDto> GetUserInfo(string userIdString)
     {
         if (Guid.TryParse(userIdString, out var userIdGuid))
-            throw new InvalidUserGuidStringException();
+            throw new InvalidGuidStringException();
 
         var user = await _userRepository.GetByIdAsync(userIdGuid);
         return _mapper.Map<UserInfoDto>(user);
@@ -73,7 +73,7 @@ public class UserService: IUserService
         var userIdGuids = userIdStrings.Select(s =>
         {
             if (!Guid.TryParse(s, out var userIdGuid))
-                throw new InvalidUserGuidStringException();
+                throw new InvalidGuidStringException();
             return userIdGuid;
         });
 
