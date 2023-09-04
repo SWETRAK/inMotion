@@ -5,6 +5,7 @@ using IMS.Shared.Messaging.Messages;
 using IMS.Shared.Messaging.Messages.JWT;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace IMS.Auth.BLL.Consumers;
 
@@ -13,7 +14,7 @@ public class ValidateJwtTokenConsumer: IConsumer<ImsBaseMessage<RequestJwtValida
     private readonly IJwtService _jwtService;
     private readonly IMapper _mapper;
     private readonly ILogger<ValidateJwtTokenConsumer> _logger;
-
+    
     public ValidateJwtTokenConsumer(IJwtService jwtService, IMapper mapper, ILogger<ValidateJwtTokenConsumer> logger)
     {
         _jwtService = jwtService;
@@ -24,6 +25,7 @@ public class ValidateJwtTokenConsumer: IConsumer<ImsBaseMessage<RequestJwtValida
     public async Task Consume(ConsumeContext<ImsBaseMessage<RequestJwtValidationMessage>> context)
     {
         var message = context.Message;
+        _logger.LogInformation(JsonConvert.SerializeObject(context));
         var responseMessage = new ImsBaseMessage<ValidatedUserInfoMessage>();
         try
         {
