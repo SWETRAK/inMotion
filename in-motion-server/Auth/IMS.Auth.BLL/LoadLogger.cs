@@ -9,6 +9,8 @@ public static class LoadLogger
     public static void AddAuthSerilog(this ConfigureHostBuilder host)
     {
         Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Override("JobService", LogEventLevel.Debug)
+            .MinimumLevel.Override("Quartz", LogEventLevel.Information)
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .Enrich.FromLogContext()
             .WriteTo.File(Path.Combine("Logs", "history.log"),

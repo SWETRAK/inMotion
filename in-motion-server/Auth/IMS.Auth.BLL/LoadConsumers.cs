@@ -47,9 +47,10 @@ public static class LoadConsumers
                     h.Username(rabbitMqConfiguration.Username);
                     h.Password(rabbitMqConfiguration.Password);
                 });
-
+                
                 cfg.UseMessageRetry(r => r.Immediate(2));
                 cfg.ConfigureEndpoints(ctx);
+                
             });
         });
 

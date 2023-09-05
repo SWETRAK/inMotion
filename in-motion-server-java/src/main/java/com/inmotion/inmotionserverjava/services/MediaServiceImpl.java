@@ -1,13 +1,13 @@
 package com.inmotion.inmotionserverjava.services;
 
+import com.inmotion.inmotionserverjava.exceptions.UnauthorizedUserException;
 import com.inmotion.inmotionserverjava.exceptions.minio.MinioFilePostingException;
-import com.inmotion.inmotionserverjava.model.PostDto;
-import com.inmotion.inmotionserverjava.model.PostUploadInfoDto;
-import com.inmotion.inmotionserverjava.model.ProfileVideoUploadInfoDto;
-import com.inmotion.inmotionserverjava.model.UserInfoDto;
+import com.inmotion.inmotionserverjava.model.*;
 import com.inmotion.inmotionserverjava.services.interfaces.MediaService;
 import com.inmotion.inmotionserverjava.services.interfaces.MinioService;
+import com.inmotion.inmotionserverjava.soap.AuthenticationClient;
 import com.inmotion.inmotionserverjava.util.MP4ToSmallGifConverter;
+import com.inmotion.soap.wsdl.UserInfoWithRoleDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +36,7 @@ public class MediaServiceImpl implements MediaService {
     @Value("${minio.buckets.posts}")
     private String postsBucket;
     private final MinioService minioService;
+    private final AuthenticationClient authenticationClient;
     private final MP4ToSmallGifConverter mp4ToGifConverter;
 
     // TODO: Rollback mechanism if one of files not uploaded
@@ -100,15 +101,14 @@ public class MediaServiceImpl implements MediaService {
         return new PostDto(frontVideo, backVideo);
     }
 
-    // Temporary solution before adding RabbitMQ support
     // TODO: Write as supposed to be with call to message queue
     private UserInfoDto validateJwt(String jwtToken){
+        UserInfoWithRoleDto user = authenticationClient.validateJwtToken(jwtToken).getValidateJwtTokenResult();
+        if(user == null) throw new UnauthorizedUserException();
         return new UserInfoDto(
-
-                "6ef2737d-bca0-4635-91ca-90a45cab96ea",
-                "test@test.com",
-                "TestUser1",
-                jwtToken
-        );
+                user.getId().getValue(),
+                user.getEmail().getValue(),
+                user.getNickname().getValue(),
+                jwtToken);
     }
 }
