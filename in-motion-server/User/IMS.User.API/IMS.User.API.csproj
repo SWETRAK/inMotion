@@ -20,9 +20,12 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Shared\IMS.Shared.Models\IMS.Shared.Models.csproj" />
       <ProjectReference Include="..\..\Shared\IMS.Shared.Utils\IMS.Shared.Utils.csproj" />
       <ProjectReference Include="..\IMS.User.BLL\IMS.User.BLL.csproj" />
       <ProjectReference Include="..\IMS.User.DAL\IMS.User.DAL.csproj" />
+      <ProjectReference Include="..\IMS.User.Domain\IMS.User.Domain.csproj" />
+      <ProjectReference Include="..\IMS.User.IBLL\IMS.User.IBLL.csproj" />
       <ProjectReference Include="..\IMS.User.Models\IMS.User.Models.csproj" />
     </ItemGroup>
 

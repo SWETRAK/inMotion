@@ -11,6 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\IMS.User.Domain\IMS.User.Domain.csproj" />
       <ProjectReference Include="..\IMS.User.IDAL\IMS.User.IDAL.csproj" />
     </ItemGroup>
 

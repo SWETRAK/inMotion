@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Shared\IMS.Shared.Models\IMS.Shared.Models.csproj" />
       <ProjectReference Include="..\IMS.Auth.DAL\IMS.Auth.DAL.csproj" />
       <ProjectReference Include="..\IMS.Auth.Models\IMS.Auth.Models.csproj" />
     </ItemGroup>
