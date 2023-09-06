@@ -1,6 +1,7 @@
 using IMS.Shared.Models.Dto;
 using IMS.User.IBLL.Services;
 using IMS.User.Models.Dto.Outgoing;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IMS.User.API.Controllers;
@@ -20,6 +21,7 @@ public class ProfileVideoController: ControllerBase
         _userProfileVideoService = userProfileVideoService;
     }
 
+    [Authorize]
     [HttpGet("byVideo/{videoId}")]
     public async Task<ActionResult<ImsHttpMessage<UserProfileVideoDto>>> GetProfileVideoByUserId([FromRoute(Name = "videoId")] string videoId)
     {
@@ -35,6 +37,7 @@ public class ProfileVideoController: ControllerBase
         });
     }
     
+    [Authorize]
     [HttpGet("byUser/{userId}")]
     public async Task<ActionResult<ImsHttpMessage<UserProfileVideoDto>>> GetProfileVideoByProfileId([FromRoute(Name = "userId")] string userId)
     {
