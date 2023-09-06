@@ -1,0 +1,17 @@
+<div class="sidenav">
+    <a (mouseover)="expandMenu()" (mouseleave)="collapseMenu()" (click)="navigateToHomePage()"
+        [ngClass]="{'active-page': currentPage === 'home-page', 'other-page': currentPage !== 'home-page'}">
+        <i class="fas fa-home"></i>
+        <span class="menu-label">Home Page</span>
+    </a>
+    <a (mouseover)="expandMenu()" (mouseleave)="collapseMenu()" (click)="navigateToFriendsPage()"
+        [ngClass]="{'active-page': currentPage === 'friends-page', 'other-page': currentPage !== 'friends-page'}">
+        <i class="fas fa-users"></i>
+        <span class="menu-label">Friends</span>
+    </a>
+    <a (mouseover)="expandMenu()" (mouseleave)="collapseMenu()" (click)="navigateToProfilePage()"
+        [ngClass]="{'active-page': currentPage === 'profile-page', 'other-page': currentPage !== 'profile-page'}">
+        <i class="fas fa-user"></i>
+        <span class="menu-label">Profile</span>
+    </a>
+</div>

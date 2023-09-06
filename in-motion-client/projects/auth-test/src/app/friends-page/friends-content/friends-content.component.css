@@ -1,0 +1,106 @@
+.add-friend-button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 100px;
+    margin-right: 350px;
+}
+
+.add-friend-button {
+    background-color: #4DD9EC;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    max-width: 400px;
+}
+
+.friends-list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+
+}
+
+.tabs-container {
+    display: flex;
+    width: 50%;
+    margin-bottom: 20px;
+}
+
+.tab {
+    flex-grow: 1;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    text-align: center;
+    font-size: 28px;
+    font-weight: 500;
+    color: #555;
+    position: relative;
+}
+
+.tab.active {
+    color: #4DD9EC;
+}
+
+.tab-divider {
+    width: 1px;
+    background-color: #ccc;
+    margin: 0 5px;
+}
+
+.tab.active::after {
+    content: "";
+    display: block;
+    height: 2px;
+    background-color: #4DD9EC;
+    position: absolute;
+    left: 45px;
+    right: 45px;
+}
+
+.search-container {
+    width: 45%;
+}
+
+.friend-search-input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.friend-template {
+    display: flex;
+    margin-top: 20px;
+}
+
+.friend-template img {
+    width: 60px;
+    height: 60px;
+    margin-right: 10px;
+}
+
+.friend-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.username {
+    font-weight: bold;
+    color: white;
+    font-size: 20px;
+    text-align: left;
+}
+
+.status {
+    color: #777;
+    font-size: 16px;
+}

@@ -19,6 +19,17 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RegisterPageComponent } from './register-page/register-page.component';
 import { RegisterTitleComponent } from './register-page/register-title/register-title.component';
 import { RegisterCredentialsComponent } from './register-page/register-credentials/register-credentials.component';
+import { FriendsPageComponent } from './friends-page/friends-page.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { LogoComponent } from './navbar/logo/logo.component';
+import { UsernameComponent } from './navbar/username/username.component';
+import { SidenavComponent } from './sidenav/sidenav.component';
+import { HomePageComponent } from './home-page/home-page.component';
+import { ProfilePageComponent } from './profile-page/profile-page.component';
+import { FriendsContentComponent } from './friends-page/friends-content/friends-content.component';
+import { RequestsContentComponent } from './friends-page/requests-content/requests-content.component';
+import { AddFriendContentComponent } from './friends-page/add-friend-content/add-friend-content.component';
+
 
 @NgModule({
     declarations: [
@@ -29,7 +40,17 @@ import { RegisterCredentialsComponent } from './register-page/register-credentia
         LoginTitleComponent,
         RegisterPageComponent,
         RegisterTitleComponent,
-        RegisterCredentialsComponent
+        RegisterCredentialsComponent,
+        FriendsPageComponent,
+        NavbarComponent,
+        LogoComponent,
+        UsernameComponent,
+        SidenavComponent,
+        HomePageComponent,
+        ProfilePageComponent,
+        FriendsContentComponent,
+        RequestsContentComponent,
+        AddFriendContentComponent
     ],
     imports: [
         BrowserModule,
