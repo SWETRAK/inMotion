@@ -28,7 +28,7 @@ public class ImsPostDbContext: DbContext
     {
         optionsBuilder.UseNpgsql(
             _configuration.GetConnectionString("WebApiDatabase"),
-            x => x.MigrationsAssembly("IMS.Auth.API"));
+            x => x.MigrationsAssembly("IMS.Post.API"));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
