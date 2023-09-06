@@ -1,5 +1,5 @@
+using IMS.User.BLL.Middlewares;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IMS.User.BLL;

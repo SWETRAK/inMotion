@@ -3,6 +3,7 @@ using IMS.Shared.Models.Exceptions;
 using IMS.User.IBLL.Services;
 using IMS.User.IDAL.Repositories;
 using IMS.User.Models.Dto.Outgoing;
+using IMS.User.Models.Exceptions;
 using Microsoft.Extensions.Logging;
 
 namespace IMS.User.BLL.Services;
@@ -29,13 +30,13 @@ public class UserProfileVideoService: IUserProfileVideoService
         if (!Guid.TryParse(userId, out var userIdGuid))
             throw new InvalidGuidStringException();
 
-        var image = await _userProfileVideoRepository.GetByAuthorIdAsync(userIdGuid);
+        var video = await _userProfileVideoRepository.GetByAuthorIdAsync(userIdGuid);
 
-        if (image is null)
+        if (video is null)
             
-            throw new Exception();
+            throw new NotFoundVideoException();
 
-        return _mapper.Map<UserProfileVideoDto>(image);
+        return _mapper.Map<UserProfileVideoDto>(video);
     }
 
     public async Task<UserProfileVideoDto> GetUserProfileVideoByVideoIdAsync(string videoId)
@@ -44,9 +45,9 @@ public class UserProfileVideoService: IUserProfileVideoService
             throw new InvalidGuidStringException();
 
         var image = await _userProfileVideoRepository.GetByIdAsync(videoIdGuid);
-        
+
         if (image is null)
-            throw new Exception();
+            throw new NotFoundVideoException();
 
         return _mapper.Map<UserProfileVideoDto>(image);
     }
