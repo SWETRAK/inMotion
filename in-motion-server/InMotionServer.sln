@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMS.Shared.Models", "Shared
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMS.Shared.Utils", "Shared\IMS.Shared.Utils\IMS.Shared.Utils.csproj", "{67D2AFFA-27F0-4DD7-9928-34F0E2787591}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMS.Shared.Domain", "Shared\IMS.Shared.Domain\IMS.Shared.Domain.csproj", "{B8B23175-13EE-4BBF-B9C1-0367328B68F3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMS.Example1", "IMS.Example1\IMS.Example1.csproj", "{AB48B575-EB1C-4317-8047-AE567F37D387}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auth", "Auth", "{031E5608-C0A1-4736-A473-0ACC94B7A262}"
