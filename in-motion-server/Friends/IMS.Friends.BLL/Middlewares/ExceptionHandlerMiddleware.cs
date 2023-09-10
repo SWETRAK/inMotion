@@ -21,7 +21,7 @@ public class ExceptionHandlerMiddleware: IMiddleware
         {
             await next.Invoke(context);
         }
-        catch (InvalidUserGuidStringException exception)
+        catch (InvalidGuidStringException exception)
         {
             _logger.LogWarning(exception, "User Guid cant be Parsed, {Message}",  exception.Message);
             await SendErrorResponse(context, StatusCodes.Status401Unauthorized, "User try to authenticate with incorrect google token", nameof(exception));

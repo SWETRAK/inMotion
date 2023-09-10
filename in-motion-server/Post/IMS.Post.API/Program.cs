@@ -1,3 +1,4 @@
+using IMS.Post.BLL;
 using IMS.Post.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,7 +6,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddPostRepositories();
 
+builder.Services.AddPostMiddlewares();
 
+builder.Services.AddPostValidators();
+
+builder.Services.AddPostServices();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

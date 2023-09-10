@@ -20,6 +20,10 @@ public class PostEntityConfiguration: IEntityTypeConfiguration<Entities.Post.Pos
             .HasColumnName("description")
             .HasMaxLength(2048);
 
+        builder.Property(p => p.Visibility)
+            .HasColumnName("visibility")
+            .IsRequired();
+
         builder.Property(p => p.Title)
             .HasColumnName("title")
             .HasMaxLength(256)

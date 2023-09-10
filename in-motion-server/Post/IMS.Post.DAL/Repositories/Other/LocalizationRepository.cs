@@ -1,5 +1,7 @@
 using IMS.Post.Domain;
+using IMS.Post.Domain.Entities.Other;
 using IMS.Post.IDAL.Repositories.Other;
+using Microsoft.EntityFrameworkCore;
 
 namespace IMS.Post.DAL.Repositories.Other;
 
@@ -13,8 +15,17 @@ public class LocalizationRepository: ILocalizationRepository
         _context = context;
     }
 
-    
-    
+
+    public async Task<Localization> GetByCoordinatesOrNameAsync(double latitude, double longitude, string name)
+    {
+        return await _context.Localizations.FirstOrDefaultAsync(x =>
+            (x.Latitude.Equals(latitude) && x.Longitude.Equals(longitude)) || x.Name.ToLower().Equals(name.ToLower()));
+    }
+
+    public async Task SaveAsync()
+    {
+        await _context.SaveChangesAsync();
+    }
 
     private void Dispose(bool disposing)
     {

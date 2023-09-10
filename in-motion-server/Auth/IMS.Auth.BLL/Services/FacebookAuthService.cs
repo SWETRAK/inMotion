@@ -71,14 +71,14 @@ public class FacebookAuthService : IFacebookAuthService
     /// <param name="authenticateWithFacebookProviderDto"></param>
     /// <param name="userIdString"></param>
     /// <returns></returns>
-    /// <exception cref="InvalidUserGuidStringException"></exception>
+    /// <exception cref="InvalidGuidStringException"></exception>
     /// <exception cref="UserGuidStringEmptyException"></exception>
     /// <exception cref="UserNotFoundException"></exception>
     /// <exception cref="UserWithThisProviderExists"></exception>
     public async Task<bool> AddFacebookProvider(AuthenticateWithFacebookProviderDto authenticateWithFacebookProviderDto, string userIdString)
     {
 
-        if (userIdString is null) throw new InvalidUserGuidStringException();
+        if (userIdString is null) throw new InvalidGuidStringException();
         if (!Guid.TryParse(userIdString, out var userId)) throw new UserGuidStringEmptyException();
         
         await GetFacebookUserAsync(authenticateWithFacebookProviderDto.Token);

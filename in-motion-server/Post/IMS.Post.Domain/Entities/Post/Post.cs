@@ -1,4 +1,5 @@
 using IMS.Post.Domain.Entities.Other;
+using IMS.Postś.Domain.Consts;
 
 namespace IMS.Post.Domain.Entities.Post;
 
@@ -8,6 +9,8 @@ public class Post
     
     public Guid ExternalAuthorId { get; set; }
 
+    public PostVisibility Visibility { get; set; }
+    
     public string Description { get; set; }
     public string Title { get; set; }
     
