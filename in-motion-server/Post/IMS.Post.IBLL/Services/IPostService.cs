@@ -6,19 +6,16 @@ namespace IMS.Post.IBLL.Services;
 
 public interface IPostService
 {
-    // TODO: Get public posts by day (paginated)
-    Task<ImsPagination<IEnumerable<GetPostResponseDto>>> GetPublicPostsFromCurrentDay(
+    Task<ImsPagination<IList<GetPostResponseDto>>> GetPublicPostsFromCurrentDay(
         ImsPaginationRequestDto paginationRequestDto);
     
-    // TODO: Get posts from your friends (paginated)
-    Task<ImsPagination<IEnumerable<GetPostResponseDto>>> GetFriendsPublicPostsFromCurrentDay(
+    Task<ImsPagination<IList<GetPostResponseDto>>> GetFriendsPublicPostsFromCurrentDay(
         string userId, ImsPaginationRequestDto paginationRequestDto);
-
-    // TODO: Create post
+    
     Task<CreatePostResponseDto> CreatePost(string userId, CreatePostRequestDto createPostRequestDto);
     
-    // TODO: Get your current post
     Task<GetPostResponseDto> GetCurrentUserPost(string userId);
-
-    // TODO: Edit your post meats
+    
+    Task<GetPostResponseDto> EditPostsMetas(string userId, string postId,
+        EditPostRequestDto editPostRequestDto);
 }

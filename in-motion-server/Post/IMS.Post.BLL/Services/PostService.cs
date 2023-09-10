@@ -45,7 +45,7 @@ public class PostService : IPostService
         _getUserFriendsRequestClient = getUserFriendsRequestClient;
     }
 
-    public async Task<ImsPagination<IEnumerable<GetPostResponseDto>>> GetPublicPostsFromCurrentDay(
+    public async Task<ImsPagination<IList<GetPostResponseDto>>> GetPublicPostsFromCurrentDay(
         ImsPaginationRequestDto paginationRequestDto)
     {
         var posts = await _postRepository.GetPublicFormDayPaginatedAsync(DateTime.UtcNow,
@@ -65,7 +65,7 @@ public class PostService : IPostService
                 });
             })
         );
-        var result = new ImsPagination<IEnumerable<GetPostResponseDto>>
+        var result = new ImsPagination<IList<GetPostResponseDto>>
         {
             PageSize = paginationRequestDto.PageSize,
             PageNumber = paginationRequestDto.PageNumber,
@@ -75,7 +75,7 @@ public class PostService : IPostService
         return result;
     }
 
-    public async Task<ImsPagination<IEnumerable<GetPostResponseDto>>> GetFriendsPublicPostsFromCurrentDay(
+    public async Task<ImsPagination<IList<GetPostResponseDto>>> GetFriendsPublicPostsFromCurrentDay(
         string userId, ImsPaginationRequestDto paginationRequestDto)
     {
         if (!Guid.TryParse(userId, out var userIdGuid))
@@ -114,7 +114,7 @@ public class PostService : IPostService
             })
         );
 
-        return new ImsPagination<IEnumerable<GetPostResponseDto>>
+        return new ImsPagination<IList<GetPostResponseDto>>
         {
             PageSize = paginationRequestDto.PageSize,
             PageNumber = paginationRequestDto.PageNumber,
