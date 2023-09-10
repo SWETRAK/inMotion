@@ -39,10 +39,10 @@ public class ExceptionHandlerMiddleware: IMiddleware
         }
         catch (UserWithEmailAlreadyExistsException exception)
         {
-            _logger.LogWarning("User with {Email} try login with provider, {Exception}, {Message}", exception.Email, nameof(exception), exception.Message);
+            _logger.LogWarning(exception, "User with {Email} try login with provider, {Message}", exception.Email, exception.Message);
             await SendErrorResponse(context, StatusCodes.Status401Unauthorized, "User try login with provider not related to account", nameof(exception));
         }
-        catch (InvalidUserGuidStringException exception)
+        catch (InvalidGuidStringException exception)
         {
             _logger.LogWarning("User Guid cant be Parsed, {Exception}, {Message}", exception, exception.Message);
             await SendErrorResponse(context, StatusCodes.Status401Unauthorized, "User try to authenticate with incorrect google token", nameof(exception));

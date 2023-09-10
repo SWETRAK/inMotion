@@ -31,7 +31,7 @@ public class FriendsListsService : IFriendsListsService
     public async Task<IEnumerable<AcceptedFriendshipDto>> GetFriendsAsync(string userStringId)
     {
         if (!Guid.TryParse(userStringId, out var userGuidId))
-            throw new InvalidUserGuidStringException();
+            throw new InvalidGuidStringException();
 
         var acceptedUsers = await _friendshipRepository.GetAccepted(userGuidId);
         var userIds = acceptedUsers.Select(f => !f.FirstUserId.Equals(userGuidId) ? f.FirstUserId : f.SecondUserId);
@@ -58,7 +58,7 @@ public class FriendsListsService : IFriendsListsService
     public async Task<IEnumerable<RequestFriendshipDto>> GetRequestsAsync(string userStringId)
     {
         if (!Guid.TryParse(userStringId, out var userGuidId))
-            throw new InvalidUserGuidStringException();
+            throw new InvalidGuidStringException();
 
         var requestUsers = await _friendshipRepository.GetRequested(userGuidId);
 
@@ -87,7 +87,7 @@ public class FriendsListsService : IFriendsListsService
     public async Task<IEnumerable<InvitationFriendshipDto>> GetInvitationsAsync(string userStringId)
     {
         if (!Guid.TryParse(userStringId, out var userGuidId))
-            throw new InvalidUserGuidStringException();
+            throw new InvalidGuidStringException();
 
         var invitationUsers = await _friendshipRepository.GetInvitation(userGuidId);
         var userIds = invitationUsers.Select(f => f.SecondUserId);

@@ -1,7 +1,7 @@
-using IMS.Friends.BLL.Utils;
 using IMS.Friends.IBLL.Services;
 using IMS.Friends.Models.Dto.Outgoing;
 using IMS.Shared.Models.Dto;
+using IMS.Shared.Utils.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

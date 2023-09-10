@@ -19,6 +19,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Shared\IMS.Shared.Models\IMS.Shared.Models.csproj" />
+      <ProjectReference Include="..\..\Shared\IMS.Shared.Utils\IMS.Shared.Utils.csproj" />
       <ProjectReference Include="..\IMS.Auth.BLL\IMS.Auth.BLL.csproj" />
     </ItemGroup>
 
