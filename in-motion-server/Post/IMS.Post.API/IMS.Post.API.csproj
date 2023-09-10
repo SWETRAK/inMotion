@@ -21,6 +21,7 @@
     <ItemGroup>
       <ProjectReference Include="..\IMS.Post.BLL\IMS.Post.BLL.csproj" />
       <ProjectReference Include="..\IMS.Post.DAL\IMS.Post.DAL.csproj" />
+      <ProjectReference Include="..\IMS.Post.Domain\IMS.Post.Domain.csproj" />
       <ProjectReference Include="..\IMS.Post.Models\IMS.Post.Models.csproj" />
     </ItemGroup>
 

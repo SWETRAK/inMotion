@@ -1,6 +1,6 @@
 using IMS.Post.Domain;
+using IMS.Post.Domain.Consts;
 using IMS.Post.IDAL.Repositories.Post;
-using IMS.Postś.Domain.Consts;
 using Microsoft.EntityFrameworkCore;
 
 namespace IMS.Post.DAL.Repositories.Post;

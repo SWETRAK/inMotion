@@ -1,5 +1,5 @@
+using IMS.Post.Domain.Consts;
 using IMS.Post.Domain.Entities.Other;
-using IMS.Postś.Domain.Consts;
 
 namespace IMS.Post.Domain.Entities.Post;
 

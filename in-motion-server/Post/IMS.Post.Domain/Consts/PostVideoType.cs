@@ -1,4 +1,4 @@
-namespace IMS.Postś.Domain.Consts;
+namespace IMS.Post.Domain.Consts;
 
 public enum PostVideoType
 {

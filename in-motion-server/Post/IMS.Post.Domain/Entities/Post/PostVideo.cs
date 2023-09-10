@@ -1,4 +1,4 @@
-using IMS.Postś.Domain.Consts;
+using IMS.Post.Domain.Consts;
 
 namespace IMS.Post.Domain.Entities.Post;
 
