@@ -32,6 +32,11 @@ public static class LoadConsumers
                 e.Name = EventsBusNames.CheckFriendshipStatusName;
             });
             
+            x.AddConsumer<GetUserFriendsConsumer>().Endpoint(e =>
+            {
+                e.Name = EventsBusNames.GetUserFriendsName;
+            });
+            
             x.UsingRabbitMq((ctx, cfg) =>
             {
                 cfg.Host(rabbitMqConfiguration.Host, rabbitMqConfiguration.Port, "/", h =>

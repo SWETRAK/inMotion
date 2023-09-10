@@ -4,7 +4,7 @@ namespace IMS.Post.IDAL.Repositories.Post;
 
 public interface IPostRepository: IDisposable
 {
-    Task<IEnumerable<PostEntity>> GetPublicFormDayPaginatedAsync(DateTime dateTime, int pageNumber, int pageSize = 20);
+    Task<IList<PostEntity>> GetPublicFormDayPaginatedAsync(DateTime dateTime, int pageNumber, int pageSize = 20);
     
     Task<PostEntity> GetByExternalAuthorIdAsync(DateTime dateTime, Guid externalAuthorId);
 
@@ -12,6 +12,6 @@ public interface IPostRepository: IDisposable
 
     Task SaveAsync();
 
-    Task<IEnumerable<Domain.Entities.Post.Post>> GetFriendsPublicFromDayPaginatedAsync(DateTime dateTime,
+    Task<IList<PostEntity>> GetFriendsPublicFromDayPaginatedAsync(DateTime dateTime,
         IEnumerable<Guid> friendIds, int pageNumber, int pageSize = 20);
 }

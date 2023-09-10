@@ -6,16 +6,18 @@ using IMS.Post.IDAL.Repositories.Post;
 using IMS.Post.Models.Dto.Incoming;
 using IMS.Post.Models.Dto.Outgoing;
 using IMS.Post.Models.Exceptions;
-using IMS.Post.Models.Models;
-using IMS.Post.Models.Models.Author;
+using IMS.Shared.Messaging.Messages;
+using IMS.Shared.Messaging.Messages.Friendship;
 using IMS.Shared.Models.Dto;
 using IMS.Shared.Models.Exceptions;
+using MassTransit;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace IMS.Post.BLL.Services;
 
 // TODO: Test this logic
+// TODO: Change logic to get by date and current iteration, not by only date
 public class PostService : IPostService
 {
     private readonly IPostRepository _postRepository;
@@ -23,18 +25,24 @@ public class PostService : IPostService
     private readonly ILocalizationRepository _localizationRepository;
     private readonly ILogger<PostService> _logger;
     private readonly IMapper _mapper;
+    private readonly IUserService _userService;
+    private readonly IRequestClient<ImsBaseMessage<GetUserFriendsMessage>> _getUserFriendsRequestClient;
 
     public PostService(IPostRepository postRepository,
         ILogger<PostService> logger,
         IMapper mapper,
         ITagRepository tagRepository,
-        ILocalizationRepository localizationRepository)
+        ILocalizationRepository localizationRepository,
+        IUserService userService, 
+        IRequestClient<ImsBaseMessage<GetUserFriendsMessage>> getUserFriendsRequestClient)
     {
         _postRepository = postRepository;
         _logger = logger;
         _mapper = mapper;
         _tagRepository = tagRepository;
         _localizationRepository = localizationRepository;
+        _userService = userService;
+        _getUserFriendsRequestClient = getUserFriendsRequestClient;
     }
 
     public async Task<ImsPagination<IEnumerable<GetPostResponseDto>>> GetPublicPostsFromCurrentDay(
@@ -42,11 +50,19 @@ public class PostService : IPostService
     {
         var posts = await _postRepository.GetPublicFormDayPaginatedAsync(DateTime.UtcNow,
             paginationRequestDto.PageNumber, paginationRequestDto.PageSize);
-        var getPostResponseDtos = _mapper.Map<IEnumerable<Domain.Entities.Post.Post>, IEnumerable<GetPostResponseDto>>(
+
+        var authors = await _userService.GetUsersByIdsArray(posts.Select(u => u.ExternalAuthorId));
+
+        var getPostResponseDtos = _mapper.Map<IEnumerable<Domain.Entities.Post.Post>, List<GetPostResponseDto>>(
             posts,
             f => f.AfterMap((src, dest) =>
             {
-                // TODO: Add users into response
+                dest.ForEach(s =>
+                {
+                    var originalData = src.First(c => c.Id.Equals(Guid.Parse(s.Id)));
+                    var author = authors.FirstOrDefault(a => a.Id.Equals(originalData.ExternalAuthorId));
+                    if (author is not null) s.Author = _mapper.Map<PostAuthorDto>(author);
+                });
             })
         );
         var result = new ImsPagination<IEnumerable<GetPostResponseDto>>
@@ -60,19 +76,41 @@ public class PostService : IPostService
     }
 
     public async Task<ImsPagination<IEnumerable<GetPostResponseDto>>> GetFriendsPublicPostsFromCurrentDay(
-        ImsPaginationRequestDto paginationRequestDto)
+        string userId, ImsPaginationRequestDto paginationRequestDto)
     {
-        //TODO: Add consumer/service for getting userInfo with image
-        var friendsList = new List<AuthorInfo>() { };
+        if (!Guid.TryParse(userId, out var userIdGuid))
+            throw new InvalidGuidStringException();
+        
+        var friendsRequest = new ImsHttpMessage<GetUserFriendsMessage>
+        {
+            Data = new GetUserFriendsMessage
+            {
+                UserId = userId
+            }
+        };
+
+        var friendsResponse = await _getUserFriendsRequestClient.GetResponse<ImsBaseMessage<GetUserFriendsResponseMessage>>(friendsRequest);
+
+        if (friendsResponse.Message.Error)
+            throw new NestedRabbitMqRequestException();
+
+        var friendsIdGuids = friendsResponse.Message.Data.FriendsIds.Select(Guid.Parse);
 
         var posts = await _postRepository.GetFriendsPublicFromDayPaginatedAsync(DateTime.UtcNow,
-            friendsList.Select(y => y.Id), paginationRequestDto.PageNumber, paginationRequestDto.PageSize);
+            friendsIdGuids, paginationRequestDto.PageNumber, paginationRequestDto.PageSize);
 
-        var getPostResponseDtos = _mapper.Map<IEnumerable<Domain.Entities.Post.Post>, IEnumerable<GetPostResponseDto>>(
+        var authors = await _userService.GetUsersByIdsArray(posts.Select(u => u.ExternalAuthorId));
+
+        var getPostResponseDtos = _mapper.Map<IEnumerable<Domain.Entities.Post.Post>, List<GetPostResponseDto>>(
             posts,
             f => f.AfterMap((src, dest) =>
             {
-                // TODO: Add users into response
+                dest.ForEach(s =>
+                {
+                    var originalData = src.First(c => c.Id.Equals(Guid.Parse(s.Id)));
+                    var author = authors.FirstOrDefault(a => a.Id.Equals(originalData.ExternalAuthorId));
+                    if (author is not null) s.Author = _mapper.Map<PostAuthorDto>(author);
+                });
             })
         );
 
@@ -83,9 +121,7 @@ public class PostService : IPostService
             Data = getPostResponseDtos
         };
     }
-
-    // TODO: Add validator for CreatePostRequestDto and nested classes
-    // TODO: Add mapper for CreatePostResponseDto 
+    
     public async Task<CreatePostResponseDto> CreatePost(string userId, CreatePostRequestDto createPostRequestDto)
     {
         if (!Guid.TryParse(userId, out var userIdGuid))
@@ -110,8 +146,7 @@ public class PostService : IPostService
         var result = _mapper.Map<CreatePostResponseDto>(post);
         return result;
     }
-
-    // TODO: Change return structure to dedicated for this endpoint
+    
     public async Task<GetPostResponseDto> GetCurrentUserPost(string userId)
     {
         if (!Guid.TryParse(userId, out var userIdGuid))
@@ -124,9 +159,7 @@ public class PostService : IPostService
 
         return _mapper.Map<GetPostResponseDto>(post);
     }
-
-    // TODO: Edit your post meats
-    // TODO: Implement return structure to proper file 
+    
     public async Task<GetPostResponseDto> EditPostsMetas(string userId, string postId,
         EditPostRequestDto editPostRequestDto)
     {

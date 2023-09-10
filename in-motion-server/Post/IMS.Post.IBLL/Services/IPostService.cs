@@ -12,7 +12,7 @@ public interface IPostService
     
     // TODO: Get posts from your friends (paginated)
     Task<ImsPagination<IEnumerable<GetPostResponseDto>>> GetFriendsPublicPostsFromCurrentDay(
-        ImsPaginationRequestDto paginationRequestDto);
+        string userId, ImsPaginationRequestDto paginationRequestDto);
 
     // TODO: Create post
     Task<CreatePostResponseDto> CreatePost(string userId, CreatePostRequestDto createPostRequestDto);

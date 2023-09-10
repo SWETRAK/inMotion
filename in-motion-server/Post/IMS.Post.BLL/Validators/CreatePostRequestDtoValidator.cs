@@ -8,14 +8,9 @@ public class CreatePostRequestDtoValidator : AbstractValidator<CreatePostRequest
     public CreatePostRequestDtoValidator()
     {
         RuleFor(x => x.Title)
-            .NotEmpty()
             .MaximumLength(256);
 
         RuleFor(x => x.Description)
-            .NotEmpty()
             .MaximumLength(2048);
-
-        RuleFor(x => x.Localization)
-            .NotEmpty();
     }
 }

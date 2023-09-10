@@ -3,6 +3,8 @@ using IMS.Post.Domain.Consts;
 using IMS.Post.IDAL.Repositories.Post;
 using Microsoft.EntityFrameworkCore;
 
+using PostEntity = IMS.Post.Domain.Entities.Post.Post;
+
 namespace IMS.Post.DAL.Repositories.Post;
 
 public class PostRepository: IPostRepository
@@ -15,18 +17,18 @@ public class PostRepository: IPostRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Domain.Entities.Post.Post>> GetPublicFormDayPaginatedAsync(DateTime dateTime, int pageNumber, int pageSize = 20)
+    public async Task<IList<PostEntity>> GetPublicFormDayPaginatedAsync(DateTime dateTime, int pageNumber, int pageSize = 20)
     {
         return await _context.Posts.Take(pageSize).Skip((pageNumber - 1) * pageSize)
             .Where(x => x.CreationDate.Date.Equals(dateTime.Date) && x.Visibility.Equals(PostVisibility.Public)).ToArrayAsync();
     }
 
-    public async Task<Domain.Entities.Post.Post> GetByExternalAuthorIdAsync(DateTime dateTime, Guid externalAuthorId)
+    public async Task<PostEntity> GetByExternalAuthorIdAsync(DateTime dateTime, Guid externalAuthorId)
     {
         return await _context.Posts.FirstOrDefaultAsync(x => x.ExternalAuthorId.Equals(externalAuthorId) && x.CreationDate.Date.Equals(dateTime.Date));
     }
 
-    public async Task<Domain.Entities.Post.Post> GetByIdAndAuthorIdAsync(DateTime dateTime, Guid postId, Guid userId)
+    public async Task<PostEntity> GetByIdAndAuthorIdAsync(DateTime dateTime, Guid postId, Guid userId)
     {
         return await _context.Posts.FirstOrDefaultAsync(x =>
             x.Id.Equals(postId) && x.ExternalAuthorId.Equals(userId) && x.CreationDate.Date.Equals(dateTime.Date));
@@ -37,7 +39,7 @@ public class PostRepository: IPostRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<Domain.Entities.Post.Post>> GetFriendsPublicFromDayPaginatedAsync(DateTime dateTime,
+    public async Task<IList<PostEntity>> GetFriendsPublicFromDayPaginatedAsync(DateTime dateTime,
         IEnumerable<Guid> friendIds, int pageNumber, int pageSize = 20)
     {
         return await _context.Posts.Take(pageSize).Skip((pageNumber - 1) * pageSize)

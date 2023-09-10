@@ -49,7 +49,7 @@ public class UserService: IUserService
         return result;
     }
 
-    public async Task<AuthorInfo> GetUserByIdArray(Guid userId)
+    public async Task<AuthorInfo> GetUserById(Guid userId)
     {
         var request = new ImsBaseMessage<GetUserInfoMessage>
         {

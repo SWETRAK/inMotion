@@ -1,4 +1,5 @@
 using AutoMapper;
+using IMS.Post.Models.Dto.Outgoing;
 using IMS.Post.Models.Models.Author;
 using IMS.Shared.Messaging.Messages.Users;
 using IMS.Shared.Messaging.Messages.Users.Nested;
@@ -16,6 +17,18 @@ public class AuthorProfile: Profile
         
         CreateMap<UserProfileVideoVM, AuthorProfileVideo>()
             .ForMember(u => u.Id, opt => opt.MapFrom(p => Guid.Parse(p.Id)))
+            .ForMember(u => u.ContentType, opt => opt.MapFrom(p => p.ContentType))
+            .ForMember(u => u.Filename, opt => opt.MapFrom(p => p.Filename))
+            .ForMember(u => u.BucketLocation, opt => opt.MapFrom(p => p.BucketLocation))
+            .ForMember(u => u.BucketName, opt => opt.MapFrom(p => p.BucketName));
+        
+        CreateMap<AuthorInfo, PostAuthorDto>()
+            .ForMember(u => u.Id, opt => opt.MapFrom(p => p.Id.ToString()))
+            .ForMember(u => u.Nickname, opt => opt.MapFrom(p => p.Nickname))
+            .ForMember(u => u.FrontVideo, opt => opt.MapFrom(p => p.FrontVideo));
+        
+        CreateMap<AuthorProfileVideo, AuthorProfileVideoDto>()
+            .ForMember(u => u.Id, opt => opt.MapFrom(p => p.Id.ToString()))
             .ForMember(u => u.ContentType, opt => opt.MapFrom(p => p.ContentType))
             .ForMember(u => u.Filename, opt => opt.MapFrom(p => p.Filename))
             .ForMember(u => u.BucketLocation, opt => opt.MapFrom(p => p.BucketLocation))

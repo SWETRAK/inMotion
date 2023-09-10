@@ -27,6 +27,16 @@ public class FriendsListsService : IFriendsListsService
         _userService = userService;
     }
 
+    public async Task<IEnumerable<Guid>> GetFriendsIdsAsync(string userStringId)
+    {
+        if (!Guid.TryParse(userStringId, out var userGuidId))
+            throw new InvalidGuidStringException();
+
+        var acceptedUsers = await _friendshipRepository.GetAccepted(userGuidId);
+
+        return acceptedUsers.Select(x => !x.FirstUserId.Equals(userGuidId) ? x.FirstUserId : x.SecondUserId);
+    }
+
     //TODO: Test this method
     public async Task<IEnumerable<AcceptedFriendshipDto>> GetFriendsAsync(string userStringId)
     {

@@ -6,23 +6,20 @@ using Microsoft.Extensions.Logging;
 
 namespace IMS.Friends.BLL.Consumers;
 
-public class CheckFriendshipStatusConsumer: IConsumer<ImsBaseMessage<FriendshipStatusMessage>>
+public class GetUserFriendsConsumer: IConsumer<ImsBaseMessage<GetUserFriendsMessage>>
 {
-    private readonly ILogger<CheckFriendshipStatusConsumer> _logger;
-    private readonly IFriendsService _friendsService;
+    private readonly IFriendsListsService _friendsListsService;
+    private readonly ILogger<GetUserFriendsConsumer> _logger;
 
-    public CheckFriendshipStatusConsumer(
-        ILogger<CheckFriendshipStatusConsumer> logger, 
-        IFriendsService friendsService
-    )
+    public GetUserFriendsConsumer(IFriendsListsService friendsListsService, ILogger<GetUserFriendsConsumer> logger)
     {
+        _friendsListsService = friendsListsService;
         _logger = logger;
-        _friendsService = friendsService;
     }
-
-    public async Task Consume(ConsumeContext<ImsBaseMessage<FriendshipStatusMessage>> context)
+    
+    public async Task Consume(ConsumeContext<ImsBaseMessage<GetUserFriendsMessage>> context)
     {
-        var response = new ImsBaseMessage<FriendshipStatusResponseMessage>();
+        var response = new ImsBaseMessage<GetUserFriendsResponseMessage>();
         var message = context.Message;
         if (message.Data is null)
         {
@@ -36,14 +33,11 @@ public class CheckFriendshipStatusConsumer: IConsumer<ImsBaseMessage<FriendshipS
         {
             var requestData = message.Data;
 
-            var friendshipResponse = await _friendsService.GetFriendshipStatus(
-                requestData.FirstUserId, requestData.SecondUserId);
+            var friendshipResponse = await _friendsListsService.GetFriendsIdsAsync(requestData.UserId);
 
-            response.Data = new FriendshipStatusResponseMessage
+            response.Data = new GetUserFriendsResponseMessage
             {
-                FirstUserId = requestData.FirstUserId,
-                SecondUserId = requestData.SecondUserId,
-                FriendshipStatus = friendshipResponse
+                FriendsIds  = friendshipResponse.Select(s => s.ToString())
             };
         }
         catch (Exception exception)
