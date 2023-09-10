@@ -1,4 +1,3 @@
-using IMS.Friends.BLL.Consumers;
 using IMS.Shared.Messaging;
 using IMS.Shared.Messaging.Authorization;
 using IMS.Shared.Messaging.Messages;
@@ -8,11 +7,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IMS.Friends.BLL;
+namespace IMS.Post.BLL;
 
 public static class LoadConsumers
 {
-    public static IServiceCollection AddFriendsMassTransit(this IServiceCollection serviceCollection, WebApplicationBuilder builder)
+    public static IServiceCollection AddPostMassTransit(this IServiceCollection serviceCollection, WebApplicationBuilder builder)
     {
         var configuration = builder.Configuration;
 
@@ -26,11 +25,6 @@ public static class LoadConsumers
         {
             x.AddRequestClient<ImsBaseMessage<GetUserInfoMessage>>(new Uri($"exchange:{EventsBusNames.GetUserInfoName}"));
             x.AddRequestClient<ImsBaseMessage<GetUsersInfoMessage>>(new Uri($"exchange:{EventsBusNames.GetUsersInfoName}"));
-            
-            x.AddConsumer<CheckFriendshipStatusConsumer>().Endpoint(e =>
-            {
-                e.Name = EventsBusNames.CheckFriendshipStatusName;
-            });
             
             x.UsingRabbitMq((ctx, cfg) =>
             {

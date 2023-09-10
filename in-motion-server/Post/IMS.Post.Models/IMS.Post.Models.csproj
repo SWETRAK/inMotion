@@ -13,8 +13,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Shared\IMS.Shared.Messaging\IMS.Shared.Messaging.csproj" />
       <ProjectReference Include="..\IMS.Post.Domain\IMS.Post.Domain.csproj" />
     </ItemGroup>
+
 
 
 </Project>

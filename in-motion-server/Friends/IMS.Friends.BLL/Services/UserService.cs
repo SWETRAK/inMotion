@@ -30,7 +30,7 @@ public class UserService: IUserService
         _userRequestClient = userRequestClient;
     }
     
-    public async Task<IEnumerable<UserInfo>> GetUsersFromIdArray(IEnumerable<Guid> idArray)
+    public async Task<IEnumerable<UserInfo>> GetUsersByIdsArray(IEnumerable<Guid> idArray)
     {
         var idStrings = idArray.Select(x => x.ToString());
         
@@ -42,15 +42,15 @@ public class UserService: IUserService
             }
         };
         
-        var response = await _usersRequestClient.GetResponse<ImsBaseMessage<IEnumerable<GetUsersInfoResponseMessage>>>(requestData);
-        if (response.Message.Data.IsNullOrEmpty()) throw new RabbitMqException("Data is missing");
+        var response = await _usersRequestClient.GetResponse<ImsBaseMessage<GetUsersInfoResponseMessage>>(requestData);
+        if (!response.Message.Data.UsersInfo.Any()) throw new RabbitMqException("Data is missing");
 
         _logger.LogInformation("Users data downloaded via RabbitMQ from other service");
-        var result = _mapper.Map<IEnumerable<UserInfo>>(response.Message.Data);
+        var result = _mapper.Map<IEnumerable<UserInfo>>(response.Message.Data.UsersInfo);
         return result;
     }
 
-    public async Task<UserInfo> GetUserFromIdArray(Guid userId)
+    public async Task<UserInfo> GetUserByIdArray(Guid userId)
     {
         var request = new ImsBaseMessage<GetUserInfoMessage>
         {

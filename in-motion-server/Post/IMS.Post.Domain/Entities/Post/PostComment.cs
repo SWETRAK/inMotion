@@ -1,6 +1,6 @@
 namespace IMS.Post.Domain.Entities.Post;
 
-public class PostComment
+public sealed class PostComment
 {
     public Guid Id { get; set; }
     
@@ -8,7 +8,7 @@ public class PostComment
 
     public string Content { get; set; }
     
-    public virtual Post Post { get; set; }
+    public Post Post { get; set; }
     public Guid PostId { get; set; }
     
     public DateTime CreationDate { get; set; } = DateTime.UtcNow;

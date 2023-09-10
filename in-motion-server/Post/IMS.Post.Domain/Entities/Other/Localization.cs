@@ -1,6 +1,6 @@
 namespace IMS.Post.Domain.Entities.Other;
 
-public class Localization
+public sealed class Localization
 {
     public Guid Id { get; set; }
 

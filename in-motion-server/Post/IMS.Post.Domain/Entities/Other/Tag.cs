@@ -1,6 +1,6 @@
 namespace IMS.Post.Domain.Entities.Other;
 
-public class Tag
+public sealed class Tag
 {
     public Guid Id { get; set; }
 

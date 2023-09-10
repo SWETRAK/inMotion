@@ -17,6 +17,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Friends\IMS.Friends.Models\IMS.Friends.Models.csproj" />
+      <ProjectReference Include="..\..\Shared\IMS.Shared.Messaging\IMS.Shared.Messaging.csproj" />
       <ProjectReference Include="..\..\Shared\IMS.Shared.Models\IMS.Shared.Models.csproj" />
       <ProjectReference Include="..\IMS.Post.Domain\IMS.Post.Domain.csproj" />
       <ProjectReference Include="..\IMS.Post.IBLL\IMS.Post.IBLL.csproj" />
@@ -26,6 +28,10 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Shared\IMS.Shared.Models\IMS.Shared.Models.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Consumers\" />
     </ItemGroup>
     
 </Project>

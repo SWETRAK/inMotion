@@ -7,6 +7,7 @@ using IMS.Post.Models.Dto.Incoming;
 using IMS.Post.Models.Dto.Outgoing;
 using IMS.Post.Models.Exceptions;
 using IMS.Post.Models.Models;
+using IMS.Post.Models.Models.Author;
 using IMS.Shared.Models.Dto;
 using IMS.Shared.Models.Exceptions;
 using Microsoft.Extensions.Logging;
@@ -62,7 +63,7 @@ public class PostService : IPostService
         ImsPaginationRequestDto paginationRequestDto)
     {
         //TODO: Add consumer/service for getting userInfo with image
-        var friendsList = new List<Author>() { };
+        var friendsList = new List<AuthorInfo>() { };
 
         var posts = await _postRepository.GetFriendsPublicFromDayPaginatedAsync(DateTime.UtcNow,
             friendsList.Select(y => y.Id), paginationRequestDto.PageNumber, paginationRequestDto.PageSize);

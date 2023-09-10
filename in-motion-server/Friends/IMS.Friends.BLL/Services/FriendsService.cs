@@ -46,7 +46,7 @@ public class FriendsService : IFriendsService
         if (!Guid.TryParse(externalUserString, out var externalUserIdGuid)) throw new InvalidGuidStringException();
         
         var relation = await _friendshipRepository.GetByUsersId(userIdGuid, externalUserIdGuid);
-        var externalUserResponse = await _userService.GetUserFromIdArray(externalUserIdGuid);
+        var externalUserResponse = await _userService.GetUserByIdArray(externalUserIdGuid);
 
         var responseFriendship = await FriendshipActionWrapper(relation, userIdGuid, externalUserResponse.Id);
         
@@ -71,7 +71,7 @@ public class FriendsService : IFriendsService
             relation.Status is not FriendshipStatus.Waiting
         ) throw new InvalidFriendshipActionException("Acceptance of friendship is impossible");
 
-        var externalUserResponse = await _userService.GetUserFromIdArray(relation.FirstUserId);
+        var externalUserResponse = await _userService.GetUserByIdArray(relation.FirstUserId);
 
         relation.Status = FriendshipStatus.Accepted;
         relation.LastModificationDate = DateTime.UtcNow;
@@ -99,7 +99,7 @@ public class FriendsService : IFriendsService
             relation.Status is not FriendshipStatus.Waiting
         ) throw new InvalidFriendshipActionException("Reject of Friendship is impossible");
 
-        var externalUserResponse = await _userService.GetUserFromIdArray(relation.FirstUserId);
+        var externalUserResponse = await _userService.GetUserByIdArray(relation.FirstUserId);
 
         relation.Status = FriendshipStatus.Rejected;
         relation.LastModificationDate = DateTime.UtcNow;
@@ -125,7 +125,7 @@ public class FriendsService : IFriendsService
         if (relation?.Status is not FriendshipStatus.Accepted) 
             throw new InvalidFriendshipActionException("Unfriend is impossible");
 
-        var externalUserResponse = await _userService.GetUserFromIdArray(relation.FirstUserId);
+        var externalUserResponse = await _userService.GetUserByIdArray(relation.FirstUserId);
         
         relation.Status = FriendshipStatus.Rejected;
         relation.LastModificationDate = DateTime.UtcNow;
@@ -152,7 +152,7 @@ public class FriendsService : IFriendsService
             relation.Status is not FriendshipStatus.Waiting
         ) throw new InvalidFriendshipActionException("Friendship revert is impossible");
         
-        await _userService.GetUserFromIdArray(relation.SecondUserId);
+        await _userService.GetUserByIdArray(relation.SecondUserId);
         
         _friendshipRepository.RemoveAsync(relation);
         await _friendshipRepository.SaveAsync();
