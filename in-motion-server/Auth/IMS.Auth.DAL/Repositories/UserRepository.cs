@@ -30,6 +30,11 @@ public sealed class UserRepository: IUserRepository
         return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
     }
 
+    public async Task<IList<User>> GetManyByIdRangeAsync(IEnumerable<Guid> userIds)
+    {
+        return await _context.Users.Where(u => userIds.Contains(u.Id)).ToListAsync();
+    }
+
     public async Task<User> GetByIdWithProvidersAsync(Guid userId)
     {
         return await _context

@@ -30,7 +30,7 @@ public static class LoadConsumers
             
             x.AddConsumer<CheckFriendshipStatusConsumer>().Endpoint(e =>
             {
-                e.Name = EventsBusNames.CheckFriendshipStatus;
+                e.Name = EventsBusNames.CheckFriendshipStatusName;
             });
             
             x.UsingRabbitMq((ctx, cfg) =>

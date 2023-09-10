@@ -3,6 +3,7 @@ using IMS.Auth.Domain.Entities;
 using IMS.Auth.Models.Dto.Outgoing;
 using IMS.Auth.Models.Models;
 using IMS.Shared.Messaging.Messages.JWT;
+using MassTransit.DependencyInjection;
 
 namespace IMS.Auth.Models.Mappers;
 
@@ -27,5 +28,10 @@ public class UserProfile: Profile
             .ForMember(ch => ch.Email, opt => opt.MapFrom(p => p.Email))
             .ForMember(ch => ch.Nickname, opt => opt.MapFrom(p => p.Nickname))
             .ForMember(ch => ch.Role, opt => opt.MapFrom(p => p.Role));
+
+        CreateMap<UserInfoDto, GetBaseUserInfoResponseMessage>()
+            .ForMember(mess => mess.Id, opt => opt.MapFrom(p => p.Id))
+            .ForMember(mess => mess.Nickname, opt => opt.MapFrom(p => p.Nickname))
+            .ForMember(mess => mess.Email, opt => opt.MapFrom(p => p.Email));
     }
 }

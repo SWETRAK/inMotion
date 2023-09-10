@@ -20,17 +20,17 @@ public static class LoadConsumers
         {
             x.AddConsumer<SendUserLoggedInEmailConsumer>().Endpoint(e =>
             {
-                e.Name = EventsBusNames.SendUserLoggedInEmail;
+                e.Name = EventsBusNames.SendUserLoggedInEmailName;
             });
             
             x.AddConsumer<SendFailureLoginAttemptEmailConsumer>().Endpoint(e =>
             {
-                e.Name = EventsBusNames.SendFailureLoggedInEmail;
+                e.Name = EventsBusNames.SendFailureLoggedInEmailName;
             });
             
             x.AddConsumer<SendAccountActivationEmailConsumer>().Endpoint(e =>
             {
-                e.Name = EventsBusNames.SendAccountActivationEmail;
+                e.Name = EventsBusNames.SendAccountActivationEmailName;
             });
 
             x.UsingRabbitMq((ctx, cfg) =>

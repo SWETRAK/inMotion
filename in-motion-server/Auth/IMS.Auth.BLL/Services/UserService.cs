@@ -4,6 +4,7 @@ using IMS.Auth.IDAL.Repositories;
 using IMS.Auth.Models.Dto.Incoming;
 using IMS.Auth.Models.Dto.Outgoing;
 using IMS.Auth.Models.Exceptions;
+using IMS.Shared.Models.Exceptions;
 using Microsoft.Extensions.Logging;
 
 namespace IMS.Auth.BLL.Services;
@@ -56,5 +57,28 @@ public class UserService: IUserService
         var result = _mapper.Map<UserInfoDto>(user);
         result.Token = _jwtService.GenerateJwtToken(user);
         return result;
+    }
+
+    public async Task<UserInfoDto> GetUserInfo(string userIdString)
+    {
+        if (Guid.TryParse(userIdString, out var userIdGuid))
+            throw new InvalidGuidStringException();
+
+        var user = await _userRepository.GetByIdAsync(userIdGuid);
+        return _mapper.Map<UserInfoDto>(user);
+    }
+
+    public async Task<IEnumerable<UserInfoDto>> GetUsersInfo(IEnumerable<string> userIdStrings)
+    {
+        var userIdGuids = userIdStrings.Select(s =>
+        {
+            if (!Guid.TryParse(s, out var userIdGuid))
+                throw new InvalidGuidStringException();
+            return userIdGuid;
+        });
+
+        var users = await _userRepository.GetManyByIdRangeAsync(userIdGuids);
+
+        return _mapper.Map<IEnumerable<UserInfoDto>>(users);
     }
 }
