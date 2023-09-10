@@ -5,7 +5,11 @@ namespace IMS.Auth.IBLL.Services;
 
 public interface IUserService
 {
-    public Task<UserInfoDto> UpdateUserEmail(UpdateEmailDto updateEmailDto, string userIdString);
+    Task<UserInfoDto> UpdateUserEmail(UpdateEmailDto updateEmailDto, string userIdString);
 
-    public Task<UserInfoDto> UpdateUserNickname(UpdateNicknameDto updateNicknameDto, string userIdString);
+    Task<UserInfoDto> UpdateUserNickname(UpdateNicknameDto updateNicknameDto, string userIdString);
+
+    Task<UserInfoDto> GetUserInfo(string userIdString);
+
+    Task<IEnumerable<UserInfoDto>> GetUsersInfo(IEnumerable<string> userIdStrings);
 }

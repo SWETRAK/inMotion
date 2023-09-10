@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Shared\IMS.Shared.Messaging\IMS.Shared.Messaging.csproj" />
+      <ProjectReference Include="..\..\Shared\IMS.Shared.Models\IMS.Shared.Models.csproj" />
       <ProjectReference Include="..\IMS.Friends.IBLL\IMS.Friends.IBLL.csproj" />
     </ItemGroup>
 

@@ -14,8 +14,6 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddFriendsMassTransit(builder);
 
-builder.Services.AddControllers();
-
 builder.Services.AddFriendsServices();
 
 builder.Services.AddFriendsMiddlewares();

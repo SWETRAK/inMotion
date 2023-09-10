@@ -1,8 +1,8 @@
-using IMS.Auth.BLL.Utils;
 using IMS.Auth.IBLL.Services;
 using IMS.Auth.Models.Dto.Incoming;
 using IMS.Auth.Models.Dto.Outgoing;
 using IMS.Shared.Models.Dto;
+using IMS.Shared.Utils.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
