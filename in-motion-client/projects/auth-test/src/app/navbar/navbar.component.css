@@ -1,0 +1,14 @@
+.username,
+.logo {
+    display: inline-block;
+    width: 50%;
+    vertical-align: top;
+}
+
+.custom-background {
+    background-color: #193443;
+}
+
+.default-background {
+    background-color: #001E2F;
+}
