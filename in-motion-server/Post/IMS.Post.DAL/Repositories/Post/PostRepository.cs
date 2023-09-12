@@ -34,6 +34,11 @@ public class PostRepository: IPostRepository
             x.Id.Equals(postId) && x.ExternalAuthorId.Equals(userId) && x.CreationDate.Date.Equals(dateTime.Date));
     }
 
+    public async Task<PostEntity> GetByIdAsync(Guid postId)
+    {
+        return await _context.Posts.FirstOrDefaultAsync(x => x.Id.Equals(postId));
+    }
+
     public async Task SaveAsync()
     {
         await _context.SaveChangesAsync();

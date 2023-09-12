@@ -9,8 +9,9 @@ public static class LoadServices
     public static IServiceCollection AddPostServices(this IServiceCollection servicesCollection)
     {
         servicesCollection.AddScoped<IPostService, PostService>();
-        servicesCollection.AddScoped<IUserService, UserService>();
+        servicesCollection.AddScoped<IPostReactionService, PostReactionService>();
         
+        servicesCollection.AddScoped<IUserService, UserService>();
         
         return servicesCollection;
     }

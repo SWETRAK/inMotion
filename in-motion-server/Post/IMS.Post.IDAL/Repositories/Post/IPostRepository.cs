@@ -10,6 +10,8 @@ public interface IPostRepository: IDisposable
 
     Task<PostEntity> GetByIdAndAuthorIdAsync(DateTime dateTime, Guid postId, Guid userId);
 
+    Task<PostEntity> GetByIdAsync(Guid postId);
+
     Task SaveAsync();
 
     Task<IList<PostEntity>> GetFriendsPublicFromDayPaginatedAsync(DateTime dateTime,

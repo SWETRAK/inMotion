@@ -10,6 +10,7 @@ using IMS.Shared.Messaging.Messages;
 using IMS.Shared.Messaging.Messages.Friendship;
 using IMS.Shared.Models.Dto;
 using IMS.Shared.Models.Exceptions;
+using IMS.Shared.Utils.Parsers;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -78,8 +79,7 @@ public class PostService : IPostService
     public async Task<ImsPagination<IList<GetPostResponseDto>>> GetFriendsPublicPostsFromCurrentDay(
         string userId, ImsPaginationRequestDto paginationRequestDto)
     {
-        if (!Guid.TryParse(userId, out var userIdGuid))
-            throw new InvalidGuidStringException();
+        var userIdGuid = userId.ParseGuid();
         
         var friendsRequest = new ImsHttpMessage<GetUserFriendsMessage>
         {
@@ -124,8 +124,7 @@ public class PostService : IPostService
     
     public async Task<CreatePostResponseDto> CreatePost(string userId, CreatePostRequestDto createPostRequestDto)
     {
-        if (!Guid.TryParse(userId, out var userIdGuid))
-            throw new InvalidGuidStringException();
+        var userIdGuid = userId.ParseGuid();
 
         var tags = await CalculateTags(userIdGuid, createPostRequestDto.Description);
         var localization = await GetLocalization(createPostRequestDto.Localization.Latitude,
@@ -149,8 +148,7 @@ public class PostService : IPostService
     
     public async Task<GetPostResponseDto> GetCurrentUserPost(string userId)
     {
-        if (!Guid.TryParse(userId, out var userIdGuid))
-            throw new InvalidGuidStringException();
+        var userIdGuid = userId.ParseGuid();
 
         var post = await _postRepository.GetByExternalAuthorIdAsync(DateTime.UtcNow, userIdGuid);
 
@@ -163,10 +161,8 @@ public class PostService : IPostService
     public async Task<GetPostResponseDto> EditPostsMetas(string userId, string postId,
         EditPostRequestDto editPostRequestDto)
     {
-        if (Guid.TryParse(userId, out var userIdGuid))
-            throw new InvalidGuidStringException();
-        if (Guid.TryParse(postId, out var postIdGuid))
-            throw new InvalidGuidStringException();
+        var userIdGuid = userId.ParseGuid();
+        var postIdGuid = postId.ParseGuid();
 
         var post = await _postRepository.GetByIdAndAuthorIdAsync(DateTime.UtcNow, postIdGuid, userIdGuid);
 
