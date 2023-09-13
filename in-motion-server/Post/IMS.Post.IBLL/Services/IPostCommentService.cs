@@ -1,9 +1,18 @@
+using IMS.Post.Models.Dto.Incoming;
+using IMS.Post.Models.Dto.Outgoing;
+using IMS.Shared.Models.Dto;
+
 namespace IMS.Post.IBLL.Services;
 
 public interface IPostCommentService
 {
-    // TODO: Create comment under post
-    // TODO: Edit comment 
-    // TODO: Get all comments for post (paginated, sorted by date)
-    // TODO: Remove comment from post 
+    Task<PostCommentDto> CreatePostCommentDtoAsync(string userId, CreatePostCommentDto createPostCommentDto);
+
+    Task<PostCommentDto> EditPostCommentDtoAsync(string userId, string commentId,
+        UpdatePostCommentDto updatePostCommentDto);
+    
+    Task<ImsPagination<IEnumerable<PostCommentDto>>> GetPostCommentsPaginatedAsync(
+        string postId, ImsPaginationRequestDto imsPaginationRequestDto);
+    
+    Task DeletePostCommentAsync(string userId, string commentId);
 }
