@@ -1,5 +1,5 @@
 <div class="add-friend-button-container">
-    <button class="add-friend-button">ADD A FRIEND</button>
+    <button class="add-friend-button" (click)="openAddFriendModal()">ADD A FRIEND</button>
 </div>
 <div class="friends-list-container">
     <div class="tabs-container">
@@ -22,6 +22,16 @@
         <div class="friend-info">
             <div class="username">username</div>
             <div class="status">Active now</div>
+        </div>
+    </div>
+    <div class="request-template" *ngIf="!friendsTabActive">
+        <img src="/assets/photos/in-logo.png" alt="Request User Photo">
+        <div class="request-info">
+            <div class="request__username">username</div>
+            <div class="request__icons">
+                <i class="fas fa-check"></i>
+                <i class="fas fa-times"></i>
+            </div>
         </div>
     </div>
 </div>

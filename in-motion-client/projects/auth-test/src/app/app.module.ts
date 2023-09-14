@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {
@@ -27,7 +30,6 @@ import { SidenavComponent } from './sidenav/sidenav.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { FriendsContentComponent } from './friends-page/friends-content/friends-content.component';
-import { RequestsContentComponent } from './friends-page/requests-content/requests-content.component';
 import { AddFriendContentComponent } from './friends-page/add-friend-content/add-friend-content.component';
 
 
@@ -49,7 +51,6 @@ import { AddFriendContentComponent } from './friends-page/add-friend-content/add
         HomePageComponent,
         ProfilePageComponent,
         FriendsContentComponent,
-        RequestsContentComponent,
         AddFriendContentComponent
     ],
     imports: [
@@ -59,6 +60,10 @@ import { AddFriendContentComponent } from './friends-page/add-friend-content/add
         HttpClientModule,
         SocialLoginModule,
         FontAwesomeModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule
     ],
     providers: [
         {
