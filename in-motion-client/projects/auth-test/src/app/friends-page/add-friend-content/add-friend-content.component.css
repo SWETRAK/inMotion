@@ -1,3 +1,14 @@
+ :host {
+     --modal-bg-color: #193443;
+     --green-disable-button-color: #94d3a2;
+     --green-active-button-color: #2ea44f;
+     --red-button-color: red;
+     --green-active-button-hover: #2c974b;
+     --red-button-hover: #CF4A30;
+     --border-color: #1B1F23;
+     --highlight-color: #667882;
+ }
+
  .add-friend {
      position: fixed;
      top: 50%;
@@ -5,7 +16,7 @@
      transform: translate(-50%, -50%);
      width: 400px;
      height: 600px;
-     background-color: #4c616d;
+     background-color: var(--modal-bg-color);
      border: 1px solid black;
      z-index: 1;
      display: flex;
@@ -15,34 +26,70 @@
      border-radius: 10px;
  }
 
- .modal-title {
+ .add-friend__modal-title {
      color: white;
      font-weight: bolder;
      font-size: 20px;
      text-align: center;
  }
 
- .modal-search-bar {
+ .add-friend__modal-search-bar {
      padding-top: 20px;
      color: white;
  }
 
- .modal-close {
-     background-color: red;
+ .add-friend__modal-close {
+     background-color: var(--red-button-color);
      color: white;
      margin-bottom: 10px;
      align-self: flex-start;
  }
 
- .modal-send-request {
-     background-color: green;
+ .add-friend__modal-send-request {
+     background-color: var(--green-active-button-color);
      color: white;
      margin-bottom: 10px;
      margin-left: 150px;
      align-self: flex-end;
  }
 
- .add-friend-template {
+ .add-friend__modal-send-request,
+ .add-friend__modal-close {
+     appearance: none;
+     border: 1px solid var(--border-color);
+     border-radius: 6px;
+     box-shadow: var(--border-color) 0 1px 0;
+     box-sizing: border-box;
+     color: #fff;
+     cursor: pointer;
+     display: inline-block;
+     font-size: 14px;
+     font-weight: 600;
+     line-height: 20px;
+     padding: 6px 16px;
+     position: relative;
+     text-align: center;
+     touch-action: manipulation;
+     vertical-align: middle;
+     white-space: nowrap;
+ }
+
+ .add-friend__modal-send-request:hover {
+     background-color: var(--green-active-button-hover);
+ }
+
+ .add-friend__modal-close:hover {
+     background-color: var(--red-button-hover);
+ }
+
+ .add-friend__modal-send-request:disabled {
+     background-color: var(--green-disable-button-color);
+     border-color: var(--border-color);
+     color: rgba(255, 255, 255, .8);
+     cursor: default;
+ }
+
+ .add-friend__template {
      display: flex;
      align-items: left;
      width: 80%;
@@ -50,20 +97,20 @@
      margin-bottom: 350px;
  }
 
- .add-friend-template img {
+ .add-friend__template img {
      width: 35px;
      height: 35px;
      margin-right: 5px;
  }
 
- .add-friend-template__info {
+ .add-friend__template-info {
      display: flex;
      align-items: left;
      justify-content: space-between;
      flex-grow: 1;
  }
 
- .add-friend-template__username {
+ .add-friend__template-username {
      font-weight: bold;
      color: white;
      font-size: 22px;
@@ -71,9 +118,9 @@
      text-align: left;
  }
 
- .add-friend-template img.selected,
- .add-friend-template__info.selected {
-     background-color: #667882;
+ .add-friend__template img.selected,
+ .add-friend__template-info.selected {
+     background-color: var(--highlight-color);
      height: 35px;
      transition: background-color 0.3s;
  }

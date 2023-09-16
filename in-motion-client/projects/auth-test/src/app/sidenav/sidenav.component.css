@@ -1,9 +1,14 @@
+:host {
+    --bg-color: #193443;
+    --hover-color: #667882;
+}
+
 .sidenav {
     width: 80px;
-    background-color: #193443;
+    background-color: var(--bg-color);
     color: white;
     position: fixed;
-    top: 88px;
+    top: 96px;
     left: 0;
     bottom: 0;
     display: flex;
@@ -32,7 +37,7 @@
 
 }
 
-.menu-label {
+.sidenav__menu-label {
     font-size: 24px;
     opacity: 0;
     transition: opacity 0.1s;
@@ -40,7 +45,7 @@
 
 
 .sidenav a:hover {
-    background-color: #667882;
+    background-color: var(--hover-color);
     width: 300px;
 }
 
@@ -48,19 +53,19 @@
     width: 300px;
 }
 
-.sidenav:hover .menu-label {
+.sidenav:hover .sidenav__menu-label {
     opacity: 0.7;
 }
 
-.sidenav:hover .active-label {
+.sidenav:hover .sidenav__active-label {
     opacity: 0.7;
 }
 
-.active-page {
+.sidenav__page--active {
     color: white;
 }
 
 
-.other-page {
-    color: #667882;
+.sidenav__page--other {
+    color: var(--hover-color);
 }

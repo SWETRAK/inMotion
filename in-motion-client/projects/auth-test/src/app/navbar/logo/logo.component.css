@@ -1,18 +1,33 @@
+:host {
+    --main-color: #4DD9EC;
+    --bg-color: #193443;
+}
+
 .logo {
+    font-family: 'Quicksand', sans-serif;
+    box-sizing: border-box;
+    font-size: 50px;
     display: flex;
-    align-items: left;
+    align-items: center;
+    background: var(--bg-color);
+    color: #fff;
+    width: 260px;
+    padding: 7px;
+    border-radius: 5px;
+    padding-left: 15px;
 }
 
-.logo img {
-    margin-right: 5px;
-    padding-top: 30px;
-    padding-left: 50px;
+.logo__prefix {
+    background-color: var(--main-color);
+    font-weight: 700;
+    width: 3.2rem;
+    height: 3rem;
+    text-align: center;
+    padding-bottom: 70px;
+    border-radius: 5px;
 }
 
-.title {
-    color: #4DD9EC;
-    text-align: left;
-    padding-top: 20px;
-    font-size: 35px;
-    font-family: 'Lato', sans-serif;
+.logo__suffix {
+    font-size: 55px;
+    font-weight: 600;
 }

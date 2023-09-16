@@ -3,12 +3,11 @@
     justify-content: flex-end;
 }
 
-.username {
+.user__name {
     color: white;
     text-align: right;
     padding-top: 20px;
     font-size: 30px;
-    font-family: 'Lato', sans-serif;
 }
 
 .user img {

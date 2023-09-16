@@ -1,12 +1,16 @@
-.add-friend-button-container {
+:host {
+    --main-color: #4DD9EC;
+}
+
+.add-friend {
     display: flex;
     justify-content: flex-end;
     margin-top: 100px;
     margin-right: 350px;
 }
 
-.add-friend-button {
-    background-color: #4DD9EC;
+.add-friend__button {
+    background-color: var(--main-color);
     color: black;
     border: none;
     padding: 10px 20px;
@@ -17,7 +21,7 @@
     max-width: 400px;
 }
 
-.friends-list-container {
+.friends-list {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -26,13 +30,13 @@
 
 }
 
-.tabs-container {
+.friends-list__tabs {
     display: flex;
     width: 50%;
     margin-bottom: 20px;
 }
 
-.tab {
+.friends-list__tab {
     flex-grow: 1;
     padding: 5px 10px;
     cursor: pointer;
@@ -45,63 +49,70 @@
     position: relative;
 }
 
-.tab.active {
-    color: #4DD9EC;
+.friends-list__tab.active {
+    color: var(--main-color);
 }
 
-.tab.active::after {
+.friends-list__tab.active::after {
     content: "";
     display: block;
     height: 2px;
-    background-color: #4DD9EC;
+    background-color: var(--main-color);
     position: absolute;
     left: 45px;
     right: 45px;
 }
 
-.search-container {
+.friends-list__search {
     width: 45%;
 }
 
-.friend-search-input {
+.friends-list__search--input {
     width: 100%;
     padding: 5px;
-    border: 1px solid #ccc;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    background-color: #001E2F;
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 17px;
+    color: white;
 }
 
-.friend-template {
+.friends-list__search--input:focus {
+    outline: none;
+}
+
+.friends-list__template {
     display: flex;
     margin-top: 20px;
     width: 40%;
 }
 
-.friend-template img {
+.friends-list__template img {
     width: 60px;
     height: 60px;
     margin-right: 10px;
 }
 
-.friend-info {
+.friends-list__template-info {
     display: flex;
     flex-direction: column;
     margin-left: 10px;
 }
 
-.username {
+.friends-list__template-info--username {
     font-weight: bold;
     color: white;
     font-size: 20px;
     text-align: left;
 }
 
-.status {
+.friends-list__template-info--status {
     color: #777;
     font-size: 16px;
 }
 
-.request-template {
+.friends-list__request-template {
     display: flex;
     align-items: center;
     width: 40%;
@@ -109,20 +120,20 @@
     margin-top: 20px;
 }
 
-.request-template img {
+.friends-list__request-template img {
     width: 60px;
     height: 60px;
     margin-right: 10px;
 }
 
-.request-info {
+.friends-list__request-template-info {
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-grow: 1;
 }
 
-.request__username {
+.friends-list__request-template--username {
     font-weight: bold;
     color: white;
     font-size: 22px;
@@ -130,21 +141,21 @@
     text-align: left;
 }
 
-.request__icons {
+.friends-list__request-template--icons {
     display: flex;
     align-items: center;
 }
 
-.request__icons i {
+.friends-list__request-template--icons i {
     font-size: 28px;
     margin-right: 35px;
     cursor: pointer;
 }
 
-.request__icons .fa-check {
-    color: green;
+.friends-list__request-template--icons .fa-check {
+    color: #2c974b;
 }
 
-.request__icons .fa-times {
-    color: red;
+.friends-list__request-template--icons .fa-times {
+    color: #CF4A30;
 }

@@ -1,3 +1,8 @@
+:host {
+    --default-bg-color: #001E2F;
+    --bg-color: #193443;
+}
+
 .username,
 .logo {
     display: inline-block;
@@ -6,9 +11,9 @@
 }
 
 .custom-background {
-    background-color: #193443;
+    background-color: var(--bg-color)
 }
 
 .default-background {
-    background-color: #001E2F;
+    background-color: var(--default-bg-color)
 }

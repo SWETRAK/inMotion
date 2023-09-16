@@ -1,26 +1,27 @@
 <div class="darken-page"></div>
 <div class="add-friend">
-    <h2 mat-dialog-title class="modal-title">ADD A FRIEND</h2>
+    <h2 mat-dialog-title class="add-friend__modal-title">ADD A FRIEND</h2>
     <div mat-dialog-content>
-        <mat-form-field class="modal-search-bar" *ngIf="!isFieldSelected">
+        <mat-form-field class="add-friend__modal-search-bar" *ngIf="!isFieldSelected">
             <input matInput type="text" placeholder="Search by nickname">
         </mat-form-field>
-        <mat-form-field class="modal-search-bar" *ngIf="isFieldSelected">
+        <mat-form-field class="add-friend__modal-search-bar" *ngIf="isFieldSelected">
             <input matInput type="text" placeholder="Search by nickname" [ngModel]="selectedUsername"
                 (ngModelChange)="selectedUsername = $event">
         </mat-form-field>
     </div>
-    <div class="add-friend-template">
+    <div class="add-friend__template">
         <img src="/assets/photos/in-logo.png" alt="Add Friend User Photo" (click)="selectField('image')"
             [ngClass]="{'selected': isFieldSelected === 'image'}">
-        <div class="add-friend-template__info" (click)="selectField('username')"
+        <div class="add-friend__template-info" (click)="selectField('username')"
             [ngClass]="{'selected': isFieldSelected === 'username'}">
-            <div class="add-friend-template__username">username</div>
+            <div class="add-friend__template-username">username</div>
         </div>
     </div>
     <div mat-dialog-actions>
-        <button mat-button class="modal-close" (click)="closeAddFriendModal()">Close</button>
-        <button mat-button class="modal-send-request" [disabled]="!isFieldSelected" (click)="sendRequest()">Send
+        <button mat-button class="add-friend__modal-close" (click)="closeAddFriendModal()">Close</button>
+        <button mat-button class="add-friend__modal-send-request" [disabled]="!isFieldSelected"
+            (click)="sendRequest()">Send
             request</button>
     </div>
 </div>
