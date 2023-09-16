@@ -19,8 +19,12 @@ public class PostRepository: IPostRepository
 
     public async Task<IList<PostEntity>> GetPublicFormDayPaginatedAsync(DateTime dateTime, int pageNumber, int pageSize = 20)
     {
-        return await _context.Posts.Take(pageSize).Skip((pageNumber - 1) * pageSize)
-            .Where(x => x.CreationDate.Date.Equals(dateTime.Date) && x.Visibility.Equals(PostVisibility.Public)).ToArrayAsync();
+        return await _context.Posts
+            .Take(pageSize)
+            .Skip((pageNumber - 1) * pageSize)
+            .Include(x => x.Videos)
+            .Where(x => x.CreationDate.Date.Equals(dateTime.Date) && x.Visibility.Equals(PostVisibility.Public))
+            .ToArrayAsync();
     }
 
     public async Task<PostEntity> GetByExternalAuthorIdAsync(DateTime dateTime, Guid externalAuthorId)
@@ -30,13 +34,17 @@ public class PostRepository: IPostRepository
 
     public async Task<PostEntity> GetByIdAndAuthorIdAsync(DateTime dateTime, Guid postId, Guid userId)
     {
-        return await _context.Posts.FirstOrDefaultAsync(x =>
-            x.Id.Equals(postId) && x.ExternalAuthorId.Equals(userId) && x.CreationDate.Date.Equals(dateTime.Date));
+        return await _context.Posts
+            .Include(x => x.Videos)
+            .FirstOrDefaultAsync(x =>
+                x.Id.Equals(postId) && x.ExternalAuthorId.Equals(userId) && x.CreationDate.Date.Equals(dateTime.Date));
     }
 
     public async Task<PostEntity> GetByIdAsync(Guid postId)
     {
-        return await _context.Posts.FirstOrDefaultAsync(x => x.Id.Equals(postId));
+        return await _context.Posts
+            .Include(p => p.Videos)
+            .FirstOrDefaultAsync(x => x.Id.Equals(postId));
     }
 
     public async Task SaveAsync()

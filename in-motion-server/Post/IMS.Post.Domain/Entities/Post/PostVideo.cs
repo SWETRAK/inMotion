@@ -2,7 +2,7 @@ using IMS.Post.Domain.Consts;
 
 namespace IMS.Post.Domain.Entities.Post;
 
-public sealed class PostVideo
+public class PostVideo
 {
     public Guid Id { get; set; }
 
@@ -14,11 +14,8 @@ public sealed class PostVideo
     public string ContentType { get; set; }
     public PostVideoType Type { get; set; }
 
-    public Post PostFront { get; set; }
-    public Guid PostFrontId { get; set; }
-    
-    public Post PostRear { get; set; }
-    public Guid PostRearId { get; set; }
+    public virtual Post Post { get; set; }
+    public Guid PostId { get; set; }
     
     public DateTime CreationDate { get; set; } = DateTime.UtcNow;
     public DateTime LastEditionDate { get; set; } = DateTime.UtcNow;

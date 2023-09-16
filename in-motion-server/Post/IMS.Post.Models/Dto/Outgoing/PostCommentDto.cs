@@ -6,5 +6,7 @@ public class PostCommentDto
     public PostAuthorDto Author { get; set; }
     public string Content { get; set; }
     public string PostId { get; set; }
+    public int PostCommentReactionCount { get; set; }
     public DateTime CreatedAt { get; set; }
+    
 }

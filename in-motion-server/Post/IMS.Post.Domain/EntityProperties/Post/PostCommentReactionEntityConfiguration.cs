@@ -34,7 +34,7 @@ public class PostCommentReactionEntityConfiguration: IEntityTypeConfiguration<Po
             .IsRequired();
 
         builder.HasOne(pcr => pcr.PostComment)
-            .WithMany()
+            .WithMany(p => p.Reactions)
             .HasForeignKey(pcr => pcr.PostCommentId);
     }
 }

@@ -15,6 +15,11 @@ public class PostCommentRepository: IPostCommentRepository
         _context = context;
     }
 
+    public async Task<PostComment> GetByIdAsync(Guid id)
+    {
+        return await _context.PostComments.FirstOrDefaultAsync(x => x.PostId.Equals(id));
+    }
+
     public async Task<PostComment> GetByIdAndAuthorIdAndPostIdAsync(Guid id, Guid authorId, Guid postId)
     {
         return await _context.PostComments.FirstOrDefaultAsync(x =>

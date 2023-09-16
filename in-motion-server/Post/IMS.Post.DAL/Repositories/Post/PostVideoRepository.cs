@@ -13,8 +13,10 @@ public class PostVideoRepository: IPostVideoRepository
         _context = context;
     }
 
-    
-    
+    public async Task SaveAsync()
+    {
+        await _context.SaveChangesAsync();
+    }
 
     private void Dispose(bool disposing)
     {

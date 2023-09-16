@@ -32,14 +32,6 @@ public class PostEntityConfiguration: IEntityTypeConfiguration<Entities.Post.Pos
         builder.Property(p => p.LocalizationId)
             .HasColumnName("localization_id");
 
-        builder.Property(p => p.FrontVideoId)
-            .HasColumnName("front_video_id")
-            .IsRequired();
-
-        builder.Property(p => p.RearVideoId)
-            .HasColumnName("rear_video_id")
-            .IsRequired();
-
         builder.Property(p => p.CreationDate)
             .HasColumnName("creation_date")
             .IsRequired();
@@ -47,16 +39,6 @@ public class PostEntityConfiguration: IEntityTypeConfiguration<Entities.Post.Pos
         builder.Property(p => p.LastModifiedDate)
             .HasColumnName("last_modified_date")
             .IsRequired();
-
-        builder.HasOne(p => p.FrontVideo)
-            .WithOne(p => p.PostFront)
-            .HasForeignKey<Entities.Post.Post>(p => p.FrontVideoId)
-            .HasPrincipalKey<PostVideo>(pv => pv.PostFrontId);
-
-        builder.HasOne(p => p.RearVideo)
-            .WithOne(p => p.PostRear)
-            .HasForeignKey<Entities.Post.Post>(p => p.RearVideoId)
-            .HasPrincipalKey<PostVideo>(pv => pv.PostRearId);
         
         builder.HasMany(p => p.Tags)
             .WithMany()

@@ -1,6 +1,6 @@
 namespace IMS.Post.Domain.Entities.Post;
 
-public sealed class PostReaction
+public class PostReaction
 {
     public Guid Id { get; set; }
 
@@ -8,7 +8,7 @@ public sealed class PostReaction
 
     public string Emoji { get; set; }
     
-    public Post Post { get; set; }
+    public virtual Post Post { get; set; }
     public Guid PostId { get; set; }
     
     public DateTime CreationDate { get; set; } = DateTime.UtcNow;

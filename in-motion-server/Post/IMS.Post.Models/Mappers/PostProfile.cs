@@ -16,7 +16,7 @@ public class PostProfile: Profile
             .ForMember(x => x.Title, opt => opt.MapFrom(p => p.Title))
             .ForMember(x => x.Tags, opt => opt.MapFrom(p => p.Tags))
             .ForMember(x => x.Localization, opt => opt.MapFrom(p => p.Localization))
-            .ForMember(x => x.CreatedAt, opt => opt.MapFrom(p => new[] { p.FrontVideo, p.RearVideo }))
+            .ForMember(x => x.Videos, opt => opt.MapFrom(p => p.Videos))
             .ForMember(x => x.PostCommentsCount, opt => opt.MapFrom(p => p.PostComments.Count()))
             .ForMember(x => x.PostReactionsCount, opt => opt.MapFrom(p => p.PostReactions.Count()))
             .ForMember(x => x.CreatedAt, opt => opt.MapFrom(p => p.CreationDate));
