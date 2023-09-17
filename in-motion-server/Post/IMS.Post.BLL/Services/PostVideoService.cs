@@ -31,17 +31,17 @@ public class PostVideoService: IPostVideoService
         _logger = logger;
     }
     
-    public async Task SaveUploadedVideo(UploadedVideoMetaDataDto uploadedVideoMetaDataDto)
+    public async Task SaveUploadedVideo(UploadVideoMetaDataDto uploadVideoMetaDataDto)
     {
-        var authorIdGuid = uploadedVideoMetaDataDto.AuthorId.ParseGuid();
-        var postIdGuid = uploadedVideoMetaDataDto.PostId.ParseGuid();
+        var authorIdGuid = uploadVideoMetaDataDto.AuthorId.ParseGuid();
+        var postIdGuid = uploadVideoMetaDataDto.PostId.ParseGuid();
         
         var post = await _postRepository.GetByIdAsync(postIdGuid);
         
         if (post is null)
             throw new PostNotFoundException(postIdGuid.ToString());
 
-        if (!Enum.TryParse<PostVideoType>(uploadedVideoMetaDataDto.Type, out var videoType))
+        if (!Enum.TryParse<PostVideoType>(uploadVideoMetaDataDto.Type, out var videoType))
             throw new Exception();
 
         var videos = post.Videos.ToArray();
@@ -51,10 +51,10 @@ public class PostVideoService: IPostVideoService
             post.Videos = videos.Append(new PostVideo
             {
                 ExternalAuthorId = authorIdGuid,
-                Filename = uploadedVideoMetaDataDto.Filename,
-                BucketName = uploadedVideoMetaDataDto.BucketName,
-                BucketLocation = uploadedVideoMetaDataDto.BucketLocation,
-                ContentType = uploadedVideoMetaDataDto.ContentType,
+                Filename = uploadVideoMetaDataDto.Filename,
+                BucketName = uploadVideoMetaDataDto.BucketName,
+                BucketLocation = uploadVideoMetaDataDto.BucketLocation,
+                ContentType = uploadVideoMetaDataDto.ContentType,
                 Type = videoType
             }).ToArray();
         }

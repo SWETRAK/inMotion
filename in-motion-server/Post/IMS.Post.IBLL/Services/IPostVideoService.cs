@@ -4,5 +4,5 @@ namespace IMS.Post.IBLL.Services;
 
 public interface IPostVideoService
 {
-    Task SaveUploadedVideo(UploadedVideoMetaDataDto uploadedVideoMetaDataDto);
+    Task SaveUploadedVideo(UploadVideoMetaDataDto uploadVideoMetaDataDto);
 }

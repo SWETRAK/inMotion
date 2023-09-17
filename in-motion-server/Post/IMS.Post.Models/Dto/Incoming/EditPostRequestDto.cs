@@ -1,8 +1,7 @@
 namespace IMS.Post.Models.Dto.Incoming;
 
-// TODO: Add validator for this if needed 
 public class EditPostRequestDto
 {
-    public string Title { get; set; }
-    public string Description { get; set; }
+    public string Title { get; set; } // Length: 256
+    public string Description { get; set; } // Length: 2048
 }

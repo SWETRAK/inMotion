@@ -1,6 +1,6 @@
 namespace IMS.Post.Models.Dto.Incoming;
 
-public class UploadedVideoMetaDataDto
+public class UploadVideoMetaDataDto
 {
     public string PostId { get; set; }
     public string BucketName { get; set; }

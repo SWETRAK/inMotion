@@ -13,6 +13,17 @@ public static  class LoadValidators
         serviceCollection.AddFluentValidationAutoValidation();
 
         serviceCollection.AddScoped<IValidator<CreatePostRequestDto>, CreatePostRequestDtoValidator>();
+        serviceCollection.AddScoped<IValidator<CreatePostCommentDto>, CreatePostCommentDtoValidator>();
+        serviceCollection.AddScoped<IValidator<CreatePostReactionDto>, CreatePostReactionDtoValidator>();
+        serviceCollection.AddScoped<IValidator<CreatePostCommentReactionDto>, CreatePostCommentReactionDtoValidator>();
+        
+        serviceCollection.AddScoped<IValidator<EditPostCommentReactionDto>, EditPostCommentReactionDtoValidator>();
+        serviceCollection.AddScoped<IValidator<EditPostReactionDto>, EditPostReactionDtoValidator>();
+        serviceCollection.AddScoped<IValidator<EditPostRequestDto>, EditPostRequestDtoValidator>();
+
+        serviceCollection.AddScoped<IValidator<NewPostLocalizationDto>, NewPostLocalizationDtoValidator>();
+        serviceCollection.AddScoped<IValidator<UpdatePostCommentDto>, UpdatePostCommentDtoValidator>();
+        serviceCollection.AddScoped<IValidator<UploadVideoMetaDataDto>, UploadVideoMetaDataDtoValidator>();
         
         return serviceCollection;
     }
