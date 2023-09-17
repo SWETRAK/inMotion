@@ -3,6 +3,7 @@ using System;
 using IMS.Post.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IMS.Post.API.Migrations
 {
     [DbContext(typeof(ImsPostDbContext))]
-    partial class ImsPostDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230917212228_Added PostIteration entity")]
+    partial class AddedPostIterationentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

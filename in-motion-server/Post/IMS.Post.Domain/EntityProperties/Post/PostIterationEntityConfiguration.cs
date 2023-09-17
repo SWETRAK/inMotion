@@ -8,7 +8,7 @@ public class PostIterationEntityConfiguration: IEntityTypeConfiguration<PostIter
 {
     public void Configure(EntityTypeBuilder<PostIteration> builder)
     {
-        builder.ToTable("posts");
+        builder.ToTable("post_iterations");
 
         builder.HasIndex(p => p.Id);
 
