@@ -18,12 +18,12 @@ using Microsoft.IdentityModel.Tokens;
 namespace IMS.Post.BLL.Services;
 
 // TODO: Test this logic
-// TODO: Change logic to get by date and current iteration, not by only date
 public class PostService : IPostService
 {
     private readonly IPostRepository _postRepository;
     private readonly ITagRepository _tagRepository;
     private readonly ILocalizationRepository _localizationRepository;
+    private readonly IPostIterationRepository _postIterationRepository;
     private readonly ILogger<PostService> _logger;
     private readonly IMapper _mapper;
     private readonly IUserService _userService;
@@ -35,7 +35,8 @@ public class PostService : IPostService
         ITagRepository tagRepository,
         ILocalizationRepository localizationRepository,
         IUserService userService, 
-        IRequestClient<ImsBaseMessage<GetUserFriendsMessage>> getUserFriendsRequestClient)
+        IRequestClient<ImsBaseMessage<GetUserFriendsMessage>> getUserFriendsRequestClient, 
+        IPostIterationRepository postIterationRepository)
     {
         _postRepository = postRepository;
         _logger = logger;
@@ -44,12 +45,15 @@ public class PostService : IPostService
         _localizationRepository = localizationRepository;
         _userService = userService;
         _getUserFriendsRequestClient = getUserFriendsRequestClient;
+        _postIterationRepository = postIterationRepository;
     }
 
-    public async Task<ImsPagination<IList<GetPostResponseDto>>> GetPublicPostsFromCurrentDay(
+    public async Task<ImsPagination<IList<GetPostResponseDto>>> GetPublicPostsFromCurrentIteration(
         ImsPaginationRequestDto paginationRequestDto)
     {
-        var posts = await _postRepository.GetPublicFormDayPaginatedAsync(DateTime.UtcNow,
+        var postIteration = await _postIterationRepository.GetNewest();
+        
+        var posts = await _postRepository.GetPublicFormIterationPaginatedAsync(postIteration.Id,
             paginationRequestDto.PageNumber, paginationRequestDto.PageSize);
 
         var authors = await _userService.GetUsersByIdsArray(posts.Select(u => u.ExternalAuthorId));
@@ -81,6 +85,8 @@ public class PostService : IPostService
     {
         var userIdGuid = userId.ParseGuid();
         
+        var postIteration = await _postIterationRepository.GetNewest();
+        
         var friendsRequest = new ImsHttpMessage<GetUserFriendsMessage>
         {
             Data = new GetUserFriendsMessage
@@ -96,7 +102,7 @@ public class PostService : IPostService
 
         var friendsIdGuids = friendsResponse.Message.Data.FriendsIds.Select(Guid.Parse);
 
-        var posts = await _postRepository.GetFriendsPublicFromDayPaginatedAsync(DateTime.UtcNow,
+        var posts = await _postRepository.GetFriendsPublicFromIterationPaginatedAsync(postIteration.Id,
             friendsIdGuids, paginationRequestDto.PageNumber, paginationRequestDto.PageSize);
 
         var authors = await _userService.GetUsersByIdsArray(posts.Select(u => u.ExternalAuthorId));
@@ -125,7 +131,8 @@ public class PostService : IPostService
     public async Task<CreatePostResponseDto> CreatePost(string userId, CreatePostRequestDto createPostRequestDto)
     {
         var userIdGuid = userId.ParseGuid();
-
+        var postIteration = await _postIterationRepository.GetNewest();
+        
         var tags = await CalculateTags(userIdGuid, createPostRequestDto.Description);
         var localization = await GetLocalization(createPostRequestDto.Localization.Latitude,
             createPostRequestDto.Localization.Longitude,
@@ -137,7 +144,8 @@ public class PostService : IPostService
             Description = createPostRequestDto.Description,
             Title = createPostRequestDto.Title,
             Tags = tags,
-            Localization = localization
+            Localization = localization,
+            Iteration = postIteration
         };
 
         await _postRepository.SaveAsync();
@@ -149,8 +157,9 @@ public class PostService : IPostService
     public async Task<GetPostResponseDto> GetCurrentUserPost(string userId)
     {
         var userIdGuid = userId.ParseGuid();
-
-        var post = await _postRepository.GetByExternalAuthorIdAsync(DateTime.UtcNow, userIdGuid);
+        var postIteration = await _postIterationRepository.GetNewest();
+        
+        var post = await _postRepository.GetByExternalAuthorIdAsync(postIteration.Id, userIdGuid);
 
         if (post is null)
             throw new PostNotFoundException();
@@ -163,8 +172,9 @@ public class PostService : IPostService
     {
         var userIdGuid = userId.ParseGuid();
         var postIdGuid = postId.ParseGuid();
-
-        var post = await _postRepository.GetByIdAndAuthorIdAsync(DateTime.UtcNow, postIdGuid, userIdGuid);
+        var postIteration = await _postIterationRepository.GetNewest();
+        
+        var post = await _postRepository.GetByIdAndAuthorIdAsync(postIteration.Id, postIdGuid, userIdGuid);
 
         if (post is null)
             throw new PostNotFoundException();

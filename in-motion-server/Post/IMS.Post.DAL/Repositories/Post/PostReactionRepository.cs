@@ -79,5 +79,4 @@ public class PostReactionRepository: IPostReactionRepository
         Dispose(true);
         GC.SuppressFinalize(this);
     }
-    
 }

@@ -8,6 +8,9 @@ public class Post
     public Guid Id { get; set; }
     
     public Guid ExternalAuthorId { get; set; }
+    
+    public Guid IterationId { get; set; }
+    public virtual PostIteration Iteration { get; set; }
 
     public PostVisibility Visibility { get; set; }
     

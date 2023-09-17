@@ -16,28 +16,28 @@ public class PostRepository: IPostRepository
     {
         _context = context;
     }
-
-    public async Task<IList<PostEntity>> GetPublicFormDayPaginatedAsync(DateTime dateTime, int pageNumber, int pageSize = 20)
+    
+    public async Task<IList<PostEntity>> GetPublicFormIterationPaginatedAsync(Guid postIterationId, int pageNumber, int pageSize = 20)
     {
         return await _context.Posts
             .Take(pageSize)
             .Skip((pageNumber - 1) * pageSize)
             .Include(x => x.Videos)
-            .Where(x => x.CreationDate.Date.Equals(dateTime.Date) && x.Visibility.Equals(PostVisibility.Public))
+            .Where(x => x.IterationId.Equals(postIterationId) && x.Visibility.Equals(PostVisibility.Public))
             .ToArrayAsync();
     }
 
-    public async Task<PostEntity> GetByExternalAuthorIdAsync(DateTime dateTime, Guid externalAuthorId)
+    public async Task<PostEntity> GetByExternalAuthorIdAsync(Guid postIterationId, Guid externalAuthorId)
     {
-        return await _context.Posts.FirstOrDefaultAsync(x => x.ExternalAuthorId.Equals(externalAuthorId) && x.CreationDate.Date.Equals(dateTime.Date));
+        return await _context.Posts.FirstOrDefaultAsync(x => x.ExternalAuthorId.Equals(externalAuthorId) && x.IterationId.Equals(postIterationId));
     }
 
-    public async Task<PostEntity> GetByIdAndAuthorIdAsync(DateTime dateTime, Guid postId, Guid userId)
+    public async Task<PostEntity> GetByIdAndAuthorIdAsync(Guid postIterationId, Guid postId, Guid userId)
     {
         return await _context.Posts
             .Include(x => x.Videos)
             .FirstOrDefaultAsync(x =>
-                x.Id.Equals(postId) && x.ExternalAuthorId.Equals(userId) && x.CreationDate.Date.Equals(dateTime.Date));
+                x.Id.Equals(postId) && x.ExternalAuthorId.Equals(userId) && x.IterationId.Equals(postIterationId));
     }
 
     public async Task<PostEntity> GetByIdAsync(Guid postId)
@@ -52,11 +52,11 @@ public class PostRepository: IPostRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<IList<PostEntity>> GetFriendsPublicFromDayPaginatedAsync(DateTime dateTime,
-        IEnumerable<Guid> friendIds, int pageNumber, int pageSize = 20)
+    public async Task<IList<PostEntity>> GetFriendsPublicFromIterationPaginatedAsync(Guid postIterationId, IEnumerable<Guid> friendIds, int pageNumber,
+        int pageSize = 20)
     {
         return await _context.Posts.Take(pageSize).Skip((pageNumber - 1) * pageSize)
-            .Where(x => x.CreationDate.Date.Equals(dateTime.Date) && x.Visibility.Equals(PostVisibility.Public) &&
+            .Where(x => x.IterationId.Equals(postIterationId) && x.Visibility.Equals(PostVisibility.Public) &&
                         friendIds.Contains(x.ExternalAuthorId))
             .ToArrayAsync();
     }

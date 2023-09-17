@@ -18,6 +18,7 @@ public class ImsPostDbContext: DbContext
     public DbSet<PostCommentReaction> PostCommentReactions { get; set; }
     public DbSet<Tag> Tags { get; set; }
     public DbSet<Localization> Localizations { get; set; }
+    public DbSet<PostIteration> PostIterations { get; set; }
 
     public ImsPostDbContext(IConfiguration configuration)
     {
@@ -43,5 +44,7 @@ public class ImsPostDbContext: DbContext
         new PostCommentEntityConfiguration().Configure(modelBuilder.Entity<PostComment>());
         new PostReactionEntityConfiguration().Configure(modelBuilder.Entity<PostReaction>());
         new PostCommentReactionEntityConfiguration().Configure(modelBuilder.Entity<PostCommentReaction>());
+        
+        new PostIterationEntityConfiguration().Configure(modelBuilder.Entity<PostIteration>());
     }
 }

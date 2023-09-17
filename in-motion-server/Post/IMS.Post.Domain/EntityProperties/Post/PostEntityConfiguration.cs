@@ -39,6 +39,10 @@ public class PostEntityConfiguration: IEntityTypeConfiguration<Entities.Post.Pos
         builder.Property(p => p.LastModifiedDate)
             .HasColumnName("last_modified_date")
             .IsRequired();
+
+        builder.Property(p => p.IterationId)
+            .IsRequired()
+            .HasColumnName("iteration_id");
         
         builder.HasMany(p => p.Tags)
             .WithMany()
@@ -47,5 +51,9 @@ public class PostEntityConfiguration: IEntityTypeConfiguration<Entities.Post.Pos
         builder.HasMany(p => p.PostComments)
             .WithOne(pc => pc.Post)
             .HasForeignKey(pc => pc.PostId);
+
+        builder.HasOne(p => p.Iteration)
+            .WithMany(pi => pi.IterationPosts)
+            .HasForeignKey(p => p.IterationId);
     }
 }

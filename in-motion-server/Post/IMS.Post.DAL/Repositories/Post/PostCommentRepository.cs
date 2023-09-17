@@ -71,6 +71,4 @@ public class PostCommentRepository: IPostCommentRepository
         Dispose(true);
         GC.SuppressFinalize(this);
     }
-
-
 }

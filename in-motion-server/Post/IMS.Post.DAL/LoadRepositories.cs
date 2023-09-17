@@ -16,6 +16,7 @@ public static class LoadRepositories
         serviceCollection.AddScoped<ILocalizationRepository, LocalizationRepository>();
         serviceCollection.AddScoped<ITagRepository, TagRepository>();
 
+        serviceCollection.AddScoped<IPostIterationRepository, PostIterationRepository>();
         serviceCollection.AddScoped<IPostRepository, PostRepository>();
         serviceCollection.AddScoped<IPostCommentRepository, PostCommentRepository>();
         serviceCollection.AddScoped<IPostCommentReactionRepository, PostCommentReactionRepository>();
