@@ -42,7 +42,7 @@ public class PostVideoService: IPostVideoService
             throw new PostNotFoundException(postIdGuid.ToString());
 
         if (!Enum.TryParse<PostVideoType>(uploadVideoMetaDataDto.Type, out var videoType))
-            throw new Exception();
+            throw new PostVideoTypeEnumParseException();
 
         var videos = post.Videos.ToArray();
         

@@ -38,6 +38,12 @@ public class PostCommentReactionRepository: IPostCommentReactionRepository
             x.Id.Equals(id) && x.PostCommentId.Equals(postCommentId) && x.ExternalAuthorId.Equals(authorId));
     }
 
+    public async Task<PostCommentReaction> GetByAuthorIdAndPostCommentIdAsync(Guid authorId, Guid postCommentId)
+    {
+        return await _context.PostCommentReactions
+            .FirstOrDefaultAsync(x => x.ExternalAuthorId.Equals(authorId) && x.PostCommentId.Equals(postCommentId));
+    }
+
     public void Remove(PostCommentReaction postCommentReaction)
     {
         _context.PostCommentReactions.Remove(postCommentReaction);

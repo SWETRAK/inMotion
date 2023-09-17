@@ -37,7 +37,11 @@ public class PostCommentReactionService: IPostCommentReactionService
         if (postComment is null)
             throw new PostCommentNotFoundException();
         
-        var postCommentReaction = new PostCommentReaction
+        var postCommentReaction = await _postCommentReactionRepository.GetByAuthorIdAndPostCommentIdAsync(userIdGuid, postComment.Id);
+        if (postCommentReaction is not null)
+            throw new PostCommentReactionAlreadyExistsException();
+        
+        postCommentReaction = new PostCommentReaction
         {
             PostComment = postComment,
             ExternalAuthorId = userIdGuid,
