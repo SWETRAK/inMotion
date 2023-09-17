@@ -12,6 +12,7 @@ public static class LoadServices
         servicesCollection.AddScoped<IPostReactionService, PostReactionService>();
         servicesCollection.AddScoped<IPostCommentService, PostCommentService>();
         servicesCollection.AddScoped<IPostCommentReactionService, PostCommentReactionService>();
+        servicesCollection.AddScoped<IPostVideoService, PostVideoService>();
         
         servicesCollection.AddScoped<IUserService, UserService>();
         

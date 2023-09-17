@@ -27,8 +27,7 @@ public class PostCommentReactionService: IPostCommentReactionService
         _mapper = mapper;
         _userService = userService;
     }
-
-    // TODO: Add post comment reaction
+    
     public async Task<PostCommentReactionDto> AddPostCommentReaction(string userId, CreatePostCommentReactionDto createPostCommentReactionDto)
     {
         var userIdGuid = userId.ParseGuid();
@@ -46,11 +45,9 @@ public class PostCommentReactionService: IPostCommentReactionService
         };
 
         await _postCommentReactionRepository.SaveAsync();
-        //TODO: Write mapper for this and add data to PostCommentReactionDto
         return _mapper.Map<PostCommentReactionDto>(postCommentReaction);
     }
     
-    // TODO: Edit post comment reaction
     public async Task<PostCommentReactionDto> EditPostCommentReaction(string userId,
         string postCommentReactionId,
         EditPostCommentReactionDto editPostCommentReactionDto)
@@ -72,8 +69,7 @@ public class PostCommentReactionService: IPostCommentReactionService
         
         return _mapper.Map<PostCommentReactionDto>(postCommentReaction);
     }
-
-    // TODO: Remove post comment reaction
+    
     public async Task RemovePostCommentReaction(string userId, string postCommentReactionId)
     {
         var userIdGuid = userId.ParseGuid();
@@ -89,7 +85,6 @@ public class PostCommentReactionService: IPostCommentReactionService
         await _postCommentReactionRepository.SaveAsync();
     }
 
-    // TODO: Get all post comment reactions (paginated, sort by date, descending)
     public async Task<ImsPagination<IEnumerable<PostCommentReactionDto>>> GetAllPostCommentReactionsPaginatedAsync(
         string postCommentId, ImsPaginationRequestDto paginationRequestDto)
     {

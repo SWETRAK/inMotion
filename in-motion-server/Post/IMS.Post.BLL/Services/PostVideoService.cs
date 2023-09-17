@@ -31,7 +31,6 @@ public class PostVideoService: IPostVideoService
         _logger = logger;
     }
     
-    // TODO: Add video to service and make it public
     public async Task SaveUploadedVideo(UploadedVideoMetaDataDto uploadedVideoMetaDataDto)
     {
         var authorIdGuid = uploadedVideoMetaDataDto.AuthorId.ParseGuid();

@@ -14,6 +14,5 @@ public class PostCommentReactionProfile: Profile
             .ForMember(x => x.CreatedAt, opt => opt.MapFrom(p => p.CreationDate))
             .ForMember(x => x.Emoji, opt => opt.MapFrom(p => p.Emoji))
             .ForMember(x => x.PostCommentId, opt => opt.MapFrom(p => p.PostCommentId.ToString()));
-
     }
 }

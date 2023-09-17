@@ -1,6 +1,8 @@
+using IMS.Post.Models.Dto.Incoming;
+
 namespace IMS.Post.IBLL.Services;
 
 public interface IPostVideoService
 {
-    // TODO: Add video to service and make it public
+    Task SaveUploadedVideo(UploadedVideoMetaDataDto uploadedVideoMetaDataDto);
 }
