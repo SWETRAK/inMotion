@@ -11,5 +11,11 @@
       <ProjectReference Include="..\..\Shared\IMS.Shared.Models\IMS.Shared.Models.csproj" />
       <ProjectReference Include="..\IMS.Post.Models\IMS.Post.Models.csproj" />
     </ItemGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="SoapCore" Version="1.1.0.38" />
+    </ItemGroup>
+
+
 
 </Project>

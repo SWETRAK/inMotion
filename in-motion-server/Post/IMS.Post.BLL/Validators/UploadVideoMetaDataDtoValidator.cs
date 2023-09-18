@@ -3,31 +3,18 @@ using IMS.Post.Models.Dto.Incoming;
 
 namespace IMS.Post.BLL.Validators;
 
-public class UploadVideoMetaDataDtoValidator: AbstractValidator<UploadVideoMetaDataDto>
+public class UploadVideoMetaDataDtoValidator: AbstractValidator<UploadVideosMetaDataDto>
 {
     public UploadVideoMetaDataDtoValidator()
     {
         RuleFor(x => x.PostId)
             .NotEmpty();
 
-        RuleFor(x => x.BucketLocation)
-            .NotEmpty();
-
-        RuleFor(x => x.BucketName)
-            .NotEmpty();
-        
-        RuleFor(x => x.Filename)
-            .NotEmpty();
-
         RuleFor(x => x.AuthorId)
             .NotEmpty();
 
-        RuleFor(x => x.ContentType)
+        RuleFor(x => x.VideosMetaData)
+            .Must(x => x.Count().Equals(2))
             .NotEmpty();
-
-        // TODO: Check if this rule works
-        RuleFor(x => x.Type)
-            .IsInEnum()
-            .NotNull();
     }
 }

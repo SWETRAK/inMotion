@@ -31,38 +31,42 @@ public class PostVideoService: IPostVideoService
         _logger = logger;
     }
     
-    public async Task SaveUploadedVideo(UploadVideoMetaDataDto uploadVideoMetaDataDto)
+    public async Task SaveUploadedVideos(UploadVideosMetaDataDto uploadVideosMetaDataDto)
     {
-        var authorIdGuid = uploadVideoMetaDataDto.AuthorId.ParseGuid();
-        var postIdGuid = uploadVideoMetaDataDto.PostId.ParseGuid();
+        var authorIdGuid = uploadVideosMetaDataDto.AuthorId.ParseGuid();
+        var postIdGuid = uploadVideosMetaDataDto.PostId.ParseGuid();
         
         var post = await _postRepository.GetByIdAsync(postIdGuid);
         
         if (post is null)
             throw new PostNotFoundException(postIdGuid.ToString());
 
-        if (!Enum.TryParse<PostVideoType>(uploadVideoMetaDataDto.Type, out var videoType))
-            throw new PostVideoTypeEnumParseException();
-
-        var videos = post.Videos.ToArray();
+        var videos = post.Videos.ToList();
         
-        if (videos.Length < 2 && !Array.Exists(videos,x => x.Type.Equals(videoType)))
+        if (videos.Count.Equals(0))
         {
-            post.Videos = videos.Append(new PostVideo
+            uploadVideosMetaDataDto.VideosMetaData.ToList().ForEach(video =>
             {
-                ExternalAuthorId = authorIdGuid,
-                Filename = uploadVideoMetaDataDto.Filename,
-                BucketName = uploadVideoMetaDataDto.BucketName,
-                BucketLocation = uploadVideoMetaDataDto.BucketLocation,
-                ContentType = uploadVideoMetaDataDto.ContentType,
-                Type = videoType
-            }).ToArray();
+                if (!Enum.TryParse<PostVideoType>(video.Type, out var videoType))
+                    throw new PostVideoTypeEnumParseException();
+                
+                videos.Add(new PostVideo
+                {
+                    ExternalAuthorId = authorIdGuid,
+                    Filename = video.Filename,
+                    BucketName = video.BucketName,
+                    BucketLocation = video.BucketLocation,
+                    ContentType = video.ContentType,
+                    Type = videoType
+                });
+            });
         }
         
-        if (post.Videos.Count().Equals(2) && 
-            Array.Exists(videos, x => x.Type.Equals(PostVideoType.Front)) &&
-            Array.Exists(videos, x => x.Type.Equals(PostVideoType.Rear)))
+        if (videos.Count.Equals(2) && 
+            Array.Exists(videos.ToArray(), x => x.Type.Equals(PostVideoType.Front)) &&
+            Array.Exists(videos.ToArray(), x => x.Type.Equals(PostVideoType.Rear)))
         {
+            post.Videos = videos;
             post.Visibility = PostVisibility.Public;
         }
 
