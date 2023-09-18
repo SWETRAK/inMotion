@@ -19,6 +19,8 @@ builder.Services.AddPostValidators();
 
 builder.Services.AddPostServices();
 
+builder.Services.AddPostSoapService();
+
 builder.Services.AddPostMappers();
 
 builder.Services.AddControllers();
@@ -36,6 +38,8 @@ dbContext.Database.Migrate();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UsePostSoapService();
 
 app.UseHttpsRedirection();
 
