@@ -80,7 +80,7 @@ public class PostService : IPostService
         return result;
     }
 
-    public async Task<ImsPagination<IList<GetPostResponseDto>>> GetFriendsPublicPostsFromCurrentDay(
+    public async Task<ImsPagination<IList<GetPostResponseDto>>> GetFriendsPublicPostsFromCurrentIteration(
         string userId, ImsPaginationRequestDto paginationRequestDto)
     {
         var userIdGuid = userId.ParseGuid();
