@@ -1,4 +1,3 @@
-using IMS.Friends.Models.Exceptions;
 using IMS.Post.Models.Exceptions;
 using IMS.Shared.Models.Dto;
 using IMS.Shared.Models.Exceptions;

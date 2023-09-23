@@ -9,6 +9,9 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Shared\IMS.Shared.Models\IMS.Shared.Models.csproj" />
+      <ProjectReference Include="..\IMS.Post.DAL\IMS.Post.DAL.csproj" />
+      <ProjectReference Include="..\IMS.Post.Domain\IMS.Post.Domain.csproj" />
+      <ProjectReference Include="..\IMS.Post.IDAL\IMS.Post.IDAL.csproj" />
       <ProjectReference Include="..\IMS.Post.Models\IMS.Post.Models.csproj" />
     </ItemGroup>
     

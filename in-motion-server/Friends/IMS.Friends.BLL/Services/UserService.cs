@@ -4,6 +4,7 @@ using IMS.Friends.Models.Exceptions;
 using IMS.Friends.Models.Models;
 using IMS.Shared.Messaging.Messages;
 using IMS.Shared.Messaging.Messages.Users;
+using IMS.Shared.Models.Exceptions;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;

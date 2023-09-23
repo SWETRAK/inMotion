@@ -1,9 +1,9 @@
 using AutoMapper;
-using IMS.Friends.Models.Exceptions;
 using IMS.Post.IBLL.Services;
 using IMS.Post.Models.Models.Author;
 using IMS.Shared.Messaging.Messages;
 using IMS.Shared.Messaging.Messages.Users;
+using IMS.Shared.Models.Exceptions;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 

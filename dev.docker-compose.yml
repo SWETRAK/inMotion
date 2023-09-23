@@ -105,3 +105,20 @@ services:
     depends_on:
       - rabbitmq
       - postgres
+  
+  imspost:
+    build: 
+      context: ./in-motion-server/
+      dockerfile: ./Post/development.Dockerfile
+    container_name: inMotion_imsPost
+    ports:
+      - "8005:80"
+      - "4435:443"
+    networks:
+      - backend
+    links:
+      - rabbitmq
+      - postgres
+    depends_on:
+      - rabbitmq
+      - postgres 

@@ -1,6 +1,6 @@
 using System.Runtime.Serialization;
 
-namespace IMS.Friends.Models.Exceptions;
+namespace IMS.Shared.Models.Exceptions;
 
 public class RabbitMqException : Exception
 {
