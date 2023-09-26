@@ -1,27 +1,37 @@
-<div class="add-friend-button-container">
-    <button class="add-friend-button">ADD A FRIEND</button>
+<div class="add-friend">
+    <button class="add-friend__button" (click)="openAddFriendModal()">ADD A FRIEND</button>
 </div>
-<div class="friends-list-container">
-    <div class="tabs-container">
-        <div class="tab" [ngClass]="{ 'active': friendsTabActive, 'inactive': !friendsTabActive }"
+<div class="friends-list">
+    <div class="friends-list__tabs">
+        <div class="friends-list__tab" [ngClass]="{ 'active': friendsTabActive, 'inactive': !friendsTabActive }"
             (click)="activateFriendsTab()">
             FRIENDS
         </div>
-        <div class="tab" [ngClass]="{ 'active': !friendsTabActive, 'inactive': friendsTabActive }"
+        <div class="friends-list__tab" [ngClass]="{ 'active': !friendsTabActive, 'inactive': friendsTabActive }"
             (click)="activateRequestsTab()">
             REQUESTS
         </div>
     </div>
 
-    <div class="search-container" *ngIf="friendsTabActive">
-        <input type="text" placeholder="Find a friend" class="friend-search-input">
+    <div class="friends-list__search" *ngIf="friendsTabActive">
+        <input type="text" placeholder="Find a friend..." class="friends-list__search--input">
     </div>
     <!-- TODO search friends -->
-    <div class="friend-template" *ngIf="friendsTabActive">
+    <div class="friends-list__template" *ngIf="friendsTabActive">
         <img src="/assets/photos/in-logo.png" alt="User Photo">
-        <div class="friend-info">
-            <div class="username">username</div>
-            <div class="status">Active now</div>
+        <div class="friends-list__template-info">
+            <div class="friends-list__template-info--username">username</div>
+            <div class="friends-list__template-info--status">Active now</div>
+        </div>
+    </div>
+    <div class="friends-list__request-template" *ngIf="!friendsTabActive">
+        <img src="/assets/photos/in-logo.png" alt="Request User Photo">
+        <div class="friends-list__request-template-info">
+            <div class="friends-list__request-template--username">username</div>
+            <div class="friends-list__request-template--icons">
+                <i class="fas fa-check"></i>
+                <i class="fas fa-times"></i>
+            </div>
         </div>
     </div>
 </div>
