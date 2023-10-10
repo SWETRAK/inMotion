@@ -4,8 +4,13 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
+<<<<<<<< HEAD:in-motion-server/Post/IMS.Post.API/Properties/launchSettings.json
+      "applicationUrl": "http://localhost:2684",
+      "sslPort": 44324
+========
       "applicationUrl": "http://localhost:34059",
       "sslPort": 44302
+>>>>>>>> origin/develop:in-motion-server/User/IMS.User.API/Properties/launchSettings.json
     }
   },
   "profiles": {
@@ -14,7 +19,11 @@
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
+<<<<<<<< HEAD:in-motion-server/Post/IMS.Post.API/Properties/launchSettings.json
+      "applicationUrl": "http://localhost:5078",
+========
       "applicationUrl": "http://localhost:5279",
+>>>>>>>> origin/develop:in-motion-server/User/IMS.User.API/Properties/launchSettings.json
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -24,7 +33,11 @@
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
+<<<<<<<< HEAD:in-motion-server/Post/IMS.Post.API/Properties/launchSettings.json
+      "applicationUrl": "https://localhost:7056;http://localhost:5078",
+========
       "applicationUrl": "https://localhost:7191;http://localhost:5279",
+>>>>>>>> origin/develop:in-motion-server/User/IMS.User.API/Properties/launchSettings.json
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

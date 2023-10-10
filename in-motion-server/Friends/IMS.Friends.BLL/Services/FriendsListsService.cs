@@ -27,6 +27,16 @@ public class FriendsListsService : IFriendsListsService
         _userService = userService;
     }
 
+    public async Task<IEnumerable<Guid>> GetFriendsIdsAsync(string userStringId)
+    {
+        if (!Guid.TryParse(userStringId, out var userGuidId))
+            throw new InvalidGuidStringException();
+
+        var acceptedUsers = await _friendshipRepository.GetAccepted(userGuidId);
+
+        return acceptedUsers.Select(x => !x.FirstUserId.Equals(userGuidId) ? x.FirstUserId : x.SecondUserId);
+    }
+
     //TODO: Test this method
     public async Task<IEnumerable<AcceptedFriendshipDto>> GetFriendsAsync(string userStringId)
     {
@@ -36,7 +46,7 @@ public class FriendsListsService : IFriendsListsService
         var acceptedUsers = await _friendshipRepository.GetAccepted(userGuidId);
         var userIds = acceptedUsers.Select(f => !f.FirstUserId.Equals(userGuidId) ? f.FirstUserId : f.SecondUserId);
 
-        var friendsInfo = await _userService.GetUsersFromIdArray(userIds);
+        var friendsInfo = await _userService.GetUsersByIdsArray(userIds);
 
         var result = _mapper.Map<List<Friendship>, IEnumerable<AcceptedFriendshipDto>>(acceptedUsers,
             opt => opt.AfterMap((src, dest) =>
@@ -64,7 +74,7 @@ public class FriendsListsService : IFriendsListsService
 
         var userIds = requestUsers.Select(f => f.FirstUserId);
 
-        var friendsInfo = await _userService.GetUsersFromIdArray(userIds);
+        var friendsInfo = await _userService.GetUsersByIdsArray(userIds);
         
         var result = _mapper.Map<List<Friendship>, IEnumerable<RequestFriendshipDto>>(requestUsers,
             opt => opt.AfterMap((src, dest) =>
@@ -92,7 +102,7 @@ public class FriendsListsService : IFriendsListsService
         var invitationUsers = await _friendshipRepository.GetInvitation(userGuidId);
         var userIds = invitationUsers.Select(f => f.SecondUserId);
         
-        var friendsInfo = await _userService.GetUsersFromIdArray(userIds);
+        var friendsInfo = await _userService.GetUsersByIdsArray(userIds);
         
         var result = _mapper.Map<List<Friendship>, IEnumerable<InvitationFriendshipDto>>(invitationUsers,
             opt => opt.AfterMap((src, dest) =>

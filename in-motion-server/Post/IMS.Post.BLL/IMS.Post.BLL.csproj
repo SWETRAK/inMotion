@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+        <PackageReference Include="Google.Apis.Auth" Version="1.61.0" />
+        <PackageReference Include="MassTransit" Version="8.0.16" />
+        <PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.16" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.8" />
+        <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\IMS.Shared.Messaging\IMS.Shared.Messaging.csproj" />
+      <ProjectReference Include="..\..\Shared\IMS.Shared.Models\IMS.Shared.Models.csproj" />
+      <ProjectReference Include="..\..\Shared\IMS.Shared.Utils\IMS.Shared.Utils.csproj" />
+      <ProjectReference Include="..\IMS.Post.DAL\IMS.Post.DAL.csproj" />
+      <ProjectReference Include="..\IMS.Post.Domain\IMS.Post.Domain.csproj" />
+      <ProjectReference Include="..\IMS.Post.IBLL\IMS.Post.IBLL.csproj" />
+      <ProjectReference Include="..\IMS.Post.IDAL\IMS.Post.IDAL.csproj" />
+      <ProjectReference Include="..\IMS.Post.Models\IMS.Post.Models.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\IMS.Shared.Models\IMS.Shared.Models.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Consumers\" />
+    </ItemGroup>
+    
+</Project>

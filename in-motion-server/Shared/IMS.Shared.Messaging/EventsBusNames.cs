@@ -14,4 +14,6 @@ public static class EventsBusNames
 
     public const string GetBaseUserInfoName = "get-base-user-info";
     public const string GetBaseUsersInfoName = "get-base-users-info";
+    
+    public const string GetUserFriendsName = "get-user-friends";
 }

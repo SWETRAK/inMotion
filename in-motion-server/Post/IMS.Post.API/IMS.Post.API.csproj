@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>disable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.10"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\IMS.Post.BLL\IMS.Post.BLL.csproj" />
+      <ProjectReference Include="..\IMS.Post.DAL\IMS.Post.DAL.csproj" />
+      <ProjectReference Include="..\IMS.Post.Domain\IMS.Post.Domain.csproj" />
+      <ProjectReference Include="..\IMS.Post.IBLL\IMS.Post.IBLL.csproj" />
+      <ProjectReference Include="..\IMS.Post.IDAL\IMS.Post.IDAL.csproj" />
+      <ProjectReference Include="..\IMS.Post.Models\IMS.Post.Models.csproj" />
+    </ItemGroup>
+
+
+</Project>

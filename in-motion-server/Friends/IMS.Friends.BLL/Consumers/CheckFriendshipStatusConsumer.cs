@@ -32,7 +32,6 @@ public class CheckFriendshipStatusConsumer: IConsumer<ImsBaseMessage<FriendshipS
             await context.RespondAsync(response);
             return;
         }
-
         try
         {
             var requestData = message.Data;

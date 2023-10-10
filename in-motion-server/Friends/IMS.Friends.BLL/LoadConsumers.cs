@@ -24,13 +24,17 @@ public static class LoadConsumers
         
         serviceCollection.AddMassTransit(x =>
         {
-            // TODO: Add this endpoints to user service
             x.AddRequestClient<ImsBaseMessage<GetUserInfoMessage>>(new Uri($"exchange:{EventsBusNames.GetUserInfoName}"));
             x.AddRequestClient<ImsBaseMessage<GetUsersInfoMessage>>(new Uri($"exchange:{EventsBusNames.GetUsersInfoName}"));
             
             x.AddConsumer<CheckFriendshipStatusConsumer>().Endpoint(e =>
             {
                 e.Name = EventsBusNames.CheckFriendshipStatusName;
+            });
+            
+            x.AddConsumer<GetUserFriendsConsumer>().Endpoint(e =>
+            {
+                e.Name = EventsBusNames.GetUserFriendsName;
             });
             
             x.UsingRabbitMq((ctx, cfg) =>

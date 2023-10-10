@@ -4,6 +4,6 @@ namespace IMS.Friends.IBLL.Services;
 
 public interface IUserService
 {
-    Task<IEnumerable<UserInfo>> GetUsersFromIdArray(IEnumerable<Guid> idArray);
-    Task<UserInfo> GetUserFromIdArray(Guid userId);
+    Task<IEnumerable<UserInfo>> GetUsersByIdsArray(IEnumerable<Guid> idArray);
+    Task<UserInfo> GetUserByIdArray(Guid userId);
 }
