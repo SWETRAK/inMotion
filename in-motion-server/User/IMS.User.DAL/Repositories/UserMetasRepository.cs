@@ -8,7 +8,7 @@ namespace IMS.User.DAL.Repositories;
 public class UserMetasRepository: IUserMetasRepository
 {
     private readonly ImsUserDbContext _context;
-    private bool _disposed;
+    private bool _disposed = false;
 
     public UserMetasRepository(ImsUserDbContext context)
     {

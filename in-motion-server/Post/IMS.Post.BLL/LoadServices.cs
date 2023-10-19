@@ -1,5 +1,8 @@
+using IMS.Post.BLL.RabbitConsumers;
 using IMS.Post.BLL.Services;
 using IMS.Post.IBLL.Services;
+using IMS.Shared.Messaging;
+using IMS.Shared.Messaging.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IMS.Post.BLL;
@@ -13,6 +16,9 @@ public static class LoadServices
         servicesCollection.AddScoped<IPostCommentService, PostCommentService>();
         servicesCollection.AddScoped<IPostCommentReactionService, PostCommentReactionService>();
         servicesCollection.AddScoped<IPostVideoService, PostVideoService>();
+        
+        servicesCollection.AddScoped<IConsumer, SaveUploadedVideoRabbitConsumer>();
+        servicesCollection.AddCustomRabbit();
         
         servicesCollection.AddScoped<IUserService, UserService>();
         

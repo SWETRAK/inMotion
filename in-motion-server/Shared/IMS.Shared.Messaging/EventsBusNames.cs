@@ -9,11 +9,26 @@ public static class EventsBusNames
 
     public const string GetUserInfoName = "get-user-info";
     public const string GetUsersInfoName = "get-users-info";
-    
+
     public const string CheckFriendshipStatusName = "check-friendship-status";
 
     public const string GetBaseUserInfoName = "get-base-user-info";
     public const string GetBaseUsersInfoName = "get-base-users-info";
-    
+
     public const string GetUserFriendsName = "get-user-friends";
+
+    public static class CustomRabbitConfigurationNames
+    {
+        public const string ValidateJwtQueueName = "queue:jwt-validator";
+        public const string ValidateJwtExchangeName = "exchange:jwt-validator";
+        public const string ValidateJwtRoutingKeyName = "routing:jwt-validator";
+
+        public const string UpdatePostVideoQueueName = "queue:update-post-video";
+        public const string UpdatePostVideoExchangeName = "exchange:update-post-video";
+        public const string UpdatePostVideoRoutingKeyName = "routing:update-post-video";
+
+        public const string UpdateProfileVideoQueueName = "queue:update-profile-video";
+        public const string UpdateProfileVideoExchangeName = "exchange:update-profile-video";
+        public const string UpdateProfileVideoRoutingKeyName = "routing:update-profile-video";
+    }
 }

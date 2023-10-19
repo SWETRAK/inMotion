@@ -7,11 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Utils\" />
-      <Folder Include="Validators\" />
-    </ItemGroup>
-
-    <ItemGroup>
         <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
         <PackageReference Include="Google.Apis.Auth" Version="1.61.0" />
         <PackageReference Include="MassTransit" Version="8.0.16" />

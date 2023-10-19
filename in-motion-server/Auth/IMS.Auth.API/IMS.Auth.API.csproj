@@ -22,6 +22,9 @@
       <ProjectReference Include="..\..\Shared\IMS.Shared.Models\IMS.Shared.Models.csproj" />
       <ProjectReference Include="..\..\Shared\IMS.Shared.Utils\IMS.Shared.Utils.csproj" />
       <ProjectReference Include="..\IMS.Auth.BLL\IMS.Auth.BLL.csproj" />
+      <ProjectReference Include="..\IMS.Auth.DAL\IMS.Auth.DAL.csproj" />
+      <ProjectReference Include="..\IMS.Auth.IBLL\IMS.Auth.IBLL.csproj" />
+      <ProjectReference Include="..\IMS.Auth.Models\IMS.Auth.Models.csproj" />
     </ItemGroup>
 
     <ItemGroup>

@@ -2,6 +2,10 @@ package com.inmotion.inmotionserverjava;
 
 import com.inmotion.inmotionserverjava.exceptions.ErrorResponse;
 import com.inmotion.inmotionserverjava.model.*;
+import com.inmotion.inmotionserverjava.model.message.AuthenticationMessage;
+import com.inmotion.inmotionserverjava.model.message.UpdatePostVideoMetadataMessage;
+import com.inmotion.inmotionserverjava.model.message.UpdateUserProfileVideoMessage;
+import com.inmotion.inmotionserverjava.services.MessagePublisher;
 import com.inmotion.inmotionserverjava.services.interfaces.MediaService;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,12 +17,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/media")
 @AllArgsConstructor
 public class MediaController {
 
     private final MediaService mediaService;
+    private final MessagePublisher messagePublisher;
+
+    @GetMapping(value = "/test")
+    public ResponseEntity test()
+    {
+        messagePublisher.publishJwtValidationEvent(new AuthenticationMessage("Kamil Pietrak"));
+        messagePublisher.publishVideoUploadedEvent(new UpdatePostVideoMetadataMessage(UUID.randomUUID().toString(), UUID.randomUUID().toString(), null));
+        messagePublisher.publishUserProfileVideoUploadEvent(new UpdateUserProfileVideoMessage(UUID.randomUUID().toString(), "", "", "", ""));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @PostMapping(value = "/profile/video", consumes = "multipart/form-data")
     @ApiResponses(value = {

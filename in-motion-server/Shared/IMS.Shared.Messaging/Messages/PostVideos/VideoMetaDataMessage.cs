@@ -1,23 +1,14 @@
-using System.Runtime.Serialization;
+namespace IMS.Shared.Messaging.Messages.PostVideos;
 
-namespace IMS.Post.Models.Models.Soap;
-
-[DataContract]
-public class VideoMetaData
+public class VideoMetaDataMessage
 {
-    
-    [DataMember]
     public string BucketName { get; set; }
     
-    [DataMember]
     public string BucketLocation { get; set; }
     
-    [DataMember]
     public string Filename { get; set; }
     
-    [DataMember]
     public string ContentType { get; set; }
     
-    [DataMember]
     public string Type { get; set; }
 }

@@ -1,9 +1,5 @@
 package com.inmotion.inmotionserverjava.config;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -18,31 +14,16 @@ import org.springframework.context.annotation.Configuration;
 @EnableRabbit
 public class RabbitConfiguration {
 
-    public static final String EXCHANGE = "validate-jwt-event";
+    public static final String JWT_QUEUE = "queue:jwt-validator";
+    public static final String UPDATE_POST_VIDEO_QUEUE = "queue:update-post-video";
+    public static final String UPDATE_PROFILE_VIDEO_QUEUE = "queue:update-profile-video";
 
-    private static final String QUEUE = "validate-jwt-event";
-
-    @Bean
-    Queue queue() {
-        return new Queue(QUEUE, true);
-    }
-
-    @Bean
-    FanoutExchange exchange() {
-        return new FanoutExchange(EXCHANGE);
-    }
-
-    @Bean
-    Binding binding(Queue queue, FanoutExchange exchange) {
-        return BindingBuilder
-                .bind(queue)
-                .to(exchange);
-    }
 
     @Bean
     SimpleRabbitListenerContainerFactory containerFactory(ConnectionFactory connectionFactory,
                                                           SimpleRabbitListenerContainerFactoryConfigurer configurer) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+
         configurer.configure(factory, connectionFactory);
         factory.setMessageConverter(consumerJackson2MessageConverter());
         factory.setConnectionFactory(connectionFactory);
@@ -55,7 +36,6 @@ public class RabbitConfiguration {
         rabbitTemplate.setMessageConverter(consumerJackson2MessageConverter());
         return rabbitTemplate;
     }
-
 
     @Bean
     public MessageConverter consumerJackson2MessageConverter() {
