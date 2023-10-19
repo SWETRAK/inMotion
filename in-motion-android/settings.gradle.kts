@@ -12,5 +12,7 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "InMotion"
-include ':app'
+
+rootProject.name = "in-motion-android"
+include(":app")
+ 

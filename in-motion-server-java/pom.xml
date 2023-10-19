@@ -104,12 +104,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>com.sun.xml.ws</groupId>
-            <artifactId>jaxws-maven-plugin</artifactId>
-            <version>4.0.1</version>
-        </dependency>
-
 
     </dependencies>
 
@@ -131,7 +125,7 @@
             <plugin>
                 <groupId>com.sun.xml.ws</groupId>
                 <artifactId>jaxws-maven-plugin</artifactId>
-                <version>4.0.1</version>
+                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <goals>
@@ -140,9 +134,9 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <packageName>com.inmotion.soap.wsdl</packageName>
+                    <packageName>com.example.consumingwebservice.wsdl</packageName>
                     <wsdlUrls>
-                        <wsdlUrl>http://localhost:8001/soap/jwtService.asmx?wsdl</wsdlUrl>
+                        <wsdlUrl>http://localhost:8080/ws/countries.wsdl</wsdlUrl>
                     </wsdlUrls>
                     <sourceDestDir>${sourcesDir}</sourceDestDir>
                     <destDir>${classesDir}</destDir>

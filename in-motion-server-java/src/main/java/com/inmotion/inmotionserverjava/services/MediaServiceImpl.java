@@ -1,21 +1,21 @@
 package com.inmotion.inmotionserverjava.services;
 
-import com.inmotion.inmotionserverjava.exceptions.UnauthorizedUserException;
+import com.inmotion.inmotionserverjava.config.RabbitConfiguration;
 import com.inmotion.inmotionserverjava.exceptions.minio.MinioFilePostingException;
 import com.inmotion.inmotionserverjava.model.*;
 import com.inmotion.inmotionserverjava.services.interfaces.MediaService;
 import com.inmotion.inmotionserverjava.services.interfaces.MinioService;
-import com.inmotion.inmotionserverjava.soap.AuthenticationClient;
 import com.inmotion.inmotionserverjava.util.MP4ToSmallGifConverter;
-import com.inmotion.soap.wsdl.UserInfoWithRoleDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -35,8 +35,8 @@ public class MediaServiceImpl implements MediaService {
 
     @Value("${minio.buckets.posts}")
     private String postsBucket;
+    private final RabbitTemplate rabbitTemplate;
     private final MinioService minioService;
-    private final AuthenticationClient authenticationClient;
     private final MP4ToSmallGifConverter mp4ToGifConverter;
 
     // TODO: Rollback mechanism if one of files not uploaded
@@ -103,12 +103,21 @@ public class MediaServiceImpl implements MediaService {
 
     // TODO: Write as supposed to be with call to message queue
     private UserInfoDto validateJwt(String jwtToken){
-        UserInfoWithRoleDto user = authenticationClient.validateJwtToken(jwtToken).getValidateJwtTokenResult();
-        if(user == null) throw new UnauthorizedUserException();
-        return new UserInfoDto(
-                user.getId().getValue(),
-                user.getEmail().getValue(),
-                user.getNickname().getValue(),
-                jwtToken);
+        rabbitTemplate.convertAndSend("validate-jwt-event", "",
+                new MasstransitEvent<>(
+                        //--IMS:Shared:Messaging:Messages:JWT:RequestJwtValidationMessage
+                        List.of("IMS:Shared:Messaging:Messages:IMSBaseMessage", "IMS:Shared:Messaging:Messages:JWT:RequestJwtValidationMessage"),
+                        new BaseMessage<>(false, null,
+                                new AuthenticationMessage("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9." +
+                                        "eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2Ns" +
+                                        "YWltcy9uYW1laWRlbnRpZmllciI6IjFkNzI0MDZlLTE1MTYtNDZiNC04MTI2LWMwZDZmNWY1" +
+                                        "NTIyNCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2" +
+                                        "xhaW1zL2VtYWlsYWRkcmVzcyI6InRlc3RAdGVzdC5wbCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvY" +
+                                        "XAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJ0ZXN0IiwiaHR0cDovL3Nj" +
+                                        "aGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVXN" +
+                                        "lciIsImV4cCI6MTY5NDM1MTE3MiwiaXNzIjoiaXJsLWJhY2tlbmQ6ODAiLCJhdWQiOiJpcmwtYmF" +
+                                        "ja2VuZDo4MCJ9.QnpfAUMAg4v4WYmxu3aC6JvrbtcYihpYlRjEat63ILU")
+                        )
+                ));
     }
 }
