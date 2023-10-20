@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">in-motion-android</string>
+    <string name="app_name">inMotion</string>
+
+    <!-- Login and Register views -->
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="login_with_email">LOGIN WITH EMAIL</string>
+    <string name="register_new_account"><u>Register new account</u></string>
+    <string name="login_to_existing_account"><u>Login to existing account</u></string>
+    <string name="register">REGISTER</string>
+    <string name="repeat_password_hint">Repeat password</string>
 </resources>
