@@ -3,22 +3,23 @@ package com.inmotion.in_motion_android
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.inmotion.in_motion_android.databinding.ActivityRegisterBinding
+import com.inmotion.in_motion_android.databinding.ActivityLoginBinding
 
-class RegisterActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
-    var binding: ActivityRegisterBinding? = null
+    var binding: ActivityLoginBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityRegisterBinding.inflate(layoutInflater)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
-        binding?.tvLogin?.setOnClickListener {
-            finish()
+        binding?.tvRegister?.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
         }
 
-        binding?.btnRegister?.setOnClickListener {
+        binding?.btnLoginWithEmail?.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }

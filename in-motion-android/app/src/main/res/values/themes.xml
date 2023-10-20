@@ -3,7 +3,7 @@
     <style name="Base.Theme.Inmotionandroid" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/primary</item>
-        <item name="android:background">@color/background</item>
+        <item name="android:windowBackground">@color/background</item>
         <item name="android:textColorHint">@color/white</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:colorButtonNormal">@color/primary</item>
@@ -12,6 +12,10 @@
     </style>
     <style name="FilledBoxEndIconTint" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="endIconTint">@color/white</item>
+    </style>
+    <style name="ShapeAppearanceOverlay.Avatar" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20%</item>
     </style>
 
     <style name="Theme.Inmotionandroid" parent="Base.Theme.Inmotionandroid" />

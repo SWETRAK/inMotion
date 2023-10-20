@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clUserDate"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/avatar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end"
+            android:scaleType="fitXY"
+            android:src="@drawable/avatar"
+            app:shapeAppearance="@style/ShapeAppearanceOverlay.Avatar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tvLocationAndTime"
+            android:layout_marginStart="10dp"
+            tools:text="Username"
+            android:textStyle="bold"
+            />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvLocationAndTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintTop_toBottomOf="@+id/tvUsername"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="Lublin, 13:09"
+            android:textSize="12sp"
+            android:textColor="@color/primary"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clPostVideos"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/clUserDate"
+        app:layout_constraintDimensionRatio="0.75"
+        >
+
+        <VideoView
+            android:id="@+id/defaultBackPostVideo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintDimensionRatio="0.75"
+            />
+        <VideoView
+            android:id="@+id/defaultFrontPostVideo"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:elevation="10dp"
+            app:layout_constraintDimensionRatio="0.75"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/llLikeCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/avatar_border_rounded"
+        app:layout_constraintTop_toBottomOf="@id/clPostVideos"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="4dp"
+
+        >
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivLikeIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_heart_broken_24"
+            android:layout_margin="4dp" />
+        <TextView
+            android:id="@+id/tvLikeCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="23"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_mode_comment_24"
+        app:layout_constraintTop_toBottomOf="@id/clPostVideos"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="4dp"
+        />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/llLikeCount"
+        app:dividerColor="@color/primary"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
