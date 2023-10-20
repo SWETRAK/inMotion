@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService } from "@abacritt/angularx-social-login";
 import { HttpClient } from "@angular/common/http";
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-credentials',
@@ -16,7 +16,8 @@ export class LoginCredentialsComponent implements OnInit, OnDestroy {
 
   constructor(
     private authService: SocialAuthService,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private router: Router
   ) {
 
   }
@@ -42,5 +43,11 @@ export class LoginCredentialsComponent implements OnInit, OnDestroy {
 
   togglePasswordVisibility(): void {
     this.passwordVisible = !this.passwordVisible;
+  }
+  redirectToHome() {
+    this.router.navigate(['/home']);
+  }
+  redirectToRegister() {
+    this.router.navigate(['/register']);
   }
 }
