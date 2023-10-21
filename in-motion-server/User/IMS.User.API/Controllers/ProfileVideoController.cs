@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace IMS.User.API.Controllers;
 
 [ApiController]
-[Route("users/profileVideos")]
+[Route("api/users/videos")]
 public class ProfileVideoController: ControllerBase
 {
     private readonly ILogger<ProfileVideoController> _logger;
