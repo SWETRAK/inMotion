@@ -2,52 +2,50 @@
   "Routes": [
     {
       "UpstreamPathTemplate": "/api/auth/{catchAll}",
-      "UpstreamPathMethod": ["GET", "POST", "PUT", "DELETE"],
+      "UpstreamHttpMethod": ["GET", "POST", "PUT"],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "imsauth",
-          "Post": 80
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/{catchAll}"
     },
     {
       "UpstreamPathTemplate": "/api/users/{catchAll}",
-      "UpstreamPathMethod": ["GET", "PUT"],
+      "UpstreamHttpMethod": ["GET", "PUT"],
 
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "imsuser",
-          "Post": 80
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/users/{catchAll}"
     },
-
     {
       "UpstreamPathTemplate": "/api/friends/{catchAll}",
-      "UpstreamPathMethod": ["GET", "POST", "PUT", "PATCH"],
+      "UpstreamHttpMethod": ["GET", "POST", "PUT", "PATCH"],
 
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "imsfriends",
-          "Post": 80
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/friends/{catchAll}"
     },
-
     {
       "UpstreamPathTemplate": "/api/posts/{catchAll}",
-      "UpstreamPathMethod": ["GET", "POST", "PUT", "DELETE"],
+      "UpstreamHttpMethod": ["GET", "POST", "PUT", "DELETE"],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "imsuser",
-          "Post": 80
+          "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/posts/{catchAll}"

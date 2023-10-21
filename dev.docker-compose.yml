@@ -50,7 +50,11 @@ services:
       - "4439:443"
     networks:
       - backend
-
+    links:
+      - imsauth
+      - imsuser
+      - imsfriends
+      - imspost
 
   # DOTNET packages
   imsauth:
