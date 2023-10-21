@@ -12,5 +12,6 @@ public interface IUserMetasRepository: IDisposable
     Task<UserMetas> GetByProfileVideoIdAsync(Guid profileVideoId);
     Task<UserMetas> GetByProfileVideoIdWithProfileVideoAsync (Guid profileVideoId);
     void RemoveAsync(UserMetas userMetas);
+    Task Add(UserMetas userMetas);
     Task SaveAsync();
 }
