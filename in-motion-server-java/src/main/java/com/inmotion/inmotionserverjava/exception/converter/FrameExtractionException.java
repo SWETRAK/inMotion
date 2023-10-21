@@ -1,4 +1,4 @@
-package com.inmotion.inmotionserverjava.exceptions.converter;
+package com.inmotion.inmotionserverjava.exception.converter;
 
 public class FrameExtractionException extends RuntimeException{
     public FrameExtractionException(String message) {

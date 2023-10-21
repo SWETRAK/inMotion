@@ -1,4 +1,4 @@
-package com.inmotion.inmotionserverjava.exceptions;
+package com.inmotion.inmotionserverjava.exception;
 
 public class UnauthorizedUserException extends RuntimeException{
     public UnauthorizedUserException() {

@@ -1,4 +1,4 @@
-package com.inmotion.inmotionserverjava.services.interfaces;
+package com.inmotion.inmotionserverjava.service.interfaces;
 
 import com.inmotion.inmotionserverjava.model.PostDto;
 import com.inmotion.inmotionserverjava.model.PostUploadInfoDto;

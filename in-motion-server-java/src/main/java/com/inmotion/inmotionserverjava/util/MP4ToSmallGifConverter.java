@@ -1,8 +1,8 @@
 package com.inmotion.inmotionserverjava.util;
 
-import com.inmotion.inmotionserverjava.exceptions.converter.BadFileExtensionException;
-import com.inmotion.inmotionserverjava.exceptions.converter.ConversionException;
-import com.inmotion.inmotionserverjava.exceptions.converter.FrameExtractionException;
+import com.inmotion.inmotionserverjava.exception.converter.BadFileExtensionException;
+import com.inmotion.inmotionserverjava.exception.converter.ConversionException;
+import com.inmotion.inmotionserverjava.exception.converter.FrameExtractionException;
 import com.squareup.gifencoder.FloydSteinbergDitherer;
 import com.squareup.gifencoder.GifEncoder;
 import com.squareup.gifencoder.ImageOptions;

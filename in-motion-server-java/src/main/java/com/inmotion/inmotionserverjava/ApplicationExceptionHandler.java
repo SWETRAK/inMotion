@@ -1,13 +1,13 @@
 package com.inmotion.inmotionserverjava;
 
-import com.inmotion.inmotionserverjava.exceptions.ErrorResponse;
-import com.inmotion.inmotionserverjava.exceptions.UnauthorizedUserException;
-import com.inmotion.inmotionserverjava.exceptions.minio.MinioFileNotFoundException;
-import com.inmotion.inmotionserverjava.exceptions.minio.MinioFilePostingException;
-import com.inmotion.inmotionserverjava.exceptions.converter.BadFileExtensionException;
-import com.inmotion.inmotionserverjava.exceptions.converter.ConversionException;
-import com.inmotion.inmotionserverjava.exceptions.converter.FrameExtractionException;
-import com.inmotion.inmotionserverjava.exceptions.converter.FrameGrabberInitializationException;
+import com.inmotion.inmotionserverjava.exception.ErrorResponse;
+import com.inmotion.inmotionserverjava.exception.UnauthorizedUserException;
+import com.inmotion.inmotionserverjava.exception.minio.MinioFileNotFoundException;
+import com.inmotion.inmotionserverjava.exception.minio.MinioFilePostingException;
+import com.inmotion.inmotionserverjava.exception.converter.BadFileExtensionException;
+import com.inmotion.inmotionserverjava.exception.converter.ConversionException;
+import com.inmotion.inmotionserverjava.exception.converter.FrameExtractionException;
+import com.inmotion.inmotionserverjava.exception.converter.FrameGrabberInitializationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

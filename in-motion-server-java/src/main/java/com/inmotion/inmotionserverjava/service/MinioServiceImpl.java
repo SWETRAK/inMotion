@@ -1,8 +1,8 @@
-package com.inmotion.inmotionserverjava.services;
+package com.inmotion.inmotionserverjava.service;
 
-import com.inmotion.inmotionserverjava.exceptions.minio.MinioFileNotFoundException;
-import com.inmotion.inmotionserverjava.exceptions.minio.MinioFilePostingException;
-import com.inmotion.inmotionserverjava.services.interfaces.MinioService;
+import com.inmotion.inmotionserverjava.exception.minio.MinioFileNotFoundException;
+import com.inmotion.inmotionserverjava.exception.minio.MinioFilePostingException;
+import com.inmotion.inmotionserverjava.service.interfaces.MinioService;
 import io.minio.GetObjectArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;

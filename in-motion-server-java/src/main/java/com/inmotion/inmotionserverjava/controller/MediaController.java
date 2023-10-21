@@ -1,12 +1,12 @@
-package com.inmotion.inmotionserverjava;
+package com.inmotion.inmotionserverjava.controller;
 
-import com.inmotion.inmotionserverjava.exceptions.ErrorResponse;
+import com.inmotion.inmotionserverjava.exception.ErrorResponse;
 import com.inmotion.inmotionserverjava.model.*;
 import com.inmotion.inmotionserverjava.model.message.AuthenticationMessage;
 import com.inmotion.inmotionserverjava.model.message.UpdatePostVideoMetadataMessage;
 import com.inmotion.inmotionserverjava.model.message.UpdateUserProfileVideoMessage;
-import com.inmotion.inmotionserverjava.services.MessagePublisher;
-import com.inmotion.inmotionserverjava.services.interfaces.MediaService;
+import com.inmotion.inmotionserverjava.service.MessagePublisher;
+import com.inmotion.inmotionserverjava.service.interfaces.MediaService;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -30,7 +30,7 @@ public class MediaController {
     @GetMapping(value = "/test")
     public ResponseEntity test()
     {
-        messagePublisher.publishJwtValidationEvent(new AuthenticationMessage("Kamil Pietrak"));
+        messagePublisher.publishJwtValidationEvent(new AuthenticationMessage("TIKTOKEN"));
         messagePublisher.publishVideoUploadedEvent(new UpdatePostVideoMetadataMessage(UUID.randomUUID().toString(), UUID.randomUUID().toString(), null));
         messagePublisher.publishUserProfileVideoUploadEvent(new UpdateUserProfileVideoMessage(UUID.randomUUID().toString(), "", "", "", ""));
         return new ResponseEntity<>(HttpStatus.OK);
