@@ -3,6 +3,7 @@ using System;
 using IMS.User.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IMS.User.API.Migrations
 {
     [DbContext(typeof(ImsUserDbContext))]
-    partial class ImsUserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231021104405_migrationFix3")]
+    partial class migrationFix3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,7 +38,7 @@ namespace IMS.User.API.Migrations
                         .HasColumnType("character varying(1024)")
                         .HasColumnName("bio");
 
-                    b.Property<Guid?>("ProfileVideoId")
+                    b.Property<Guid>("ProfileVideoId")
                         .HasColumnType("uuid")
                         .HasColumnName("profile_video_id");
 
@@ -43,9 +46,6 @@ namespace IMS.User.API.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProfileVideoId")
-                        .IsUnique();
 
                     b.ToTable("user_metas", "user");
                 });
@@ -89,23 +89,32 @@ namespace IMS.User.API.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("last_edition_name");
 
+                    b.Property<Guid>("UserMetasId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserMetasId")
+                        .IsUnique();
 
                     b.ToTable("user_profile_videos", "user");
                 });
 
-            modelBuilder.Entity("IMS.User.Domain.Entities.UserMetas", b =>
-                {
-                    b.HasOne("IMS.User.Domain.Entities.UserProfileVideo", "ProfileVideo")
-                        .WithOne("UserMetas")
-                        .HasForeignKey("IMS.User.Domain.Entities.UserMetas", "ProfileVideoId");
-
-                    b.Navigation("ProfileVideo");
-                });
-
             modelBuilder.Entity("IMS.User.Domain.Entities.UserProfileVideo", b =>
                 {
+                    b.HasOne("IMS.User.Domain.Entities.UserMetas", "UserMetas")
+                        .WithOne("ProfileVideo")
+                        .HasForeignKey("IMS.User.Domain.Entities.UserProfileVideo", "UserMetasId")
+                        .HasPrincipalKey("IMS.User.Domain.Entities.UserMetas", "ProfileVideoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("UserMetas");
+                });
+
+            modelBuilder.Entity("IMS.User.Domain.Entities.UserMetas", b =>
+                {
+                    b.Navigation("ProfileVideo");
                 });
 #pragma warning restore 612, 618
         }

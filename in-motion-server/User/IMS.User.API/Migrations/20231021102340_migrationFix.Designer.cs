@@ -3,6 +3,7 @@ using System;
 using IMS.User.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IMS.User.API.Migrations
 {
     [DbContext(typeof(ImsUserDbContext))]
-    partial class ImsUserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231021102340_migrationFix")]
+    partial class migrationFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,6 +92,9 @@ namespace IMS.User.API.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("last_edition_name");
 
+                    b.Property<Guid>("UserMetasId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.ToTable("user_profile_videos", "user");
@@ -98,7 +104,8 @@ namespace IMS.User.API.Migrations
                 {
                     b.HasOne("IMS.User.Domain.Entities.UserProfileVideo", "ProfileVideo")
                         .WithOne("UserMetas")
-                        .HasForeignKey("IMS.User.Domain.Entities.UserMetas", "ProfileVideoId");
+                        .HasForeignKey("IMS.User.Domain.Entities.UserMetas", "ProfileVideoId")
+                        .HasPrincipalKey("IMS.User.Domain.Entities.UserProfileVideo", "UserMetasId");
 
                     b.Navigation("ProfileVideo");
                 });

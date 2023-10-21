@@ -20,7 +20,7 @@ public abstract class SimpleConsumerWithResponse<TIn, TOut>: ConsumerBase
     protected override void ExecuteInternal(IModel channel)
     {
 
-        var consumer = new EventingBasicConsumer(channel);
+        var consumer = new AsyncEventingBasicConsumer(channel);
         consumer.Received += async (ch, ea) =>
         {
             try
@@ -30,6 +30,7 @@ public abstract class SimpleConsumerWithResponse<TIn, TOut>: ConsumerBase
                 var message = JsonConvert.DeserializeObject<TIn>(jsonMessageString);
 
                 var responseMessage = await ExecuteTask(message);
+                
                 var responseJsonMessageString = JsonConvert.SerializeObject(responseMessage);
                 var response = Encoding.UTF8.GetBytes(responseJsonMessageString);
 

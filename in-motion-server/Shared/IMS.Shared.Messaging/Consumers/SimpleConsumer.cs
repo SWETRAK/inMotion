@@ -19,7 +19,7 @@ public abstract class SimpleConsumer<TIn>: ConsumerBase
 
     protected sealed override void ExecuteInternal(IModel channel)
     {
-        var consumer = new EventingBasicConsumer(channel);
+        var consumer = new AsyncEventingBasicConsumer(channel);
         consumer.Received += async (ch, ea) =>
         {
             try

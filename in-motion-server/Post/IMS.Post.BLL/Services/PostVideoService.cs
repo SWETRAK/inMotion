@@ -1,4 +1,3 @@
-using AutoMapper;
 using IMS.Post.Domain.Consts;
 using IMS.Post.Domain.Entities.Post;
 using IMS.Post.IBLL.Services;
@@ -6,7 +5,6 @@ using IMS.Post.IDAL.Repositories.Post;
 using IMS.Post.Models.Dto.Incoming;
 using IMS.Post.Models.Exceptions;
 using IMS.Shared.Utils.Parsers;
-using Microsoft.Extensions.Logging;
 
 namespace IMS.Post.BLL.Services;
 
@@ -14,21 +12,12 @@ public class PostVideoService: IPostVideoService
 {
     private readonly IPostVideoRepository _postVideoRepository;
     private readonly IPostRepository _postRepository;
-    private readonly IUserService _userService;
-    private readonly IMapper _mapper;
-    private readonly ILogger<PostVideoService> _logger;
 
     public PostVideoService(IPostVideoRepository postVideoRepository,
-        IPostRepository postRepository,
-        IUserService userService,
-        IMapper mapper,
-        ILogger<PostVideoService> logger)
+        IPostRepository postRepository)
     {
         _postVideoRepository = postVideoRepository;
         _postRepository = postRepository;
-        _userService = userService;
-        _mapper = mapper;
-        _logger = logger;
     }
     
     public async Task SaveUploadedVideos(UploadVideosMetaDataDto uploadVideosMetaDataDto)

@@ -1,6 +1,5 @@
 package com.inmotion.inmotionserverjava.services;
 
-import com.inmotion.inmotionserverjava.exceptions.UnauthorizedUserException;
 import com.inmotion.inmotionserverjava.exceptions.minio.MinioFilePostingException;
 import com.inmotion.inmotionserverjava.model.*;
 import com.inmotion.inmotionserverjava.services.interfaces.MediaService;

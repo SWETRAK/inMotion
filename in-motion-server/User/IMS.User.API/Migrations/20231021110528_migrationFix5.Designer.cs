@@ -3,6 +3,7 @@ using System;
 using IMS.User.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace IMS.User.API.Migrations
 {
     [DbContext(typeof(ImsUserDbContext))]
-    partial class ImsUserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231021110528_migrationFix5")]
+    partial class migrationFix5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,7 +38,7 @@ namespace IMS.User.API.Migrations
                         .HasColumnType("character varying(1024)")
                         .HasColumnName("bio");
 
-                    b.Property<Guid?>("ProfileVideoId")
+                    b.Property<Guid>("ProfileVideoId")
                         .HasColumnType("uuid")
                         .HasColumnName("profile_video_id");
 
@@ -98,7 +101,9 @@ namespace IMS.User.API.Migrations
                 {
                     b.HasOne("IMS.User.Domain.Entities.UserProfileVideo", "ProfileVideo")
                         .WithOne("UserMetas")
-                        .HasForeignKey("IMS.User.Domain.Entities.UserMetas", "ProfileVideoId");
+                        .HasForeignKey("IMS.User.Domain.Entities.UserMetas", "ProfileVideoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ProfileVideo");
                 });

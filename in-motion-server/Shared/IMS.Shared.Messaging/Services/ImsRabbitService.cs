@@ -35,6 +35,8 @@ public class ImsRabbitService: BackgroundService
             Password = _mqConfiguration.Password,
             Port = _mqConfiguration.Port
         };
+
+        factory.DispatchConsumersAsync = true;
         
         _connection = factory.CreateConnection();  
         _channel = _connection.CreateModel();
