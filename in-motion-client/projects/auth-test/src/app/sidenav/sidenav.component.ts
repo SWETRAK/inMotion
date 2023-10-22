@@ -9,21 +9,21 @@ import { Router } from '@angular/router';
 
 export class SidenavComponent {
   currentPage: string = '';
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   navigateToHomePage() {
-    this.router.navigate(['/home-page']);
-    this.currentPage = 'home-page';
+    this.router.navigate(['/home']);
+    this.currentPage = 'home';
   }
 
   navigateToFriendsPage() {
-    this.router.navigate(['/friends-page']);
-    this.currentPage = 'friends-page';
+    this.router.navigate(['/friends']);
+    this.currentPage = 'friends';
   }
 
   navigateToProfilePage() {
-    this.router.navigate(['/profile-page']);
-    this.currentPage = 'profile-page';
+    this.router.navigate(['/profile']);
+    this.currentPage = 'profile';
   }
   isExpanded: boolean = false;
 

@@ -1,0 +1,163 @@
+:host {
+    --main-color: #4DD9EC;
+}
+
+.home-page {
+    padding-top: 70px;
+}
+
+.user__template {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    margin-right: 170px;
+}
+
+.user__template img {
+    width: 60px;
+    height: 60px;
+    margin-right: 10px;
+}
+
+.user__template-info {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+.user__template-info--username {
+    font-weight: bold;
+    color: white;
+    font-size: 20px;
+    text-align: left;
+}
+
+.user__template-info--status {
+    color: var(--main-color);
+    font-size: 16px;
+}
+
+.post_template {
+    text-align: center;
+}
+
+.post_template img {
+    padding-top: 10px;
+    height: 500px;
+    width: 375px;
+}
+
+.post__reactions {
+    display: flex;
+    justify-content: center;
+    margin-top: 0px;
+}
+
+.reaction-button {
+    background-color: transparent;
+    border: 2px solid var(--main-color);
+    border-radius: 5px;
+    padding: 5px;
+    margin: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: var(--main-color);
+}
+
+.reaction-button:hover {
+    background-color: var(--main-color);
+}
+
+.reaction-button i {
+    color: white;
+    margin-right: 5px;
+}
+
+.post__view-comments {
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    font-size: 20px;
+    margin-right: 275px;
+    padding-bottom: 20px;
+}
+
+.post__comments {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.post__comments img {
+    width: 60px;
+    height: 60px;
+    margin-right: 10px;
+}
+
+.comment {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-right: 275px;
+}
+
+.comment__avatar img {
+    width: 60px;
+    height: 60px;
+}
+
+.comment__details {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+.comment__username {
+    font-weight: bold;
+    color: white;
+}
+
+.comment__text {
+    color: white;
+    padding-bottom: 15px;
+}
+
+
+.new-comment {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    width: 45%;
+    padding-bottom: 20px;
+}
+
+.new-comment__avatar {
+    width: 60px;
+    height: 60px;
+
+    margin-right: 10px;
+}
+
+.new-comment__input {
+    width: 100%;
+    padding: 5px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    background-color: #001E2F;
+    border-radius: 5px;
+    font-size: 17px;
+    color: white;
+
+}
+
+.new-comment__input:focus {
+    outline: none;
+}
+
+.new-comment__icon {
+    font-size: 20px;
+    color: white;
+}

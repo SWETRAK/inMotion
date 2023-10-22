@@ -19,8 +19,6 @@ builder.Services.AddUserValidators();
 
 builder.Services.AddUserRepositories();
 
-builder.Services.AddUserSoapService();
-
 builder.Services.AddUserMappers();
 
 builder.Services.AddControllers();
@@ -30,20 +28,12 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-// if (app.Environment.IsDevelopment())
-// {
-//
-// }
-
 using var scope = app.Services.CreateScope();
 var dbContext = scope.ServiceProvider.GetRequiredService<ImsUserDbContext>();
 dbContext.Database.Migrate();
 
 app.UseSwagger();
 app.UseSwaggerUI();
-
-app.UseUserSoapService();
 
 app.UseHttpsRedirection();
 

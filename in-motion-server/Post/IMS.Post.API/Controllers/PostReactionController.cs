@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace IMS.Post.API.Controllers;
 
 [ApiController]
-[Route("api/postReactions")]
+[Route("api/posts/reactions")]
 public class PostReactionController: ControllerBase
 {
     private readonly IPostReactionService _postReactionService;

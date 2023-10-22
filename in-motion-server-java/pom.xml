@@ -26,13 +26,6 @@
             <artifactId>spring-boot</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.amqp</groupId>
-            <artifactId>spring-rabbit</artifactId>
-            <version>3.0.7</version>
-        </dependency>
-
-
         <!-- Util and documentation -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -93,17 +86,14 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- SOAP -->
+
+
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web-services</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit</artifactId>
+            <version>3.0.9</version>
         </dependency>
+
 
     </dependencies>
 
@@ -125,7 +115,7 @@
             <plugin>
                 <groupId>com.sun.xml.ws</groupId>
                 <artifactId>jaxws-maven-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>4.0.1</version>
                 <executions>
                     <execution>
                         <goals>
@@ -134,9 +124,9 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <packageName>com.example.consumingwebservice.wsdl</packageName>
+                    <packageName>com.inmotion.soap.wsdl</packageName>
                     <wsdlUrls>
-                        <wsdlUrl>http://localhost:8080/ws/countries.wsdl</wsdlUrl>
+                        <wsdlUrl>http://localhost:8001/soap/jwtService.asmx?wsdl</wsdlUrl>
                     </wsdlUrls>
                     <sourceDestDir>${sourcesDir}</sourceDestDir>
                     <destDir>${classesDir}</destDir>

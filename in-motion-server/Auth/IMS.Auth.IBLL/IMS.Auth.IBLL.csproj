@@ -12,8 +12,5 @@
       <ProjectReference Include="..\IMS.Auth.Models\IMS.Auth.Models.csproj" />
     </ItemGroup>
     
-    <ItemGroup>
-      <PackageReference Include="SoapCore" Version="1.1.0.38" />
-    </ItemGroup>
     
 </Project>

@@ -44,8 +44,6 @@ namespace IMS.User.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id");
-
                     b.HasIndex("ProfileVideoId")
                         .IsUnique();
 
@@ -91,12 +89,7 @@ namespace IMS.User.API.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("last_edition_name");
 
-                    b.Property<Guid>("UserMetasId")
-                        .HasColumnType("uuid");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("Id");
 
                     b.ToTable("user_profile_videos", "user");
                 });
@@ -105,8 +98,7 @@ namespace IMS.User.API.Migrations
                 {
                     b.HasOne("IMS.User.Domain.Entities.UserProfileVideo", "ProfileVideo")
                         .WithOne("UserMetas")
-                        .HasForeignKey("IMS.User.Domain.Entities.UserMetas", "ProfileVideoId")
-                        .HasPrincipalKey("IMS.User.Domain.Entities.UserProfileVideo", "UserMetasId");
+                        .HasForeignKey("IMS.User.Domain.Entities.UserMetas", "ProfileVideoId");
 
                     b.Navigation("ProfileVideo");
                 });

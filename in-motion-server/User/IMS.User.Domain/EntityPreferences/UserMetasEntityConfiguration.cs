@@ -10,7 +10,7 @@ public class UserMetasEntityConfiguration: IEntityTypeConfiguration<UserMetas>
     {
         builder.ToTable("user_metas");
 
-        builder.HasIndex(upv => upv.Id);
+        builder.HasKey(upv => upv.Id);
 
         builder.Property(u => u.Id)
             .HasColumnName("id");
@@ -27,7 +27,6 @@ public class UserMetasEntityConfiguration: IEntityTypeConfiguration<UserMetas>
 
         builder.HasOne(u => u.ProfileVideo)
             .WithOne(upv => upv.UserMetas)
-            .HasForeignKey<UserMetas>(u => u.ProfileVideoId)
-            .HasPrincipalKey<UserProfileVideo>(upv => upv.UserMetasId);
+            .HasForeignKey<UserMetas>(u => u.ProfileVideoId);
     }
 }

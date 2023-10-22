@@ -2,7 +2,6 @@ using AutoMapper;
 using IMS.Shared.Messaging.Messages.JWT;
 using IMS.Shared.Messaging.Messages.Users;
 using IMS.User.Models.Dto.Outgoing;
-using IMS.User.Models.Dto.Outgoing.Soap;
 
 namespace IMS.User.Models.Mappers;
 
@@ -21,11 +20,5 @@ public class UserMetasProfile: Profile
             .ForMember(u => u.Nickname, opt => opt.MapFrom(p => p.Nickname))
             .ForMember(u => u.Bio, opt => opt.MapFrom(p => p.Bio))
             .ForMember(u => u.UserProfileVideo, opt => opt.MapFrom(p => p.UserProfileVideo));
-
-        CreateMap<FullUserInfoDto, FullUserInfoSoapDto>()
-            .ForMember(u => u.Id, opt => opt.MapFrom(p => p.Id))
-            .ForMember(u => u.Nickname, opt => opt.MapFrom(p => p.Nickname))
-            .ForMember(u => u.Bio, opt => opt.MapFrom(p => p.Bio))
-            .ForMember(u => u.ProfileVideo, opt => opt.MapFrom(p => p.UserProfileVideo));
     }
 }

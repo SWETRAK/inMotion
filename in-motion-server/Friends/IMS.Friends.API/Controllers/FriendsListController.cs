@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IMS.Friends.API.Controllers;
 
-[Route("friends/lists")]
+[Route("api/friends/lists")]
 [ApiController]
 public class FriendsListController: ControllerBase
 {
