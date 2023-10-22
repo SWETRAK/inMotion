@@ -139,3 +139,19 @@ services:
     depends_on:
       - rabbitmq
       - postgres 
+
+  imsmedia:
+    build: 
+      context: in-motion-server-java
+      dockerfile: development.Dockerfile
+    container_name: inMotion_imsMedia
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+    links:
+      - rabbitmq
+      - minio
+    depends_on:
+      - rabbitmq
+      - minio

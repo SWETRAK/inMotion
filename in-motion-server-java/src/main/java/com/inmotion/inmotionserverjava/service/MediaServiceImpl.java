@@ -62,7 +62,7 @@ public class MediaServiceImpl implements MediaService {
                 user.id(),
                 user.id(),
                 profileVideosBucket,
-                null,
+                profileVideosBucket,
                 mp4File.getContentType()
         ));
 
@@ -88,8 +88,8 @@ public class MediaServiceImpl implements MediaService {
                     postId,
                     user.id(),
                     List.of(
-                            new VideoMetadataMessage(postsBucket, null, frontVideoPath, VIDEO_MEDIA_TYPE.toString(), null),
-                            new VideoMetadataMessage(postsBucket, null, backVideoPath, VIDEO_MEDIA_TYPE.toString(), null)
+                            new VideoMetadataMessage(postsBucket, postsBucket, frontVideoPath, VIDEO_MEDIA_TYPE.toString(), "video/mp4"),
+                            new VideoMetadataMessage(postsBucket, postsBucket, backVideoPath, VIDEO_MEDIA_TYPE.toString(), "video/mp4")
                     )
             ));
             log.info("User {} added a post", user.nickname());
