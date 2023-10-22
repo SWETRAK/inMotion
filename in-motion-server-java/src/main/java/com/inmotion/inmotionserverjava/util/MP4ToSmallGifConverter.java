@@ -62,8 +62,8 @@ public class MP4ToSmallGifConverter {
         return this.output;
     }
 
-    private void init(MultipartFile mp4File){
-        if(!Objects.requireNonNull(mp4File.getOriginalFilename()).toLowerCase().endsWith("mp4")){
+    private void init(MultipartFile mp4File) {
+        if (!Objects.requireNonNull(mp4File.getOriginalFilename()).toLowerCase().endsWith("mp4")) {
             throw new BadFileExtensionException();
         }
         this.mp4File = mp4File;

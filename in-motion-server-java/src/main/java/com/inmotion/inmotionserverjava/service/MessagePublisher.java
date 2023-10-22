@@ -3,9 +3,7 @@ package com.inmotion.inmotionserverjava.service;
 import com.inmotion.inmotionserverjava.config.RabbitConfiguration;
 import com.inmotion.inmotionserverjava.model.message.*;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
@@ -25,13 +23,33 @@ public class MessagePublisher {
                     return m;
                 });
 
-        BaseMessage<ValidatedUserInfoMessage> message = new BaseMessage<>(
-                (boolean) response.get("Error"), 
+        if (!((boolean) response.get("Error"))) {
+            ValidatedUserInfoMessage userInfo = getValidatedUserInfoMessage(response);
+
+            return new BaseMessage<>(
+                    (boolean) response.get("Error"),
+                    null,
+                    userInfo
+            );
+        }
+
+        return new BaseMessage<>(
+                (boolean) response.get("Error"),
                 response.get("ErrorMessage").toString(),
-                (ValidatedUserInfoMessage) response.get("Data")
+                null
         );
-        
-        return message;
+    }
+
+    private ValidatedUserInfoMessage getValidatedUserInfoMessage(LinkedHashMap<String, Object> response) {
+        LinkedHashMap<String, Object> data = (LinkedHashMap<String, Object>) response.get("Data");
+
+        ValidatedUserInfoMessage userInfo = new ValidatedUserInfoMessage(
+                data.get("Id").toString(),
+                data.get("Email").toString(),
+                data.get("Nickname").toString(),
+                data.get("Role").toString()
+        );
+        return userInfo;
     }
 
     public void publishVideoUploadedEvent(UpdatePostVideoMetadataMessage videoMetadata) {

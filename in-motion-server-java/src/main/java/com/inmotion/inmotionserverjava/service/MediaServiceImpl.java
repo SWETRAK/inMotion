@@ -54,7 +54,7 @@ public class MediaServiceImpl implements MediaService {
             byte[] mp4FileBytes = mp4File.getBytes();
             minioService.uploadFile(profileVideosBucket, outputVideoPath, mp4FileBytes, VIDEO_MEDIA_TYPE);
         } catch (IOException e) {
-            // Tu by można rollback dać
+            // rollback mechanism here
             throw new MinioFilePostingException();
         }
 

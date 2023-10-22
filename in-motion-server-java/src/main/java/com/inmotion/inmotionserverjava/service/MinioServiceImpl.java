@@ -45,11 +45,11 @@ public class MinioServiceImpl implements MinioService {
         InputStream requestedFileStream;
         try {
             requestedFileStream = minioClient.getObject(GetObjectArgs.builder()
-                            .bucket(bucketName)
-                            .object(filePath)
+                    .bucket(bucketName)
+                    .object(filePath)
                     .build());
             return IOUtils.toByteArray(requestedFileStream);
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new MinioFileNotFoundException(filePath, bucketName);
         }
     }

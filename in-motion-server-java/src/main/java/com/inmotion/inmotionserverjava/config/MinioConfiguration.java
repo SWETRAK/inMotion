@@ -46,11 +46,11 @@ public class MinioConfiguration {
                 .endpoint(minioUrl)
                 .build();
         try {
-            if (!client.bucketExists(BucketExistsArgs.builder().bucket(profileVideosBucket).build())){
+            if (!client.bucketExists(BucketExistsArgs.builder().bucket(profileVideosBucket).build())) {
                 client.makeBucket(MakeBucketArgs.builder().bucket(profileVideosBucket).build());
             }
 
-            if (!client.bucketExists(BucketExistsArgs.builder().bucket(postsBucket).build())){
+            if (!client.bucketExists(BucketExistsArgs.builder().bucket(postsBucket).build())) {
                 client.makeBucket(MakeBucketArgs.builder().bucket(postsBucket).build());
             }
 
