@@ -9,8 +9,9 @@ public static class LoadRepositories
 {
     public static IServiceCollection AddUserRepositories(this IServiceCollection serviceCollection)
     {
+        serviceCollection.AddDbContextFactory<ImsUserDbContext>();
         serviceCollection.AddDbContext<ImsUserDbContext>();
-
+        
         serviceCollection.AddScoped<IUserMetasRepository, UserMetasRepository>();
         serviceCollection.AddScoped<IUserProfileVideoRepository, UserProfileVideoRepository>();
 

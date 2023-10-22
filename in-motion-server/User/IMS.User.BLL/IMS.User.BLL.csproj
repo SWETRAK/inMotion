@@ -19,6 +19,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\Shared\IMS.Shared.Messaging\IMS.Shared.Messaging.csproj" />
       <ProjectReference Include="..\..\Shared\IMS.Shared.Models\IMS.Shared.Models.csproj" />
+      <ProjectReference Include="..\IMS.User.DAL\IMS.User.DAL.csproj" />
       <ProjectReference Include="..\IMS.User.Domain\IMS.User.Domain.csproj" />
       <ProjectReference Include="..\IMS.User.IBLL\IMS.User.IBLL.csproj" />
       <ProjectReference Include="..\IMS.User.IDAL\IMS.User.IDAL.csproj" />

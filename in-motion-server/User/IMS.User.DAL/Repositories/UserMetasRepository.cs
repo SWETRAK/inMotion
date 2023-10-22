@@ -64,6 +64,11 @@ public class UserMetasRepository: IUserMetasRepository
         _context.Remove(userMetas);
     }
 
+    public async Task Add(UserMetas userMetas)
+    {
+        await _context.AddAsync(userMetas);
+    }
+
     public async Task SaveAsync()
     {
         await _context.SaveChangesAsync();

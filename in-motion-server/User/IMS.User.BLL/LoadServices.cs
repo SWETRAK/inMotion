@@ -12,6 +12,7 @@ public static class LoadServices
     public static IServiceCollection AddUserServices(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddScoped<IUserService, UserService>();
+        serviceCollection.AddScoped<IUserVideoPartService, UserVideoPartService>();
         serviceCollection.AddScoped<IUserProfileVideoService, UserProfileVideoService>();
         
         serviceCollection.AddScoped<IConsumer, UpdateProfileVideoRabbitConsumer>();

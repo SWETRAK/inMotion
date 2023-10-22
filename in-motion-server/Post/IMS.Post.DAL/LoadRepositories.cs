@@ -11,6 +11,7 @@ public static class LoadRepositories
 {
     public static IServiceCollection AddPostRepositories(this IServiceCollection serviceCollection)
     {
+        serviceCollection.AddDbContextFactory<ImsPostDbContext>();
         serviceCollection.AddDbContext<ImsPostDbContext>();
 
         serviceCollection.AddScoped<ILocalizationRepository, LocalizationRepository>();

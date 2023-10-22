@@ -6,6 +6,7 @@ using IMS.Shared.Messaging.Consumers;
 using IMS.Shared.Messaging.Messages;
 using IMS.Shared.Messaging.Messages.JWT;
 using IMS.Shared.Messaging.Models;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace IMS.Auth.BLL.RabbitConsumers;
@@ -13,17 +14,18 @@ namespace IMS.Auth.BLL.RabbitConsumers;
 public class ValidateJwtTokenRabbitConsumer: SimpleConsumerWithResponse<RequestJwtValidationMessage, ImsBaseMessage<ValidatedUserInfoMessage>>
 {
     private readonly ILogger<ValidatedUserInfoMessage> _logger;
-    private readonly IJwtService _jwtService;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IMapper _mapper;
 
     public ValidateJwtTokenRabbitConsumer(
         ILogger<ValidatedUserInfoMessage> logger, 
-        IJwtService jwtService, 
-        IMapper mapper) : base(logger)
+        IMapper mapper, 
+        IServiceScopeFactory serviceScopeFactory) : base(logger)
     {
         _logger = logger;
-        _jwtService = jwtService;
+
         _mapper = mapper;
+        this._serviceScopeFactory = serviceScopeFactory;
     }
     
     protected override QueueConfiguration ConfigureQueue()
@@ -38,7 +40,9 @@ public class ValidateJwtTokenRabbitConsumer: SimpleConsumerWithResponse<RequestJ
         var responseMessage = new ImsBaseMessage<ValidatedUserInfoMessage>();
         try
         {
-            var validationResult = await _jwtService.ValidateToken(message.JwtToken);
+            await using var scope = _serviceScopeFactory.CreateAsyncScope();
+            var jwtService = scope.ServiceProvider.GetRequiredService<IJwtService>();
+            var validationResult = await jwtService.ValidateToken(message.JwtToken);
             var validationResultMessage = _mapper.Map<ValidatedUserInfoMessage>(validationResult);
             responseMessage.Data = validationResultMessage;
         }

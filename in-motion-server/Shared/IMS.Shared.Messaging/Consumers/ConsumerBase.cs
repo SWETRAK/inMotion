@@ -30,9 +30,24 @@ public abstract class ConsumerBase : IConsumer
         channel.ExchangeDeclare(this.QueueConfiguration.ExchangeName, ExchangeType.Topic, false, false);  
         channel.QueueBind(this.QueueConfiguration.QueueName, this.QueueConfiguration.ExchangeName, this.QueueConfiguration.RoutingKey, null);  
     }
-    
-    protected virtual void OnConsumerCancelled(object sender, ConsumerEventArgs e)  {  }  
-    protected virtual void OnConsumerUnregistered(object sender, ConsumerEventArgs e) {  }  
-    protected virtual void OnConsumerRegistered(object sender, ConsumerEventArgs e) {  }  
-    protected virtual void OnConsumerShutdown(object sender, ShutdownEventArgs e) {  }
+
+    protected virtual Task OnConsumerCancelled(object sender, ConsumerEventArgs e)
+    {
+        return Task.CompletedTask;
+    }
+
+    protected virtual Task OnConsumerUnregistered(object sender, ConsumerEventArgs e)
+    {
+        return Task.CompletedTask;
+    }
+
+    protected virtual Task OnConsumerRegistered(object sender, ConsumerEventArgs e)
+    {
+        return Task.CompletedTask;
+    }
+
+    protected virtual Task OnConsumerShutdown(object sender, ShutdownEventArgs e)
+    {
+        return Task.CompletedTask;
+    }
 }
