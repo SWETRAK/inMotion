@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace IMS.Auth.App.Controllers;
 
 [ApiController]
-[Route("google")]
+[Route("api/google")]
 public class GoogleAuthController: ControllerBase
 {
     private readonly IGoogleAuthService _googleAuthService;

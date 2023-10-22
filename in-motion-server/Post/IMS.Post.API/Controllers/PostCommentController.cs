@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace IMS.Post.API.Controllers;
 
 [ApiController]
-[Route("api/postComments")]
+[Route("api/posts/comments")]
 public class PostCommentController: ControllerBase
 {
     private readonly IPostCommentService _postCommentService;

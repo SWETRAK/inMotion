@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace IMS.Friends.API.Controllers;
 
 [ApiController]
-[Route("friends")]
+[Route("api/friends")]
 public class FriendsController : ControllerBase
 {
     private readonly ILogger<FriendsController> _logger;

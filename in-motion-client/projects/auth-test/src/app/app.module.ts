@@ -31,6 +31,9 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { FriendsContentComponent } from './friends-page/friends-content/friends-content.component';
 import { AddFriendContentComponent } from './friends-page/add-friend-content/add-friend-content.component';
+import { ProfilePageContentComponent } from './profile-page/profile-page-content/profile-page-content.component';
+import { ProfilePageFollowersComponent } from './profile-page/profile-page-followers/profile-page-followers.component';
+import { PostContentComponent } from './home-page/post-content/post-content.component';
 
 
 @NgModule({
@@ -51,7 +54,10 @@ import { AddFriendContentComponent } from './friends-page/add-friend-content/add
         HomePageComponent,
         ProfilePageComponent,
         FriendsContentComponent,
-        AddFriendContentComponent
+        AddFriendContentComponent,
+        ProfilePageContentComponent,
+        ProfilePageFollowersComponent,
+        PostContentComponent
     ],
     imports: [
         BrowserModule,
