@@ -1,13 +1,13 @@
 package com.inmotion.inmotionserverjava;
 
-import com.inmotion.inmotionserverjava.exceptions.ErrorResponse;
-import com.inmotion.inmotionserverjava.exceptions.UnauthorizedUserException;
-import com.inmotion.inmotionserverjava.exceptions.minio.MinioFileNotFoundException;
-import com.inmotion.inmotionserverjava.exceptions.minio.MinioFilePostingException;
-import com.inmotion.inmotionserverjava.exceptions.converter.BadFileExtensionException;
-import com.inmotion.inmotionserverjava.exceptions.converter.ConversionException;
-import com.inmotion.inmotionserverjava.exceptions.converter.FrameExtractionException;
-import com.inmotion.inmotionserverjava.exceptions.converter.FrameGrabberInitializationException;
+import com.inmotion.inmotionserverjava.exception.ErrorResponse;
+import com.inmotion.inmotionserverjava.exception.UnauthorizedUserException;
+import com.inmotion.inmotionserverjava.exception.minio.MinioFileNotFoundException;
+import com.inmotion.inmotionserverjava.exception.minio.MinioFilePostingException;
+import com.inmotion.inmotionserverjava.exception.converter.BadFileExtensionException;
+import com.inmotion.inmotionserverjava.exception.converter.ConversionException;
+import com.inmotion.inmotionserverjava.exception.converter.FrameExtractionException;
+import com.inmotion.inmotionserverjava.exception.converter.FrameGrabberInitializationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({UnauthorizedUserException.class})
-    private ResponseEntity<ErrorResponse> handleUnauthorizedUserException(UnauthorizedUserException e){
+    private ResponseEntity<ErrorResponse> handleUnauthorizedUserException(UnauthorizedUserException e) {
         ErrorResponse error = new ErrorResponse(e.getMessage());
         log.error(error.message());
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
@@ -35,7 +35,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     }
 
     @ExceptionHandler({MultipartException.class})
-    private ResponseEntity<ErrorResponse> handleMultipartException(MultipartException e){
+    private ResponseEntity<ErrorResponse> handleMultipartException(MultipartException e) {
         ErrorResponse error = new ErrorResponse(e.getMessage());
         log.error(error.message());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
@@ -50,7 +50,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 
     @ExceptionHandler({BadFileExtensionException.class, ConversionException.class, FrameExtractionException.class,
             FrameGrabberInitializationException.class})
-    private ResponseEntity<ErrorResponse> handleMp4ToGIFConverterExceptions(RuntimeException e){
+    private ResponseEntity<ErrorResponse> handleMp4ToGIFConverterExceptions(RuntimeException e) {
         ErrorResponse error = new ErrorResponse(e.getMessage());
         log.error(error.message());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);

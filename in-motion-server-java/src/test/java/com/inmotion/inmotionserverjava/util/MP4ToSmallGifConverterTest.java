@@ -1,6 +1,6 @@
 package com.inmotion.inmotionserverjava.util;
 
-import com.inmotion.inmotionserverjava.exceptions.converter.BadFileExtensionException;
+import com.inmotion.inmotionserverjava.exception.converter.BadFileExtensionException;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
