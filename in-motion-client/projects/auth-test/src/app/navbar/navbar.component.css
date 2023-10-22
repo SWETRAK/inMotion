@@ -3,17 +3,21 @@
     --bg-color: #193443;
 }
 
+.navbar-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--bg-color);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .username,
 .logo {
     display: inline-block;
     width: 50%;
     vertical-align: top;
-}
-
-.custom-background {
-    background-color: var(--bg-color)
-}
-
-.default-background {
-    background-color: var(--default-bg-color)
 }
