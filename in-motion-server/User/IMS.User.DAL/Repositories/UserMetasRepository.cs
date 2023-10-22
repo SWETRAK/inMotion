@@ -8,7 +8,7 @@ namespace IMS.User.DAL.Repositories;
 public class UserMetasRepository: IUserMetasRepository
 {
     private readonly ImsUserDbContext _context;
-    private bool _disposed;
+    private bool _disposed = false;
 
     public UserMetasRepository(ImsUserDbContext context)
     {
@@ -62,6 +62,11 @@ public class UserMetasRepository: IUserMetasRepository
     public void RemoveAsync(UserMetas userMetas)
     {
         _context.Remove(userMetas);
+    }
+
+    public async Task Add(UserMetas userMetas)
+    {
+        await _context.AddAsync(userMetas);
     }
 
     public async Task SaveAsync()

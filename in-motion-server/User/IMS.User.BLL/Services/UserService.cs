@@ -19,19 +19,21 @@ public class UserService : IUserService
     private readonly IUserMetasRepository _userMetasRepository;
     private readonly IRequestClient<GetBaseUserInfoMessage> _getBaseUserInfoMessageRequestClient;
     private readonly IRequestClient<GetBaseUsersInfoMessage> _getBaseUsersInfoMessageRequestClient;
+    private readonly IUserVideoPartService _userVideoPartService;
 
     public UserService(
         IRequestClient<GetBaseUserInfoMessage> getBaseUserInfoMessageRequestClient,
         IUserMetasRepository userMetasRepository,
         IMapper mapper,
         ILogger<UserService> logger, 
-        IRequestClient<GetBaseUsersInfoMessage> getBaseUsersInfoMessageRequestClient)
+        IRequestClient<GetBaseUsersInfoMessage> getBaseUsersInfoMessageRequestClient, IUserVideoPartService userVideoPartService)
     {
         _getBaseUserInfoMessageRequestClient = getBaseUserInfoMessageRequestClient;
         _userMetasRepository = userMetasRepository;
         _mapper = mapper;
         _logger = logger;
         _getBaseUsersInfoMessageRequestClient = getBaseUsersInfoMessageRequestClient;
+        _userVideoPartService = userVideoPartService;
     }
 
     public async Task<FullUserInfoDto> GetFullUserInfoAsync(string userIdString)
@@ -113,32 +115,7 @@ public class UserService : IUserService
     public async Task<UpdatedUserProfileVideoDto> UpdateUserProfileVideo(string userId,
         UpdateUserProfileVideoDto updateUserProfileVideoDto)
     {
-        var userIdGuid = Guid.Parse(userId);
-
-        var userMetas = await _userMetasRepository.GetByExternalUserIdWithProfileVideoAsync(userIdGuid);
-        if (userMetas is null)
-        {
-            userMetas = new UserMetas
-            {
-                UserExternalId = userIdGuid,
-                ProfileVideo = CreateNewUserProfileVideo(userIdGuid, updateUserProfileVideoDto)
-            };
-        } 
-        else if (userMetas.ProfileVideo is null)
-        {
-            userMetas.ProfileVideo = CreateNewUserProfileVideo(userIdGuid, updateUserProfileVideoDto);
-        }
-        else
-        {
-            userMetas.ProfileVideo.Filename = userMetas.ProfileVideo.Filename;
-            userMetas.ProfileVideo.BucketName = userMetas.ProfileVideo.BucketName;
-            userMetas.ProfileVideo.BucketLocation = userMetas.ProfileVideo.BucketLocation;
-            userMetas.ProfileVideo.ContentType = userMetas.ProfileVideo.ContentType;
-            userMetas.ProfileVideo.LastEditionDate = DateTime.UtcNow;
-        }
-
-        await _userMetasRepository.SaveAsync();
-        return _mapper.Map<UpdatedUserProfileVideoDto>(userMetas.ProfileVideo);
+        return await _userVideoPartService.UpdateUserProfileVideo(userId, updateUserProfileVideoDto);
     }
 
     private async Task<GetBaseUserInfoResponseMessage> GetBaseUserInfo(string userIdString)
@@ -167,18 +144,5 @@ public class UserService : IUserService
             throw new NestedRabbitMqRequestException(responseFromRabbitMq.Message.ErrorMessage);
 
         return responseFromRabbitMq.Message.Data;
-    }
-
-    private static UserProfileVideo CreateNewUserProfileVideo(Guid userIdGuid,
-        UpdateUserProfileVideoDto updateUserProfileVideoDto)
-    {
-        return new UserProfileVideo
-        {
-            AuthorExternalId = userIdGuid,
-            Filename = updateUserProfileVideoDto.Filename,
-            BucketName = updateUserProfileVideoDto.BucketName,
-            BucketLocation = updateUserProfileVideoDto.BucketLocation,
-            ContentType = updateUserProfileVideoDto.ContentType,
-        };
     }
 }

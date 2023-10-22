@@ -5,8 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
     </PropertyGroup>
-
-
+    
     <ItemGroup>
       <ProjectReference Include="..\..\Shared\IMS.Shared.Models\IMS.Shared.Models.csproj" />
       <ProjectReference Include="..\IMS.Post.DAL\IMS.Post.DAL.csproj" />
@@ -15,10 +14,4 @@
       <ProjectReference Include="..\IMS.Post.Models\IMS.Post.Models.csproj" />
     </ItemGroup>
     
-    <ItemGroup>
-        <PackageReference Include="SoapCore" Version="1.1.0.38" />
-    </ItemGroup>
-
-
-
 </Project>

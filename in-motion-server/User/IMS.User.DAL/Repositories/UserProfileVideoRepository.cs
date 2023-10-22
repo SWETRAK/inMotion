@@ -40,20 +40,7 @@ public class UserProfileVideoRepository: IUserProfileVideoRepository
             .Include(x => x.UserMetas)
             .FirstOrDefaultAsync(x => x.AuthorExternalId.Equals(authorId));
     }
-
-    public async Task<UserProfileVideo> GetByUserMetasIdAsync(Guid userMetasId)
-    {
-        return await _context.UserProfileVideos
-            .FirstOrDefaultAsync(x => x.UserMetasId.Equals(userMetasId));
-    }
-
-    public async Task<UserProfileVideo> GetByUserMetasIdWithUserMetasAsync(Guid userMetasId)
-    {
-        return await _context.UserProfileVideos
-            .Include(x => x.UserMetas)
-            .FirstOrDefaultAsync(x => x.UserMetasId.Equals(userMetasId));
-    }
-
+    
     public void RemoveAsync(UserProfileVideo userProfileVideo)
     {
         _context.UserProfileVideos.Remove(userProfileVideo);

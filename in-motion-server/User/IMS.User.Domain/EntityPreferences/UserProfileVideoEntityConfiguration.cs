@@ -10,7 +10,7 @@ public class UserProfileVideoEntityConfiguration: IEntityTypeConfiguration<UserP
     {
         builder.ToTable("user_profile_videos");
 
-        builder.HasIndex(upv => upv.Id);
+        builder.HasKey(upv => upv.Id);
 
         builder.Property(u => u.Id)
             .HasColumnName("id");
