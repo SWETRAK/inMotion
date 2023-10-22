@@ -6,7 +6,7 @@ data class PostDto(
     val username: String,
     val location: String,
     val time: String,
-    val FrontVideoPath: Uri,
-    val BackVideoPath: Uri,
+    val frontVideoPath: Uri,
+    val backVideoPath: Uri,
     val likeCount: Int
 )

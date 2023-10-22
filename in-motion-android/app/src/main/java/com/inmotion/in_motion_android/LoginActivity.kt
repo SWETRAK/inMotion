@@ -1,13 +1,13 @@
 package com.inmotion.in_motion_android
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.inmotion.in_motion_android.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
 
-    var binding: ActivityLoginBinding? = null
+    private var binding: ActivityLoginBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
