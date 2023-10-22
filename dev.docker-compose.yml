@@ -39,6 +39,23 @@ services:
     networks:
       - backend
 
+  # BACKEND gateway        
+  imsgateway:
+    build:
+      context: ./in-motion-server/
+      dockerfile: ./ImsGateway/development.Dockerfile
+    container_name: inMotion_imsGateway
+    ports:
+      - "8009:80"
+      - "4439:443"
+    networks:
+      - backend
+    links:
+      - imsauth
+      - imsuser
+      - imsfriends
+      - imspost
+
   # DOTNET packages
   imsauth:
     build:

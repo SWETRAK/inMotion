@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace IMS.Auth.App.Controllers;
 
 [ApiController]
-[Route("email")]
+[Route("api/email")]
 public class EmailAuthController: ControllerBase
 {
     private readonly IEmailAuthService _emailAuthService;

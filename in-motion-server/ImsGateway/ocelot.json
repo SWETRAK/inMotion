@@ -1,0 +1,57 @@
+{
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/api/auth/{catchAll}",
+      "UpstreamHttpMethod": ["GET", "POST", "PUT"],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "imsauth",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/{catchAll}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/users/{catchAll}",
+      "UpstreamHttpMethod": ["GET", "PUT"],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "imsuser",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/users/{catchAll}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/friends/{catchAll}",
+      "UpstreamHttpMethod": ["GET", "POST", "PUT", "PATCH"],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "imsfriends",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/friends/{catchAll}"
+    },
+    {
+      "UpstreamPathTemplate": "/api/posts/{catchAll}",
+      "UpstreamHttpMethod": ["GET", "POST", "PUT", "DELETE"],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "imsuser",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/api/posts/{catchAll}"
+    }
+  ],
+  "GlobalConfiguration" : {
+    "BaseUrl": "https://localhost:8009"
+  }
+}

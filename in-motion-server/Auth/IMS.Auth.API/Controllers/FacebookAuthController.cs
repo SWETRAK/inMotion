@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace IMS.Auth.App.Controllers;
 
 [ApiController]
-[Route("facebook")]
+[Route("api/facebook")]
 public class FacebookAuthController: ControllerBase
 {
     private readonly ILogger<FacebookAuthController> _logger;
