@@ -1,2 +1,120 @@
+version: '3.9'
+
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    driver: bridge
+
+services:
+
+  postgres:
+    image: postgres:14-alpine
+    container_name: inMotion_postgresql
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - backend
+
+  minio:
+    image: bitnami/minio:latest
+    container_name: inMotion_minio
+    environment:
+      - MINIO_ROOT_USER=inMotionMinioUser
+      - MINIO_ROOT_PASSWORD=inMotionSecretPassword
+    networks:
+      - backend
+
+  rabbitmq:
+    image: rabbitmq:3.11-management-alpine
+    container_name: inMotion_rabbitmq
+    networks:
+      - backend
+
+  # BACKEND gateway        
+  imsgateway:
+    build:
+      context: ./in-motion-server/
+      dockerfile: ./ImsGateway/development.Dockerfile
+    container_name: inMotion_imsGateway
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - backend
+    links:
+      - imsauth
+      - imsuser
+      - imsfriends
+      - imspost
+
+  # DOTNET packages
+  imsauth:
+    build:
+      context: ./in-motion-server/
+      dockerfile: ./Auth/development.Dockerfile
+    container_name: inMotion_imsAuth
+    networks:
+      - backend
+    links:
+      - postgres
+      - rabbitmq
+    depends_on:
+      - postgres
+      - rabbitmq
+  
+  imsemail:
+    build:
+      context: ./in-motion-server/
+      dockerfile: ./Email/development.Dockerfile
+    container_name: inMotion_imsEmail
+    networks:
+      - backend
+    links:
+      - rabbitmq
+    depends_on:
+      - rabbitmq
+  
+  imsfriends:
+    build:
+      context: ./in-motion-server/
+      dockerfile: ./Friends/development.Dockerfile
+    container_name: inMotion_imsFriends
+    networks:
+      - backend
+    links:
+      - rabbitmq
+      - postgres
+    depends_on:
+      - rabbitmq
+      - postgres
+  
+  imsuser:
+    build:
+      context: ./in-motion-server/
+      dockerfile: ./User/development.Dockerfile
+    container_name: inMotion_imsUser
+    networks:
+      - backend
+    links:
+      - rabbitmq
+      - postgres
+    depends_on:
+      - rabbitmq
+      - postgres
+  
+  imspost:
+    build:
+      context: ./in-motion-server/
+      dockerfile: ./Post/development.Dockerfile
+    container_name: inMotion_imsPost
+    networks:
+      - backend
+    links:
+      - rabbitmq
+      - postgres
+    depends_on:
+      - rabbitmq
+      - postgres 
 
   

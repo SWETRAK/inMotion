@@ -196,11 +196,19 @@
 		8655FF272A2FD63E00D407F2 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				8662728F2AE45F9200F4E236 /* DTO */,
 				862D75892A3C3BFA00B6D02F /* MapDetails.swift */,
 				862D758D2A3C47C200B6D02F /* AppState.swift */,
 				86A4179A2A3DCC9A00A52516 /* FriendshipStatusEnum.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		8662728F2AE45F9200F4E236 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DTO;
 			sourceTree = "<group>";
 		};
 		869F16072A2F2C2F003BFC20 /* Components */ = {

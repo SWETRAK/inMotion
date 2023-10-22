@@ -10,10 +10,10 @@ RUN dotnet restore "./User/IMS.User.API/IMS.User.API.csproj"
 COPY ./User ./User
 COPY ./Shared ./Shared
 WORKDIR "/src/User/IMS.User.API"
-RUN dotnet build "IMS.User.API.csproj" -c Development -o /app/build
+RUN dotnet build "IMS.User.API.csproj" -c DockerDevelopment -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "IMS.User.API.csproj" -c Development -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "IMS.User.API.csproj" -c DockerDevelopment -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
