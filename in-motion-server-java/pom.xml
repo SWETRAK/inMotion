@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>in-motion-server-java</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>in-motion-server-java</name>
     <description>in-motion-server-java</description>
     <properties>
@@ -30,6 +30,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -86,15 +87,11 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
-
         <dependency>
             <groupId>org.springframework.amqp</groupId>
             <artifactId>spring-rabbit</artifactId>
             <version>3.0.9</version>
         </dependency>
-
-
     </dependencies>
 
 
@@ -110,27 +107,6 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.sun.xml.ws</groupId>
-                <artifactId>jaxws-maven-plugin</artifactId>
-                <version>4.0.1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>wsimport</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <packageName>com.inmotion.soap.wsdl</packageName>
-                    <wsdlUrls>
-                        <wsdlUrl>http://localhost:8001/soap/jwtService.asmx?wsdl</wsdlUrl>
-                    </wsdlUrls>
-                    <sourceDestDir>${sourcesDir}</sourceDestDir>
-                    <destDir>${classesDir}</destDir>
-                    <extension>true</extension>
                 </configuration>
             </plugin>
         </plugins>

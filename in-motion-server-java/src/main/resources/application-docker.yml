@@ -1,0 +1,15 @@
+spring:
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+
+minio:
+  buckets:
+    profile_videos: in-motion-profile-videos
+    posts: in-motion-posts
+  access:
+    key: inMotionMinioUser
+    secret: inMotionSecretPassword
+  url: http://minio:9000
