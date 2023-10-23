@@ -1,0 +1,14 @@
+<div class="darken-page"></div>
+<div class="followers-list">
+    <div mat-dialog-content>
+        <div class="followers-list__tabs">
+            <div class="followers-list__tab" [ngClass]="{ 'active': followersTabActive }" (click)="activateFollowersTab()">
+                FOLLOWERS
+            </div>
+            <div class="followers-list__tab" [ngClass]="{ 'active': !followersTabActive }" (click)="activateFollowingTab()">
+                FOLLOWING
+            </div>
+            <div class="close-button" (click)="closeAddFriendModal()">&#10006;</div>
+        </div>
+    </div>
+</div>

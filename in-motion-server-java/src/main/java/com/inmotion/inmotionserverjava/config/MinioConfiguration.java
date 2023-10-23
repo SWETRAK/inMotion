@@ -1,6 +1,6 @@
 package com.inmotion.inmotionserverjava.config;
 
-import com.inmotion.inmotionserverjava.exceptions.minio.MinioConfigurationException;
+import com.inmotion.inmotionserverjava.exception.minio.MinioConfigurationException;
 import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
@@ -46,11 +46,11 @@ public class MinioConfiguration {
                 .endpoint(minioUrl)
                 .build();
         try {
-            if (!client.bucketExists(BucketExistsArgs.builder().bucket(profileVideosBucket).build())){
+            if (!client.bucketExists(BucketExistsArgs.builder().bucket(profileVideosBucket).build())) {
                 client.makeBucket(MakeBucketArgs.builder().bucket(profileVideosBucket).build());
             }
 
-            if (!client.bucketExists(BucketExistsArgs.builder().bucket(postsBucket).build())){
+            if (!client.bucketExists(BucketExistsArgs.builder().bucket(postsBucket).build())) {
                 client.makeBucket(MakeBucketArgs.builder().bucket(postsBucket).build());
             }
 

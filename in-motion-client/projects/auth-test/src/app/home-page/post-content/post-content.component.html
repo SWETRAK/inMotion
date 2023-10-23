@@ -1,0 +1,54 @@
+<div class="home-page">
+    <div class="user__template">
+        <img src="/assets/photos/in-logo.png" alt="User Photo">
+        <div class="user__template-info">
+            <div class="user__template-info--username">username</div>
+            <div class="user__template-info--status">Lublin, 13:09</div>
+        </div>
+    </div>
+    <div class="post_template">
+        <img src="/assets/photos/in-logo.png" alt="Post">
+        <div class="post__reactions">
+            <button class="reaction-button" (click)="react('heart')">
+                <i class="fas fa-heart fa-2x"></i> <span class="reaction-count">{{ heartCount }}</span>
+            </button>
+            <button class="reaction-button" (click)="react('wow')">
+                <i class="fas fa-surprise fa-2x"></i> <span class="reaction-count">{{ wowCount }}</span>
+            </button>
+            <button class="reaction-button" (click)="react('like')">
+                <i class="fas fa-thumbs-up fa-2x"></i> <span class="reaction-count">{{ likeCount }}</span>
+            </button>
+            <button class="reaction-button" (click)="react('cry')">
+                <i class="fas fa-sad-tear fa-2x"></i> <span class="reaction-count">{{ cryCount }}</span>
+            </button>
+            <button class="reaction-button" (click)="react('lol')">
+                <i class="fas fa-grin-squint fa-2x"></i> <span class="reaction-count">{{ lolCount }}</span>
+            </button>
+        </div>
+        <div (click)="toggleComments()" class="post__view-comments">View comments...</div>
+        <div class="post__comments" *ngIf="commentsVisible">
+            <div class="comment">
+                <img class="comment__avatar" src="/assets/photos/in-logo.png" alt="User Avatar">
+                <div class="comment__username">username1</div>
+            </div>
+            <div class="comment__text">Woow, great movie. Woow, great movie. Woow, great movie.</div>
+            <div class="comment">
+                <img class="comment__avatar" src="/assets/photos/in-logo.png" alt="User Avatar">
+                <div class="comment__username">username2</div>
+            </div>
+            <div class="comment__text">Woow, great movie. Woow, great movie. Woow, great movie.</div>
+
+            <div class="comment">
+                <img class="comment__avatar" src="/assets/photos/in-logo.png" alt="User Avatar">
+                <div class="comment__username">username3</div>
+            </div>
+            <div class="comment__text">Porobiłbyś coś pożytecznego, a nie cały czas przy tym komputerze czas marnujesz
+            </div>
+            <div class="new-comment">
+                <img class="new-comment__avatar" src="/assets/photos/in-logo.png" alt="Your Avatar">
+                <input class="new-comment__input" type="text" placeholder="Add a comment...">
+                <i class="new-comment__icon far fa-light fa-paper-plane"></i>
+            </div>
+        </div>
+    </div>
+</div>
