@@ -5,14 +5,15 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["Friends/IMS.Friends.API/IMS.Friends.API.csproj", "Friends/IMS.Friends.API/"]
+COPY ["./Friends/IMS.Friends.API/IMS.Friends.API.csproj", "Friends/IMS.Friends.API/"]
 RUN dotnet restore "Friends/IMS.Friends.API/IMS.Friends.API.csproj"
-COPY . .
+COPY ./Friends ./Friends
+COPY ./Shared ./Shared
 WORKDIR "/src/Friends/IMS.Friends.API"
-RUN dotnet build "IMS.Friends.API.csproj" -c Release -o /app/build
+RUN dotnet build "IMS.Friends.API.csproj" -c DockerProduction -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "IMS.Friends.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "IMS.Friends.API.csproj" -c DockerProduction -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

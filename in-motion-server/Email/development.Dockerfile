@@ -10,10 +10,10 @@ RUN dotnet restore "./Email/IMS.Email.API/IMS.Email.API.csproj"
 COPY ./Email ./Email
 COPY ./Shared ./Shared
 WORKDIR "/src/Email/IMS.Email.API"
-RUN dotnet build "IMS.Email.API.csproj" -c Development -o /app/build
+RUN dotnet build "IMS.Email.API.csproj" -c DockerDevelopment -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "IMS.Email.API.csproj" -c Development -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "IMS.Email.API.csproj" -c DockerDevelopment -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

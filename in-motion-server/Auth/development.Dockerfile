@@ -10,10 +10,10 @@ RUN dotnet restore "./Auth/IMS.Auth.API/IMS.Auth.API.csproj"
 COPY ./Auth ./Auth
 COPY ./Shared ./Shared
 WORKDIR "/src/Auth/IMS.Auth.API"
-RUN dotnet build "IMS.Auth.API.csproj" -c Development -o /app/build
+RUN dotnet build "IMS.Auth.API.csproj" -c DockerDevelopment -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "IMS.Auth.API.csproj" -c Development -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "IMS.Auth.API.csproj" -c DockerDevelopment -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
