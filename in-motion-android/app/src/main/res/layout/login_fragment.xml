@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".LoginActivity">
+    android:paddingTop="16dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    tools:context=".fragment.LoginFragment">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivSettings"

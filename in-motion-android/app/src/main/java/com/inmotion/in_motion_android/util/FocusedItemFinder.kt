@@ -1,4 +1,4 @@
-package com.inmotion.in_motion_android.utils
+package com.inmotion.in_motion_android.util
 
 import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager

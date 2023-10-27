@@ -1,10 +1,10 @@
 package com.inmotion.in_motion_android
 
-import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.VideoView
 import androidx.recyclerview.widget.RecyclerView
+import com.inmotion.in_motion_android.data.PostDto
 import com.inmotion.in_motion_android.databinding.PostRecyclerViewItemBinding
 
 class PostsAdapter(private val postsList: List<PostDto>) :

@@ -1,4 +1,4 @@
-package com.inmotion.in_motion_android
+package com.inmotion.in_motion_android.data
 
 import android.net.Uri
 
