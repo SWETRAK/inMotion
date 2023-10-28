@@ -30,9 +30,9 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Automatic migrations, this should be removed in production version
-using var scope = app.Services.CreateScope();
-var dbContext = scope.ServiceProvider.GetRequiredService<ImsPostDbContext>();
-dbContext.Database.Migrate();
+// using var scope = app.Services.CreateScope();
+// var dbContext = scope.ServiceProvider.GetRequiredService<ImsPostDbContext>();
+// dbContext.Database.Migrate();
 
 app.UseSwagger();
 app.UseSwaggerUI();
