@@ -1,2 +1,149 @@
+version: '3.9'
 
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    driver: bridge
+
+services:
+
+  postgres:
+    image: postgres:14-alpine
+    container_name: inMotion_postgresql
+    ports:
+      - "5432:5432" # TODO: // This should be in removed in final version
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - backend
+
+  minio:
+    image: bitnami/minio:latest
+    container_name: inMotion_minio
+    ports:
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=inMotionMinioUser
+      - MINIO_ROOT_PASSWORD=inMotionSecretPassword
+    networks:
+      - backend
+
+  rabbitmq:
+    image: rabbitmq:3.11-management-alpine
+    container_name: inMotion_rabbitmq
+    ports:    
+      - "15672:15672"
+    networks:
+      - backend
+
+  # BACKEND gateway        
+  imsgateway:
+    build:
+      context: ./in-motion-server/
+      dockerfile: ./ImsGateway/development.Dockerfile
+    container_name: inMotion_imsGateway
+    ports:
+      - "80:8080"
+      - "443:443"
+    networks:
+      - backend
+    links:
+      - imsauth
+      - imsuser
+      - imsfriends
+      - imspost
+      - imsmedia
+
+  # DOTNET packages
+  imsauth:
+    build:
+      context: ./in-motion-server/
+      dockerfile: ./Auth/Dockerfile
+    container_name: inMotion_imsAuth_prod
+    environment:
+      - ASPNETCORE_ENVIRONMENT=DockerProduction
+    networks:
+      - backend
+    links:
+      - postgres
+      - rabbitmq
+    depends_on:
+      - postgres
+      - rabbitmq
   
+  imsemail:
+    build:
+      context: ./in-motion-server/
+      dockerfile: ./Email/Dockerfile
+    container_name: inMotion_imsEmail_prod
+    environment:
+      - ASPNETCORE_ENVIRONMENT=DockerProduction
+    networks:
+      - backend
+    links:
+      - rabbitmq
+    depends_on:
+      - rabbitmq
+      
+  imsfriends:
+    build:
+      context: ./in-motion-server/
+      dockerfile: ./Friends/development.Dockerfile
+    container_name: inMotion_imsFriends_prod
+    environment:
+      - ASPNETCORE_ENVIRONMENT=DockerProduction
+    networks:
+      - backend
+    links:
+      - rabbitmq
+      - postgres
+    depends_on:
+       - rabbitmq
+       - postgres
+        
+  imsuser:
+    build:
+      context: ./in-motion-server/
+      dockerfile: ./User/development.Dockerfile
+    container_name: inMotion_imsUser_prod
+    environment:
+      - ASPNETCORE_ENVIRONMENT=DockerProduction
+    networks:
+      - backend
+    links:
+      - rabbitmq
+      - postgres
+    depends_on:
+      - rabbitmq
+      - postgres
+  
+  imspost:
+    build: 
+      context: ./in-motion-server/
+      dockerfile: ./Post/development.Dockerfile
+    container_name: inMotion_imsPost_prod
+    environment:
+      - ASPNETCORE_ENVIRONMENT=DockerProduction
+    networks:
+      - backend
+    links:
+      - rabbitmq
+      - postgres
+    depends_on:
+      - rabbitmq
+      - postgres 
+
+  imsmedia:
+    build: 
+      context: in-motion-server-java
+      dockerfile: development.Dockerfile
+    container_name: inMotion_imsMedia_prod
+    networks:
+      - backend
+    links:
+      - rabbitmq
+      - minio
+    depends_on:
+      - rabbitmq
+      - minio

@@ -32,9 +32,9 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Auto migrations
-using var scope = app.Services.CreateScope();
-var dbContext = scope.ServiceProvider.GetRequiredService<ImsFriendsDbContext>();
-dbContext.Database.Migrate();
+// using var scope = app.Services.CreateScope();
+// var dbContext = scope.ServiceProvider.GetRequiredService<ImsFriendsDbContext>();
+// dbContext.Database.Migrate();
 
 app.UseSwagger();
 app.UseSwaggerUI();

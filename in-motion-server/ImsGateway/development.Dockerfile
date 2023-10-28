@@ -9,10 +9,10 @@ COPY ["ImsGateway/ImsGateway.csproj", "ImsGateway/"]
 RUN dotnet restore "ImsGateway/ImsGateway.csproj"
 COPY . .
 WORKDIR "/src/ImsGateway"
-RUN dotnet build "ImsGateway.csproj" -c Development -o /app/build
+RUN dotnet build "ImsGateway.csproj" -c Debug -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "ImsGateway.csproj" -c Development -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "ImsGateway.csproj" -c Debug -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
