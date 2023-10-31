@@ -7,6 +7,53 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		861434D62AF17D2700B45FF5 /* ImsHttpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434D52AF17D2700B45FF5 /* ImsHttpError.swift */; };
+		861434D82AF17E2B00B45FF5 /* ImsHttpMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434D72AF17E2B00B45FF5 /* ImsHttpMessage.swift */; };
+		861434DA2AF17F8F00B45FF5 /* ImsPagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434D92AF17F8F00B45FF5 /* ImsPagination.swift */; };
+		861434DC2AF1802400B45FF5 /* ImsPaginationRequestDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434DB2AF1802400B45FF5 /* ImsPaginationRequestDto.swift */; };
+		861434DF2AF1808600B45FF5 /* AddPasswordDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434DE2AF1808600B45FF5 /* AddPasswordDto.swift */; };
+		861434E12AF180DF00B45FF5 /* AuthenticateWithFacebookProviderDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434E02AF180DF00B45FF5 /* AuthenticateWithFacebookProviderDto.swift */; };
+		861434E32AF1813600B45FF5 /* AuthenticateWithGoogleProviderDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434E22AF1813600B45FF5 /* AuthenticateWithGoogleProviderDto.swift */; };
+		861434E52AF1818100B45FF5 /* LoginUserWithEmailAndPasswordDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434E42AF1818100B45FF5 /* LoginUserWithEmailAndPasswordDto.swift */; };
+		861434E72AF181A800B45FF5 /* RegisterUserWithEmailAndPasswordDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434E62AF181A800B45FF5 /* RegisterUserWithEmailAndPasswordDto.swift */; };
+		861434E92AF1829100B45FF5 /* UpdateEmailDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434E82AF1829100B45FF5 /* UpdateEmailDto.swift */; };
+		861434EB2AF182BB00B45FF5 /* UpdateNicknameDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434EA2AF182BB00B45FF5 /* UpdateNicknameDto.swift */; };
+		861434ED2AF182F600B45FF5 /* UpdatePasswordDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434EC2AF182F600B45FF5 /* UpdatePasswordDto.swift */; };
+		861434F02AF1835000B45FF5 /* SuccessfulRegistrationResponseDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434EF2AF1835000B45FF5 /* SuccessfulRegistrationResponseDto.swift */; };
+		861434F22AF1837200B45FF5 /* UserInfoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434F12AF1837200B45FF5 /* UserInfoDto.swift */; };
+		861434F42AF183D000B45FF5 /* UserInfoWithRoleDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434F32AF183D000B45FF5 /* UserInfoWithRoleDto.swift */; };
+		861434F82AF1843000B45FF5 /* UpdateUserBioDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434F72AF1843000B45FF5 /* UpdateUserBioDto.swift */; };
+		861434FA2AF1845700B45FF5 /* UpdateUserProfileVideoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434F92AF1845700B45FF5 /* UpdateUserProfileVideoDto.swift */; };
+		861434FD2AF184D200B45FF5 /* UserProfileVideoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434FC2AF184D200B45FF5 /* UserProfileVideoDto.swift */; };
+		861434FF2AF1853700B45FF5 /* FullUserInfoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434FE2AF1853700B45FF5 /* FullUserInfoDto.swift */; };
+		861435012AF185A500B45FF5 /* UpdatedUserBioDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435002AF185A500B45FF5 /* UpdatedUserBioDto.swift */; };
+		861435032AF185CD00B45FF5 /* UpdatedUserProfileVideoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435022AF185CD00B45FF5 /* UpdatedUserProfileVideoDto.swift */; };
+		861435072AF1894D00B45FF5 /* AcceptedFriendshipDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435062AF1894D00B45FF5 /* AcceptedFriendshipDto.swift */; };
+		8614350B2AF189E300B45FF5 /* FriendProfileVideoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8614350A2AF189E300B45FF5 /* FriendProfileVideoDto.swift */; };
+		8614350D2AF18A4B00B45FF5 /* FriendInfoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8614350C2AF18A4B00B45FF5 /* FriendInfoDto.swift */; };
+		8614350F2AF18AB200B45FF5 /* InvitationFriendshipDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8614350E2AF18AB200B45FF5 /* InvitationFriendshipDto.swift */; };
+		861435112AF18AF900B45FF5 /* RejectedFriendshipDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435102AF18AF900B45FF5 /* RejectedFriendshipDto.swift */; };
+		861435132AF18B4700B45FF5 /* RequestFriendshipDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435122AF18B4700B45FF5 /* RequestFriendshipDto.swift */; };
+		861435172AF18C0E00B45FF5 /* CreatePostCommentDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435162AF18C0E00B45FF5 /* CreatePostCommentDto.swift */; };
+		861435192AF18C4300B45FF5 /* CreatePostCommentReactionDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435182AF18C4300B45FF5 /* CreatePostCommentReactionDto.swift */; };
+		8614351B2AF18C7E00B45FF5 /* CreatePostReactionDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8614351A2AF18C7E00B45FF5 /* CreatePostReactionDto.swift */; };
+		8614351D2AF18CB400B45FF5 /* CreatePostRequestDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8614351C2AF18CB400B45FF5 /* CreatePostRequestDto.swift */; };
+		8614351F2AF18CF000B45FF5 /* NewPostLocalizationDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8614351E2AF18CF000B45FF5 /* NewPostLocalizationDto.swift */; };
+		861435212AF18D4B00B45FF5 /* EditPostCommentReactionDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435202AF18D4B00B45FF5 /* EditPostCommentReactionDto.swift */; };
+		861435252AF18DAC00B45FF5 /* EditPostReactionDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435242AF18DAC00B45FF5 /* EditPostReactionDto.swift */; };
+		861435272AF18DDF00B45FF5 /* EditPostRequestDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435262AF18DDF00B45FF5 /* EditPostRequestDto.swift */; };
+		861435292AF18E2F00B45FF5 /* UpdatePostCommentDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435282AF18E2F00B45FF5 /* UpdatePostCommentDto.swift */; };
+		8614352B2AF18E8300B45FF5 /* VideoMetaDataDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8614352A2AF18E8300B45FF5 /* VideoMetaDataDto.swift */; };
+		8614352E2AF18F9F00B45FF5 /* AuthorProfileVideoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8614352D2AF18F9F00B45FF5 /* AuthorProfileVideoDto.swift */; };
+		861435302AF1901600B45FF5 /* CreatePostResponseDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8614352F2AF1901600B45FF5 /* CreatePostResponseDto.swift */; };
+		861435322AF1906D00B45FF5 /* PostTagDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435312AF1906D00B45FF5 /* PostTagDto.swift */; };
+		861435342AF190E200B45FF5 /* PostLocalizationDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435332AF190E200B45FF5 /* PostLocalizationDto.swift */; };
+		861435362AF1917B00B45FF5 /* PostVideoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435352AF1917B00B45FF5 /* PostVideoDto.swift */; };
+		861435382AF1929100B45FF5 /* PostAuthorDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435372AF1929100B45FF5 /* PostAuthorDto.swift */; };
+		8614353B2AF1930400B45FF5 /* GetPostResponseDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8614353A2AF1930400B45FF5 /* GetPostResponseDto.swift */; };
+		8614353D2AF1941300B45FF5 /* PostCommentDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8614353C2AF1941300B45FF5 /* PostCommentDto.swift */; };
+		8614353F2AF194A400B45FF5 /* PostCommentReactionDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8614353E2AF194A400B45FF5 /* PostCommentReactionDto.swift */; };
+		861435412AF1959900B45FF5 /* PostReactionDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435402AF1959900B45FF5 /* PostReactionDto.swift */; };
 		862D756D2A3A0A0000B6D02F /* PostDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862D756C2A3A0A0000B6D02F /* PostDetailsView.swift */; };
 		862D756F2A3A0A5600B6D02F /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862D756E2A3A0A5600B6D02F /* RegisterView.swift */; };
 		862D75712A3A137F00B6D02F /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862D75702A3A137F00B6D02F /* CommentView.swift */; };
@@ -55,6 +102,53 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		861434D52AF17D2700B45FF5 /* ImsHttpError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImsHttpError.swift; sourceTree = "<group>"; };
+		861434D72AF17E2B00B45FF5 /* ImsHttpMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImsHttpMessage.swift; sourceTree = "<group>"; };
+		861434D92AF17F8F00B45FF5 /* ImsPagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImsPagination.swift; sourceTree = "<group>"; };
+		861434DB2AF1802400B45FF5 /* ImsPaginationRequestDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImsPaginationRequestDto.swift; sourceTree = "<group>"; };
+		861434DE2AF1808600B45FF5 /* AddPasswordDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPasswordDto.swift; sourceTree = "<group>"; };
+		861434E02AF180DF00B45FF5 /* AuthenticateWithFacebookProviderDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateWithFacebookProviderDto.swift; sourceTree = "<group>"; };
+		861434E22AF1813600B45FF5 /* AuthenticateWithGoogleProviderDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticateWithGoogleProviderDto.swift; sourceTree = "<group>"; };
+		861434E42AF1818100B45FF5 /* LoginUserWithEmailAndPasswordDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUserWithEmailAndPasswordDto.swift; sourceTree = "<group>"; };
+		861434E62AF181A800B45FF5 /* RegisterUserWithEmailAndPasswordDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserWithEmailAndPasswordDto.swift; sourceTree = "<group>"; };
+		861434E82AF1829100B45FF5 /* UpdateEmailDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateEmailDto.swift; sourceTree = "<group>"; };
+		861434EA2AF182BB00B45FF5 /* UpdateNicknameDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateNicknameDto.swift; sourceTree = "<group>"; };
+		861434EC2AF182F600B45FF5 /* UpdatePasswordDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePasswordDto.swift; sourceTree = "<group>"; };
+		861434EF2AF1835000B45FF5 /* SuccessfulRegistrationResponseDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessfulRegistrationResponseDto.swift; sourceTree = "<group>"; };
+		861434F12AF1837200B45FF5 /* UserInfoDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoDto.swift; sourceTree = "<group>"; };
+		861434F32AF183D000B45FF5 /* UserInfoWithRoleDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoWithRoleDto.swift; sourceTree = "<group>"; };
+		861434F72AF1843000B45FF5 /* UpdateUserBioDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserBioDto.swift; sourceTree = "<group>"; };
+		861434F92AF1845700B45FF5 /* UpdateUserProfileVideoDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserProfileVideoDto.swift; sourceTree = "<group>"; };
+		861434FC2AF184D200B45FF5 /* UserProfileVideoDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileVideoDto.swift; sourceTree = "<group>"; };
+		861434FE2AF1853700B45FF5 /* FullUserInfoDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullUserInfoDto.swift; sourceTree = "<group>"; };
+		861435002AF185A500B45FF5 /* UpdatedUserBioDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedUserBioDto.swift; sourceTree = "<group>"; };
+		861435022AF185CD00B45FF5 /* UpdatedUserProfileVideoDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatedUserProfileVideoDto.swift; sourceTree = "<group>"; };
+		861435062AF1894D00B45FF5 /* AcceptedFriendshipDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptedFriendshipDto.swift; sourceTree = "<group>"; };
+		8614350A2AF189E300B45FF5 /* FriendProfileVideoDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileVideoDto.swift; sourceTree = "<group>"; };
+		8614350C2AF18A4B00B45FF5 /* FriendInfoDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendInfoDto.swift; sourceTree = "<group>"; };
+		8614350E2AF18AB200B45FF5 /* InvitationFriendshipDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationFriendshipDto.swift; sourceTree = "<group>"; };
+		861435102AF18AF900B45FF5 /* RejectedFriendshipDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RejectedFriendshipDto.swift; sourceTree = "<group>"; };
+		861435122AF18B4700B45FF5 /* RequestFriendshipDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestFriendshipDto.swift; sourceTree = "<group>"; };
+		861435162AF18C0E00B45FF5 /* CreatePostCommentDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostCommentDto.swift; sourceTree = "<group>"; };
+		861435182AF18C4300B45FF5 /* CreatePostCommentReactionDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostCommentReactionDto.swift; sourceTree = "<group>"; };
+		8614351A2AF18C7E00B45FF5 /* CreatePostReactionDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostReactionDto.swift; sourceTree = "<group>"; };
+		8614351C2AF18CB400B45FF5 /* CreatePostRequestDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostRequestDto.swift; sourceTree = "<group>"; };
+		8614351E2AF18CF000B45FF5 /* NewPostLocalizationDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostLocalizationDto.swift; sourceTree = "<group>"; };
+		861435202AF18D4B00B45FF5 /* EditPostCommentReactionDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostCommentReactionDto.swift; sourceTree = "<group>"; };
+		861435242AF18DAC00B45FF5 /* EditPostReactionDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostReactionDto.swift; sourceTree = "<group>"; };
+		861435262AF18DDF00B45FF5 /* EditPostRequestDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostRequestDto.swift; sourceTree = "<group>"; };
+		861435282AF18E2F00B45FF5 /* UpdatePostCommentDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePostCommentDto.swift; sourceTree = "<group>"; };
+		8614352A2AF18E8300B45FF5 /* VideoMetaDataDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoMetaDataDto.swift; sourceTree = "<group>"; };
+		8614352D2AF18F9F00B45FF5 /* AuthorProfileVideoDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorProfileVideoDto.swift; sourceTree = "<group>"; };
+		8614352F2AF1901600B45FF5 /* CreatePostResponseDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostResponseDto.swift; sourceTree = "<group>"; };
+		861435312AF1906D00B45FF5 /* PostTagDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTagDto.swift; sourceTree = "<group>"; };
+		861435332AF190E200B45FF5 /* PostLocalizationDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostLocalizationDto.swift; sourceTree = "<group>"; };
+		861435352AF1917B00B45FF5 /* PostVideoDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVideoDto.swift; sourceTree = "<group>"; };
+		861435372AF1929100B45FF5 /* PostAuthorDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAuthorDto.swift; sourceTree = "<group>"; };
+		8614353A2AF1930400B45FF5 /* GetPostResponseDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPostResponseDto.swift; sourceTree = "<group>"; };
+		8614353C2AF1941300B45FF5 /* PostCommentDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentDto.swift; sourceTree = "<group>"; };
+		8614353E2AF194A400B45FF5 /* PostCommentReactionDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentReactionDto.swift; sourceTree = "<group>"; };
+		861435402AF1959900B45FF5 /* PostReactionDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReactionDto.swift; sourceTree = "<group>"; };
 		862D756C2A3A0A0000B6D02F /* PostDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailsView.swift; sourceTree = "<group>"; };
 		862D756E2A3A0A5600B6D02F /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		862D75702A3A137F00B6D02F /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
@@ -113,6 +207,133 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		861434D42AF17C5200B45FF5 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				861434EE2AF1833800B45FF5 /* Incoming */,
+				861434DD2AF1806C00B45FF5 /* Outgoing */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		861434DD2AF1806C00B45FF5 /* Outgoing */ = {
+			isa = PBXGroup;
+			children = (
+				861434DE2AF1808600B45FF5 /* AddPasswordDto.swift */,
+				861434E02AF180DF00B45FF5 /* AuthenticateWithFacebookProviderDto.swift */,
+				861434E22AF1813600B45FF5 /* AuthenticateWithGoogleProviderDto.swift */,
+				861434E42AF1818100B45FF5 /* LoginUserWithEmailAndPasswordDto.swift */,
+				861434E62AF181A800B45FF5 /* RegisterUserWithEmailAndPasswordDto.swift */,
+				861434E82AF1829100B45FF5 /* UpdateEmailDto.swift */,
+				861434EA2AF182BB00B45FF5 /* UpdateNicknameDto.swift */,
+				861434EC2AF182F600B45FF5 /* UpdatePasswordDto.swift */,
+			);
+			path = Outgoing;
+			sourceTree = "<group>";
+		};
+		861434EE2AF1833800B45FF5 /* Incoming */ = {
+			isa = PBXGroup;
+			children = (
+				861434EF2AF1835000B45FF5 /* SuccessfulRegistrationResponseDto.swift */,
+				861434F12AF1837200B45FF5 /* UserInfoDto.swift */,
+				861434F32AF183D000B45FF5 /* UserInfoWithRoleDto.swift */,
+			);
+			path = Incoming;
+			sourceTree = "<group>";
+		};
+		861434F52AF1841000B45FF5 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				861434FB2AF184B300B45FF5 /* Incoming */,
+				861434F62AF1841800B45FF5 /* Outgoing */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		861434F62AF1841800B45FF5 /* Outgoing */ = {
+			isa = PBXGroup;
+			children = (
+				861434F72AF1843000B45FF5 /* UpdateUserBioDto.swift */,
+				861434F92AF1845700B45FF5 /* UpdateUserProfileVideoDto.swift */,
+			);
+			path = Outgoing;
+			sourceTree = "<group>";
+		};
+		861434FB2AF184B300B45FF5 /* Incoming */ = {
+			isa = PBXGroup;
+			children = (
+				861434FC2AF184D200B45FF5 /* UserProfileVideoDto.swift */,
+				861434FE2AF1853700B45FF5 /* FullUserInfoDto.swift */,
+				861435002AF185A500B45FF5 /* UpdatedUserBioDto.swift */,
+				861435022AF185CD00B45FF5 /* UpdatedUserProfileVideoDto.swift */,
+			);
+			path = Incoming;
+			sourceTree = "<group>";
+		};
+		861435042AF186BC00B45FF5 /* Friends */ = {
+			isa = PBXGroup;
+			children = (
+				861435052AF1890100B45FF5 /* Incoming */,
+			);
+			path = Friends;
+			sourceTree = "<group>";
+		};
+		861435052AF1890100B45FF5 /* Incoming */ = {
+			isa = PBXGroup;
+			children = (
+				861435062AF1894D00B45FF5 /* AcceptedFriendshipDto.swift */,
+				8614350A2AF189E300B45FF5 /* FriendProfileVideoDto.swift */,
+				8614350C2AF18A4B00B45FF5 /* FriendInfoDto.swift */,
+				8614350E2AF18AB200B45FF5 /* InvitationFriendshipDto.swift */,
+				861435102AF18AF900B45FF5 /* RejectedFriendshipDto.swift */,
+				861435122AF18B4700B45FF5 /* RequestFriendshipDto.swift */,
+			);
+			path = Incoming;
+			sourceTree = "<group>";
+		};
+		861435142AF18BA600B45FF5 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				8614352C2AF18EE600B45FF5 /* Incoming */,
+				861435152AF18BF800B45FF5 /* Outgoing */,
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
+		861435152AF18BF800B45FF5 /* Outgoing */ = {
+			isa = PBXGroup;
+			children = (
+				861435162AF18C0E00B45FF5 /* CreatePostCommentDto.swift */,
+				861435182AF18C4300B45FF5 /* CreatePostCommentReactionDto.swift */,
+				8614351A2AF18C7E00B45FF5 /* CreatePostReactionDto.swift */,
+				8614351C2AF18CB400B45FF5 /* CreatePostRequestDto.swift */,
+				8614351E2AF18CF000B45FF5 /* NewPostLocalizationDto.swift */,
+				861435202AF18D4B00B45FF5 /* EditPostCommentReactionDto.swift */,
+				861435242AF18DAC00B45FF5 /* EditPostReactionDto.swift */,
+				861435262AF18DDF00B45FF5 /* EditPostRequestDto.swift */,
+				861435282AF18E2F00B45FF5 /* UpdatePostCommentDto.swift */,
+				8614352A2AF18E8300B45FF5 /* VideoMetaDataDto.swift */,
+			);
+			path = Outgoing;
+			sourceTree = "<group>";
+		};
+		8614352C2AF18EE600B45FF5 /* Incoming */ = {
+			isa = PBXGroup;
+			children = (
+				8614352D2AF18F9F00B45FF5 /* AuthorProfileVideoDto.swift */,
+				8614352F2AF1901600B45FF5 /* CreatePostResponseDto.swift */,
+				861435312AF1906D00B45FF5 /* PostTagDto.swift */,
+				861435332AF190E200B45FF5 /* PostLocalizationDto.swift */,
+				861435352AF1917B00B45FF5 /* PostVideoDto.swift */,
+				861435372AF1929100B45FF5 /* PostAuthorDto.swift */,
+				8614353A2AF1930400B45FF5 /* GetPostResponseDto.swift */,
+				8614353C2AF1941300B45FF5 /* PostCommentDto.swift */,
+				8614353E2AF194A400B45FF5 /* PostCommentReactionDto.swift */,
+				861435402AF1959900B45FF5 /* PostReactionDto.swift */,
+			);
+			path = Incoming;
+			sourceTree = "<group>";
+		};
 		865237FE2A2F21C6002E6605 = {
 			isa = PBXGroup;
 			children = (
@@ -207,6 +428,14 @@
 		8662728F2AE45F9200F4E236 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
+				861435142AF18BA600B45FF5 /* Post */,
+				861435042AF186BC00B45FF5 /* Friends */,
+				861434F52AF1841000B45FF5 /* User */,
+				861434D42AF17C5200B45FF5 /* Auth */,
+				861434D92AF17F8F00B45FF5 /* ImsPagination.swift */,
+				861434D52AF17D2700B45FF5 /* ImsHttpError.swift */,
+				861434D72AF17E2B00B45FF5 /* ImsHttpMessage.swift */,
+				861434DB2AF1802400B45FF5 /* ImsPaginationRequestDto.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -371,26 +600,73 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				861434E72AF181A800B45FF5 /* RegisterUserWithEmailAndPasswordDto.swift in Sources */,
 				869F16092A2F2C70003BFC20 /* MainWallPost.swift in Sources */,
+				861434DA2AF17F8F00B45FF5 /* ImsPagination.swift in Sources */,
 				862D75832A3A168D00B6D02F /* FindFriendView.swift in Sources */,
+				8614351D2AF18CB400B45FF5 /* CreatePostRequestDto.swift in Sources */,
+				861434FD2AF184D200B45FF5 /* UserProfileVideoDto.swift in Sources */,
+				861435302AF1901600B45FF5 /* CreatePostResponseDto.swift in Sources */,
+				861434DC2AF1802400B45FF5 /* ImsPaginationRequestDto.swift in Sources */,
 				862D756D2A3A0A0000B6D02F /* PostDetailsView.swift in Sources */,
+				861434FF2AF1853700B45FF5 /* FullUserInfoDto.swift in Sources */,
+				861435032AF185CD00B45FF5 /* UpdatedUserProfileVideoDto.swift in Sources */,
+				8614350D2AF18A4B00B45FF5 /* FriendInfoDto.swift in Sources */,
 				862D75852A3A1E3500B6D02F /* MainView.swift in Sources */,
 				865238142A2F21C8002E6605 /* Persistence.swift in Sources */,
 				862D758A2A3C3BFA00B6D02F /* MapDetails.swift in Sources */,
+				8614350B2AF189E300B45FF5 /* FriendProfileVideoDto.swift in Sources */,
+				8614351F2AF18CF000B45FF5 /* NewPostLocalizationDto.swift in Sources */,
 				8652380D2A2F21C6002E6605 /* ContentView.swift in Sources */,
+				861435382AF1929100B45FF5 /* PostAuthorDto.swift in Sources */,
+				861434E12AF180DF00B45FF5 /* AuthenticateWithFacebookProviderDto.swift in Sources */,
+				861434EB2AF182BB00B45FF5 /* UpdateNicknameDto.swift in Sources */,
+				861434F82AF1843000B45FF5 /* UpdateUserBioDto.swift in Sources */,
+				861434D82AF17E2B00B45FF5 /* ImsHttpMessage.swift in Sources */,
 				86A417A32A3DF86700A52516 /* InitData.swift in Sources */,
+				861435362AF1917B00B45FF5 /* PostVideoDto.swift in Sources */,
 				86A4179D2A3DE31300A52516 /* PersonRowView.swift in Sources */,
+				8614353D2AF1941300B45FF5 /* PostCommentDto.swift in Sources */,
+				861434ED2AF182F600B45FF5 /* UpdatePasswordDto.swift in Sources */,
+				861435292AF18E2F00B45FF5 /* UpdatePostCommentDto.swift in Sources */,
 				862D75812A3A166700B6D02F /* FriendsView.swift in Sources */,
+				8614352E2AF18F9F00B45FF5 /* AuthorProfileVideoDto.swift in Sources */,
+				861435342AF190E200B45FF5 /* PostLocalizationDto.swift in Sources */,
+				861435112AF18AF900B45FF5 /* RejectedFriendshipDto.swift in Sources */,
+				861434F02AF1835000B45FF5 /* SuccessfulRegistrationResponseDto.swift in Sources */,
+				861435072AF1894D00B45FF5 /* AcceptedFriendshipDto.swift in Sources */,
+				861435272AF18DDF00B45FF5 /* EditPostRequestDto.swift in Sources */,
+				861434DF2AF1808600B45FF5 /* AddPasswordDto.swift in Sources */,
+				861435132AF18B4700B45FF5 /* RequestFriendshipDto.swift in Sources */,
+				861434D62AF17D2700B45FF5 /* ImsHttpError.swift in Sources */,
+				861434F42AF183D000B45FF5 /* UserInfoWithRoleDto.swift in Sources */,
+				861434F22AF1837200B45FF5 /* UserInfoDto.swift in Sources */,
+				861435012AF185A500B45FF5 /* UpdatedUserBioDto.swift in Sources */,
+				861435252AF18DAC00B45FF5 /* EditPostReactionDto.swift in Sources */,
 				862D75932A3C4FA800B6D02F /* inMotion.xcdatamodeld in Sources */,
 				86A417AC2A3E237600A52516 /* AVPlayerViewControllerExtension.swift in Sources */,
+				861435412AF1959900B45FF5 /* PostReactionDto.swift in Sources */,
+				861434E52AF1818100B45FF5 /* LoginUserWithEmailAndPasswordDto.swift in Sources */,
+				861434E32AF1813600B45FF5 /* AuthenticateWithGoogleProviderDto.swift in Sources */,
+				8614351B2AF18C7E00B45FF5 /* CreatePostReactionDto.swift in Sources */,
+				8614353F2AF194A400B45FF5 /* PostCommentReactionDto.swift in Sources */,
+				8614353B2AF1930400B45FF5 /* GetPostResponseDto.swift in Sources */,
+				861435322AF1906D00B45FF5 /* PostTagDto.swift in Sources */,
+				861435212AF18D4B00B45FF5 /* EditPostCommentReactionDto.swift in Sources */,
+				8614350F2AF18AB200B45FF5 /* InvitationFriendshipDto.swift in Sources */,
+				861434E92AF1829100B45FF5 /* UpdateEmailDto.swift in Sources */,
+				861435192AF18C4300B45FF5 /* CreatePostCommentReactionDto.swift in Sources */,
 				862D756F2A3A0A5600B6D02F /* RegisterView.swift in Sources */,
 				862D757B2A3A163C00B6D02F /* YourFriendRowView.swift in Sources */,
 				862D758E2A3C47C200B6D02F /* AppState.swift in Sources */,
+				861435172AF18C0E00B45FF5 /* CreatePostCommentDto.swift in Sources */,
 				8652383B2A2F2289002E6605 /* LoginView.swift in Sources */,
 				862D75872A3C38D400B6D02F /* MapView.swift in Sources */,
 				862D75712A3A137F00B6D02F /* CommentView.swift in Sources */,
 				86A4179B2A3DCC9A00A52516 /* FriendshipStatusEnum.swift in Sources */,
 				8652380B2A2F21C6002E6605 /* inMotionApp.swift in Sources */,
+				8614352B2AF18E8300B45FF5 /* VideoMetaDataDto.swift in Sources */,
+				861434FA2AF1845700B45FF5 /* UpdateUserProfileVideoDto.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
