@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/api/media")
+@RequestMapping("/api")
 @AllArgsConstructor
 @Tag(name = "Media", description = "Requests for uploading profile videos, and posts, as well as retrieving them.")
 public class MediaController {

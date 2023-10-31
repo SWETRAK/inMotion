@@ -5,9 +5,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["Post/IMS.Post.API/IMS.Post.API.csproj", "Post/IMS.Post.API/"]
+COPY ["./Post/IMS.Post.API/IMS.Post.API.csproj", "Post/IMS.Post.API/"]
 RUN dotnet restore "Post/IMS.Post.API/IMS.Post.API.csproj"
-COPY . .
+COPY ./Post ./Post
+COPY ./Shared ./Shared
 WORKDIR "/src/Post/IMS.Post.API"
 RUN dotnet build "IMS.Post.API.csproj" -c Release -o /app/build
 

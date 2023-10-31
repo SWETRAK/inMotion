@@ -28,9 +28,9 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-using var scope = app.Services.CreateScope();
-var dbContext = scope.ServiceProvider.GetRequiredService<ImsUserDbContext>();
-dbContext.Database.Migrate();
+// using var scope = app.Services.CreateScope();
+// var dbContext = scope.ServiceProvider.GetRequiredService<ImsUserDbContext>();
+// dbContext.Database.Migrate();
 
 app.UseSwagger();
 app.UseSwaggerUI();

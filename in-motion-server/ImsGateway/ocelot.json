@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "UpstreamPathTemplate": "/api/auth/{catchAll}",
+      "UpstreamPathTemplate": "/auth/api/{catchAll}",
       "UpstreamHttpMethod": ["GET", "POST", "PUT"],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -13,7 +13,31 @@
       "DownstreamPathTemplate": "/api/{catchAll}"
     },
     {
-      "UpstreamPathTemplate": "/api/users/{catchAll}",
+      "UpstreamPathTemplate": "/auth/swagger/index.html",
+      "UpstreamHttpMethod": ["GET", "POST", "PUT"],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "imsauth",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/swagger/index.html"
+    },
+    {
+      "UpstreamPathTemplate": "/auth/swagger/{catchAll}",
+      "UpstreamHttpMethod": ["GET", "POST", "PUT"],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "imsauth",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/swagger/{catchAll}"
+    },
+    {
+      "UpstreamPathTemplate": "/users/api/{catchAll}",
       "UpstreamHttpMethod": ["GET", "PUT"],
 
       "DownstreamScheme": "http",
@@ -26,7 +50,33 @@
       "DownstreamPathTemplate": "/api/users/{catchAll}"
     },
     {
-      "UpstreamPathTemplate": "/api/friends/{catchAll}",
+      "UpstreamPathTemplate": "/users/swagger/index.html",
+      "UpstreamHttpMethod": ["GET", "PUT"],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "imsuser",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/swagger/index.html"
+    },
+    {
+      "UpstreamPathTemplate": "/users/swagger/{catchAll}",
+      "UpstreamHttpMethod": ["GET", "PUT"],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "imsuser",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/swagger/{catchAll}"
+    },
+    {
+      "UpstreamPathTemplate": "/friends/api/{catchAll}",
       "UpstreamHttpMethod": ["GET", "POST", "PUT", "PATCH"],
 
       "DownstreamScheme": "http",
@@ -39,19 +89,93 @@
       "DownstreamPathTemplate": "/api/friends/{catchAll}"
     },
     {
-      "UpstreamPathTemplate": "/api/posts/{catchAll}",
+      "UpstreamPathTemplate": "/swagger/friends/index.html",
+      "UpstreamHttpMethod": ["GET", "POST", "PUT", "PATCH"],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "imsfriends",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/swagger/index.html"
+    },
+    {
+      "UpstreamPathTemplate": "/swagger/friends/{catchAll}",
+      "UpstreamHttpMethod": ["GET", "POST", "PUT", "PATCH"],
+
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "imsfriends",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/swagger/{catchAll}"
+    },
+    {
+      "UpstreamPathTemplate": "/posts/api/{catchAll}",
       "UpstreamHttpMethod": ["GET", "POST", "PUT", "DELETE"],
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "imsuser",
+          "Host": "imspost",
           "Port": 80
         }
       ],
       "DownstreamPathTemplate": "/api/posts/{catchAll}"
+    },
+    {
+      "UpstreamPathTemplate": "/posts/swagger/index.html",
+      "UpstreamHttpMethod": ["GET", "POST", "PUT", "DELETE"],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "imspost",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/swagger/index.html"
+    },
+    {
+      "UpstreamPathTemplate": "/posts/swagger/{catchAll}",
+      "UpstreamHttpMethod": ["GET", "POST", "PUT", "DELETE"],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "imspost",
+          "Port": 80
+        }
+      ],
+      "DownstreamPathTemplate": "/swagger/{catchAll}"
+    },
+    {
+      "UpstreamPathTemplate": "/media/api/{catchAll}",
+      "UpstreamHttpMethod": ["GET", "POST"],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "imsmedia",
+          "Port": 8080
+        }
+      ],
+      "DownstreamPathTemplate": "/api/media/{catchAll}"
+    },
+    {
+      "UpstreamPathTemplate": "/media/swagger/{catchAll}",
+      "UpstreamHttpMethod": ["GET", "POST"],
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "imsmedia",
+          "Port": 8080
+        }
+      ],
+      "DownstreamPathTemplate": "/api/documentation/{catchAll}"
     }
   ],
   "GlobalConfiguration" : {
-    "BaseUrl": "https://localhost:8009"
+    "BaseUrl": "https://localhost:443"
   }
 }

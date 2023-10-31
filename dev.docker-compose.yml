@@ -15,8 +15,16 @@ services:
       - "5432:5432"
     environment:
       - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=ims
     networks:
       - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", ""]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./database.sql:/docker-entrypoint-initdb.d/init.sql
 
   minio:
     image: bitnami/minio:latest
@@ -38,6 +46,11 @@ services:
       - "5672:5672"
     networks:
       - backend
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
 
   # BACKEND gateway        
   imsgateway:
@@ -46,8 +59,14 @@ services:
       dockerfile: ./ImsGateway/development.Dockerfile
     container_name: inMotion_imsGateway
     ports:
-      - "8009:80"
-      - "4439:443"
+      - "80:80"
+      - "443:443"
+    environment:
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
     networks:
       - backend
     links:
@@ -55,6 +74,7 @@ services:
       - imsuser
       - imsfriends
       - imspost
+      - imsmedia
 
   # DOTNET packages
   imsauth:
@@ -64,15 +84,18 @@ services:
     container_name: inMotion_imsAuth
     ports:
       - "8001:80"
-      - "4431:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=DockerDevelopment
     networks:
       - backend
     links:
       - postgres
       - rabbitmq
     depends_on:
-      - postgres
-      - rabbitmq
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
   
   imsemail:
     build:
@@ -81,7 +104,8 @@ services:
     container_name: inMotion_imsEmail
     ports:
       - "8002:80"
-      - "4432:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=DockerDevelopment
     networks:
       - backend
     links:
@@ -96,15 +120,18 @@ services:
     container_name: inMotion_imsFriends
     ports:
       - "8003:80"
-      - "4433:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=DockerDevelopment
     networks:
       - backend
     links:
       - rabbitmq
       - postgres
     depends_on:
-       - rabbitmq
-       - postgres
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
         
   imsuser:
     build:
@@ -113,15 +140,18 @@ services:
     container_name: inMotion_imsUser
     ports:
       - "8004:80"
-      - "4434:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=DockerDevelopment
     networks:
       - backend
     links:
       - rabbitmq
       - postgres
     depends_on:
-      - rabbitmq
-      - postgres
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
   
   imspost:
     build: 
@@ -130,15 +160,18 @@ services:
     container_name: inMotion_imsPost
     ports:
       - "8005:80"
-      - "4435:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=DockerDevelopment
     networks:
       - backend
     links:
       - rabbitmq
       - postgres
     depends_on:
-      - rabbitmq
-      - postgres 
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
 
   imsmedia:
     build: 
@@ -146,7 +179,7 @@ services:
       dockerfile: development.Dockerfile
     container_name: inMotion_imsMedia
     ports:
-      - "8080:8080"
+      - "8006:8080"
     networks:
       - backend
     links:
