@@ -5,7 +5,7 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import ValidateForm from '../../validation/validateform';
+import ValidateForm from '../../validation/formvalidator';
 
 @Component({
   selector: 'app-login-credentials',
@@ -67,7 +67,7 @@ export class LoginCredentialsComponent implements OnInit, OnDestroy {
     }
     else {
       console.log("error");
-      ValidateForm.validateAllFormFields(this.loginForm);
+      ValidateForm.validateForm(this.loginForm);
     }
   }
 

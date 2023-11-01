@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import ValidateForm from '../../validation/validateform';
+import ValidateForm from '../../validation/formvalidator';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -51,7 +51,7 @@ export class RegisterCredentialsComponent {
       this.subscriptions.push(subscription);
     }
     else {
-      ValidateForm.validateAllFormFields(this.registerForm)
+      ValidateForm.validateForm(this.registerForm)
     }
   }
 
