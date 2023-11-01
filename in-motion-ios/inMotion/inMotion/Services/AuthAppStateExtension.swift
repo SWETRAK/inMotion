@@ -106,6 +106,12 @@ extension AppState {
         request.httpBody = postData
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
+
+            guard let data = data else {
+                print(String(describing: error))
+                return
+            }
+
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
