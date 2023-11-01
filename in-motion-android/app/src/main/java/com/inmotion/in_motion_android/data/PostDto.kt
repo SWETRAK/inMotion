@@ -1,6 +1,7 @@
 package com.inmotion.in_motion_android.data
 
 import android.net.Uri
+import java.io.Serializable
 
 data class PostDto(
     val username: String,
@@ -8,5 +9,8 @@ data class PostDto(
     val time: String,
     val frontVideoPath: Uri,
     val backVideoPath: Uri,
-    val likeCount: Int
-)
+    val loveCount: Int,
+    val laughCount: Int,
+    val wowCount: Int,
+    val cryingCount: Int
+) : Serializable

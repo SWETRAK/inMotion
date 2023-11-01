@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/postDetailsToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="20dp"
+        app:navigationIcon="@drawable/close_32">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="Username" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvLocationAndTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/primary"
+                android:textSize="12sp"
+                tools:text="Lublin, 13:09" />
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingTop="0dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp">
+
+            <VideoView
+                android:id="@+id/defaultBackPostVideo"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                app:layout_constraintBottom_toTopOf="@id/btnLove"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RelativeLayout
+                android:id="@+id/rlDefaultFrontPostVideo"
+                android:layout_width="150dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:elevation="10dp"
+                app:layout_constraintDimensionRatio="0.75"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/defaultBackPostVideo">
+
+                <VideoView
+                    android:id="@+id/defaultFrontPostVideo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnLove"
+                android:layout_width="64dp"
+                android:layout_height="36dp"
+                android:layout_margin="4dp"
+                android:background="@drawable/avatar_border_rounded"
+                android:drawableStart="@drawable/heart_icon_24"
+                android:padding="8dp"
+                app:layout_constraintEnd_toStartOf="@id/btnLaugh"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/defaultBackPostVideo"
+                tools:text="69" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnLaugh"
+                android:layout_width="64dp"
+                android:layout_height="36dp"
+                android:layout_margin="4dp"
+                android:background="@drawable/avatar_border_rounded"
+                android:drawableStart="@drawable/laugh_24"
+                android:padding="8dp"
+                app:layout_constraintEnd_toStartOf="@id/btnWow"
+                app:layout_constraintStart_toEndOf="@id/btnLove"
+                app:layout_constraintTop_toBottomOf="@id/defaultBackPostVideo"
+                tools:text="69" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnWow"
+                android:layout_width="64dp"
+                android:layout_height="36dp"
+                android:layout_margin="4dp"
+                android:background="@drawable/avatar_border_rounded"
+                android:drawableStart="@drawable/wow_24"
+                android:padding="8dp"
+                app:layout_constraintEnd_toStartOf="@id/btnCrying"
+                app:layout_constraintStart_toEndOf="@id/btnLaugh"
+                app:layout_constraintTop_toBottomOf="@id/defaultBackPostVideo"
+                tools:text="69" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCrying"
+                android:layout_width="64dp"
+                android:layout_height="36dp"
+                android:layout_margin="4dp"
+                android:background="@drawable/avatar_border_rounded"
+                android:drawableStart="@drawable/cry_24"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btnWow"
+                app:layout_constraintTop_toBottomOf="@id/defaultBackPostVideo"
+                tools:text="69" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/reactionsDivider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                app:dividerColor="@color/primary"
+                app:layout_constraintTop_toBottomOf="@id/btnLove" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvComments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/reactionsDivider"
+                tools:itemCount="1"
+                tools:listitem="@layout/comment_recycler_view_item" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/commentsDivider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:dividerColor="@color/primary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rvComments" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etComment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/background"
+                android:hint="@string/comment"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="9"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/commentsDivider"
+                app:layout_constraintWidth_percent="0.9" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_no_background"
+                android:contentDescription="@string/add_comment_button"
+                android:drawableStart="@drawable/send_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/etComment"
+                app:layout_constraintTop_toBottomOf="@id/commentsDivider"
+                app:layout_constraintWidth_percent="0.1" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.appcompat.widget.LinearLayoutCompat>
+

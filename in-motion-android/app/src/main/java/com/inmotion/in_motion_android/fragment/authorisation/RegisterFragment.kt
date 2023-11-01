@@ -1,4 +1,4 @@
-package com.inmotion.in_motion_android.fragment
+package com.inmotion.in_motion_android.fragment.authorisation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,18 +8,18 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.inmotion.in_motion_android.R
-import com.inmotion.in_motion_android.databinding.RegisterFragmentBinding
+import com.inmotion.in_motion_android.databinding.FragmentRegisterBinding
 
 class RegisterFragment : Fragment() {
 
-    private lateinit var binding: RegisterFragmentBinding
+    private lateinit var binding: FragmentRegisterBinding
     private lateinit var navController: NavController
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = RegisterFragmentBinding.inflate(layoutInflater)
+        binding = FragmentRegisterBinding.inflate(layoutInflater)
         navController = this.findNavController()
         return binding.root
     }

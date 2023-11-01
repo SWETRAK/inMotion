@@ -55,11 +55,10 @@
         android:id="@+id/defaultBackPostVideo"
         android:layout_width="match_parent"
         android:layout_height="500dp"
+        app:layout_constraintBottom_toTopOf="@id/btnLove"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/barrierVideos"
-        app:layout_constraintBottom_toTopOf="@id/llLikeCount"
-        />
+        app:layout_constraintTop_toBottomOf="@id/barrierVideos" />
 
     <RelativeLayout
         android:id="@+id/rlDefaultFrontPostVideo"
@@ -80,49 +79,71 @@
             android:layout_alignParentEnd="true"
             android:layout_centerInParent="true" />
     </RelativeLayout>
-<!--TODO: MAKE CUSTOM BUTTON OUT OF IT-->
-        <LinearLayout
-            android:id="@+id/llLikeCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:background="@drawable/avatar_border_rounded"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/defaultBackPostVideo"
-            >
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivLikeIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:src="@drawable/baseline_heart_broken_24" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnLove"
+        android:layout_width="64dp"
+        android:layout_height="36dp"
+        android:layout_margin="4dp"
+        android:background="@drawable/avatar_border_rounded"
+        android:drawableStart="@drawable/heart_icon_24"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/defaultBackPostVideo"
+        tools:text="69" />
 
-            <TextView
-                android:id="@+id/tvLikeCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="8dp"
-                tools:text="23" />
-        </LinearLayout>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnLaugh"
+        android:layout_width="64dp"
+        android:layout_height="36dp"
+        android:layout_margin="4dp"
+        android:background="@drawable/avatar_border_rounded"
+        android:drawableStart="@drawable/laugh_24"
+        android:padding="8dp"
+        app:layout_constraintStart_toEndOf="@id/btnLove"
+        app:layout_constraintTop_toBottomOf="@id/defaultBackPostVideo"
+        tools:text="69" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivComment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:src="@drawable/baseline_mode_comment_24"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/defaultBackPostVideo" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnWow"
+        android:layout_width="64dp"
+        android:layout_height="36dp"
+        android:layout_margin="4dp"
+        android:background="@drawable/avatar_border_rounded"
+        android:drawableStart="@drawable/wow_24"
+        android:padding="8dp"
+        app:layout_constraintStart_toEndOf="@id/btnLaugh"
+        app:layout_constraintTop_toBottomOf="@id/defaultBackPostVideo"
+        tools:text="69" />
 
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            app:dividerColor="@color/primary"
-            app:layout_constraintTop_toBottomOf="@id/llLikeCount" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnCrying"
+        android:layout_width="64dp"
+        android:layout_height="36dp"
+        android:layout_margin="4dp"
+        android:background="@drawable/avatar_border_rounded"
+        android:drawableStart="@drawable/cry_24"
+        android:padding="8dp"
+        app:layout_constraintStart_toEndOf="@id/btnWow"
+        app:layout_constraintTop_toBottomOf="@id/defaultBackPostVideo"
+        tools:text="69" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/comment_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/defaultBackPostVideo" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:dividerColor="@color/primary"
+        app:layout_constraintTop_toBottomOf="@id/btnLove" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

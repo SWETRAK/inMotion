@@ -1,4 +1,4 @@
-package com.inmotion.in_motion_android.fragment
+package com.inmotion.in_motion_android.fragment.authorisation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,11 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.inmotion.in_motion_android.R
-import com.inmotion.in_motion_android.databinding.LoginFragmentBinding
+import com.inmotion.in_motion_android.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
 
-    private lateinit var binding: LoginFragmentBinding
+    private lateinit var binding: FragmentLoginBinding
     private lateinit var navController: NavController
 
     override fun onCreateView(
@@ -20,18 +20,18 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = LoginFragmentBinding.inflate(layoutInflater)
+        binding = FragmentLoginBinding.inflate(layoutInflater)
         navController = this.findNavController()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.tvRegister.setOnClickListener {
-            navController.navigate(R.id.action_loginFragment_to_mainFragment)
+            navController.navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
         binding.btnLoginWithEmail.setOnClickListener {
-            navController.navigate(R.id.action_loginFragment_to_registerFragment)
+            navController.navigate(R.id.action_loginFragment_to_mainFragment)
         }
     }
 }

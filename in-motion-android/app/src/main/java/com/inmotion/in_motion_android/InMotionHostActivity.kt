@@ -1,7 +1,7 @@
 package com.inmotion.in_motion_android
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.inmotion.in_motion_android.databinding.ActivityInMotionHostBinding
 
 class InMotionHostActivity : AppCompatActivity() {
