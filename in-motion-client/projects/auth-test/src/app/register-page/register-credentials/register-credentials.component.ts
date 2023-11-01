@@ -2,7 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import ValidateForm from '../../validation/validationform';
+import ValidateForm from '../../validation/validateform';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -13,18 +13,18 @@ import { AuthService } from '../../services/auth.service';
 
 export class RegisterCredentialsComponent {
 
-  constructor(private router: Router, private fb: FormBuilder, private auth: AuthService) { }
+  constructor(private router: Router, private formBuilder: FormBuilder, private auth: AuthService) { }
 
   @ViewChild('bootstrapAlert') bootstrapAlert!: ElementRef;
   registerForm!: FormGroup;
   private subscriptions: any[] = [];
   public passwordVisible: boolean = false;
-  public repeatpasswordVisible: boolean = false;
-  faEye = faEye;
-  faEyeSlash = faEyeSlash;
+  public repeatPasswordVisible: boolean = false;
+  eyeIcon = faEye;
+  closedEyeIcon = faEyeSlash;
 
   ngOnInit(): void {
-    this.registerForm = this.fb.group({
+    this.registerForm = this.formBuilder.group({
       nickname: ['', Validators.required],
       email: ['', Validators.required],
       password: ['', Validators.required],
@@ -74,7 +74,7 @@ export class RegisterCredentialsComponent {
   }
 
   toggleRepeatPasswordVisibility(): void {
-    this.repeatpasswordVisible = !this.repeatpasswordVisible;
+    this.repeatPasswordVisible = !this.repeatPasswordVisible;
   }
 
   redirectToLogin() {

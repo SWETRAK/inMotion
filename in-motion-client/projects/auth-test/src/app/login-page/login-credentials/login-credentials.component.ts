@@ -5,7 +5,7 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import ValidateForm from '../../validation/validationform';
+import ValidateForm from '../../validation/validateform';
 
 @Component({
   selector: 'app-login-credentials',
@@ -22,7 +22,7 @@ export class LoginCredentialsComponent implements OnInit, OnDestroy {
     private httpClient: HttpClient,
     private router: Router,
     private auth: AuthService,
-    private fb: FormBuilder
+    private formBuilder: FormBuilder
   ) {
 
   }
@@ -31,11 +31,11 @@ export class LoginCredentialsComponent implements OnInit, OnDestroy {
   loginForm!: FormGroup;
   private subscriptions: any[] = [];
   public passwordVisible: boolean = false;
-  faEye = faEye;
-  faEyeSlash = faEyeSlash;
+  eyeIcon = faEye;
+  closedEyeIcon = faEyeSlash;
 
   ngOnInit(): void {
-    this.loginForm = this.fb.group({
+    this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
     })
