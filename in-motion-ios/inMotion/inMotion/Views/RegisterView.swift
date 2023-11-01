@@ -27,15 +27,15 @@ struct RegisterView: View {
         VStack(spacing: 20.0) {
                 
             Spacer()
-            
+
             Text("inMotion").font(.custom("Roboto", fixedSize: 50))
-            
+
             Spacer()
             VStack {
                 if self.nicknameError {
                     Text("Nickname cant be empty")
                 }
-                
+
                 TextField(
                     "Nickname",
                     text: $nickname,
@@ -67,7 +67,7 @@ struct RegisterView: View {
                 SecureField("Password", text: $password)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             }
-           
+
             VStack {
                 if self.repeatPasswordError {
                     Text("Incorrect repeat password")
@@ -75,20 +75,13 @@ struct RegisterView: View {
                 SecureField("Repeat password", text: $repeatPassword)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
             }
-            
+
             Button("REGISTER"){
                 self.ValidatePassword()
                 self.ValidateRepeatPassword()
-                
+
                 if(!self.repeatPasswordError && !self.nicknameError && !self.passwordError && !self.emailError) {
-                    let user: User? = self.SaveUser()
-                    if let safeuser = user {
-                        self.appState.user = safeuser
-                        self.appState.logged = true
-                        self.presentationMode.wrappedValue.dismiss()
-                    } else {
-                        self.emailError = true
-                    }
+                    appState.registerUserWithEmailAndPassword(registerData: RegisterUserWithEmailAndPasswordDto(email: self.email, password: self.password, repeatPassword: self.repeatPassword, nickname: self.nickname))
                 }
             }
             Spacer()
@@ -107,7 +100,7 @@ struct RegisterView: View {
             self.nicknameError = false
         }
     }
-    
+
     private func ValidateEmail(){
         if(self.email.isEmpty) {
             self.emailError = true
@@ -117,7 +110,7 @@ struct RegisterView: View {
             self.emailError = !emailPredicate.evaluate(with: self.email)
         }
     }
-    
+
     private func ValidatePassword() {
         if(self.password.isEmpty) {
             self.passwordError = true
@@ -125,7 +118,7 @@ struct RegisterView: View {
             self.passwordError = false
         }
     }
-    
+
     private func ValidateRepeatPassword() {
         if(self.repeatPassword.isEmpty) {
             self.repeatPasswordError = true
@@ -136,43 +129,6 @@ struct RegisterView: View {
                 self.repeatPasswordError = false
             }
         }
-    }
-
-    private func SaveUser() -> User? {
-        if(self.GetUser()) {
-            let user = User(context: viewContext)
-            user.nickname = nickname
-            user.email = email
-            user.password = password
-            user.id = UUID()
-            user.profile_photo = "avatar-placeholder"
-            if (viewContext.hasChanges) {
-                do {
-                    try viewContext.save()
-                    return user
-                } catch {
-                    let nserror = error as NSError
-                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-                }
-            }
-        }
-        return nil
-    }
-    
-    private func GetUser() -> Bool {
-        let request: NSFetchRequest<User> = User.fetchRequest()
-        let predictate = NSPredicate(format: "email == %@", self.email)
-        request.predicate = predictate
-        do {
-            let result = try viewContext.fetch(request)
-            if(result.count == 0) {
-                return true
-            }
-            return false
-        } catch {
-            print("Error fetchig data from context \(error)")
-        }
-        return false
     }
 }
 

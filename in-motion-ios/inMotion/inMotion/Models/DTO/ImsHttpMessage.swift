@@ -11,5 +11,5 @@ struct ImsHttpMessage<T: Codable>: Codable {
     public var status: Int
     public var serverResponseTime: Date
     public var serverRequestTime: Date
-    public var data: T
+    public var data: T?
 }
