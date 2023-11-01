@@ -141,7 +141,7 @@ public class EmailAuthService : IEmailAuthService
 
     public async Task<bool> UpdatePassword(UpdatePasswordDto updatePasswordDto, string userIdString)
     {
-        if (Guid.TryParse(userIdString, out var userIdGuid)) throw new UserGuidStringEmptyException();
+        if (!Guid.TryParse(userIdString, out var userIdGuid)) throw new UserGuidStringEmptyException();
         var user = await _userRepository.GetByIdAsync(userIdGuid);
 
         if (user is null) throw new UserNotFoundException();
@@ -158,7 +158,7 @@ public class EmailAuthService : IEmailAuthService
 
     public async Task<bool> AddPasswordToExistingAccount(AddPasswordDto addPasswordDto, string userIdString)
     {
-        if (Guid.TryParse(userIdString, out var userIdGuid)) throw new UserGuidStringEmptyException();
+        if (!Guid.TryParse(userIdString, out var userIdGuid)) throw new UserGuidStringEmptyException();
         var user = await _userRepository.GetByIdAsync(userIdGuid);
         if (user is null) throw new UserNotFoundException();
 

@@ -32,13 +32,8 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// using var scope = app.Services.CreateScope();
-// var dbContext = scope.ServiceProvider.GetRequiredService<ImsAuthDbContext>();
-// dbContext.Database.Migrate();
-
 app.UseSwagger();
 app.UseSwaggerUI();
-
 
 app.UseAuthentication();
 
