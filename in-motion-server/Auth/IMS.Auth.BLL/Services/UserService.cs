@@ -31,7 +31,7 @@ public class UserService: IUserService
 
     public async Task<UserInfoDto> UpdateUserEmail(UpdateEmailDto updateEmailDto, string userIdString)
     {
-        if(Guid.TryParse(userIdString, out var userIdGuid)) throw new UserGuidStringEmptyException();
+        if(!Guid.TryParse(userIdString, out var userIdGuid)) throw new UserGuidStringEmptyException();
         var user = await _userRepository.GetByIdAsync(userIdGuid);
         if (user is null) throw new UserNotFoundException();
 
@@ -46,7 +46,7 @@ public class UserService: IUserService
 
     public async Task<UserInfoDto> UpdateUserNickname(UpdateNicknameDto updateNicknameDto, string userIdString)
     {
-        if(Guid.TryParse(userIdString, out var userIdGuid)) throw new UserGuidStringEmptyException();
+        if(!Guid.TryParse(userIdString, out var userIdGuid)) throw new UserGuidStringEmptyException();
         var user = await _userRepository.GetByIdAsync(userIdGuid);
         if (user is null) throw new UserNotFoundException();
 
@@ -61,11 +61,13 @@ public class UserService: IUserService
 
     public async Task<UserInfoDto> GetUserInfo(string userIdString)
     {
-        if (Guid.TryParse(userIdString, out var userIdGuid))
+        if (!Guid.TryParse(userIdString, out var userIdGuid))
             throw new InvalidGuidStringException();
 
         var user = await _userRepository.GetByIdAsync(userIdGuid);
-        return _mapper.Map<UserInfoDto>(user);
+        var userInfoDto =  _mapper.Map<UserInfoDto>(user);
+        userInfoDto.Token = _jwtService.GenerateJwtToken(user);
+        return userInfoDto;
     }
 
     public async Task<IEnumerable<UserInfoDto>> GetUsersInfo(IEnumerable<string> userIdStrings)

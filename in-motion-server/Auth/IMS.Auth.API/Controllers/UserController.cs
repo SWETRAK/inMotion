@@ -52,4 +52,21 @@ public class UserController: ControllerBase
             Status = StatusCodes.Status204NoContent
         });
     }
+
+    [Authorize]
+    [HttpGet]
+    public async Task<ActionResult<ImsHttpMessage<UserInfoDto>>> GetLoggedInUser()
+    {
+        var serverRequestTime = DateTime.UtcNow;
+        var userIdString = AuthenticationUtil.GetUserId(HttpContext.User);
+        var result = await _userService.GetUserInfo(userIdString);
+
+        return Ok(new ImsHttpMessage<UserInfoDto>
+        {
+            Data = result,
+            ServerRequestTime = serverRequestTime,
+            ServerResponseTime = DateTime.UtcNow,
+            Status = StatusCodes.Status204NoContent
+        });
+    }
 }

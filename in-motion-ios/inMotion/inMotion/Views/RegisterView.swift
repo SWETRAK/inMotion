@@ -81,7 +81,11 @@ struct RegisterView: View {
                 self.ValidateRepeatPassword()
 
                 if(!self.repeatPasswordError && !self.nicknameError && !self.passwordError && !self.emailError) {
-                    appState.registerUserWithEmailAndPassword(registerData: RegisterUserWithEmailAndPasswordDto(email: self.email, password: self.password, repeatPassword: self.repeatPassword, nickname: self.nickname))
+                    appState.registerUserWithEmailAndPasswordHttpRequest(registerData: RegisterUserWithEmailAndPasswordDto(email: self.email, password: self.password, repeatPassword: self.repeatPassword, nickname: self.nickname),
+                            successRegisterAction: {(successData: SuccessfulRegistrationResponseDto) in
+                            },
+                            failureRegisterAction: {(error: ImsHttpError) in
+                            })
                 }
             }
             Spacer()

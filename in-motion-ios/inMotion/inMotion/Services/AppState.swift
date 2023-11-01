@@ -19,6 +19,9 @@ class AppState: ObservableObject {
         self.user = user
     }
 
+    let httpBaseUrl = "http://localhost"
+
+
     enum HTTPMethods: String {
         case POST = "POST"
         case GET = "GET"
