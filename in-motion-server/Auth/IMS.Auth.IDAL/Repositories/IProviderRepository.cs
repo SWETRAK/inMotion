@@ -8,5 +8,6 @@ public interface IProviderRepository: IDisposable
     Task<Provider> GetByTokenAsync(Providers providerName, string token);
     Task<Provider> GetByTokenWithUserAsync(Providers providerName, string token);
     Task<Provider> GetByIdAsync(Guid providerId);
+    Task Insert(Provider provider);
     Task Save(); 
 }

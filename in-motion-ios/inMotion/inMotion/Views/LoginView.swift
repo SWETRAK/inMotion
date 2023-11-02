@@ -1,4 +1,5 @@
 import SwiftUI
+import GoogleSignIn
 
 struct LoginView: View {
 
@@ -13,6 +14,8 @@ struct LoginView: View {
     @State private var passwordError: Bool = false
     @State private var loginError: Bool = false
     @State private var communicationError: Bool = false
+
+
 
     var body: some View {
         VStack {
@@ -47,43 +50,41 @@ struct LoginView: View {
                                         }
                                     })
                         }
-                        }.alert(isPresented: $showAlert) {
-                                if (self.communicationError) {
-                                    return Alert(
-                                            title: Text("No communication with server"),
-                                            message: Text("We have internal server problems, we work on them"),
-                                            dismissButton: .default(Text("Ok")) {
-                                                self.communicationError = false
-                                            }
-                                    )
-                                } else if (self.emailError) {
-                                    return Alert(
-                                            title: Text("Incorrect email address"),
-                                            dismissButton: .default(Text("Ok")) {
-                                                self.emailError = false
-                                            }
-                                    )
-                                } else if (self.passwordError) {
-                                    return Alert(
-                                            title: Text("Incorrect password"),
-                                            dismissButton: .default(Text("Ok")) {
-                                                self.passwordError = false
-                                            }
-                                    )
-                                } else {
-                                    return Alert(
-                                            title: Text("Incorrect login data"),
-                                            dismissButton: .default(Text("Ok")) {
-                                                self.loginError = false
-                                            }
-                                    )
-                                }
-                            }
+                    }
                 }
                 Section(header: Text("Social login")) {
-
                     Button {
-                        print("google")
+                        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+                        guard let rootViewController = windowScene.windows.first?.rootViewController else { return }
+                        let signInConfig = GIDConfiguration(clientID: "435519606946-0d3d75lo1askeorlrn21355csa1hsd9h.apps.googleusercontent.com")
+                        
+                        GIDSignIn.sharedInstance.configuration = signInConfig
+                        
+                        GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController ) { (user, error )in
+
+                            guard let user = user else {
+                                print(error)
+                                return
+                            }
+
+                            if let userID = user.user.userID {
+                                if let idToken = user.user.idToken {
+                                    appState.loginWithGoogleHttpRequest(requestData: AuthenticateWithGoogleProviderDto(userId: userID, token: idToken.tokenString),
+                                        successRegisterWithGoogle: {(data: UserInfoDto) in
+
+                                        },
+                                        failureRegisterWithGoogle: {(error: ImsHttpError) in
+                                            if(error.status == 401) {
+                                                self.showAlert = true
+                                                self.loginError = true
+                                            } else if (error.status == 500) {
+                                                self.showAlert = true
+                                                self.communicationError = true
+                                            }
+                                        })
+                                }
+                            }
+                        }
                     } label: {
                         HStack{
                             Image("google-logo")
@@ -107,6 +108,38 @@ struct LoginView: View {
             }.frame(alignment: .center)
             NavigationLink("Register new account", destination: RegisterView().environmentObject(appState))
         }.navigationBarHidden(true)
+        .alert(isPresented: $showAlert) {
+            if (self.communicationError) {
+                return Alert(
+                        title: Text("No communication with server"),
+                        message: Text("We have internal server problems, we work on them"),
+                        dismissButton: .default(Text("Ok")) {
+                            self.communicationError = false
+                        }
+                )
+            } else if (self.emailError) {
+                return Alert(
+                        title: Text("Incorrect email address"),
+                        dismissButton: .default(Text("Ok")) {
+                            self.emailError = false
+                        }
+                )
+            } else if (self.passwordError) {
+                return Alert(
+                        title: Text("Incorrect password"),
+                        dismissButton: .default(Text("Ok")) {
+                            self.passwordError = false
+                        }
+                )
+            } else {
+                return Alert(
+                        title: Text("Incorrect login data or user already exists"),
+                        dismissButton: .default(Text("Ok")) {
+                            self.loginError = false
+                        }
+                )
+            }
+        }
     }
 
     private func ValidateEmail() {
