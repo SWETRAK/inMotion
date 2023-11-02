@@ -38,7 +38,6 @@ struct LoginView: View {
                             appState.loginWithEmailAndPasswordHttpRequest(requestData: LoginUserWithEmailAndPasswordDto(email: email, password: password),
                                     successLoginAction: { (userInfoDto) in
                                         self.loginError = false
-                                        // TODO: Do on login page
                                     },
                                     failureLoginAction: { (httpError) in
                                         if (httpError.status == 404) {
@@ -71,7 +70,7 @@ struct LoginView: View {
                                 if let idToken = user.user.idToken {
                                     appState.loginWithGoogleHttpRequest(requestData: AuthenticateWithGoogleProviderDto(userId: userID, token: idToken.tokenString),
                                         successRegisterWithGoogle: {(data: UserInfoDto) in
-
+                                            self.loginError = false
                                         },
                                         failureRegisterWithGoogle: {(error: ImsHttpError) in
                                             if(error.status == 401) {
