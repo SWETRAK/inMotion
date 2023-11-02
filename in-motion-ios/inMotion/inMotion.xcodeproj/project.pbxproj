@@ -11,6 +11,7 @@
 		25E9F4332CD4251B70F255E0 /* AuthAppStateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E9F4C3630E6BF2C1B4EB36 /* AuthAppStateExtension.swift */; };
 		25E9F4FA6E4442EC59889F83 /* JsonUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E9F960BD31B07AD902FC8B /* JsonUtil.swift */; };
 		25E9FA404AEFE937D6AFCA88 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E9F07E1FBA91BF3E84867B /* AppState.swift */; };
+		25E9FB7C85D7A4B7F45B3121 /* ValidationErrorDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E9F634F1035EA6D3806F0B /* ValidationErrorDto.swift */; };
 		25E9FBCB41CA640768E4EF5A /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E9FABE0CDC6384BC4DCB82 /* DateFormatter.swift */; };
 		861434D62AF17D2700B45FF5 /* ImsHttpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434D52AF17D2700B45FF5 /* ImsHttpError.swift */; };
 		861434D82AF17E2B00B45FF5 /* ImsHttpMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434D72AF17E2B00B45FF5 /* ImsHttpMessage.swift */; };
@@ -107,6 +108,7 @@
 /* Begin PBXFileReference section */
 		25E9F07E1FBA91BF3E84867B /* AppState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		25E9F4C3630E6BF2C1B4EB36 /* AuthAppStateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthAppStateExtension.swift; sourceTree = "<group>"; };
+		25E9F634F1035EA6D3806F0B /* ValidationErrorDto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationErrorDto.swift; sourceTree = "<group>"; };
 		25E9F960BD31B07AD902FC8B /* JsonUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonUtil.swift; sourceTree = "<group>"; };
 		25E9FABE0CDC6384BC4DCB82 /* DateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		25E9FC76AD0AE0E08DA0B740 /* JSONDecodeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONDecodeExtension.swift; sourceTree = "<group>"; };
@@ -439,6 +441,7 @@
 				861434D52AF17D2700B45FF5 /* ImsHttpError.swift */,
 				861434D72AF17E2B00B45FF5 /* ImsHttpMessage.swift */,
 				861434DB2AF1802400B45FF5 /* ImsPaginationRequestDto.swift */,
+				25E9F634F1035EA6D3806F0B /* ValidationErrorDto.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -682,6 +685,7 @@
 				25E9F1706A0B9AAB56C76809 /* JSONDecodeExtension.swift in Sources */,
 				25E9FA404AEFE937D6AFCA88 /* AppState.swift in Sources */,
 				25E9F4332CD4251B70F255E0 /* AuthAppStateExtension.swift in Sources */,
+				25E9FB7C85D7A4B7F45B3121 /* ValidationErrorDto.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,7 +12,8 @@ class AppState: ObservableObject {
     @Published var token: String? = nil
     @Published var user: UserInfoDto? = nil
 
-    @Published var email: String = ""
+    @Published var internetConnection: Bool = false
+    @Published var internetConnectionViaCellular: Bool = false
 
     init(logged: Bool, user: UserInfoDto?, token: String?) {
         self.logged = logged
@@ -20,7 +21,6 @@ class AppState: ObservableObject {
     }
 
     let httpBaseUrl = "http://localhost"
-
 
     enum HTTPMethods: String {
         case POST = "POST"

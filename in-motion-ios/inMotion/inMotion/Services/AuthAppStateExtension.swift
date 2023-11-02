@@ -11,6 +11,7 @@ extension AppState {
     public func loginWithEmailAndPasswordHttpRequest(requestData: LoginUserWithEmailAndPasswordDto,
                                                      successLoginAction: @escaping (UserInfoDto) -> Void,
                                                      failureLoginAction: @escaping (ImsHttpError) -> Void) {
+
         var request = URLRequest(url: URL(string: self.httpBaseUrl + "/auth/api/email/login")!, timeoutInterval: Double.infinity)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
@@ -20,7 +21,9 @@ extension AppState {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
 
             guard let data = data else {
-                print(String(describing: error))
+                if let error = error as? NSError {
+                    failureLoginAction(ImsHttpError(status: 500,  errorMessage: error.localizedDescription, errorType: ""))
+                }
                 return
             }
 
@@ -40,8 +43,11 @@ extension AppState {
                     }
                     //TODO: Add validation action
                 } else {
-                    if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
-                        // TODO: Implement proper error handling
+                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                        if (httpResponse.statusCode == 500)
+                        {
+                            safeError.status = 500
+                        }
                         failureLoginAction(safeError);
                     }
                 }
@@ -52,6 +58,7 @@ extension AppState {
 
     public func registerUserWithEmailAndPasswordHttpRequest(registerData: RegisterUserWithEmailAndPasswordDto,
                                                             successRegisterAction: @escaping (SuccessfulRegistrationResponseDto) -> Void,
+                                                            validationRegisterAction: @escaping (Dictionary<String, [String]>) -> Void,
                                                             failureRegisterAction: @escaping (ImsHttpError) -> Void){
 
         let postData = JsonUtil.encodeJsonStringFromObject(registerData)
@@ -64,7 +71,9 @@ extension AppState {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
 
             guard let data = data else {
-                print(String(describing: error))
+                if let error = error as? NSError {
+                    failureRegisterAction(ImsHttpError(status: 500,  errorMessage: error.localizedDescription, errorType: ""))
+                }
                 return
             }
 
@@ -78,7 +87,9 @@ extension AppState {
                         }
                     }
                 } else if (httpResponse.statusCode == 400) {
-
+                    if let safeImsMessage: ValidationErrorDto = JsonUtil.decodeJsonData(data: data, returnModelType: ValidationErrorDto.self) {
+                        validationRegisterAction(safeImsMessage.errors)
+                    }
                 } else {
                     if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
                         failureRegisterAction(safeError)
