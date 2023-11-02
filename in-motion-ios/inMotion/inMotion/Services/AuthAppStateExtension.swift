@@ -117,7 +117,9 @@ extension AppState {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
 
             guard let data = data else {
-                print(String(describing: error))
+                if let error = error as? NSError {
+                    failurePasswordChangeAction(ImsHttpError(status: 500,  errorMessage: error.localizedDescription, errorType: ""))
+                }
                 return
             }
 
@@ -158,7 +160,9 @@ extension AppState {
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
-                print(String(describing: error))
+                if let error = error as? NSError {
+                    failureAddPasswordAction(ImsHttpError(status: 500,  errorMessage: error.localizedDescription, errorType: ""))
+                }
                 return
             }
 
@@ -199,7 +203,9 @@ extension AppState {
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
-                print(String(describing: error))
+                if let error = error as? NSError {
+                    failureGetUserAction(ImsHttpError(status: 500,  errorMessage: error.localizedDescription, errorType: ""))
+                }
                 return
             }
 
@@ -246,7 +252,9 @@ extension AppState {
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
-                print(String(describing: error))
+                if let error = error as? NSError {
+                    failureEmailUpdateAction(ImsHttpError(status: 500,  errorMessage: error.localizedDescription, errorType: ""))
+                }
                 return
             }
 
@@ -342,7 +350,9 @@ extension AppState {
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
-                print(String(describing: error))
+                if let error = error as? NSError {
+                    failureRegisterWithFacebook(ImsHttpError(status: 500,  errorMessage: error.localizedDescription, errorType: ""))
+                }
                 return
             }
 
@@ -388,7 +398,9 @@ extension AppState {
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
-                print(String(describing: error))
+                if let error = error as? NSError {
+                    failureAddFacebookProvider(ImsHttpError(status: 500,  errorMessage: error.localizedDescription, errorType: ""))
+                }
                 return
             }
 
@@ -433,7 +445,9 @@ extension AppState {
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
-                print(String(describing: error))
+                if let error = error as? NSError {
+                    failureRegisterWithGoogle(ImsHttpError(status: 500,  errorMessage: error.localizedDescription, errorType: ""))
+                }
                 return
             }
 
@@ -479,7 +493,9 @@ extension AppState {
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
-                print(String(describing: error))
+                if let error = error as? NSError {
+                    failureAddFacebookProvider(ImsHttpError(status: 500,  errorMessage: error.localizedDescription, errorType: ""))
+                }
                 return
             }
 
