@@ -28,10 +28,12 @@ struct RegisterView: View {
             Form {
                 Section {
                     TextField("Nickname", text: $nickname)
+                        .disableAutocorrection(true)
 
                     TextField("Email", text: $email)
                         .keyboardType(.emailAddress)
                         .textInputAutocapitalization(.never)
+                        .disableAutocorrection(true)
 
                     SecureField("Password", text: $password)
 

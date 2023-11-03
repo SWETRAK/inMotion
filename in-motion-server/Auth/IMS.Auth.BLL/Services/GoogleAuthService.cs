@@ -74,18 +74,16 @@ public class GoogleAuthService : IGoogleAuthService
     
     public async Task<bool> AddGoogleProvider(AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto, string userIdString)
     {
-
         if (userIdString is null) throw new InvalidGuidStringException();
         if (!Guid.TryParse(userIdString, out var userId)) throw new UserGuidStringEmptyException();
         
         await ValidateGooglePayload(authenticateWithGoogleProviderDto.Token);
 
-        var user = await _userRepository.GetByIdAsync(userId);
+        var user = await _userRepository.GetByIdWithProvidersAsync(userId);
 
         if (user is null) throw new UserNotFoundException();
-
+        
         var newProvider = CreateNewProvider(authenticateWithGoogleProviderDto.UserId);
-
         
         if (user.Providers is null)
         {

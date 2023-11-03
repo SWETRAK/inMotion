@@ -28,6 +28,7 @@ struct LoginView: View {
                     TextField("Email", text: $email)
                             .keyboardType(.emailAddress)
                             .textInputAutocapitalization(.never)
+                            .disableAutocorrection(true)
 
                     SecureField("Password", text: $password)
 
@@ -62,7 +63,6 @@ struct LoginView: View {
                         GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController ) { (user, error )in
 
                             guard let user = user else {
-                                print(error)
                                 return
                             }
 

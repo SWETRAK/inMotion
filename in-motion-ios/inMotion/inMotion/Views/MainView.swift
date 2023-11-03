@@ -32,6 +32,13 @@ struct MainView: View {
                     Image(systemName: "person.2.fill")
                 }.buttonStyle(.plain)
             }
+            ToolbarItem(placement: .secondaryAction) {
+                NavigationLink {
+                    LoggedUserDetailsView().environmentObject(appState)
+                } label: {
+                    Text("User")
+                }
+            }
         }.onAppear{
             //TODO: Load Posts
         }

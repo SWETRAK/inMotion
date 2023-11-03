@@ -478,13 +478,13 @@ extension AppState {
         task.resume()
     }
 
-    public func addGoogleProviderHttpRequest(requestData: AuthenticateWithFacebookProviderDto,
-                                               successAddFacebookProvider: @escaping (Bool) -> Void,
-                                               failureAddFacebookProvider: @escaping (ImsHttpError) -> Void){
+    public func addGoogleProviderHttpRequest(requestData: AuthenticateWithGoogleProviderDto,
+                                               successAddGoogleProvider: @escaping (Bool) -> Void,
+                                               failureAddGoogleProvider: @escaping (ImsHttpError) -> Void){
 
         let postData = JsonUtil.encodeJsonStringFromObject(requestData)
 
-        var request = URLRequest(url: URL(string: self.httpBaseUrl + "/auth/api/facebook/add")!,timeoutInterval: Double.infinity)
+        var request = URLRequest(url: URL(string: self.httpBaseUrl + "/auth/api/google/add")!,timeoutInterval: Double.infinity)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("Bearer \(self.token ?? "")", forHTTPHeaderField: "Authorization")
 
@@ -494,7 +494,7 @@ extension AppState {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
                 if let error = error as? NSError {
-                    failureAddFacebookProvider(ImsHttpError(status: 500,  errorMessage: error.localizedDescription, errorType: ""))
+                    failureAddGoogleProvider(ImsHttpError(status: 500,  errorMessage: error.localizedDescription, errorType: ""))
                 }
                 return
             }
@@ -505,14 +505,14 @@ extension AppState {
                     if let safeImsMessage: ImsHttpMessage<Bool> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<Bool>.self) {
                         print(safeImsMessage.status)
                         if let userInfoDataSafe: Bool = safeImsMessage.data {
-                            successAddFacebookProvider(userInfoDataSafe);
+                            successAddGoogleProvider(userInfoDataSafe);
                         }
                     }
                     //TODO: Add validation action
                 } else {
                     if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
                         // TODO: Implement proper error handling
-                        failureAddFacebookProvider(safeError);
+                        failureAddGoogleProvider(safeError);
                     }
                 }
             }

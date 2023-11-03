@@ -79,6 +79,7 @@
 		8652382B2A2F21C8002E6605 /* inMotionUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8652382A2A2F21C8002E6605 /* inMotionUITests.swift */; };
 		8652382D2A2F21C8002E6605 /* inMotionUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8652382C2A2F21C8002E6605 /* inMotionUITestsLaunchTests.swift */; };
 		8652383B2A2F2289002E6605 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8652383A2A2F2289002E6605 /* LoginView.swift */; };
+		868B7CA62AF52398002A274B /* LoggedUserDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B7CA52AF52398002A274B /* LoggedUserDetailsView.swift */; };
 		869F16092A2F2C70003BFC20 /* MainWallPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869F16082A2F2C70003BFC20 /* MainWallPost.swift */; };
 		86A4179B2A3DCC9A00A52516 /* FriendshipStatusEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A4179A2A3DCC9A00A52516 /* FriendshipStatusEnum.swift */; };
 		86A4179D2A3DE31300A52516 /* PersonRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A4179C2A3DE31300A52516 /* PersonRowView.swift */; };
@@ -179,6 +180,7 @@
 		8652382A2A2F21C8002E6605 /* inMotionUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inMotionUITests.swift; sourceTree = "<group>"; };
 		8652382C2A2F21C8002E6605 /* inMotionUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inMotionUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		8652383A2A2F2289002E6605 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		868B7CA52AF52398002A274B /* LoggedUserDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedUserDetailsView.swift; sourceTree = "<group>"; };
 		869F16082A2F2C70003BFC20 /* MainWallPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWallPost.swift; sourceTree = "<group>"; };
 		86A4179A2A3DCC9A00A52516 /* FriendshipStatusEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendshipStatusEnum.swift; sourceTree = "<group>"; };
 		86A4179C2A3DE31300A52516 /* PersonRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonRowView.swift; sourceTree = "<group>"; };
@@ -416,6 +418,7 @@
 				862D75822A3A168D00B6D02F /* FindFriendView.swift */,
 				862D75842A3A1E3500B6D02F /* MainView.swift */,
 				862D75862A3C38D400B6D02F /* MapView.swift */,
+				868B7CA52AF52398002A274B /* LoggedUserDetailsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -665,6 +668,7 @@
 				8614351B2AF18C7E00B45FF5 /* CreatePostReactionDto.swift in Sources */,
 				8614353F2AF194A400B45FF5 /* PostCommentReactionDto.swift in Sources */,
 				8614353B2AF1930400B45FF5 /* GetPostResponseDto.swift in Sources */,
+				868B7CA62AF52398002A274B /* LoggedUserDetailsView.swift in Sources */,
 				861435322AF1906D00B45FF5 /* PostTagDto.swift in Sources */,
 				861435212AF18D4B00B45FF5 /* EditPostCommentReactionDto.swift in Sources */,
 				8614350F2AF18AB200B45FF5 /* InvitationFriendshipDto.swift in Sources */,
