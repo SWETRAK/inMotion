@@ -37,11 +37,11 @@ extension AppState {
                                 self.user = userInfoDataSafe
                                 self.logged = true
                                 self.token = userInfoDataSafe.token
+                                self.userDefaults.set(self.token, forKey: "token")
                             }
                             successLoginAction(userInfoDataSafe);
                         }
                     }
-                    //TODO: Add validation action
                 } else {
                     if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
                         if (httpResponse.statusCode == 500)
@@ -83,7 +83,6 @@ extension AppState {
                     if let safeImsMessage: ImsHttpMessage<SuccessfulRegistrationResponseDto> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<SuccessfulRegistrationResponseDto>.self) {
                         if let successfulRegistrationResponseSafe: SuccessfulRegistrationResponseDto = safeImsMessage.data {
                             successRegisterAction(successfulRegistrationResponseSafe)
-                            // TODO: Add info about succesfull register and
                         }
                     }
                 } else if (httpResponse.statusCode == 400) {
@@ -93,8 +92,6 @@ extension AppState {
                 } else {
                     if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
                         failureRegisterAction(safeError)
-                        // TODO: Implement proper error handling
-                        print(safeError.status, safeError.errorMessage, safeError.errorType)
                     }
                 }
             }
@@ -132,7 +129,6 @@ extension AppState {
                             successPasswordChangeAction(userInfoDataSafe);
                         }
                     }
-                    //TODO: Add validation action
                 } else {
                     if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
                         // TODO: Implement proper error handling
@@ -172,13 +168,15 @@ extension AppState {
                     if let safeImsMessage: ImsHttpMessage<Bool> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<Bool>.self) {
                         print(safeImsMessage.status)
                         if let userInfoDataSafe: Bool = safeImsMessage.data {
+                            if var user = self.user {
+                                user.providers.append("Password")
+                                self.user = user
+                            }
                             successAddPasswordAction(userInfoDataSafe);
                         }
                     }
-                    //TODO: Add validation action
                 } else {
                     if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
-                        // TODO: Implement proper error handling
                         failureAddPasswordAction(safeError);
                     }
                 }
@@ -219,19 +217,21 @@ extension AppState {
                                 self.user = userInfoDataSafe
                                 self.logged = true
                                 self.token = userInfoDataSafe.token
+                                self.userDefaults.set(self.token, forKey: "token")
                             }
                             successGetUserAction(userInfoDataSafe);
                         }
                     }
-                    //TODO: Add validation action
                 } else {
                     if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
-                        // TODO: Implement proper error handling
+                        self.user = nil
+                        self.logged = false
+                        self.token = nil
+                        self.userDefaults.removeObject(forKey: "token")
                         failureGetUserAction(safeError);
                     }
                 }
             }
-
         }
 
         task.resume()
@@ -268,14 +268,13 @@ extension AppState {
                                 self.user = userInfoDataSafe
                                 self.logged = true
                                 self.token = userInfoDataSafe.token
+                                self.userDefaults.set(self.token, forKey: "token")
                             }
                             successEmailUpdateAction(userInfoDataSafe);
                         }
                     }
-                    //TODO: Add validation action
                 } else {
                     if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
-                        // TODO: Implement proper error handling
                         failureEmailUpdateAction(safeError);
                     }
                 }
@@ -314,14 +313,13 @@ extension AppState {
                                 self.user = userInfoDataSafe
                                 self.logged = true
                                 self.token = userInfoDataSafe.token
+                                self.userDefaults.set(self.token, forKey: "token")
                             }
                             successNicknameUpdateAction(userInfoDataSafe);
                         }
                     }
-                    //TODO: Add validation action
                 } else {
                     if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
-                        // TODO: Implement proper error handling
                         failureNicknameUpdateAction(safeError);
                     }
                 }
@@ -333,6 +331,7 @@ extension AppState {
 }
 
 // MARK: - Facebook Auth Methods
+// TODO: Implement and test in future
 
 extension AppState {
 
@@ -366,14 +365,13 @@ extension AppState {
                                 self.user = userInfoDataSafe
                                 self.logged = true
                                 self.token = userInfoDataSafe.token
+                                self.userDefaults.set(self.token, forKey: "token")
                             }
                             successRegisterWithFacebook(userInfoDataSafe);
                         }
                     }
-                    //TODO: Add validation action
                 } else {
                     if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
-                        // TODO: Implement proper error handling
                         failureRegisterWithFacebook(safeError);
                     }
                 }
@@ -413,10 +411,8 @@ extension AppState {
                             successAddFacebookProvider(userInfoDataSafe);
                         }
                     }
-                    //TODO: Add validation action
                 } else {
                     if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
-                        // TODO: Implement proper error handling
                         failureAddFacebookProvider(safeError);
                     }
                 }
@@ -461,14 +457,13 @@ extension AppState {
                                 self.user = userInfoDataSafe
                                 self.logged = true
                                 self.token = userInfoDataSafe.token
+                                self.userDefaults.set(self.token, forKey: "token")
                             }
                             successRegisterWithGoogle(userInfoDataSafe);
                         }
                     }
-                    //TODO: Add validation action
                 } else {
                     if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
-                        // TODO: Implement proper error handling
                         failureRegisterWithGoogle(safeError);
                     }
                 }
@@ -508,10 +503,8 @@ extension AppState {
                             successAddGoogleProvider(userInfoDataSafe);
                         }
                     }
-                    //TODO: Add validation action
                 } else {
                     if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
-                        // TODO: Implement proper error handling
                         failureAddGoogleProvider(safeError);
                     }
                 }

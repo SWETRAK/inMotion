@@ -2,7 +2,6 @@ import SwiftUI
 import CoreData
 
 struct RegisterView: View {
-    @Environment(\.managedObjectContext) private var viewContext
     @EnvironmentObject private var appState: AppState
     
     @State private var nickname: String = ""
@@ -48,7 +47,7 @@ struct RegisterView: View {
                         if(!self.repeatPasswordError && !self.nicknameError && !self.passwordError && !self.emailError) {
                             appState.registerUserWithEmailAndPasswordHttpRequest(registerData: RegisterUserWithEmailAndPasswordDto(email: self.email, password: self.password, repeatPassword: self.repeatPassword, nickname: self.nickname),
                                     successRegisterAction: {(successData: SuccessfulRegistrationResponseDto) in
-                                        // TODO: Go to login page
+                                        self.presentationMode.wrappedValue.dismiss()
                                     },
                                     validationRegisterAction: {(validationErrors: Dictionary<String, [String]>) in
                                         if (validationErrors.keys.contains("Email")) {

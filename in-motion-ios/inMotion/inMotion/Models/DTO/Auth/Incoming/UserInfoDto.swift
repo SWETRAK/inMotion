@@ -7,9 +7,10 @@
 
 import Foundation
 
-struct UserInfoDto: Codable {
+struct UserInfoDto: Codable{
     public var id: UUID
     public var email: String
     public var nickname: String
     public var token: String
+    public var providers: [String]
 }

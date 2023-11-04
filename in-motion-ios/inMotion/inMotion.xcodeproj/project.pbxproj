@@ -71,6 +71,8 @@
 		862D758A2A3C3BFA00B6D02F /* MapDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862D75892A3C3BFA00B6D02F /* MapDetails.swift */; };
 		8634E2AC2AF2B4A5004989C0 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 8634E2AB2AF2B4A5004989C0 /* GoogleSignIn */; };
 		8634E2AE2AF2B4A5004989C0 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8634E2AD2AF2B4A5004989C0 /* GoogleSignInSwift */; };
+		863A00862AF67DEB001F64B0 /* AddPasswordToAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863A00852AF67DEB001F64B0 /* AddPasswordToAccount.swift */; };
+		863A00882AF68648001F64B0 /* ChangePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863A00872AF68648001F64B0 /* ChangePassword.swift */; };
 		8652380B2A2F21C6002E6605 /* inMotionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8652380A2A2F21C6002E6605 /* inMotionApp.swift */; };
 		8652380D2A2F21C6002E6605 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8652380C2A2F21C6002E6605 /* ContentView.swift */; };
 		8652380F2A2F21C8002E6605 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8652380E2A2F21C8002E6605 /* Assets.xcassets */; };
@@ -169,6 +171,8 @@
 		862D75842A3A1E3500B6D02F /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		862D75862A3C38D400B6D02F /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		862D75892A3C3BFA00B6D02F /* MapDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetails.swift; sourceTree = "<group>"; };
+		863A00852AF67DEB001F64B0 /* AddPasswordToAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPasswordToAccount.swift; sourceTree = "<group>"; };
+		863A00872AF68648001F64B0 /* ChangePassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePassword.swift; sourceTree = "<group>"; };
 		865238072A2F21C6002E6605 /* inMotion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = inMotion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8652380A2A2F21C6002E6605 /* inMotionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inMotionApp.swift; sourceTree = "<group>"; };
 		8652380C2A2F21C6002E6605 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -344,6 +348,15 @@
 			path = Incoming;
 			sourceTree = "<group>";
 		};
+		863A00842AF67DCE001F64B0 /* Cards */ = {
+			isa = PBXGroup;
+			children = (
+				863A00852AF67DEB001F64B0 /* AddPasswordToAccount.swift */,
+				863A00872AF68648001F64B0 /* ChangePassword.swift */,
+			);
+			path = Cards;
+			sourceTree = "<group>";
+		};
 		865237FE2A2F21C6002E6605 = {
 			isa = PBXGroup;
 			children = (
@@ -410,6 +423,7 @@
 		865238392A2F2270002E6605 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				863A00842AF67DCE001F64B0 /* Cards */,
 				869F16072A2F2C2F003BFC20 /* Components */,
 				862D75802A3A166700B6D02F /* FriendsView.swift */,
 				8652383A2A2F2289002E6605 /* LoginView.swift */,
@@ -646,6 +660,7 @@
 				86A4179D2A3DE31300A52516 /* PersonRowView.swift in Sources */,
 				8614353D2AF1941300B45FF5 /* PostCommentDto.swift in Sources */,
 				861434ED2AF182F600B45FF5 /* UpdatePasswordDto.swift in Sources */,
+				863A00862AF67DEB001F64B0 /* AddPasswordToAccount.swift in Sources */,
 				861435292AF18E2F00B45FF5 /* UpdatePostCommentDto.swift in Sources */,
 				862D75812A3A166700B6D02F /* FriendsView.swift in Sources */,
 				8614352E2AF18F9F00B45FF5 /* AuthorProfileVideoDto.swift in Sources */,
@@ -683,6 +698,7 @@
 				86A4179B2A3DCC9A00A52516 /* FriendshipStatusEnum.swift in Sources */,
 				8652380B2A2F21C6002E6605 /* inMotionApp.swift in Sources */,
 				8614352B2AF18E8300B45FF5 /* VideoMetaDataDto.swift in Sources */,
+				863A00882AF68648001F64B0 /* ChangePassword.swift in Sources */,
 				861434FA2AF1845700B45FF5 /* UpdateUserProfileVideoDto.swift in Sources */,
 				25E9F4FA6E4442EC59889F83 /* JsonUtil.swift in Sources */,
 				25E9FBCB41CA640768E4EF5A /* DateFormatter.swift in Sources */,

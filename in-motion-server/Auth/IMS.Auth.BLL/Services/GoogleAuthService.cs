@@ -13,6 +13,7 @@ using IMS.Shared.Messaging.Messages.Email.Auth;
 using IMS.Shared.Models.Exceptions;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 
 namespace IMS.Auth.BLL.Services;
 
@@ -58,6 +59,7 @@ public class GoogleAuthService : IGoogleAuthService
         var user = await GetUserFromProvider(payload, authenticateWithGoogleProviderDto);
         var userInfoDto = _mapper.Map<UserInfoDto>(user);
         userInfoDto.Token = _jwtService.GenerateJwtToken(user);
+        userInfoDto.Providers = GetProvidersInfo(user);
         
         await _publishEndpoint.Publish<ImsBaseMessage<UserLoggedInEmailMessage>>(new ImsBaseMessage<UserLoggedInEmailMessage>
         {
@@ -82,6 +84,12 @@ public class GoogleAuthService : IGoogleAuthService
         var user = await _userRepository.GetByIdWithProvidersAsync(userId);
 
         if (user is null) throw new UserNotFoundException();
+
+        var provider =
+            await _providerRepository.GetByTokenAsync(Providers.Google, authenticateWithGoogleProviderDto.UserId);
+
+        if (provider is not null)
+            throw new IncorrectProviderTokenException();
         
         var newProvider = CreateNewProvider(authenticateWithGoogleProviderDto.UserId);
         
@@ -176,5 +184,22 @@ public class GoogleAuthService : IGoogleAuthService
             AuthKey = providerKey,
             Name = Providers.Google,
         };
+    }
+    
+    public List<string> GetProvidersInfo(User user)
+    {
+        var providers = new List<string>();
+
+        if (!user.HashedPassword.IsNullOrEmpty())
+        {
+            providers.Add("Password");
+        }
+
+        if (!user.Providers.IsNullOrEmpty())
+        {
+            providers.AddRange(user.Providers.Select(provider => provider.Name.ToString()));
+        }
+        
+        return providers;
     }
 }

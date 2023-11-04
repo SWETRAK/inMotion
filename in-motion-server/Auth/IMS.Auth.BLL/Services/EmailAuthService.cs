@@ -78,6 +78,7 @@ public class EmailAuthService : IEmailAuthService
         
         var result = _mapper.Map<UserInfoDto>(user);
         result.Token = _jwtService.GenerateJwtToken(user);
+        result.Providers = GetProvidersInfo(user);
         return result;
     }
 
@@ -142,7 +143,7 @@ public class EmailAuthService : IEmailAuthService
     public async Task<bool> UpdatePassword(UpdatePasswordDto updatePasswordDto, string userIdString)
     {
         if (!Guid.TryParse(userIdString, out var userIdGuid)) throw new UserGuidStringEmptyException();
-        var user = await _userRepository.GetByIdAsync(userIdGuid);
+        var user = await _userRepository.GetByIdWithProvidersAsync(userIdGuid);
 
         if (user is null) throw new UserNotFoundException();
 
@@ -159,12 +160,29 @@ public class EmailAuthService : IEmailAuthService
     public async Task<bool> AddPasswordToExistingAccount(AddPasswordDto addPasswordDto, string userIdString)
     {
         if (!Guid.TryParse(userIdString, out var userIdGuid)) throw new UserGuidStringEmptyException();
-        var user = await _userRepository.GetByIdAsync(userIdGuid);
+        var user = await _userRepository.GetByIdWithProvidersAsync(userIdGuid);
         if (user is null) throw new UserNotFoundException();
 
         user.HashedPassword = _passwordHasher.HashPassword(user, addPasswordDto.NewPassword);
 
         await _userRepository.Save();
         return true;
+    }
+    
+    public List<string> GetProvidersInfo(User user)
+    {
+        var providers = new List<string>();
+
+        if (!user.HashedPassword.IsNullOrEmpty())
+        {
+            providers.Add("Password");
+        }
+
+        if (!user.Providers.IsNullOrEmpty())
+        {
+            providers.AddRange(user.Providers.Select(provider => provider.Name.ToString()));
+        }
+        
+        return providers;
     }
 }

@@ -15,29 +15,96 @@ struct LoggedUserDetailsView: View {
     @State var showAlert: Bool = false
     @State var addGoogleProviderAlert: Bool = false
     @State var communicationError: Bool = false
+    @State var emailError: Bool = false
+    @State var showAddPassword: Bool = false
+    @State var showChangePassword:Bool = false
     
     @State var newNickname: String = ""
     @State var newEmail: String = ""
     
     var body: some View {
         Form {
-            
-            
             Section(header: Text("User details")) {
+                
                 // TODO: Add changing user profile video
                 
-                TextField("Nickname", text: self.$newNickname)
-                
-                TextField("Email", text: self.$newEmail)
-                
-                // TODO: Update bio of logged user
-                
-                Button("Save changes") {
-                    
+                LabeledContent {
+                    HStack{
+                        TextField("Nickname", text: self.$newNickname)
+                        Button {
+                            
+                            self.appState.updateUserNicknameHttpRequest(
+                                requestData: UpdateNicknameDto(nickname: self.newNickname),
+                                successNicknameUpdateAction: {(data: UserInfoDto) in },
+                                failureNicknameUpdateAction: {(error: ImsHttpError) in })
+                            
+                        } label: {
+                            Image(systemName: "shift.fill")
+                                .resizable()
+                                .foregroundColor(self.newNickname == self.appState.user?.nickname ? .gray : .green)
+                                .frame(width: 15, height: 15)
+                        }.disabled(self.newNickname == self.appState.user?.nickname)
+                    }
+                } label: {
+                    Text("Nickname")
                 }
+               
+                LabeledContent {
+                    HStack {
+                        TextField("Email", text: self.$newEmail)
+                            .keyboardType(.emailAddress)
+                            .autocorrectionDisabled(true)
+                        
+                        Button {
+                            
+                            self.appState.updateUserEmailHttpRequest(
+                                requestData: UpdateEmailDto(email: self.newEmail),
+                                successEmailUpdateAction: {(user: UserInfoDto) in },
+                                failureEmailUpdateAction: {(error: ImsHttpError) in
+                                    if (error.status == 401) {
+                                        self.emailError = true
+                                        self.showAlert = true
+                                    }
+                                    print(error.status)
+                                })
+                            
+                        } label: {
+                            Image(systemName: "shift.fill")
+                                .resizable()
+                                .foregroundColor(self.newEmail == self.appState.user?.email ? .gray : .green)
+                                .frame(width: 15, height: 15)
+                        }.disabled(self.newEmail == self.appState.user?.email)
+                    }
+                } label: {
+                    Text("Email")
+                }
+
+                // TODO: Update bio of logged user
+
             }
             
             Section(header: Text("Security")) {
+                
+                if (appState.user!.providers.contains("Password")) {
+                    Button {
+                        self.showChangePassword = true
+                    } label: {
+                        Text("Change Password")
+                    }.sheet(isPresented: self.$showChangePassword) {
+                        ChangePassword().environmentObject(appState)
+                    }
+                } else {
+                    Button {
+                        self.showAddPassword = true
+                    } label: {
+                        Text("Add password to account")
+                    }.sheet(isPresented: self.$showAddPassword) {
+                        AddPasswordToAccount().environmentObject(appState)
+                    }
+                }
+                
+            
+                // MARK: - GOOGLE Button
                 
                 Button {
                     guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
@@ -78,10 +145,8 @@ struct LoggedUserDetailsView: View {
                                 .frame(width: 50, height: 50)
                         Text("Login with google")
                     }.frame(alignment: .center)
-                }
-            
+                }.disabled(appState.user!.providers.contains("Google"))
             }
-        
         }.alert(isPresented: $showAlert) {
             if (self.communicationError) {
                 return Alert(
@@ -99,22 +164,14 @@ struct LoggedUserDetailsView: View {
                         }
                 )
             }
-//            else if (self.passwordError) {
-//                return Alert(
-//                        title: Text("Incorrect password"),
-//                        dismissButton: .default(Text("Ok")) {
-//                            self.passwordError = false
-//                        }
-//                )
-//            } else {
-//                return Alert(
-//                        title: Text("Incorrect login data or user already exists"),
-//                        dismissButton: .default(Text("Ok")) {
-//                            self.loginError = false
-//                        }
-//                )
-//            }
-            else {
+            else if (self.emailError) {
+                return Alert(
+                        title: Text("This email is taken by other user"),
+                        dismissButton: .default(Text("Ok")) {
+                            self.emailError = false
+                        }
+                )
+            } else {
                 return Alert (
                     title: Text("Unknown error")
                 )

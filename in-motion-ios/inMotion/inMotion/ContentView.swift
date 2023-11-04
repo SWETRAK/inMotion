@@ -10,7 +10,7 @@ import Network
 
 struct ContentView: View {
 
-    @StateObject var appState: AppState = AppState(logged: false, user: nil, token: nil)
+    @StateObject var appState: AppState = AppState()
 
     let monitor = NWPathMonitor()
     // TODO: rewrite this for new approach
@@ -20,16 +20,20 @@ struct ContentView: View {
     // If logged in main page should be displayed
     var body: some View {
         NavigationView {
-            if(appState.internetConnection) {
-                if(appState.logged) {
-                    MainView().navigationTitle("inMotion")
-                            .environmentObject(appState)
+            if(appState.initAppReady) {
+                if(appState.internetConnection) {
+                    if (appState.logged) {
+                        MainView().navigationTitle("inMotion")
+                                .environmentObject(appState)
+                    } else {
+                        LoginView().environmentObject(appState);
+                    }
+
                 } else {
-                    LoginView().environmentObject(appState);
+                    Text("No internet connection")
                 }
             } else {
-                //TODO: Create view if no internet
-                Text("No internet connection")
+                Text("INIT PAGE")
             }
         }.onAppear{
             monitor.start(queue: DispatchQueue.main)
@@ -38,9 +42,23 @@ struct ContentView: View {
                 if path.status == .satisfied {
                     appState.internetConnection = true
                     appState.internetConnectionViaCellular = path.isExpensive
+                    if (appState.token != nil) {
+                        appState.getLoggedInUserHttpRequest(
+                            successGetUserAction: {(data: UserInfoDto) in
+                                appState.logged = true
+                                appState.initAppReady = true
+                            },
+                            failureGetUserAction: {(error: ImsHttpError) in
+                                appState.logged = false
+                                appState.initAppReady = true
+                            })
+                    } else {
+                        appState.initAppReady = true
+                    }
                 } else {
                     appState.internetConnection = false
                     appState.internetConnectionViaCellular = false
+                    appState.initAppReady = true
                 }
             }
         }.onDisappear {

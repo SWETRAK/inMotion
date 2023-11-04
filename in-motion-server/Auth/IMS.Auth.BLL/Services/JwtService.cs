@@ -76,7 +76,7 @@ public class JwtService: IJwtService
             throw new IncorrectTokenUserIdException();
         }
 
-        var user = await _userRepository.GetByIdAsync(userId);
+        var user = await _userRepository.GetByIdWithProvidersAsync(userId);
         if (user is null)
         {
             throw new IncorrectTokenUserIdException();

@@ -20,9 +20,7 @@ struct MainView: View {
 //                }
             }
             Button("Logout") {
-                self.appState.logged = false
-                self.appState.user = nil
-                self.appState.token = nil
+                self.appState.logOut()
             }
         }.toolbar {
             ToolbarItem(placement: .primaryAction) {

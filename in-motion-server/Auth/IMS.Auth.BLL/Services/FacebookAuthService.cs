@@ -14,6 +14,7 @@ using IMS.Shared.Messaging.Messages.Email.Auth;
 using IMS.Shared.Models.Exceptions;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
 namespace IMS.Auth.BLL.Services;
@@ -65,6 +66,7 @@ public class FacebookAuthService : IFacebookAuthService
         var user = await CheckProvider(authenticateWithFacebookProviderDto, facebookResponseData);
         var responseData = _mapper.Map<UserInfoDto>(user);
         responseData.Token = _jwtServices.GenerateJwtToken(user);
+        responseData.Providers = GetProvidersInfo(user);
         
         await _publishEndpoint.Publish<ImsBaseMessage<UserLoggedInEmailMessage>>(new ImsBaseMessage<UserLoggedInEmailMessage>
         {
@@ -97,7 +99,7 @@ public class FacebookAuthService : IFacebookAuthService
         
         await GetFacebookUserAsync(authenticateWithFacebookProviderDto.Token);
         
-        var user = await _userRepository.GetByIdAsync(userId);
+        var user = await _userRepository.GetByIdWithProvidersAsync(userId);
         if (user is null) throw new UserNotFoundException();
 
         if (user.Providers is null)
@@ -216,5 +218,22 @@ public class FacebookAuthService : IFacebookAuthService
             throw new UserNotFoundException(provider.User.Email);
         
         return provider.User;
+    }
+    
+    public List<string> GetProvidersInfo(User user)
+    {
+        var providers = new List<string>();
+
+        if (!user.HashedPassword.IsNullOrEmpty())
+        {
+            providers.Add("Password");
+        }
+
+        if (!user.Providers.IsNullOrEmpty())
+        {
+            providers.AddRange(user.Providers.Select(provider => provider.Name.ToString()));
+        }
+        
+        return providers;
     }
 }
