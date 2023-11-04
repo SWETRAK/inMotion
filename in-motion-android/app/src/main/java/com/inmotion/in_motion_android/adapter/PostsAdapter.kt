@@ -1,10 +1,13 @@
-package com.inmotion.in_motion_android
+package com.inmotion.in_motion_android.adapter
 
-import android.content.res.Resources
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.VideoView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.inmotion.in_motion_android.R
+import com.inmotion.in_motion_android.data.PostDto
 import com.inmotion.in_motion_android.databinding.PostRecyclerViewItemBinding
 
 class PostsAdapter(private val postsList: List<PostDto>) :
@@ -13,12 +16,20 @@ class PostsAdapter(private val postsList: List<PostDto>) :
     inner class PostsViewHolder(private val itemBinding: PostRecyclerViewItemBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
         fun bindItem(post: PostDto) {
-            this.layoutPosition
             itemBinding.tvUsername.text = post.username
             itemBinding.tvLocationAndTime.text = "${post.location}, ${post.time}"
             itemBinding.defaultBackPostVideo.setVideoURI(post.backVideoPath)
             itemBinding.defaultFrontPostVideo.setVideoURI(post.frontVideoPath)
-            itemBinding.tvLikeCount.text = post.likeCount.toString()
+            itemBinding.btnLove.text = post.loveCount.toString()
+            itemBinding.btnLaugh.text = post.laughCount.toString()
+            itemBinding.btnWow.text = post.wowCount.toString()
+            itemBinding.btnCrying.text = post.cryingCount.toString()
+
+            itemBinding.ivComment.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putSerializable("POST", post)
+                it.findNavController().navigate(R.id.action_mainFragment_to_postDetailsFragment, bundle)
+            }
 
             itemBinding.defaultBackPostVideo.setOnPreparedListener {
                 it.isLooping = true
