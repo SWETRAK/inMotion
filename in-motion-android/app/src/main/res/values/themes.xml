@@ -1,14 +1,17 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.Inmotionandroid" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.Inmotionandroid" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary</item>
         <item name="android:windowBackground">@color/background</item>
         <item name="android:textColorHint">@color/white</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:colorButtonNormal">@color/primary</item>
         <item name="android:fontFamily">@font/quicksand</item>
         <item name="dividerColor">@color/primary</item>
+        <item name="tabTextColor">@color/white</item>
+        <item name="tabSelectedTextColor">@color/primary</item>
     </style>
     <style name="FilledBoxEndIconTint" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="endIconTint">@color/white</item>

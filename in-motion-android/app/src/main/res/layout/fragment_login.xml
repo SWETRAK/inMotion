@@ -4,8 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".LoginActivity">
+    android:paddingTop="16dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    tools:context=".fragment.authorisation.LoginFragment">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivSettings"
@@ -99,7 +101,7 @@
         app:layout_constraintStart_toEndOf="@id/ivLoginWithFacebook"
         app:layout_constraintTop_toBottomOf="@id/divider" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
