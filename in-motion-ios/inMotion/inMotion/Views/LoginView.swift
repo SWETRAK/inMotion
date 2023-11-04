@@ -93,16 +93,16 @@ struct LoginView: View {
                         }.frame(alignment: .center)
                     }
 
-                    Button {
-                        print("facebook")
-                    } label: {
-                        HStack{
-                            Image("facebook-logo")
-                                    .resizable()
-                                    .frame(width: 50, height: 50)
-                            Text("Login with facebook")
-                        }.frame(alignment: .center)
-                    }
+//                    Button {
+//                        print("facebook")
+//                    } label: {
+//                        HStack{
+//                            Image("facebook-logo")
+//                                    .resizable()
+//                                    .frame(width: 50, height: 50)
+//                            Text("Login with facebook")
+//                        }.frame(alignment: .center)
+//                    }
                 }
             }.frame(alignment: .center)
             NavigationLink("Register new account", destination: RegisterView().environmentObject(appState))
