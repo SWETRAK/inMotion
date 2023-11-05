@@ -59,14 +59,14 @@ services:
       dockerfile: ./ImsGateway/development.Dockerfile
     container_name: inMotion_imsGateway
     ports:
-      - "80:80"
-      - "443:443"
+      - "8081:80"
+#      - "443:443"
     environment:
-      - ASPNETCORE_URLS=https://+:443;http://+:80
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
-    volumes:
-      - ~/.aspnet/https:/https:ro
+      - ASPNETCORE_URLS=http://+:80
+#      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+#      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+#    volumes:
+#      - ~/.aspnet/https:/https:ro
     networks:
       - backend
     links:
