@@ -37,7 +37,12 @@ public class ProviderRepository: IProviderRepository
             .Providers
             .FirstOrDefaultAsync(x => x.Id == providerId);
     }
-    
+
+    public async Task Insert(Provider provider)
+    {
+        await _context.Providers.AddAsync(provider);
+    }
+
     public async Task Save()
     {
         await _context.SaveChangesAsync();

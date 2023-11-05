@@ -1,127 +1,164 @@
-//
-//  LoginView.swift
-//  inMotion
-//
-//  Created by Kamil Pietrak on 06/06/2023.
-//
-
 import SwiftUI
-import CoreData
+import GoogleSignIn
 
 struct LoginView: View {
-    @Environment(\.managedObjectContext) private var viewContext
+
     @EnvironmentObject private var appState: AppState
-    
+
     @State private var email: String = ""
     @State private var password: String = ""
+
+    @State private var showAlert: Bool = false
+
     @State private var emailError: Bool = false
     @State private var passwordError: Bool = false
     @State private var loginError: Bool = false
-    
+    @State private var communicationError: Bool = false
+
+
+
     var body: some View {
         VStack {
             Spacer()
             Text("inMotion").font(.custom("Roboto", fixedSize: 50))
-            
             Spacer()
-            
-            VStack(spacing: 20.0) {
-                if self.loginError {
-                    Text("Incorect login data")
-                }
-                VStack {
-                    if self.emailError {
-                        Text("Incorect email address")
-                    }
-                    TextField("Email", text: $email,  onEditingChanged: { (isChanged) in
-                        if(!isChanged) {
-                            self.ValidateEmail()
-                        }
-                    })
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .textInputAutocapitalization(.never)
-                }
-    
-                VStack {
-                    if self.passwordError {
-                        Text("Incorrect password")
-                    }
+
+            Form {
+                Section(header: Text("Login with email")) {
+                    TextField("Email", text: $email)
+                            .keyboardType(.emailAddress)
+                            .textInputAutocapitalization(.never)
+                            .disableAutocorrection(true)
+
                     SecureField("Password", text: $password)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
-                
-                Button("Login with email") {
-                    let user = LoginUser()
-                    if let safeUser = user {
-                        self.appState.logged = true
-                        self.appState.user = safeUser
+
+                    Button("Login with email") {
+                        self.ValidatePassword()
+                        self.ValidateEmail()
+                        if (!self.emailError && !self.passwordError) {
+                            appState.loginWithEmailAndPasswordHttpRequest(requestData: LoginUserWithEmailAndPasswordDto(email: email, password: password),
+                                    successLoginAction: { (userInfoDto) in
+                                        self.loginError = false
+                                    },
+                                    failureLoginAction: { (httpError) in
+                                        if (httpError.status == 404) {
+                                            self.showAlert = true
+                                            self.loginError = true
+                                        } else if (httpError.status == 500) {
+                                            self.showAlert = true
+                                            self.communicationError = true
+                                        }
+                                    })
+                        }
                     }
                 }
-                
-                Divider()
-                
-                HStack{
-                    Spacer()
+                Section(header: Text("Social login")) {
                     Button {
+                        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+                        guard let rootViewController = windowScene.windows.first?.rootViewController else { return }
+                        let signInConfig = GIDConfiguration(clientID: "435519606946-0d3d75lo1askeorlrn21355csa1hsd9h.apps.googleusercontent.com")
                         
+                        GIDSignIn.sharedInstance.configuration = signInConfig
+                        
+                        GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController ) { (user, error )in
+
+                            guard let user = user else {
+                                return
+                            }
+
+                            if let userID = user.user.userID {
+                                if let idToken = user.user.idToken {
+                                    appState.loginWithGoogleHttpRequest(requestData: AuthenticateWithGoogleProviderDto(userId: userID, token: idToken.tokenString),
+                                        successRegisterWithGoogle: {(data: UserInfoDto) in
+                                            self.loginError = false
+                                        },
+                                        failureRegisterWithGoogle: {(error: ImsHttpError) in
+                                            if(error.status == 401) {
+                                                self.showAlert = true
+                                                self.loginError = true
+                                            } else if (error.status == 500) {
+                                                self.showAlert = true
+                                                self.communicationError = true
+                                            }
+                                        })
+                                }
+                            }
+                        }
                     } label: {
-                        Image("google-logo")
-                            .resizable()
-                            .frame(width: 50, height: 50)
+                        HStack{
+                            Image("google-logo")
+                                    .resizable()
+                                    .frame(width: 50, height: 50)
+                            Text("Login with google")
+                        }.frame(alignment: .center)
                     }
 
-                    Spacer()
-                    
-                    Button {
-                        
-                    } label: {
-                        Image("facebook-logo")
-                            .resizable()
-                            .frame(width: 50, height: 50)
-                    }
-                    
-                    Spacer()
+//                    Button {
+//                        print("facebook")
+//                    } label: {
+//                        HStack{
+//                            Image("facebook-logo")
+//                                    .resizable()
+//                                    .frame(width: 50, height: 50)
+//                            Text("Login with facebook")
+//                        }.frame(alignment: .center)
+//                    }
                 }
-            }
-            
-            Spacer()
-            
+            }.frame(alignment: .center)
             NavigationLink("Register new account", destination: RegisterView().environmentObject(appState))
-        }
-        .padding()
-        .navigationBarHidden(true)
-    }
-    
-    private func LoginUser() -> User? {
-        let request: NSFetchRequest<User> = User.fetchRequest()
-        let predictate = NSPredicate(format: "email == %@ AND password == %@", self.email, self.password)
-        request.predicate = predictate
-        do {
-            let result = try viewContext.fetch(request)
-            if(result.count == 1) {
-                self.loginError = false
-                return result[0]
+        }.navigationBarHidden(true)
+        .alert(isPresented: $showAlert) {
+            if (self.communicationError) {
+                return Alert(
+                        title: Text("No communication with server"),
+                        message: Text("We have internal server problems, we work on them"),
+                        dismissButton: .default(Text("Ok")) {
+                            self.communicationError = false
+                        }
+                )
+            } else if (self.emailError) {
+                return Alert(
+                        title: Text("Incorrect email address"),
+                        dismissButton: .default(Text("Ok")) {
+                            self.emailError = false
+                        }
+                )
+            } else if (self.passwordError) {
+                return Alert(
+                        title: Text("Incorrect password"),
+                        dismissButton: .default(Text("Ok")) {
+                            self.passwordError = false
+                        }
+                )
+            } else {
+                return Alert(
+                        title: Text("Incorrect login data or user already exists"),
+                        dismissButton: .default(Text("Ok")) {
+                            self.loginError = false
+                        }
+                )
             }
-        } catch {
-            print("Error fetching data from context \(error)")
         }
-        self.loginError = true
-        return nil
     }
-    
-    private func ValidateEmail(){
-        if(self.email.isEmpty) {
+
+    private func ValidateEmail() {
+        if (self.email.isEmpty) {
+            self.showAlert = true
             self.emailError = true
         } else {
             let emailFormat = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-            let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
+            let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailFormat)
             self.emailError = !emailPredicate.evaluate(with: self.email)
+            if (self.emailError) {
+                self.showAlert = true
+            }
         }
     }
-    
+
     private func ValidatePassword() {
-        if(self.password.isEmpty) {
+        if (self.password.isEmpty) {
             self.passwordError = true
+            self.showAlert = true
         } else {
             self.passwordError = false
         }

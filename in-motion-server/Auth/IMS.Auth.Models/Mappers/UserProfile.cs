@@ -15,6 +15,7 @@ public class UserProfile: Profile
             .ForMember(dto => dto.Email, opt => opt.MapFrom(u => u.Email))
             .ForMember(dto => dto.Nickname, opt => opt.MapFrom(u => u.Nickname))
             .ForMember(dto => dto.Id, opt => opt.MapFrom(u => u.Id.ToString()))
+            .ForMember(dto => dto.Providers, opt => opt.Ignore())
             .ForMember(dto => dto.Token, opt => opt.Ignore());
 
         CreateMap<UserSuccessfulJwtValidation, ValidatedUserInfoMessage>()

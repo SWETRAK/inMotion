@@ -73,7 +73,7 @@ public class EmailAuthController: ControllerBase
             Status = StatusCodes.Status204NoContent
         });
     }
-
+    [Authorize]
     [HttpPut("password/add")]
     public async Task<ActionResult<ImsHttpMessage<bool>>> SetPasswordForExistingAccount(AddPasswordDto addPasswordDto)
     {

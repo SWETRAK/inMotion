@@ -6,24 +6,21 @@
 //
 
 import SwiftUI
-import CoreData
 
 struct MainView: View {
-    @Environment(\.managedObjectContext) private var viewContext
+
     @EnvironmentObject private var appState: AppState
-    
-    @State private var posts: [Post] = []
     
     var body: some View {
         VStack{
+            Text(appState.user?.email ?? "")
             ScrollView() {
-                ForEach(posts, id:\.id) { post in
-                    MainWallPost().environmentObject(appState).environmentObject(post)
-                }
+//                ForEach(posts, id:\.id) { post in
+//                    MainWallPost().environmentObject(appState).environmentObject(post)
+//                }
             }
             Button("Logout") {
-                self.appState.logged = false
-                self.appState.user = nil
+                self.appState.logOut()
             }
         }.toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -33,19 +30,18 @@ struct MainView: View {
                     Image(systemName: "person.2.fill")
                 }.buttonStyle(.plain)
             }
+            ToolbarItem(placement: .secondaryAction) {
+                NavigationLink {
+                    LoggedUserDetailsView().environmentObject(appState)
+                } label: {
+                    Text("User")
+                }
+            }
         }.onAppear{
-            LoadPosts()
+            //TODO: Load Posts
         }
     }
-    
-    private func LoadPosts() {
-        let request: NSFetchRequest<Post> = Post.fetchRequest()
-        do {
-            self.posts = try viewContext.fetch(request)
-        } catch {
-            print("Error fetching data from context \(error)")
-        }
-    }
+
 }
 
 struct MainView_Previews: PreviewProvider {

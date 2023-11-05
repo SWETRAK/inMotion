@@ -1,4 +1,5 @@
 using AutoMapper;
+using IMS.Auth.Domain.Entities;
 using IMS.Auth.IBLL.Services;
 using IMS.Auth.IDAL.Repositories;
 using IMS.Auth.Models.Dto.Incoming;
@@ -6,6 +7,7 @@ using IMS.Auth.Models.Dto.Outgoing;
 using IMS.Auth.Models.Exceptions;
 using IMS.Shared.Models.Exceptions;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 
 namespace IMS.Auth.BLL.Services;
 
@@ -31,9 +33,14 @@ public class UserService: IUserService
 
     public async Task<UserInfoDto> UpdateUserEmail(UpdateEmailDto updateEmailDto, string userIdString)
     {
-        if(Guid.TryParse(userIdString, out var userIdGuid)) throw new UserGuidStringEmptyException();
-        var user = await _userRepository.GetByIdAsync(userIdGuid);
+        if(!Guid.TryParse(userIdString, out var userIdGuid)) throw new UserGuidStringEmptyException();
+        var user = await _userRepository.GetByIdWithProvidersAsync(userIdGuid);
         if (user is null) throw new UserNotFoundException();
+
+        var checkUser = await _userRepository.GetByEmailAsync(updateEmailDto.Email);
+
+        if (checkUser is not null)
+            throw new UserWithEmailAlreadyExistsException();
 
         user.Email = updateEmailDto.Email;
         await _userRepository.Save();
@@ -41,13 +48,14 @@ public class UserService: IUserService
         
         var result = _mapper.Map<UserInfoDto>(user);
         result.Token = _jwtService.GenerateJwtToken(user);
+        result.Providers = GetProvidersInfo(user);
         return result;
     }
 
     public async Task<UserInfoDto> UpdateUserNickname(UpdateNicknameDto updateNicknameDto, string userIdString)
     {
-        if(Guid.TryParse(userIdString, out var userIdGuid)) throw new UserGuidStringEmptyException();
-        var user = await _userRepository.GetByIdAsync(userIdGuid);
+        if(!Guid.TryParse(userIdString, out var userIdGuid)) throw new UserGuidStringEmptyException();
+        var user = await _userRepository.GetByIdWithProvidersAsync(userIdGuid);
         if (user is null) throw new UserNotFoundException();
 
         user.Nickname = updateNicknameDto.Nickname;
@@ -56,16 +64,21 @@ public class UserService: IUserService
         
         var result = _mapper.Map<UserInfoDto>(user);
         result.Token = _jwtService.GenerateJwtToken(user);
+        result.Providers = GetProvidersInfo(user);
         return result;
     }
 
     public async Task<UserInfoDto> GetUserInfo(string userIdString)
     {
-        if (Guid.TryParse(userIdString, out var userIdGuid))
+        if (!Guid.TryParse(userIdString, out var userIdGuid))
             throw new InvalidGuidStringException();
 
-        var user = await _userRepository.GetByIdAsync(userIdGuid);
-        return _mapper.Map<UserInfoDto>(user);
+        var user = await _userRepository.GetByIdWithProvidersAsync(userIdGuid);
+        
+        var userInfoDto =  _mapper.Map<UserInfoDto>(user);
+        userInfoDto.Token = _jwtService.GenerateJwtToken(user);
+        userInfoDto.Providers = GetProvidersInfo(user);
+        return userInfoDto;
     }
 
     public async Task<IEnumerable<UserInfoDto>> GetUsersInfo(IEnumerable<string> userIdStrings)
@@ -79,6 +92,24 @@ public class UserService: IUserService
 
         var users = await _userRepository.GetManyByIdRangeAsync(userIdGuids);
 
+
         return _mapper.Map<IEnumerable<UserInfoDto>>(users);
+    }
+
+    public List<string> GetProvidersInfo(User user)
+    {
+        var providers = new List<string>();
+
+        if (!user.HashedPassword.IsNullOrEmpty())
+        {
+            providers.Add("Password");
+        }
+
+        if (!user.Providers.IsNullOrEmpty())
+        {
+            providers.AddRange(user.Providers.Select(provider => provider.Name.ToString()));
+        }
+        
+        return providers;
     }
 }

@@ -9,8 +9,12 @@ using IMS.Auth.Models.Dto.Incoming;
 using IMS.Auth.Models.Dto.Outgoing;
 using IMS.Auth.Models.Exceptions;
 using IMS.Auth.Models.Models;
+using IMS.Shared.Messaging.Messages;
+using IMS.Shared.Messaging.Messages.Email.Auth;
 using IMS.Shared.Models.Exceptions;
+using MassTransit;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
 namespace IMS.Auth.BLL.Services;
@@ -23,6 +27,8 @@ public class FacebookAuthService : IFacebookAuthService
     private readonly IMapper _mapper;
     private readonly HttpClient _httpClient;
     private readonly IJwtService _jwtServices;
+    
+    private readonly IPublishEndpoint _publishEndpoint;
 
     private const string FacebookBaseUri = "https://graph.facebook.com/v8.0";
 
@@ -31,14 +37,14 @@ public class FacebookAuthService : IFacebookAuthService
         IUserRepository userRepository,
         IProviderRepository providerRepository,
         IMapper mapper, 
-        IJwtService jwtServices
-        )
+        IJwtService jwtServices, IPublishEndpoint publishEndpoint)
     {
         _logger = logger;
         _userRepository = userRepository;
         _providerRepository = providerRepository;
         _mapper = mapper;
         _jwtServices = jwtServices;
+        _publishEndpoint = publishEndpoint;
 
         _httpClient = new HttpClient
         {
@@ -60,6 +66,16 @@ public class FacebookAuthService : IFacebookAuthService
         var user = await CheckProvider(authenticateWithFacebookProviderDto, facebookResponseData);
         var responseData = _mapper.Map<UserInfoDto>(user);
         responseData.Token = _jwtServices.GenerateJwtToken(user);
+        responseData.Providers = GetProvidersInfo(user);
+        
+        await _publishEndpoint.Publish<ImsBaseMessage<UserLoggedInEmailMessage>>(new ImsBaseMessage<UserLoggedInEmailMessage>
+        {
+            Data = new UserLoggedInEmailMessage
+            {
+                Email = user.Email,
+                LoggedDate = DateTime.UtcNow
+            }
+        });
         
         _logger.LogInformation("User successfully logged in with email {Email}", user.Email);
         return responseData;
@@ -83,7 +99,7 @@ public class FacebookAuthService : IFacebookAuthService
         
         await GetFacebookUserAsync(authenticateWithFacebookProviderDto.Token);
         
-        var user = await _userRepository.GetByIdAsync(userId);
+        var user = await _userRepository.GetByIdWithProvidersAsync(userId);
         if (user is null) throw new UserNotFoundException();
 
         if (user.Providers is null)
@@ -175,8 +191,8 @@ public class FacebookAuthService : IFacebookAuthService
         {
             Email = payload.Email,
             Nickname = $"{payload.FirstName} {payload.LastName}",
-            ConfirmedAccount = false,
-            ActivationToken = activationCode,
+            ConfirmedAccount = true,
+            ActivationToken = string.Empty,
             Role = Roles.User ,
             Providers = new List<Provider> {newProvider}
         };
@@ -202,5 +218,22 @@ public class FacebookAuthService : IFacebookAuthService
             throw new UserNotFoundException(provider.User.Email);
         
         return provider.User;
+    }
+    
+    public List<string> GetProvidersInfo(User user)
+    {
+        var providers = new List<string>();
+
+        if (!user.HashedPassword.IsNullOrEmpty())
+        {
+            providers.Add("Password");
+        }
+
+        if (!user.Providers.IsNullOrEmpty())
+        {
+            providers.AddRange(user.Providers.Select(provider => provider.Name.ToString()));
+        }
+        
+        return providers;
     }
 }
