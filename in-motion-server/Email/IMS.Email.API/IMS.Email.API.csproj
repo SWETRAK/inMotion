@@ -15,6 +15,7 @@
     <ItemGroup>
       <ProjectReference Include="..\IMS.Email.BLL\IMS.Email.BLL.csproj" />
       <ProjectReference Include="..\IMS.Email.IBLL\IMS.Email.IBLL.csproj" />
+      <ProjectReference Include="..\IMS.Email.Models\IMS.Email.Models.csproj" />
     </ItemGroup>
 
 

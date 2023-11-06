@@ -7,6 +7,7 @@ using IMS.Auth.IBLL.Services;
 using IMS.Auth.IDAL.Repositories;
 using IMS.Auth.Models.Exceptions;
 using IMS.Auth.Models.Models;
+using IMS.Shared.Utils.Parsers;
 using Microsoft.IdentityModel.Tokens;
 
 namespace IMS.Auth.BLL.Services;
@@ -71,11 +72,8 @@ public class JwtService: IJwtService
             throw new WrongTokenException();
         }
 
-        if (!Guid.TryParse(jwtToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value, out var userId))
-        {
-            throw new IncorrectTokenUserIdException();
-        }
-
+        var userId = jwtToken.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value.ParseGuid();
+        
         var user = await _userRepository.GetByIdWithProvidersAsync(userId);
         if (user is null)
         {

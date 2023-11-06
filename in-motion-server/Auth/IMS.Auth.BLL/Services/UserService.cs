@@ -6,6 +6,7 @@ using IMS.Auth.Models.Dto.Incoming;
 using IMS.Auth.Models.Dto.Outgoing;
 using IMS.Auth.Models.Exceptions;
 using IMS.Shared.Models.Exceptions;
+using IMS.Shared.Utils.Parsers;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
@@ -33,7 +34,7 @@ public class UserService: IUserService
 
     public async Task<UserInfoDto> UpdateUserEmail(UpdateEmailDto updateEmailDto, string userIdString)
     {
-        if(!Guid.TryParse(userIdString, out var userIdGuid)) throw new UserGuidStringEmptyException();
+        var userIdGuid = userIdString.ParseGuid();
         var user = await _userRepository.GetByIdWithProvidersAsync(userIdGuid);
         if (user is null) throw new UserNotFoundException();
 
@@ -54,7 +55,7 @@ public class UserService: IUserService
 
     public async Task<UserInfoDto> UpdateUserNickname(UpdateNicknameDto updateNicknameDto, string userIdString)
     {
-        if(!Guid.TryParse(userIdString, out var userIdGuid)) throw new UserGuidStringEmptyException();
+        var userIdGuid = userIdString.ParseGuid();
         var user = await _userRepository.GetByIdWithProvidersAsync(userIdGuid);
         if (user is null) throw new UserNotFoundException();
 
@@ -70,9 +71,7 @@ public class UserService: IUserService
 
     public async Task<UserInfoDto> GetUserInfo(string userIdString)
     {
-        if (!Guid.TryParse(userIdString, out var userIdGuid))
-            throw new InvalidGuidStringException();
-
+        var userIdGuid = userIdString.ParseGuid();
         var user = await _userRepository.GetByIdWithProvidersAsync(userIdGuid);
         
         var userInfoDto =  _mapper.Map<UserInfoDto>(user);
@@ -83,16 +82,10 @@ public class UserService: IUserService
 
     public async Task<IEnumerable<UserInfoDto>> GetUsersInfo(IEnumerable<string> userIdStrings)
     {
-        var userIdGuids = userIdStrings.Select(s =>
-        {
-            if (!Guid.TryParse(s, out var userIdGuid))
-                throw new InvalidGuidStringException();
-            return userIdGuid;
-        });
+        var userIdGuids = userIdStrings.Select(s => s.ParseGuid());
 
         var users = await _userRepository.GetManyByIdRangeAsync(userIdGuids);
-
-
+        
         return _mapper.Map<IEnumerable<UserInfoDto>>(users);
     }
 

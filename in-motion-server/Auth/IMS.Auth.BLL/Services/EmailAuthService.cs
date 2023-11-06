@@ -9,6 +9,7 @@ using IMS.Auth.Models.Exceptions;
 using IMS.Shared.Messaging.Messages;
 using IMS.Shared.Messaging.Messages.Email.Auth;
 using IMS.Shared.Models.Exceptions;
+using IMS.Shared.Utils.Parsers;
 using MassTransit;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -142,7 +143,7 @@ public class EmailAuthService : IEmailAuthService
 
     public async Task<bool> UpdatePassword(UpdatePasswordDto updatePasswordDto, string userIdString)
     {
-        if (!Guid.TryParse(userIdString, out var userIdGuid)) throw new UserGuidStringEmptyException();
+        var userIdGuid = userIdString.ParseGuid();
         var user = await _userRepository.GetByIdWithProvidersAsync(userIdGuid);
 
         if (user is null) throw new UserNotFoundException();
@@ -159,7 +160,7 @@ public class EmailAuthService : IEmailAuthService
 
     public async Task<bool> AddPasswordToExistingAccount(AddPasswordDto addPasswordDto, string userIdString)
     {
-        if (!Guid.TryParse(userIdString, out var userIdGuid)) throw new UserGuidStringEmptyException();
+        var userIdGuid = userIdString.ParseGuid();
         var user = await _userRepository.GetByIdWithProvidersAsync(userIdGuid);
         if (user is null) throw new UserNotFoundException();
 

@@ -2,6 +2,7 @@ using AutoMapper;
 using IMS.Shared.Messaging.Messages;
 using IMS.Shared.Messaging.Messages.JWT;
 using IMS.Shared.Models.Exceptions;
+using IMS.Shared.Utils.Parsers;
 using IMS.User.Domain.Entities;
 using IMS.User.IBLL.Services;
 using IMS.User.IDAL.Repositories;
@@ -38,7 +39,7 @@ public class UserService : IUserService
 
     public async Task<FullUserInfoDto> GetFullUserInfoAsync(string userIdString)
     {
-        if (Guid.TryParse(userIdString, out var userIdGuid))
+        if (!Guid.TryParse(userIdString, out var userIdGuid))
             throw new InvalidGuidStringException();
 
         var rabbitData = await GetBaseUserInfo(userIdString);
@@ -62,7 +63,7 @@ public class UserService : IUserService
     {
         var userIdGuids = userIds.Select(s =>
         {
-            if (Guid.TryParse(s, out var userIdGuid))
+            if (!Guid.TryParse(s, out var userIdGuid))
                 throw new InvalidGuidStringException($"Invalid parse for id {s}");
             return userIdGuid;
         });
@@ -87,7 +88,7 @@ public class UserService : IUserService
 
     public async Task<UpdatedUserBioDto> UpdateBioAsync(string userId, UpdateUserBioDto updateUserBioDto)
     {
-        var userIdGuid = Guid.Parse(userId);
+        var userIdGuid = userId.ParseGuid();
 
         var userMetas = await _userMetasRepository.GetByExternalUserIdAsync(userIdGuid);
         if (userMetas is null)

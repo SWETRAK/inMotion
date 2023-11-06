@@ -6,6 +6,7 @@ using IMS.Friends.IDAL.Repositories;
 using IMS.Friends.Models.Dto.Outgoing;
 using IMS.Friends.Models.Exceptions;
 using IMS.Shared.Models.Exceptions;
+using IMS.Shared.Utils.Parsers;
 using Microsoft.Extensions.Logging;
 
 namespace IMS.Friends.BLL.Services;
@@ -33,8 +34,8 @@ public class FriendsService : IFriendsService
 
     public async Task<string> GetFriendshipStatus(string userIdString, string externalUserIdString)
     {
-        if (!Guid.TryParse(userIdString, out var userIdGuid)) throw new InvalidGuidStringException();
-        if (!Guid.TryParse(externalUserIdString, out var externalUserIdGuid)) throw new InvalidGuidStringException();
+        var userIdGuid = userIdString.ParseGuid();
+        var externalUserIdGuid = externalUserIdString.ParseGuid();
         
         var relation = await _friendshipRepository.GetByUsersId(userIdGuid, externalUserIdGuid);
         return relation is null ? FriendshipStatus.Unknown.ToString() : relation.Status.ToString();
@@ -42,8 +43,8 @@ public class FriendsService : IFriendsService
 
     public async Task<RequestFriendshipDto> CreateFriendshipRequest(string userString, string externalUserString)
     {
-        if (!Guid.TryParse(userString, out var userIdGuid)) throw new InvalidGuidStringException();
-        if (!Guid.TryParse(externalUserString, out var externalUserIdGuid)) throw new InvalidGuidStringException();
+        var userIdGuid = externalUserString.ParseGuid();
+        var externalUserIdGuid = externalUserString.ParseGuid();
         
         var relation = await _friendshipRepository.GetByUsersId(userIdGuid, externalUserIdGuid);
         var externalUserResponse = await _userService.GetUserByIdArray(externalUserIdGuid);
@@ -61,8 +62,8 @@ public class FriendsService : IFriendsService
 
     public async Task<AcceptedFriendshipDto> AcceptFriendshipInvitation(string userIdString, string friendshipIdString)
     {
-        if (!Guid.TryParse(userIdString, out var userIdGuid)) throw new InvalidGuidStringException();
-        if (!Guid.TryParse(friendshipIdString, out var friendshipIdGuid)) throw new InvalidGuidStringException();
+        var userIdGuid = friendshipIdString.ParseGuid();
+        var friendshipIdGuid = friendshipIdString.ParseGuid();
 
         var relation = await _friendshipRepository.GetById(friendshipIdGuid);
         if (
@@ -89,8 +90,8 @@ public class FriendsService : IFriendsService
 
     public async Task<RejectedFriendshipDto> RejectFriendshipInvitation(string userIdString, string friendshipIdString)
     {
-        if (!Guid.TryParse(userIdString, out var userIdGuid)) throw new InvalidGuidStringException();
-        if (!Guid.TryParse(friendshipIdString, out var friendshipIdGuid)) throw new InvalidGuidStringException();
+        var userIdGuid = userIdString.ParseGuid();
+        var friendshipIdGuid = friendshipIdString.ParseGuid();
 
         var relation = await _friendshipRepository.GetById(friendshipIdGuid);
         if (
@@ -117,8 +118,8 @@ public class FriendsService : IFriendsService
 
     public async Task<RejectedFriendshipDto> UnfriendExistingFriendship(string userIdString, string friendshipIdString)
     {
-        if (!Guid.TryParse(userIdString, out var userIdGuid)) throw new InvalidGuidStringException();
-        if (!Guid.TryParse(friendshipIdString, out var friendshipIdGuid)) throw new InvalidGuidStringException();
+        userIdString.ParseGuid();
+        var friendshipIdGuid = friendshipIdString.ParseGuid();
      
 
         var relation = await _friendshipRepository.GetById(friendshipIdGuid);
@@ -143,8 +144,8 @@ public class FriendsService : IFriendsService
 
     public async Task RevertFriendshipInvitation(string userIdString, string friendshipIdString)
     {
-        if (!Guid.TryParse(userIdString, out var userIdGuid)) throw new InvalidGuidStringException();
-        if (!Guid.TryParse(friendshipIdString, out var friendshipIdGuid)) throw new InvalidGuidStringException();
+        var userIdGuid = userIdString.ParseGuid();
+        var friendshipIdGuid = friendshipIdString.ParseGuid();
 
         var relation = await _friendshipRepository.GetById(friendshipIdGuid);
         if (relation is null ||

@@ -12,6 +12,7 @@ using IMS.Auth.Models.Models;
 using IMS.Shared.Messaging.Messages;
 using IMS.Shared.Messaging.Messages.Email.Auth;
 using IMS.Shared.Models.Exceptions;
+using IMS.Shared.Utils.Parsers;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -95,7 +96,7 @@ public class FacebookAuthService : IFacebookAuthService
     {
 
         if (userIdString is null) throw new InvalidGuidStringException();
-        if (!Guid.TryParse(userIdString, out var userId)) throw new UserGuidStringEmptyException();
+        var userId = userIdString.ParseGuid();
         
         await GetFacebookUserAsync(authenticateWithFacebookProviderDto.Token);
         

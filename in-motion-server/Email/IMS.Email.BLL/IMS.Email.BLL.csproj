@@ -21,11 +21,11 @@
     <ItemGroup>
       <ProjectReference Include="..\..\Shared\IMS.Shared.Messaging\IMS.Shared.Messaging.csproj" />
       <ProjectReference Include="..\IMS.Email.IBLL\IMS.Email.IBLL.csproj" />
+      <ProjectReference Include="..\IMS.Email.Models\IMS.Email.Models.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="resources\" />
-      <Folder Include="Middlewares\" />
     </ItemGroup>
 
     <ItemGroup>
