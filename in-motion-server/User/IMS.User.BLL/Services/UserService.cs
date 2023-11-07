@@ -18,16 +18,16 @@ public class UserService : IUserService
     private readonly ILogger<UserService> _logger;
     private readonly IMapper _mapper;
     private readonly IUserMetasRepository _userMetasRepository;
-    private readonly IRequestClient<GetBaseUserInfoMessage> _getBaseUserInfoMessageRequestClient;
-    private readonly IRequestClient<GetBaseUsersInfoMessage> _getBaseUsersInfoMessageRequestClient;
+    private readonly IRequestClient<ImsBaseMessage<GetBaseUserInfoMessage>> _getBaseUserInfoMessageRequestClient;
+    private readonly IRequestClient<ImsBaseMessage<GetBaseUsersInfoMessage>> _getBaseUsersInfoMessageRequestClient;
     private readonly IUserVideoPartService _userVideoPartService;
 
     public UserService(
-        IRequestClient<GetBaseUserInfoMessage> getBaseUserInfoMessageRequestClient,
+        IRequestClient<ImsBaseMessage<GetBaseUserInfoMessage>> getBaseUserInfoMessageRequestClient,
         IUserMetasRepository userMetasRepository,
         IMapper mapper,
         ILogger<UserService> logger, 
-        IRequestClient<GetBaseUsersInfoMessage> getBaseUsersInfoMessageRequestClient, IUserVideoPartService userVideoPartService)
+        IRequestClient<ImsBaseMessage<GetBaseUsersInfoMessage>> getBaseUsersInfoMessageRequestClient, IUserVideoPartService userVideoPartService)
     {
         _getBaseUserInfoMessageRequestClient = getBaseUserInfoMessageRequestClient;
         _userMetasRepository = userMetasRepository;
@@ -44,14 +44,12 @@ public class UserService : IUserService
 
         var rabbitData = await GetBaseUserInfo(userIdString);
         var userMetaData = await _userMetasRepository.GetByExternalUserIdWithProfileVideoAsync(userIdGuid);
-
-        if (userMetaData is null)
-            throw new Exception();
-
+        
         var response = _mapper.Map<GetBaseUserInfoResponseMessage, FullUserInfoDto>(
             rabbitData,
             f => f.AfterMap((src, dest) =>
             {
+                if (userMetaData is null) return;
                 dest.Bio = userMetaData.Bio;
                 dest.UserProfileVideo = _mapper.Map<UserProfileVideoDto>(userMetaData.ProfileVideo);
             }));
@@ -121,11 +119,15 @@ public class UserService : IUserService
 
     private async Task<GetBaseUserInfoResponseMessage> GetBaseUserInfo(string userIdString)
     {
-        var requestBody = ImsBaseMessage<GetBaseUserInfoMessage>.CreateInstance(new GetBaseUserInfoMessage
+        var requestBody = new ImsBaseMessage<GetBaseUserInfoMessage>
         {
-            UserId = userIdString
-        });
+            Data = new GetBaseUserInfoMessage
+            {
+                UserId = userIdString
+            }
 
+        };
+        
         var responseFromRabbitMq = await _getBaseUserInfoMessageRequestClient.GetResponse<ImsBaseMessage<GetBaseUserInfoResponseMessage>>(requestBody);
         if (responseFromRabbitMq.Message.Error)
             throw new NestedRabbitMqRequestException(responseFromRabbitMq.Message.ErrorMessage);

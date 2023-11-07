@@ -33,7 +33,7 @@ public static class LoadConsumers
             
             x.AddConsumer<GetBaseUsersInfoConsumer>().Endpoint(e =>
             {
-                e.Name = EventsBusNames.GetUsersInfoName;
+                e.Name = EventsBusNames.GetBaseUsersInfoName;
             });
             
             x.AddRequestClient<ImsBaseMessage<ActivateAccountEmailMessage>>(new Uri($"exchange:{EventsBusNames.SendAccountActivationEmailName}"));
