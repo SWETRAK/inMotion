@@ -71,6 +71,8 @@
 		862D758A2A3C3BFA00B6D02F /* MapDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862D75892A3C3BFA00B6D02F /* MapDetails.swift */; };
 		8634E2AC2AF2B4A5004989C0 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 8634E2AB2AF2B4A5004989C0 /* GoogleSignIn */; };
 		8634E2AE2AF2B4A5004989C0 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8634E2AD2AF2B4A5004989C0 /* GoogleSignInSwift */; };
+		863725F92AFB99C800C933D6 /* UserAppStateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863725F82AFB99C800C933D6 /* UserAppStateExtension.swift */; };
+		863725FB2AFBB5E000C933D6 /* FriendsAppStateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863725FA2AFBB5E000C933D6 /* FriendsAppStateExtension.swift */; };
 		863A00862AF67DEB001F64B0 /* AddPasswordToAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863A00852AF67DEB001F64B0 /* AddPasswordToAccount.swift */; };
 		863A00882AF68648001F64B0 /* ChangePassword.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863A00872AF68648001F64B0 /* ChangePassword.swift */; };
 		8652380B2A2F21C6002E6605 /* inMotionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8652380A2A2F21C6002E6605 /* inMotionApp.swift */; };
@@ -171,6 +173,8 @@
 		862D75842A3A1E3500B6D02F /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		862D75862A3C38D400B6D02F /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		862D75892A3C3BFA00B6D02F /* MapDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetails.swift; sourceTree = "<group>"; };
+		863725F82AFB99C800C933D6 /* UserAppStateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAppStateExtension.swift; sourceTree = "<group>"; };
+		863725FA2AFBB5E000C933D6 /* FriendsAppStateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsAppStateExtension.swift; sourceTree = "<group>"; };
 		863A00852AF67DEB001F64B0 /* AddPasswordToAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPasswordToAccount.swift; sourceTree = "<group>"; };
 		863A00872AF68648001F64B0 /* ChangePassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePassword.swift; sourceTree = "<group>"; };
 		865238072A2F21C6002E6605 /* inMotion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = inMotion.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -490,6 +494,8 @@
 			children = (
 				25E9F07E1FBA91BF3E84867B /* AppState.swift */,
 				25E9F4C3630E6BF2C1B4EB36 /* AuthAppStateExtension.swift */,
+				863725F82AFB99C800C933D6 /* UserAppStateExtension.swift */,
+				863725FA2AFBB5E000C933D6 /* FriendsAppStateExtension.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -652,6 +658,7 @@
 				8614351F2AF18CF000B45FF5 /* NewPostLocalizationDto.swift in Sources */,
 				8652380D2A2F21C6002E6605 /* ContentView.swift in Sources */,
 				861435382AF1929100B45FF5 /* PostAuthorDto.swift in Sources */,
+				863725F92AFB99C800C933D6 /* UserAppStateExtension.swift in Sources */,
 				861434E12AF180DF00B45FF5 /* AuthenticateWithFacebookProviderDto.swift in Sources */,
 				861434EB2AF182BB00B45FF5 /* UpdateNicknameDto.swift in Sources */,
 				861434F82AF1843000B45FF5 /* UpdateUserBioDto.swift in Sources */,
@@ -682,6 +689,7 @@
 				861434E32AF1813600B45FF5 /* AuthenticateWithGoogleProviderDto.swift in Sources */,
 				8614351B2AF18C7E00B45FF5 /* CreatePostReactionDto.swift in Sources */,
 				8614353F2AF194A400B45FF5 /* PostCommentReactionDto.swift in Sources */,
+				863725FB2AFBB5E000C933D6 /* FriendsAppStateExtension.swift in Sources */,
 				8614353B2AF1930400B45FF5 /* GetPostResponseDto.swift in Sources */,
 				868B7CA62AF52398002A274B /* LoggedUserDetailsView.swift in Sources */,
 				861435322AF1906D00B45FF5 /* PostTagDto.swift in Sources */,
