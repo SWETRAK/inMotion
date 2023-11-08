@@ -47,7 +47,7 @@
           "Port": 80
         }
       ],
-      "DownstreamPathTemplate": "/api/users/{catchAll}"
+      "DownstreamPathTemplate": "/api/{catchAll}"
     },
     {
       "UpstreamPathTemplate": "/users/swagger/index.html",
