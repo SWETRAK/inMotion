@@ -56,7 +56,7 @@ public class GetUsersInfoConsumer : IConsumer<ImsBaseMessage<GetUsersInfoMessage
         }
         finally
         {
-            await context.RespondAsync<ImsBaseMessage<GetUserInfoResponseMessage>>(responseMessage);
+            await context.RespondAsync<ImsBaseMessage<GetUsersInfoResponseMessage>>(responseMessage);
         }
     }
 }

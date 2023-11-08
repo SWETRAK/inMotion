@@ -3,6 +3,7 @@ using IMS.Friends.Domain.Entities;
 using IMS.Friends.IBLL.Services;
 using IMS.Friends.IDAL.Repositories;
 using IMS.Friends.Models.Dto.Outgoing;
+using IMS.Friends.Models.Exceptions;
 using IMS.Shared.Models.Exceptions;
 using IMS.Shared.Utils.Parsers;
 using Microsoft.Extensions.Logging;
@@ -41,6 +42,10 @@ public class FriendsListsService : IFriendsListsService
         var userGuidId = userStringId.ParseGuid();
         
         var acceptedUsers = await _friendshipRepository.GetAccepted(userGuidId);
+
+        if (acceptedUsers.Count <= 0)
+            throw new UsersNotFoundException("User don't have friends");
+        
         var userIds = acceptedUsers.Select(f => !f.FirstUserId.Equals(userGuidId) ? f.FirstUserId : f.SecondUserId);
 
         var friendsInfo = await _userService.GetUsersByIdsArray(userIds);
@@ -66,7 +71,10 @@ public class FriendsListsService : IFriendsListsService
     {
         var userGuidId = userStringId.ParseGuid();
         var requestUsers = await _friendshipRepository.GetRequested(userGuidId);
-
+        
+        if (requestUsers.Count <= 0)
+            throw new UsersNotFoundException("User don't have friends");
+        
         var userIds = requestUsers.Select(f => f.FirstUserId);
         var friendsInfo = await _userService.GetUsersByIdsArray(userIds);
         
@@ -93,6 +101,10 @@ public class FriendsListsService : IFriendsListsService
         var userGuidId = userStringId.ParseGuid();
 
         var invitationUsers = await _friendshipRepository.GetInvitation(userGuidId);
+        
+        if (invitationUsers.Count <= 0)
+            throw new UsersNotFoundException("User don't have friends");
+        
         var userIds = invitationUsers.Select(f => f.SecondUserId);
         
         var friendsInfo = await _userService.GetUsersByIdsArray(userIds);
