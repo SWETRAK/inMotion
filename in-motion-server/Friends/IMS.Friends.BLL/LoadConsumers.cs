@@ -24,8 +24,8 @@ public static class LoadConsumers
         
         serviceCollection.AddMassTransit(x =>
         {
-            x.AddRequestClient<ImsBaseMessage<GetUserInfoMessage>>(new Uri($"exchange:{EventsBusNames.GetUserInfoName}"));
-            x.AddRequestClient<ImsBaseMessage<GetUsersInfoMessage>>(new Uri($"exchange:{EventsBusNames.GetUsersInfoName}"));
+            x.AddRequestClient<ImsBaseMessage<GetUserInfoMessage>>(new Uri($"exchange:{EventsBusNames.GetUserInfoName}"), RequestTimeout.After(s: 30));
+            x.AddRequestClient<ImsBaseMessage<GetUsersInfoMessage>>(new Uri($"exchange:{EventsBusNames.GetUsersInfoName}"), RequestTimeout.After(s: 30));
             
             x.AddConsumer<CheckFriendshipStatusConsumer>().Endpoint(e =>
             {
