@@ -7,13 +7,14 @@
 
 import Foundation
 
+// MARK: - Friends Methods
 extension AppState {
     
-    
-    
-    
-    
-    
+    func 
     
 }
 
+// MARK: - FriendsList Methods
+extension AppState {
+    
+}

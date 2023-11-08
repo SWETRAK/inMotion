@@ -101,7 +101,7 @@ extension AppState {
 
 extension AppState {
     
-    func getUserProfileVideoByUserId(userId: UUID,
+    func getUserProfileVideoByUserIdHttpRequest(userId: UUID,
                                      successGetUserVideoInfoAction: @escaping (UserProfileVideoDto) -> Void,
                                      failureGetUserVideoInfoAction: @escaping (ImsHttpError) -> Void) {
         
@@ -141,7 +141,7 @@ extension AppState {
         task.resume()
     }
     
-    func getUserProfileVideoById(videoId: UUID,
+    func getUserProfileVideoByIdHttpRequest(videoId: UUID,
                                      successGetUserVideoInfoAction: @escaping (UserProfileVideoDto) -> Void,
                                      failureGetUserVideoInfoAction: @escaping (ImsHttpError) -> Void) {
         
