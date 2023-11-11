@@ -27,11 +27,14 @@ public sealed class UserRepository: IUserRepository
             .FirstOrDefaultAsync(u => u.Email == email);
     }
 
-    public async Task<User> GetByIdAsync(Guid userId)
+    public async Task<IList<User>> GetManyByNickname(string nickname)
     {
-        return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        return await _context.Users
+            .Where(u => EF.Functions.ILike(u.Nickname, $"%{nickname}%") && u.ConfirmedAccount.Equals(true))
+            .Take(30)
+            .ToListAsync();
     }
-
+    
     public async Task<IList<User>> GetManyByIdRangeAsync(IEnumerable<Guid> userIds)
     {
         return await _context.Users.Where(u => userIds.Contains(u.Id)).ToListAsync();

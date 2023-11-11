@@ -77,7 +77,7 @@
     },
     {
       "UpstreamPathTemplate": "/friends/api/{catchAll}",
-      "UpstreamHttpMethod": ["GET", "POST", "PUT", "PATCH"],
+      "UpstreamHttpMethod": ["GET", "POST", "PUT", "PATCH", "DELETE"],
 
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [

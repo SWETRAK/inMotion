@@ -2,6 +2,7 @@ using IMS.Auth.BLL.Consumers;
 using IMS.Shared.Messaging;
 using IMS.Shared.Messaging.Messages;
 using IMS.Shared.Messaging.Messages.Email.Auth;
+using IMS.Shared.Messaging.Messages.JWT;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -34,6 +35,11 @@ public static class LoadConsumers
             x.AddConsumer<GetBaseUsersInfoConsumer>().Endpoint(e =>
             {
                 e.Name = EventsBusNames.GetBaseUsersInfoName;
+            });
+            
+            x.AddConsumer<GetBaseUsersInfoByNicknameConsumer>().Endpoint(e =>
+            {
+                e.Name = EventsBusNames.GetBaseUserInfoByNicknameName;
             });
             
             x.AddRequestClient<ImsBaseMessage<ActivateAccountEmailMessage>>(new Uri($"exchange:{EventsBusNames.SendAccountActivationEmailName}"));
