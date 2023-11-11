@@ -53,15 +53,16 @@ public class FriendsListsService : IFriendsListsService
         var result = _mapper.Map<List<Friendship>, IEnumerable<AcceptedFriendshipDto>>(acceptedUsers,
             opt => opt.AfterMap((src, dest) =>
             {
-                dest = dest.Select<AcceptedFriendshipDto, AcceptedFriendshipDto>((d) =>
+                foreach (var d in dest)
                 {
                     var sourceObject = src.First<Friendship>(f => f.Id.Equals(Guid.Parse(d.Id)));
                     d.ExternalUserId = !sourceObject.FirstUserId.Equals(userGuidId)
                         ? sourceObject.FirstUserId.ToString()
                         : sourceObject.SecondUserId.ToString();
-                    d.ExternalUser = _mapper.Map<FriendInfoDto>(friendsInfo.FirstOrDefault(ui => ui.Id.Equals(Guid.Parse(d.ExternalUserId))));
-                    return d;
-                });
+                    d.ExternalUser =
+                        _mapper.Map<FriendInfoDto>(friendsInfo.FirstOrDefault(ui =>
+                            ui.Id.Equals(Guid.Parse(d.ExternalUserId))));
+                }
             }));
         return result;
     }
@@ -81,15 +82,15 @@ public class FriendsListsService : IFriendsListsService
         var result = _mapper.Map<List<Friendship>, IEnumerable<RequestFriendshipDto>>(requestUsers,
             opt => opt.AfterMap((src, dest) =>
             {
-                dest = dest.Select<RequestFriendshipDto, RequestFriendshipDto>((d) =>
+                foreach (var d in dest)
                 {
                     var sourceObject = src.First<Friendship>(f => f.Id.Equals(Guid.Parse(d.Id)));
                     d.ExternalUserId = !sourceObject.FirstUserId.Equals(userGuidId)
                         ? sourceObject.FirstUserId.ToString()
                         : sourceObject.SecondUserId.ToString();
                     d.ExternalUser = _mapper.Map<FriendInfoDto>(friendsInfo.FirstOrDefault(ui => ui.Id.Equals(Guid.Parse(d.ExternalUserId))));
-                    return d;
-                });
+                    
+                }
             }));
 
         return result;
@@ -112,15 +113,15 @@ public class FriendsListsService : IFriendsListsService
         var result = _mapper.Map<List<Friendship>, IEnumerable<InvitationFriendshipDto>>(invitationUsers,
             opt => opt.AfterMap((src, dest) =>
             {
-                dest = dest.Select<InvitationFriendshipDto, InvitationFriendshipDto>((d) =>
+                foreach (var d in dest)
                 {
                     var sourceObject = src.First<Friendship>(f => f.Id.Equals(Guid.Parse(d.Id)));
                     d.ExternalUserId = !sourceObject.FirstUserId.Equals(userGuidId)
                         ? sourceObject.FirstUserId.ToString()
                         : sourceObject.SecondUserId.ToString();
                     d.ExternalUser = _mapper.Map<FriendInfoDto>(friendsInfo.FirstOrDefault(ui => ui.Id.Equals(Guid.Parse(d.ExternalUserId))));
-                    return d;
-                });
+                    
+                }
             }));
 
         return result;

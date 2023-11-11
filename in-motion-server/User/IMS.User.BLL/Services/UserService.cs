@@ -96,8 +96,7 @@ public class UserService : IUserService
                 UserExternalId = userIdGuid,
                 Bio = updateUserBioDto.Bio
             };
-
-            await _userMetasRepository.SaveAsync();
+            await _userMetasRepository.Add(userMetas);
         }
         else
         {
