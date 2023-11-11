@@ -38,6 +38,14 @@ struct FindFriendView: View {
                                 }
                                 .tint(.blue)
                             }
+                        } else if (GetFriendshipStatus(person: person) == FriendshipStatusEnum.Invited){
+                            HStack {
+                                Button {
+                                    InvertRequest(person: person)
+                                } label: {
+                                    Image(systemName: "trash")
+                                }.tint(.red)
+                            }
                         }
                     }
             }
@@ -45,24 +53,36 @@ struct FindFriendView: View {
     }
 
     private func FindUsers() {
-//        if let safeUser = appState.user {
-//            let request: NSFetchRequest<User> = User.fetchRequest()
-//            let predictate = NSPredicate(format: "nickname LIKE %@ && id != %@", "*\(nickname)*", safeUser.id! as CVarArg)
-//            request.predicate = predictate
-//            do {
-//                self.persons = try viewContext.fetch(request)
-//            } catch {
-//                print("Error fetching data from context \(error)")
-//            }
-//        }
+        self.appState.getUsersByNicknameHttpRequest(
+            nickname: self.nickname,
+            successGetUserAction: {(data: [FullUserInfoDto]) in
+                self.persons = data
+            },
+            failureGetUserAction: {(error: ImsHttpError) in
+                
+            })
     }
 
-
     private func SendInvitation(person: FullUserInfoDto) {
+        print(person.id.uuidString)
         appState.createFriendshipHttpRequest(
             otherUserId: person.id,
             successCreateFriendshipAction: {(data: InvitationFriendshipDto) in },
             failureCreateFriendshipAction: {(error: ImsHttpError) in })
+    }
+    
+    private func InvertRequest(person: FullUserInfoDto) {
+        
+        let request = self.appState.invitedFriendships.first { x in
+            return x.externalUserId == person.id
+        }
+    
+        if let requestSafe = request {
+            self.appState.revertFriendshipHttpRequest(
+                friendshipId: requestSafe.id,
+                successRevertFriendshipAction: {(data: Bool) in },
+                failureRevertFriendshipAction: {(error: ImsHttpError) in })
+        }
     }
 
     private func GetFriendshipStatus(person: FullUserInfoDto) -> FriendshipStatusEnum {

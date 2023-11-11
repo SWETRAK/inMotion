@@ -11,6 +11,44 @@ import Foundation
 
 extension AppState {
     
+    func getUsersByNicknameHttpRequest(nickname: String, successGetUserAction: @escaping ([FullUserInfoDto]) -> Void, failureGetUserAction: @escaping (ImsHttpError) -> Void) {
+        var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/users/api/users/search/\(nickname)")!,timeoutInterval: Double.infinity)
+        request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
+
+        request.httpMethod = HTTPMethods.GET.rawValue
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+          guard let data = data else {
+              if let error = error as? NSError {
+                  failureGetUserAction(ImsHttpError(status: 500,  errorMessage: error.localizedDescription, errorType: ""))
+              }
+            return
+          }
+            if let httpResponse = response as? HTTPURLResponse {
+                if(httpResponse.statusCode == 200)
+                {
+                    if let safeImsMessage: ImsHttpMessage<[FullUserInfoDto]> = JsonUtil.decodeJsonData(data: data) {
+                        print(safeImsMessage.status)
+                        if let userInfoDataSafe: [FullUserInfoDto] = safeImsMessage.data {
+                            successGetUserAction(userInfoDataSafe);
+                        }
+                    }
+                } else {
+                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
+                        if (httpResponse.statusCode == 500)
+                        {
+                            safeError.status = 500
+                        }
+                        failureGetUserAction(safeError);
+                    }
+                }
+            }
+        }
+
+        task.resume()
+    }
+    
+    
     func getUserByIdHttpRequest(userId: UUID,
                                 successGetUserAction: @escaping (FullUserInfoDto) -> Void,
                                 failureGetUserAction: @escaping (ImsHttpError) -> Void) {

@@ -163,8 +163,12 @@ extension AppState {
                 if(httpResponse.statusCode == 200)
                 {
                     if let safeImsMessage: ImsHttpMessage<Bool> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status)
                         if let userInfoDataSafe: Bool = safeImsMessage.data {
+                            DispatchQueue.main.async {
+                                self.invitedFriendships.removeAll { x in
+                                    return x.id == friendshipId
+                                }
+                            }
                             successRevertFriendshipAction(userInfoDataSafe);
                         }
                     }
