@@ -62,7 +62,7 @@ public class FriendsService : IFriendsService
 
     public async Task<AcceptedFriendshipDto> AcceptFriendshipInvitation(string userIdString, string friendshipIdString)
     {
-        var userIdGuid = friendshipIdString.ParseGuid();
+        var userIdGuid = userIdString.ParseGuid();
         var friendshipIdGuid = friendshipIdString.ParseGuid();
 
         var relation = await _friendshipRepository.GetById(friendshipIdGuid);
@@ -120,8 +120,7 @@ public class FriendsService : IFriendsService
     {
         userIdString.ParseGuid();
         var friendshipIdGuid = friendshipIdString.ParseGuid();
-     
-
+        
         var relation = await _friendshipRepository.GetById(friendshipIdGuid);
         if (relation?.Status is not FriendshipStatus.Accepted) 
             throw new InvalidFriendshipActionException("Unfriend is impossible");
