@@ -12,4 +12,6 @@ enum FriendshipStatusEnum: String {
     case Requested = "requested"
     case Invited = "invited"
     case Unknown = "unknown"
+    
+    case IsSelf = "self"
 }

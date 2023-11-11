@@ -26,42 +26,41 @@ struct FriendsView: View {
             if(selected == "friends") {
                 List(appState.acceptedFriendships, id: \.id){
                     acceptedFriendship in
-                    YourFriendRowView(friendship: acceptedFriendship.externalUser)
-                        .swipeActions {
-                            Button(role: .destructive) {
-                                appState.unfiendsFriendshipHttpRequest(
-                                    friendshipId: acceptedFriendship.id,
-                                    successUnfriendFriendshipAction: {(data: RejectedFriendshipDto) in
-                                        appState.acceptedFriendships.removeAll { friendship in
-                                            return friendship.id == data.id
-                                        }
-                                    },
-                                    failureUnfriendFriendshipAction: {(error: ImsHttpError) in
-                                        
-                                    })
-                            } label: {
-                                Image(systemName: "person.fill.xmark.rtl")
+                    NavigationLink {
+                        OtherUserDetailsView(user: acceptedFriendship.ParseToFullUserInfoDto()).environmentObject(appState)
+                    } label: {
+                        YourFriendRowView(friendship: acceptedFriendship.externalUser)
+                            .swipeActions {
+                                Button(role: .destructive) {
+                                    UnfriendFriendshipRequest(acceptedFriendship: acceptedFriendship)
+                                } label: {
+                                    Image(systemName: "person.fill.xmark.rtl")
+                                }
+                                .tint(.red)
                             }
-                            .tint(.red)
-                        }
+                    }
                 }
-            }else {
+            } else {
                 List(appState.requestedFriendships, id:\.id) { requestedFriendship in
-                    YourFriendRowView(friendship: requestedFriendship.externalUser)
-                        .swipeActions {
-                            Button {
-                                AcceptFriendshipRequest(requestedFriendship: requestedFriendship)
-                            } label: {
-                                Image(systemName: "person.fill.checkmark.rtl")
-                            }.tint(.green)
-                            
-                            Button(role: .destructive) {
-                                RejectFriendshipRequest(requestedFriendship: requestedFriendship)
-                            } label: {
-                                Image(systemName: "person.fill.xmark.rtl")
+                    NavigationLink {
+                        OtherUserDetailsView(user: requestedFriendship.ParseToFullUserInfoDto()).environmentObject(appState)
+                    } label: {
+                        YourFriendRowView(friendship: requestedFriendship.externalUser)
+                            .swipeActions {
+                                Button {
+                                    AcceptFriendshipRequest(requestedFriendship: requestedFriendship)
+                                } label: {
+                                    Image(systemName: "person.fill.checkmark.rtl")
+                                }.tint(.green)
+                                
+                                Button(role: .destructive) {
+                                    RejectFriendshipRequest(requestedFriendship: requestedFriendship)
+                                } label: {
+                                    Image(systemName: "person.fill.xmark.rtl")
+                                }
+                                .tint(.red)
                             }
-                            .tint(.red)
-                        }
+                    }
                 }
             }
         }.navigationTitle("Friends")
@@ -81,21 +80,22 @@ struct FriendsView: View {
     private func AcceptFriendshipRequest(requestedFriendship: RequestFriendshipDto) {
         appState.acceptFriendshipHttpRequest(
             friendshipId: requestedFriendship.id,
-            successAcceptUserAction: {(data: AcceptedFriendshipDto) in
-            },
-            failureAcceptUserAction: {(error: ImsHttpError) in
-                
-            })
+            successAcceptUserAction: {(data: AcceptedFriendshipDto) in },
+            failureAcceptUserAction: {(error: ImsHttpError) in })
     }
     
     private func RejectFriendshipRequest(requestedFriendship: RequestFriendshipDto) {
         appState.rejectFriendshipHttpRequest(
             friendshipId: requestedFriendship.id,
-            successRejectFriendshipAction: {(data: RejectedFriendshipDto) in
-            },
-            failureRejectFriendshipAction: {(error: ImsHttpError) in
-                
-            })
+            successRejectFriendshipAction: {(data: RejectedFriendshipDto) in },
+            failureRejectFriendshipAction: {(error: ImsHttpError) in })
+    }
+    
+    private func UnfriendFriendshipRequest(acceptedFriendship: AcceptedFriendshipDto) {
+        appState.unfiendsFriendshipHttpRequest(
+            friendshipId: acceptedFriendship.id,
+            successUnfriendFriendshipAction: {(data: RejectedFriendshipDto) in },
+            failureUnfriendFriendshipAction: {(error: ImsHttpError) in })
     }
 }
 

@@ -11,10 +11,10 @@ import CoreData
 struct FindFriendView: View {
     @EnvironmentObject private var appState: AppState
     @State private var nickname: String = "";
-
+    
     @State private var persons: [FullUserInfoDto] = []
     @State private var refresh: Bool = false
-
+    
     var body: some View {
         VStack {
             TextField("Find a friend...", text: $nickname)
@@ -24,34 +24,43 @@ struct FindFriendView: View {
                 .onChange(of: nickname) { newValue in
                     FindUsers()
                 }
-
-            List(persons, id: \.id){
-                person in
-                PersonRowView(person: person)
-                    .swipeActions {
-                        if(GetFriendshipStatus(person: person) == FriendshipStatusEnum.Unknown){
-                            HStack {
-                                Button {
-                                    SendInvitation(person: person)
-                                } label: {
-                                    Image(systemName: "plus")
+            
+            List(persons, id: \.id){person in
+                
+                NavigationLink {
+                    if (GetFriendshipStatus(person: person) == FriendshipStatusEnum.IsSelf) {
+                        LoggedUserDetailsView().environmentObject(appState)
+                    } else {
+                        OtherUserDetailsView(user: person).environmentObject(appState)
+                    }
+                } label: {
+                    PersonRowView(person: person)
+                        .swipeActions {
+                            if(GetFriendshipStatus(person: person) == FriendshipStatusEnum.Unknown){
+                                HStack {
+                                    Button {
+                                        SendInvitation(person: person)
+                                    } label: {
+                                        Image(systemName: "plus")
+                                    }
+                                    .tint(.blue)
                                 }
-                                .tint(.blue)
-                            }
-                        } else if (GetFriendshipStatus(person: person) == FriendshipStatusEnum.Invited){
-                            HStack {
-                                Button {
-                                    InvertRequest(person: person)
-                                } label: {
-                                    Image(systemName: "trash")
-                                }.tint(.red)
+                            } else if (GetFriendshipStatus(person: person) == FriendshipStatusEnum.Invited){
+                                HStack {
+                                    Button {
+                                        InvertRequest(person: person)
+                                    } label: {
+                                        Image(systemName: "trash")
+                                    }.tint(.red)
+                                }
                             }
                         }
-                    }
+                }
+                
             }
         }
     }
-
+    
     private func FindUsers() {
         self.appState.getUsersByNicknameHttpRequest(
             nickname: self.nickname,
@@ -62,7 +71,7 @@ struct FindFriendView: View {
                 
             })
     }
-
+    
     private func SendInvitation(person: FullUserInfoDto) {
         print(person.id.uuidString)
         appState.createFriendshipHttpRequest(
@@ -76,7 +85,7 @@ struct FindFriendView: View {
         let request = self.appState.invitedFriendships.first { x in
             return x.externalUserId == person.id
         }
-    
+        
         if let requestSafe = request {
             self.appState.revertFriendshipHttpRequest(
                 friendshipId: requestSafe.id,
@@ -84,8 +93,12 @@ struct FindFriendView: View {
                 failureRevertFriendshipAction: {(error: ImsHttpError) in })
         }
     }
-
+    
     private func GetFriendshipStatus(person: FullUserInfoDto) -> FriendshipStatusEnum {
+        if(self.appState.user!.id == person.id) {
+            return FriendshipStatusEnum.IsSelf
+        }
+        
         if (self.appState.invitedFriendships.first { x in return x.externalUserId == person.id } != nil) {
             return FriendshipStatusEnum.Invited
         }
@@ -94,7 +107,7 @@ struct FindFriendView: View {
         {
             return FriendshipStatusEnum.Accepted
         }
-
+        
         if (self.appState.requestedFriendships.first { x in return x.externalUserId == person.id } != nil) {
             return FriendshipStatusEnum.Requested
         }

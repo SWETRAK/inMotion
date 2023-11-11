@@ -91,6 +91,7 @@
 		86A417A82A3E1A9200A52516 /* paris.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 86A417A52A3E1A9100A52516 /* paris.mp4 */; };
 		86A417A92A3E1A9200A52516 /* newyork.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 86A417A62A3E1A9200A52516 /* newyork.mp4 */; };
 		86A417AC2A3E237600A52516 /* AVPlayerViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A417AB2A3E237600A52516 /* AVPlayerViewControllerExtension.swift */; };
+		86DDF89B2AFFE74000967B44 /* OtherUserDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DDF89A2AFFE74000967B44 /* OtherUserDetailsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -196,6 +197,7 @@
 		86A417A52A3E1A9100A52516 /* paris.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = paris.mp4; sourceTree = "<group>"; };
 		86A417A62A3E1A9200A52516 /* newyork.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = newyork.mp4; sourceTree = "<group>"; };
 		86A417AB2A3E237600A52516 /* AVPlayerViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerViewControllerExtension.swift; sourceTree = "<group>"; };
+		86DDF89A2AFFE74000967B44 /* OtherUserDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserDetailsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -437,6 +439,7 @@
 				862D75842A3A1E3500B6D02F /* MainView.swift */,
 				862D75862A3C38D400B6D02F /* MapView.swift */,
 				868B7CA52AF52398002A274B /* LoggedUserDetailsView.swift */,
+				86DDF89A2AFFE74000967B44 /* OtherUserDetailsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -652,6 +655,7 @@
 				861434FF2AF1853700B45FF5 /* FullUserInfoDto.swift in Sources */,
 				861435032AF185CD00B45FF5 /* UpdatedUserProfileVideoDto.swift in Sources */,
 				8614350D2AF18A4B00B45FF5 /* FriendInfoDto.swift in Sources */,
+				86DDF89B2AFFE74000967B44 /* OtherUserDetailsView.swift in Sources */,
 				862D75852A3A1E3500B6D02F /* MainView.swift in Sources */,
 				862D758A2A3C3BFA00B6D02F /* MapDetails.swift in Sources */,
 				8614350B2AF189E300B45FF5 /* FriendProfileVideoDto.swift in Sources */,

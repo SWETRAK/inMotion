@@ -170,6 +170,12 @@ struct LoggedUserDetailsView: View {
                     }.frame(alignment: .center)
                 }.disabled(appState.user!.providers.contains("Google"))
             }
+            
+            Section {
+                Button("Logout") {
+                    self.appState.logOut()
+                }.foregroundColor(.red)
+            }
         }.alert(isPresented: $showAlert) {
             if (self.communicationError) {
                 return Alert(

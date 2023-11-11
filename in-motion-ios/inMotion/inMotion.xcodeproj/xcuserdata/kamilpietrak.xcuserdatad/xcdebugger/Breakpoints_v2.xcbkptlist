@@ -133,129 +133,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5A2F3ECB-B121-4BDE-BF91-C6D9E196526F"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "inMotion/Views/FindFriendView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "15"
-            endingLineNumber = "15"
-            landmarkName = "FindFriendView"
-            landmarkType = "14">
-            <Locations>
-               <Location
-                  uuid = "5A2F3ECB-B121-4BDE-BF91-C6D9E196526F - 1b8fcea6e8558ada"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "property wrapper backing initializer of inMotion.FindFriendView.persons : Swift.Array&lt;inMotion.User&gt;"
-                  moduleName = "inMotion"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kamilpietrak/Documents/projekt/in-motion-ios/inMotion/inMotion/Views/FindFriendView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  uuid = "5A2F3ECB-B121-4BDE-BF91-C6D9E196526F - b393ba3cc5a33610"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "inMotion.FindFriendView.persons.getter : Swift.Array&lt;inMotion.User&gt;"
-                  moduleName = "inMotion"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kamilpietrak/Documents/projekt/in-motion-ios/inMotion/inMotion/Views/FindFriendView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "117">
-               </Location>
-               <Location
-                  uuid = "5A2F3ECB-B121-4BDE-BF91-C6D9E196526F - ced556e75178cffc"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "inMotion.FindFriendView.persons.setter : Swift.Array&lt;inMotion.User&gt;"
-                  moduleName = "inMotion"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kamilpietrak/Documents/projekt/in-motion-ios/inMotion/inMotion/Views/FindFriendView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "131">
-               </Location>
-               <Location
-                  uuid = "5A2F3ECB-B121-4BDE-BF91-C6D9E196526F - 4c2983ae41e307b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "inMotion.FindFriendView.persons.modify : Swift.Array&lt;inMotion.User&gt;"
-                  moduleName = "inMotion"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kamilpietrak/Documents/projekt/in-motion-ios/inMotion/inMotion/Views/FindFriendView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "0">
-               </Location>
-               <Location
-                  uuid = "5A2F3ECB-B121-4BDE-BF91-C6D9E196526F - e2a4aa1cc484e555"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "inMotion.FindFriendView.persons.modify : Swift.Array&lt;inMotion.User&gt; with unmangled suffix &quot;.resume.0&quot;"
-                  moduleName = "inMotion"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kamilpietrak/Documents/projekt/in-motion-ios/inMotion/inMotion/Views/FindFriendView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "46">
-               </Location>
-               <Location
-                  uuid = "5A2F3ECB-B121-4BDE-BF91-C6D9E196526F - fabfccefd66dd97c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "inMotion.FindFriendView.$persons.getter : SwiftUI.Binding&lt;Swift.Array&lt;inMotion.User&gt;&gt;"
-                  moduleName = "inMotion"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kamilpietrak/Documents/projekt/in-motion-ios/inMotion/inMotion/Views/FindFriendView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "150">
-               </Location>
-               <Location
-                  uuid = "5A2F3ECB-B121-4BDE-BF91-C6D9E196526F - 33c643b3afc04126"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "inMotion.FindFriendView.init() -&gt; inMotion.FindFriendView"
-                  moduleName = "inMotion"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kamilpietrak/Documents/projekt/in-motion-ios/inMotion/inMotion/Views/FindFriendView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "16"
-                  endingLineNumber = "16"
-                  offsetFromSymbolStart = "323">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "4A55726E-D704-421D-A5F5-B56C6F0FBE7F"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -311,8 +188,8 @@
             filePath = "inMotion/Services/FriendsAppStateExtension.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "231"
-            endingLineNumber = "231"
+            startingLineNumber = "235"
+            endingLineNumber = "235"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>

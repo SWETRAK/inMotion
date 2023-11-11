@@ -207,8 +207,12 @@ extension AppState {
                 if(httpResponse.statusCode == 200)
                 {
                     if let safeImsMessage: ImsHttpMessage<RejectedFriendshipDto> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status)
                         if let userInfoDataSafe: RejectedFriendshipDto = safeImsMessage.data {
+                            DispatchQueue.main.async {
+                                self.acceptedFriendships.removeAll { friendship in
+                                    return friendship.id == userInfoDataSafe.id
+                                }
+                            }
                             successUnfriendFriendshipAction(userInfoDataSafe);
                         }
                     }

@@ -19,9 +19,6 @@ struct MainView: View {
 //                    MainWallPost().environmentObject(appState).environmentObject(post)
 //                }
             }
-            Button("Logout") {
-                self.appState.logOut()
-            }
         }.toolbar {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink {
