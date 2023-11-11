@@ -14,7 +14,7 @@ extension AppState {
     func getUserByIdHttpRequest(userId: UUID,
                                 successGetUserAction: @escaping (FullUserInfoDto) -> Void,
                                 failureGetUserAction: @escaping (ImsHttpError) -> Void) {
-        var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/api/users/\(userId.uuidString)")!,timeoutInterval: Double.infinity)
+        var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/users/api/users/\(userId.uuidString)")!,timeoutInterval: Double.infinity)
         request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
         
         request.httpMethod = HTTPMethods.GET.rawValue
@@ -27,18 +27,17 @@ extension AppState {
                 return
             }
             
-            
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: ImsHttpMessage<FullUserInfoDto> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<FullUserInfoDto>.self) {
+                    if let safeImsMessage: ImsHttpMessage<FullUserInfoDto> = JsonUtil.decodeJsonData(data: data) {
                         print(safeImsMessage.status)
                         if let userInfoDataSafe: FullUserInfoDto = safeImsMessage.data {
                             successGetUserAction(userInfoDataSafe);
                         }
                     }
                 } else {
-                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         if (httpResponse.statusCode == 500)
                         {
                             safeError.status = 500
@@ -76,14 +75,19 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: ImsHttpMessage<UpdatedUserBioDto> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<UpdatedUserBioDto>.self) {
-                        print(safeImsMessage.status)
+                    if let safeImsMessage: ImsHttpMessage<UpdatedUserBioDto> = JsonUtil.decodeJsonData(data: data) {
                         if let userInfoDataSafe: UpdatedUserBioDto = safeImsMessage.data {
+                            if var fullUserInfoSafe = self.fullUserInfo {
+                                fullUserInfoSafe.bio = userInfoDataSafe.newBio
+                                DispatchQueue.main.async {
+                                    self.fullUserInfo = fullUserInfoSafe
+                                }
+                            }
                             successUpdateUserBioAction(userInfoDataSafe);
                         }
                     }
                 } else {
-                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         if (httpResponse.statusCode == 500)
                         {
                             safeError.status = 500
@@ -121,14 +125,14 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: ImsHttpMessage<UserProfileVideoDto> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<UserProfileVideoDto>.self) {
+                    if let safeImsMessage: ImsHttpMessage<UserProfileVideoDto> = JsonUtil.decodeJsonData(data: data) {
                         print(safeImsMessage.status)
                         if let userInfoDataSafe: UserProfileVideoDto = safeImsMessage.data {
                             successGetUserVideoInfoAction(userInfoDataSafe);
                         }
                     }
                 } else {
-                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         if (httpResponse.statusCode == 500)
                         {
                             safeError.status = 500
@@ -161,14 +165,14 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: ImsHttpMessage<UserProfileVideoDto> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<UserProfileVideoDto>.self) {
+                    if let safeImsMessage: ImsHttpMessage<UserProfileVideoDto> = JsonUtil.decodeJsonData(data: data) {
                         print(safeImsMessage.status)
                         if let userInfoDataSafe: UserProfileVideoDto = safeImsMessage.data {
                             successGetUserVideoInfoAction(userInfoDataSafe);
                         }
                     }
                 } else {
-                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         if (httpResponse.statusCode == 500)
                         {
                             safeError.status = 500

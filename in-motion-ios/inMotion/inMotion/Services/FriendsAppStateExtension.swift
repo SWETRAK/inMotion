@@ -30,14 +30,17 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 201)
                 {
-                    if let safeImsMessage: ImsHttpMessage<InvitationFriendshipDto> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<InvitationFriendshipDto>.self) {
+                    if let safeImsMessage: ImsHttpMessage<InvitationFriendshipDto> = JsonUtil.decodeJsonData(data: data) {
                         print(safeImsMessage.status)
                         if let userInfoDataSafe: InvitationFriendshipDto = safeImsMessage.data {
+                            DispatchQueue.main.async {
+                                self.invitedFriendships.append(userInfoDataSafe)
+                            }
                             successCreateFriendshipAction(userInfoDataSafe);
                         }
                     }
                 } else {
-                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         if (httpResponse.statusCode == 500)
                         {
                             safeError.status = 500
@@ -69,14 +72,20 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: ImsHttpMessage<AcceptedFriendshipDto> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<AcceptedFriendshipDto>.self) {
+                    if let safeImsMessage: ImsHttpMessage<AcceptedFriendshipDto> = JsonUtil.decodeJsonData(data: data) {
                         print(safeImsMessage.status)
                         if let userInfoDataSafe: AcceptedFriendshipDto = safeImsMessage.data {
+                            DispatchQueue.main.async {
+                                self.requestedFriendships.removeAll { element in
+                                    return element.id == friendshipId
+                                }
+                                self.acceptedFriendships.append(userInfoDataSafe)
+                            }
                             successAcceptUserAction(userInfoDataSafe);
                         }
                     }
                 } else {
-                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         if (httpResponse.statusCode == 500)
                         {
                             safeError.status = 500
@@ -110,14 +119,17 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: ImsHttpMessage<RejectedFriendshipDto> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<RejectedFriendshipDto>.self) {
+                    if let safeImsMessage: ImsHttpMessage<RejectedFriendshipDto> = JsonUtil.decodeJsonData(data: data) {
                         print(safeImsMessage.status)
                         if let userInfoDataSafe: RejectedFriendshipDto = safeImsMessage.data {
+                            self.requestedFriendships.removeAll { element in
+                                return element.id == friendshipId
+                            }
                             successRejectFriendshipAction(userInfoDataSafe);
                         }
                     }
                 } else {
-                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         if (httpResponse.statusCode == 500)
                         {
                             safeError.status = 500
@@ -150,14 +162,14 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: ImsHttpMessage<Bool> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<Bool>.self) {
+                    if let safeImsMessage: ImsHttpMessage<Bool> = JsonUtil.decodeJsonData(data: data) {
                         print(safeImsMessage.status)
                         if let userInfoDataSafe: Bool = safeImsMessage.data {
                             successRevertFriendshipAction(userInfoDataSafe);
                         }
                     }
                 } else {
-                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         if (httpResponse.statusCode == 500)
                         {
                             safeError.status = 500
@@ -190,14 +202,14 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: ImsHttpMessage<RejectedFriendshipDto> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<RejectedFriendshipDto>.self) {
+                    if let safeImsMessage: ImsHttpMessage<RejectedFriendshipDto> = JsonUtil.decodeJsonData(data: data) {
                         print(safeImsMessage.status)
                         if let userInfoDataSafe: RejectedFriendshipDto = safeImsMessage.data {
                             successUnfriendFriendshipAction(userInfoDataSafe);
                         }
                     }
                 } else {
-                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         if (httpResponse.statusCode == 500)
                         {
                             safeError.status = 500
@@ -233,14 +245,16 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: ImsHttpMessage<Array<AcceptedFriendshipDto>> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<Array<AcceptedFriendshipDto>>.self) {
-                        print(safeImsMessage.status)
+                    if let safeImsMessage: ImsHttpMessage<Array<AcceptedFriendshipDto>> = JsonUtil.decodeJsonData(data: data) {
                         if let userInfoDataSafe: Array<AcceptedFriendshipDto> = safeImsMessage.data {
+                            DispatchQueue.main.async {
+                                self.acceptedFriendships = userInfoDataSafe
+                            }
                             successGetRelations(userInfoDataSafe);
                         }
                     }
                 } else {
-                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         // INFO: This throws 404 if user has no friends
                         if (httpResponse.statusCode == 500)
                         {
@@ -273,14 +287,16 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: ImsHttpMessage<Array<RequestFriendshipDto>> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<Array<RequestFriendshipDto>>.self) {
-                        print(safeImsMessage.status)
+                    if let safeImsMessage: ImsHttpMessage<Array<RequestFriendshipDto>> = JsonUtil.decodeJsonData(data: data) {
                         if let userInfoDataSafe: Array<RequestFriendshipDto> = safeImsMessage.data {
+                            DispatchQueue.main.async {
+                                self.requestedFriendships = userInfoDataSafe
+                            }
                             successGetRelations(userInfoDataSafe);
                         }
                     }
                 } else {
-                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         if (httpResponse.statusCode == 500)
                         {
                             safeError.status = 500
@@ -312,14 +328,17 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: ImsHttpMessage<Array<InvitationFriendshipDto>> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<Array<InvitationFriendshipDto>>.self) {
+                    if let safeImsMessage: ImsHttpMessage<Array<InvitationFriendshipDto>> = JsonUtil.decodeJsonData(data: data) {
                         print(safeImsMessage.status)
                         if let userInfoDataSafe: Array<InvitationFriendshipDto> = safeImsMessage.data {
+                            DispatchQueue.main.async {
+                                self.invitedFriendships = userInfoDataSafe
+                            }
                             successGetRelations(userInfoDataSafe);
                         }
                     }
                 } else {
-                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         if (httpResponse.statusCode == 500)
                         {
                             safeError.status = 500

@@ -8,9 +8,9 @@
 import Foundation
 
 struct AcceptedFriendshipDto: Codable {
+    
     public var id: UUID
     public var externalUserId: UUID
-    
     public var externalUser: FriendInfoDto
     public var friendsSince: Date
 }

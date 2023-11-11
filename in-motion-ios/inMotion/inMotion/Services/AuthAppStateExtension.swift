@@ -30,7 +30,7 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: ImsHttpMessage<UserInfoDto> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<UserInfoDto>.self) {
+                    if let safeImsMessage: ImsHttpMessage<UserInfoDto> = JsonUtil.decodeJsonData(data: data) {
                         print(safeImsMessage.status)
                         if let userInfoDataSafe: UserInfoDto = safeImsMessage.data {
                             DispatchQueue.main.async {
@@ -43,7 +43,7 @@ extension AppState {
                         }
                     }
                 } else {
-                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         if (httpResponse.statusCode == 500)
                         {
                             safeError.status = 500
@@ -80,17 +80,17 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 201)
                 {
-                    if let safeImsMessage: ImsHttpMessage<SuccessfulRegistrationResponseDto> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<SuccessfulRegistrationResponseDto>.self) {
+                    if let safeImsMessage: ImsHttpMessage<SuccessfulRegistrationResponseDto> = JsonUtil.decodeJsonData(data: data) {
                         if let successfulRegistrationResponseSafe: SuccessfulRegistrationResponseDto = safeImsMessage.data {
                             successRegisterAction(successfulRegistrationResponseSafe)
                         }
                     }
                 } else if (httpResponse.statusCode == 400) {
-                    if let safeImsMessage: ValidationErrorDto = JsonUtil.decodeJsonData(data: data, returnModelType: ValidationErrorDto.self) {
+                    if let safeImsMessage: ValidationErrorDto = JsonUtil.decodeJsonData(data: data) {
                         validationRegisterAction(safeImsMessage.errors)
                     }
                 } else {
-                    if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         failureRegisterAction(safeError)
                     }
                 }
@@ -123,14 +123,14 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: ImsHttpMessage<Bool> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<Bool>.self) {
+                    if let safeImsMessage: ImsHttpMessage<Bool> = JsonUtil.decodeJsonData(data: data) {
                         print(safeImsMessage.status)
                         if let userInfoDataSafe: Bool = safeImsMessage.data {
                             successPasswordChangeAction(userInfoDataSafe);
                         }
                     }
                 } else {
-                    if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         // TODO: Implement proper error handling
                         failurePasswordChangeAction(safeError);
                     }
@@ -165,7 +165,7 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: ImsHttpMessage<Bool> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<Bool>.self) {
+                    if let safeImsMessage: ImsHttpMessage<Bool> = JsonUtil.decodeJsonData(data: data) {
                         print(safeImsMessage.status)
                         if let userInfoDataSafe: Bool = safeImsMessage.data {
                             if var user = self.user {
@@ -176,7 +176,7 @@ extension AppState {
                         }
                     }
                 } else {
-                    if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         failureAddPasswordAction(safeError);
                     }
                 }
@@ -210,7 +210,7 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: ImsHttpMessage<UserInfoDto> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<UserInfoDto>.self) {
+                    if let safeImsMessage: ImsHttpMessage<UserInfoDto> = JsonUtil.decodeJsonData(data: data) {
                         print(safeImsMessage.status) // 204 is ok
                         if let userInfoDataSafe: UserInfoDto = safeImsMessage.data {
                             DispatchQueue.main.async {
@@ -223,7 +223,7 @@ extension AppState {
                         }
                     }
                 } else {
-                    if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         self.user = nil
                         self.logged = false
                         self.token = nil
@@ -261,7 +261,7 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: ImsHttpMessage<UserInfoDto> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<UserInfoDto>.self) {
+                    if let safeImsMessage: ImsHttpMessage<UserInfoDto> = JsonUtil.decodeJsonData(data: data) {
                         print(safeImsMessage.status) // 204 is ok
                         if let userInfoDataSafe: UserInfoDto = safeImsMessage.data {
                             DispatchQueue.main.async {
@@ -274,7 +274,7 @@ extension AppState {
                         }
                     }
                 } else {
-                    if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         failureEmailUpdateAction(safeError);
                     }
                 }
@@ -306,7 +306,7 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: ImsHttpMessage<UserInfoDto> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<UserInfoDto>.self) {
+                    if let safeImsMessage: ImsHttpMessage<UserInfoDto> = JsonUtil.decodeJsonData(data: data) {
                         print(safeImsMessage.status) // 204 is ok
                         if let userInfoDataSafe: UserInfoDto = safeImsMessage.data {
                             DispatchQueue.main.async {
@@ -319,7 +319,7 @@ extension AppState {
                         }
                     }
                 } else {
-                    if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         failureNicknameUpdateAction(safeError);
                     }
                 }
@@ -358,7 +358,7 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: ImsHttpMessage<UserInfoDto> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<UserInfoDto>.self) {
+                    if let safeImsMessage: ImsHttpMessage<UserInfoDto> = JsonUtil.decodeJsonData(data: data) {
                         print(safeImsMessage.status)
                         if let userInfoDataSafe: UserInfoDto = safeImsMessage.data {
                             DispatchQueue.main.async {
@@ -371,7 +371,7 @@ extension AppState {
                         }
                     }
                 } else {
-                    if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         failureRegisterWithFacebook(safeError);
                     }
                 }
@@ -405,14 +405,14 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: ImsHttpMessage<Bool> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<Bool>.self) {
+                    if let safeImsMessage: ImsHttpMessage<Bool> = JsonUtil.decodeJsonData(data: data) {
                         print(safeImsMessage.status)
                         if let userInfoDataSafe: Bool = safeImsMessage.data {
                             successAddFacebookProvider(userInfoDataSafe);
                         }
                     }
                 } else {
-                    if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         failureAddFacebookProvider(safeError);
                     }
                 }
@@ -450,7 +450,7 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: ImsHttpMessage<UserInfoDto> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<UserInfoDto>.self) {
+                    if let safeImsMessage: ImsHttpMessage<UserInfoDto> = JsonUtil.decodeJsonData(data: data) {
                         print(safeImsMessage.status)
                         if let userInfoDataSafe: UserInfoDto = safeImsMessage.data {
                             DispatchQueue.main.async {
@@ -463,7 +463,7 @@ extension AppState {
                         }
                     }
                 } else {
-                    if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         failureRegisterWithGoogle(safeError);
                     }
                 }
@@ -497,14 +497,14 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: ImsHttpMessage<Bool> = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpMessage<Bool>.self) {
+                    if let safeImsMessage: ImsHttpMessage<Bool> = JsonUtil.decodeJsonData(data: data) {
                         print(safeImsMessage.status)
                         if let userInfoDataSafe: Bool = safeImsMessage.data {
                             successAddGoogleProvider(userInfoDataSafe);
                         }
                     }
                 } else {
-                    if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data, returnModelType: ImsHttpError.self) {
+                    if let safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                         failureAddGoogleProvider(safeError);
                     }
                 }
@@ -514,3 +514,4 @@ extension AppState {
         task.resume()
     }
 }
+

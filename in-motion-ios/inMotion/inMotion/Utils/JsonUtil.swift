@@ -6,11 +6,12 @@ import Foundation
 
 class JsonUtil {
 
-    public static func decodeJsonData<T: Codable>(data: Data, returnModelType: T.Type) -> T? {
+    public static func decodeJsonData<T: Codable>(data: Data) -> T? {
         do {
             let jsonDecode = JSONDecoder()
             jsonDecode.dateDecodingStrategy = .iso8601WithFractionalSeconds
-            return try jsonDecode.decode(returnModelType.self, from: data)
+            print(String(data: data, encoding: .utf8))
+            return try jsonDecode.decode(T.self, from: data)
         } catch {
             print("Unexpected error: \(error).")
             return nil

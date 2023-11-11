@@ -10,6 +10,6 @@ import Foundation
 struct FriendInfoDto : Codable {
     public var id: UUID
     public var nickname: String
-    public var bio: String
-    public var frontVideo: FriendProfileVideoDto 
+    public var bio: String?
+    public var frontVideo: FriendProfileVideoDto?
 }

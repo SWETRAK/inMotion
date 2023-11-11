@@ -45,8 +45,23 @@ struct ContentView: View {
                     if (appState.token != nil) {
                         appState.getLoggedInUserHttpRequest(
                             successGetUserAction: {(data: UserInfoDto) in
-                                appState.logged = true
-                                appState.initAppReady = true
+                                DispatchQueue.main.async {
+                                    appState.logged = true
+                                    appState.initAppReady = true
+                                    
+                                    appState.getUserByIdHttpRequest(userId: appState.user!.id,
+                                                                    successGetUserAction:{ (fullUserInfo: FullUserInfoDto) in
+                                        DispatchQueue.main.async {
+                                            self.appState.fullUserInfo = fullUserInfo
+                                        }
+                                        LoadFriends()
+                                        LoadRequests()
+                                        LoadInvitations()
+                                    }, failureGetUserAction: { (error: ImsHttpError) in
+                                        
+                                    })
+                                }
+                                
                             },
                             failureGetUserAction: {(error: ImsHttpError) in
                                 appState.logged = false
@@ -64,6 +79,34 @@ struct ContentView: View {
         }.onDisappear {
             monitor.cancel()
         }
+    }
+    
+    private func LoadFriends() {
+        self.appState.getListOfAcceptedFriendshipHttpRequest(
+            successGetRelations: {(friends: [AcceptedFriendshipDto]) in
+            },
+            failureGetRelations: {(error: ImsHttpError) in
+                
+            })
+    }
+    
+    private func LoadRequests() {
+        appState.getListOfRequestedFriendshipHttpRequest(
+            successGetRelations: {(data: [RequestFriendshipDto]) in
+            },
+            failureGetRelations: {(error: ImsHttpError) in
+                
+            })
+    }
+    
+    private func LoadInvitations() {
+        appState.getListOfInvitedFriendshipHttpRequest(
+            successGetRelations: {(data: [InvitationFriendshipDto]) in
+                
+            },
+            failureGetRelations: {(error: ImsHttpError) in
+                
+            })
     }
 }
 

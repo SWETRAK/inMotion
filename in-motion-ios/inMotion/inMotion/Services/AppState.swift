@@ -8,15 +8,21 @@
 import Foundation
 
 class AppState: ObservableObject {
-    @Published var logged: Bool = false
-    @Published var token: String? = nil
-    @Published var user: UserInfoDto? = nil
     
     @Published var initAppReady: Bool = false
-
     @Published var internetConnection: Bool = false
     @Published var internetConnectionViaCellular: Bool = false
-
+    
+    @Published var logged: Bool = false
+    @Published var token: String? = nil
+    
+    @Published var user: UserInfoDto? = nil
+    @Published var fullUserInfo: FullUserInfoDto? = nil
+    
+    @Published var acceptedFriendships: [AcceptedFriendshipDto] = []
+    @Published var requestedFriendships: [RequestFriendshipDto] = []
+    @Published var invitedFriendships: [InvitationFriendshipDto] = []
+    
     let userDefaults: UserDefaults
     
     init() {
