@@ -34,6 +34,7 @@ public static class LoadConsumers
             
             x.AddRequestClient<ImsBaseMessage<GetBaseUserInfoMessage>>(new Uri($"exchange:{EventsBusNames.GetBaseUserInfoName}"));
             x.AddRequestClient<ImsBaseMessage<GetBaseUsersInfoMessage>>(new Uri($"exchange:{EventsBusNames.GetBaseUsersInfoName}"));
+            x.AddRequestClient<ImsBaseMessage<GetBaseUserInfoByNicknameMessage>>(new Uri($"exchange:{EventsBusNames.GetBaseUserInfoByNicknameName}"), RequestTimeout.After(s: 30));
             
             x.UsingRabbitMq((ctx, cfg) =>
             {

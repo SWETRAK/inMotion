@@ -80,6 +80,13 @@ public class UserService: IUserService
         return userInfoDto;
     }
 
+    public async Task<IEnumerable<UserInfoDto>> GetUsersByNickname(string nickname)
+    {
+        var users = await _userRepository.GetManyByNickname(nickname);
+        var userInfoDtos = _mapper.Map<IEnumerable<UserInfoDto>>(users);
+        return userInfoDtos;
+    }
+
     public async Task<IEnumerable<UserInfoDto>> GetUsersInfo(IEnumerable<string> userIdStrings)
     {
         var userIdGuids = userIdStrings.Select(s => s.ParseGuid());
