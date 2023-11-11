@@ -41,9 +41,9 @@ public class FriendsService : IFriendsService
         return relation is null ? FriendshipStatus.Unknown.ToString() : relation.Status.ToString();
     }
 
-    public async Task<RequestFriendshipDto> CreateFriendshipRequest(string userString, string externalUserString)
+    public async Task<InvitationFriendshipDto> CreateFriendshipRequest(string userString, string externalUserString)
     {
-        var userIdGuid = externalUserString.ParseGuid();
+        var userIdGuid = userString.ParseGuid();
         var externalUserIdGuid = externalUserString.ParseGuid();
         
         var relation = await _friendshipRepository.GetByUsersId(userIdGuid, externalUserIdGuid);
@@ -51,7 +51,7 @@ public class FriendsService : IFriendsService
 
         var responseFriendship = await FriendshipActionWrapper(relation, userIdGuid, externalUserResponse.Id);
         
-        var response = _mapper.Map<Friendship, RequestFriendshipDto>(responseFriendship, opt =>
+        var response = _mapper.Map<Friendship, InvitationFriendshipDto>(responseFriendship, opt =>
             opt.AfterMap((src, dest) =>
             {
                 dest.ExternalUserId = externalUserResponse.Id.ToString();
