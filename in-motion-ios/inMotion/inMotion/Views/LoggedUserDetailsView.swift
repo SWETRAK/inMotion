@@ -81,9 +81,10 @@ struct LoggedUserDetailsView: View {
                 }
                 
                 
-                LabeledContent {
+                VStack(alignment: .leading) {
+                    Text("BIO")
                     HStack {
-                        TextField("Bio", text: self.$newBio)
+                        TextField("Bio", text: self.$newBio, axis: .vertical)
 
                         Button {
                             self.appState.updateUserBioHttpRequest(
@@ -101,14 +102,12 @@ struct LoggedUserDetailsView: View {
                                 .frame(width: 15, height: 15)
                         }.disabled(self.newBio == self.appState.fullUserInfo?.bio)
                     }
-                } label: {
-                    Text("Bio")
                 }
             }
             
             Section(header: Text("Security")) {
                 
-                if (appState.user!.providers.contains("Password")) {
+                if (appState.user?.providers.contains("Password") ?? false) {
                     Button {
                         self.showChangePassword = true
                     } label: {
@@ -168,7 +167,7 @@ struct LoggedUserDetailsView: View {
                             .frame(width: 50, height: 50)
                         Text("Login with google")
                     }.frame(alignment: .center)
-                }.disabled(appState.user!.providers.contains("Google"))
+                }.disabled(appState.user?.providers.contains("Google") ?? false)
             }
             
             Section {

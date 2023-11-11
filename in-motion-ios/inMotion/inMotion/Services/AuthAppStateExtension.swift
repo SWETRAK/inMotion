@@ -38,6 +38,14 @@ extension AppState {
                                 self.logged = true
                                 self.token = userInfoDataSafe.token
                                 self.userDefaults.set(self.token, forKey: "token")
+                                self.getUserByIdHttpRequest(
+                                    userId: userInfoDataSafe.id,
+                                    successGetUserAction:{ (fullUserInfo: FullUserInfoDto) in
+                                        DispatchQueue.main.async {
+                                            self.fullUserInfo = fullUserInfo
+                                        }
+                                    },
+                                    failureGetUserAction: { (error: ImsHttpError) in })
                             }
                             successLoginAction(userInfoDataSafe);
                         }
@@ -218,6 +226,14 @@ extension AppState {
                                 self.logged = true
                                 self.token = userInfoDataSafe.token
                                 self.userDefaults.set(self.token, forKey: "token")
+                                self.getUserByIdHttpRequest(
+                                    userId: userInfoDataSafe.id,
+                                    successGetUserAction:{ (fullUserInfo: FullUserInfoDto) in
+                                        DispatchQueue.main.async {
+                                            self.fullUserInfo = fullUserInfo
+                                        }
+                                    },
+                                    failureGetUserAction: { (error: ImsHttpError) in })
                             }
                             successGetUserAction(userInfoDataSafe);
                         }
@@ -458,6 +474,14 @@ extension AppState {
                                 self.logged = true
                                 self.token = userInfoDataSafe.token
                                 self.userDefaults.set(self.token, forKey: "token")
+                                self.getUserByIdHttpRequest(
+                                    userId: userInfoDataSafe.id,
+                                    successGetUserAction:{ (fullUserInfo: FullUserInfoDto) in
+                                        DispatchQueue.main.async {
+                                            self.fullUserInfo = fullUserInfo
+                                        }
+                                    },
+                                    failureGetUserAction: { (error: ImsHttpError) in })
                             }
                             successRegisterWithGoogle(userInfoDataSafe);
                         }

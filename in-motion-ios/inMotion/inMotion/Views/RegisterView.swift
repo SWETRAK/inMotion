@@ -17,6 +17,7 @@ struct RegisterView: View {
     @State private var repeatPasswordError: Bool = false
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
     var body: some View {
         VStack(spacing: 20.0) {
                 
@@ -47,12 +48,16 @@ struct RegisterView: View {
                         if(!self.repeatPasswordError && !self.nicknameError && !self.passwordError && !self.emailError) {
                             appState.registerUserWithEmailAndPasswordHttpRequest(registerData: RegisterUserWithEmailAndPasswordDto(email: self.email, password: self.password, repeatPassword: self.repeatPassword, nickname: self.nickname),
                                     successRegisterAction: {(successData: SuccessfulRegistrationResponseDto) in
-                                        self.presentationMode.wrappedValue.dismiss()
+                                        DispatchQueue.main.async {
+                                            self.presentationMode.wrappedValue.dismiss()
+                                        }
                                     },
                                     validationRegisterAction: {(validationErrors: Dictionary<String, [String]>) in
                                         if (validationErrors.keys.contains("Email")) {
-                                            self.emailError = true
-                                            self.showAlert = true
+                                            DispatchQueue.main.async {
+                                                self.emailError = true
+                                                self.showAlert = true
+                                            }
                                         }
                                         // TODO: Add password validation
                                     },

@@ -15,8 +15,6 @@ struct LoginView: View {
     @State private var loginError: Bool = false
     @State private var communicationError: Bool = false
     
-    
-    
     var body: some View {
         VStack {
             Spacer()
@@ -36,25 +34,20 @@ struct LoginView: View {
                         self.ValidatePassword()
                         self.ValidateEmail()
                         if (!self.emailError && !self.passwordError) {
-                            appState.loginWithEmailAndPasswordHttpRequest(requestData: LoginUserWithEmailAndPasswordDto(email: email, password: password),
-                                                                          successLoginAction: { (userInfoDto) in
-                                appState.getUserByIdHttpRequest(userId: appState.user!.id,
-                                                                successGetUserAction:{ (fullUserInfo: FullUserInfoDto) in
-                                    self.appState.fullUserInfo = fullUserInfo
-                                }, failureGetUserAction: { (error: ImsHttpError) in
-                                    
+                            appState.loginWithEmailAndPasswordHttpRequest(
+                                requestData: LoginUserWithEmailAndPasswordDto(email: email, password: password),
+                                successLoginAction: { (userInfoDto) in
+                                    self.loginError = false
+                                },
+                                failureLoginAction: { (httpError) in
+                                    if (httpError.status == 404) {
+                                        self.showAlert = true
+                                        self.loginError = true
+                                    } else if (httpError.status == 500) {
+                                        self.showAlert = true
+                                        self.communicationError = true
+                                    }
                                 })
-                                self.loginError = false
-                            },
-                                                                          failureLoginAction: { (httpError) in
-                                if (httpError.status == 404) {
-                                    self.showAlert = true
-                                    self.loginError = true
-                                } else if (httpError.status == 500) {
-                                    self.showAlert = true
-                                    self.communicationError = true
-                                }
-                            })
                         }
                     }
                 }
@@ -74,26 +67,20 @@ struct LoginView: View {
                             
                             if let userID = user.user.userID {
                                 if let idToken = user.user.idToken {
-                                    appState.loginWithGoogleHttpRequest(requestData: AuthenticateWithGoogleProviderDto(userId: userID, token: idToken.tokenString),
-                                                                        successRegisterWithGoogle: {(data: UserInfoDto) in
-                                        self.loginError = false
-                                        
-                                        appState.getUserByIdHttpRequest(userId: appState.user!.id,
-                                                                        successGetUserAction:{ (fullUserInfo: FullUserInfoDto) in
-                                            self.appState.fullUserInfo = fullUserInfo
-                                        }, failureGetUserAction: { (error: ImsHttpError) in
-                                            
+                                    appState.loginWithGoogleHttpRequest(
+                                        requestData: AuthenticateWithGoogleProviderDto(userId: userID, token: idToken.tokenString),
+                                        successRegisterWithGoogle: {(data: UserInfoDto) in
+                                            self.loginError = false
+                                        },
+                                        failureRegisterWithGoogle: {(error: ImsHttpError) in
+                                            if(error.status == 401) {
+                                                self.showAlert = true
+                                                self.loginError = true
+                                            } else if (error.status == 500) {
+                                                self.showAlert = true
+                                                self.communicationError = true
+                                            }
                                         })
-                                    },
-                                                                        failureRegisterWithGoogle: {(error: ImsHttpError) in
-                                        if(error.status == 401) {
-                                            self.showAlert = true
-                                            self.loginError = true
-                                        } else if (error.status == 500) {
-                                            self.showAlert = true
-                                            self.communicationError = true
-                                        }
-                                    })
                                 }
                             }
                         }

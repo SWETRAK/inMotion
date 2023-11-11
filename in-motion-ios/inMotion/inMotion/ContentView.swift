@@ -54,9 +54,6 @@ struct ContentView: View {
                                         DispatchQueue.main.async {
                                             self.appState.fullUserInfo = fullUserInfo
                                         }
-                                        LoadFriends()
-                                        LoadRequests()
-                                        LoadInvitations()
                                     }, failureGetUserAction: { (error: ImsHttpError) in
                                         
                                     })
@@ -80,34 +77,7 @@ struct ContentView: View {
             monitor.cancel()
         }
     }
-    
-    private func LoadFriends() {
-        self.appState.getListOfAcceptedFriendshipHttpRequest(
-            successGetRelations: {(friends: [AcceptedFriendshipDto]) in
-            },
-            failureGetRelations: {(error: ImsHttpError) in
-                
-            })
-    }
-    
-    private func LoadRequests() {
-        appState.getListOfRequestedFriendshipHttpRequest(
-            successGetRelations: {(data: [RequestFriendshipDto]) in
-            },
-            failureGetRelations: {(error: ImsHttpError) in
-                
-            })
-    }
-    
-    private func LoadInvitations() {
-        appState.getListOfInvitedFriendshipHttpRequest(
-            successGetRelations: {(data: [InvitationFriendshipDto]) in
-                
-            },
-            failureGetRelations: {(error: ImsHttpError) in
-                
-            })
-    }
+
 }
 
 struct ContentView_Previews: PreviewProvider {
