@@ -79,7 +79,7 @@ public class UserService : IUserService
             {
                 dest.ForEach(element =>
                 {
-                    var userInfo = userMetaData.FirstOrDefault(x => x.Id.ToString().Equals(element.Id));
+                    var userInfo = userMetaData.FirstOrDefault(x => x.UserExternalId.ToString().Equals(element.Id));
                     if (userInfo is null) return;
                     element.Bio = userInfo.Bio;
                     element.UserProfileVideo = _mapper.Map<UserProfileVideoDto>(userInfo.ProfileVideo);
@@ -136,7 +136,7 @@ public class UserService : IUserService
             {
                 dest.ForEach(element =>
                 {
-                    var userInfo = userMetaData.FirstOrDefault(x => x.Id.ToString().Equals(element.Id));
+                    var userInfo = userMetaData.FirstOrDefault(x => x.UserExternalId.Equals(element.Id.ParseGuid()));
                     if (userInfo is null) return;
                     element.Bio = userInfo.Bio;
                     element.UserProfileVideo = _mapper.Map<UserProfileVideoDto>(userInfo.ProfileVideo);
