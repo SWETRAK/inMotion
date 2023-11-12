@@ -11,5 +11,7 @@ public interface IUserService
 
     Task<UserInfoDto> GetUserInfo(string userIdString);
 
+    Task<IEnumerable<UserInfoDto>> GetUsersByNickname(string nickname);
+
     Task<IEnumerable<UserInfoDto>> GetUsersInfo(IEnumerable<string> userIdStrings);
 }

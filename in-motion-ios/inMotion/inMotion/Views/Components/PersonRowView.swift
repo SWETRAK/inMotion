@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct PersonRowView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-    @EnvironmentObject var person: User
-    
+    var person: FullUserInfoDto
+
     var body: some View {
         HStack{
-            Image(person.profile_photo ?? "avatar-placeholder").resizable().frame(width:50, height:50)
+            // TODO: Update this
+            Image("avatar-placeholder").resizable().frame(width:50, height:50)
             VStack(alignment: .leading){
-                Text(person.nickname ?? "nickname").fontWeight(Font.Weight.bold).frame(maxWidth: .infinity, alignment: .leading)
+                Text(person.nickname).fontWeight(Font.Weight.bold).frame(maxWidth: .infinity, alignment: .leading)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             Spacer()
@@ -24,8 +24,8 @@ struct PersonRowView: View {
     }
 }
 
-struct PersonRowView_Previews: PreviewProvider {
-    static var previews: some View {
-        PersonRowView()
-    }
-}
+//struct PersonRowView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PersonRowView()
+//    }
+//}

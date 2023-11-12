@@ -25,7 +25,7 @@ public class FriendsController : ControllerBase
 
     [Authorize]
     [HttpPost("{externalUserIdString}")]
-    public async Task<ActionResult<ImsHttpMessage<RequestFriendshipDto>>> SendFriendshipInvitation(
+    public async Task<ActionResult<ImsHttpMessage<InvitationFriendshipDto>>> SendFriendshipInvitation(
         [FromRoute(Name = "externalUserIdString")]
         string externalUserIdString)
     {
@@ -33,7 +33,7 @@ public class FriendsController : ControllerBase
         var userIdString = AuthenticationUtil.GetUserId(HttpContext.User);
 
         var response = await _friendsService.CreateFriendshipRequest( userIdString, externalUserIdString);
-        var result = new ImsHttpMessage<RequestFriendshipDto>
+        var result = new ImsHttpMessage<InvitationFriendshipDto>
         {
             ServerRequestTime = serverRequestTime,
             ServerResponseTime = DateTime.UtcNow,

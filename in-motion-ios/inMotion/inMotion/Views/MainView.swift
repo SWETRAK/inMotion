@@ -6,24 +6,18 @@
 //
 
 import SwiftUI
-import CoreData
 
 struct MainView: View {
-    @Environment(\.managedObjectContext) private var viewContext
+
     @EnvironmentObject private var appState: AppState
-    
-    @State private var posts: [Post] = []
     
     var body: some View {
         VStack{
+            Text(appState.user?.email ?? "")
             ScrollView() {
-                ForEach(posts, id:\.id) { post in
-                    MainWallPost().environmentObject(appState).environmentObject(post)
-                }
-            }
-            Button("Logout") {
-                self.appState.logged = false
-                self.appState.user = nil
+//                ForEach(posts, id:\.id) { post in
+//                    MainWallPost().environmentObject(appState).environmentObject(post)
+//                }
             }
         }.toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -33,19 +27,48 @@ struct MainView: View {
                     Image(systemName: "person.2.fill")
                 }.buttonStyle(.plain)
             }
+            ToolbarItem(placement: .secondaryAction) {
+                NavigationLink {
+                    LoggedUserDetailsView().environmentObject(appState)
+                } label: {
+                    Text("User")
+                }
+            }
         }.onAppear{
-            LoadPosts()
+            LoadFriends()
+            LoadRequests()
+            LoadInvitations()
         }
     }
     
-    private func LoadPosts() {
-        let request: NSFetchRequest<Post> = Post.fetchRequest()
-        do {
-            self.posts = try viewContext.fetch(request)
-        } catch {
-            print("Error fetching data from context \(error)")
-        }
+    private func LoadFriends() {
+        self.appState.getListOfAcceptedFriendshipHttpRequest(
+            successGetRelations: {(friends: [AcceptedFriendshipDto]) in
+            },
+            failureGetRelations: {(error: ImsHttpError) in
+                
+            })
     }
+    
+    private func LoadRequests() {
+        appState.getListOfRequestedFriendshipHttpRequest(
+            successGetRelations: {(data: [RequestFriendshipDto]) in
+            },
+            failureGetRelations: {(error: ImsHttpError) in
+                
+            })
+    }
+    
+    private func LoadInvitations() {
+        appState.getListOfInvitedFriendshipHttpRequest(
+            successGetRelations: {(data: [InvitationFriendshipDto]) in
+                
+            },
+            failureGetRelations: {(error: ImsHttpError) in
+                
+            })
+    }
+
 }
 
 struct MainView_Previews: PreviewProvider {

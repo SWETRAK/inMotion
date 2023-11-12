@@ -33,7 +33,6 @@ public class UserProfileVideoService: IUserProfileVideoService
         var video = await _userProfileVideoRepository.GetByAuthorIdAsync(userIdGuid);
 
         if (video is null)
-            
             throw new NotFoundVideoException();
 
         return _mapper.Map<UserProfileVideoDto>(video);

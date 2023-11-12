@@ -5,9 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
     </PropertyGroup>
-
-
-
+    
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.8" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
@@ -21,30 +19,5 @@
 
     <ItemGroup>
       <ProjectReference Include="..\IMS.Shared.Models\IMS.Shared.Models.csproj" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </ItemGroup>
-
-
-
-
-
-
-
-
-
-
 </Project>

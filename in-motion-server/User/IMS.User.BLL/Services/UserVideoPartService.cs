@@ -1,4 +1,5 @@
 using AutoMapper;
+using IMS.Shared.Utils.Parsers;
 using IMS.User.Domain.Entities;
 using IMS.User.IBLL.Services;
 using IMS.User.IDAL.Repositories;
@@ -21,7 +22,7 @@ public class UserVideoPartService: IUserVideoPartService
     public async Task<UpdatedUserProfileVideoDto> UpdateUserProfileVideo(string userId,
         UpdateUserProfileVideoDto updateUserProfileVideoDto)
     {
-        var userIdGuid = Guid.Parse(userId);
+        var userIdGuid = userId.ParseGuid();
 
         var userMetas = await _userMetasRepository.GetByExternalUserIdWithProfileVideoAsync(userIdGuid);
         if (userMetas is null)

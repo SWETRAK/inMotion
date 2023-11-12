@@ -18,7 +18,24 @@ public class UserController: ControllerBase
     {
         _userService = userService;
     }
-    
+
+    [Authorize]
+    [HttpGet("search/{nickname}")]
+    public async Task<ActionResult<ImsHttpMessage<IEnumerable<FullUserInfoDto>>>> GetUsersByNickname(
+        [FromRoute(Name = "nickname")] string nickname)
+    {
+        var serverRequestTime = DateTime.UtcNow;
+        var response = await _userService.GetFullUsersInfoByNicknameAsync(nickname);
+        
+        return Ok(new ImsHttpMessage<IEnumerable<FullUserInfoDto>>
+        {
+            ServerRequestTime = serverRequestTime,
+            ServerResponseTime = DateTime.UtcNow,
+            Status = StatusCodes.Status200OK,
+            Data = response
+        });
+    }
+
     [Authorize]
     [HttpGet("{userId}")]
     public async Task<ActionResult<ImsHttpMessage<FullUserInfoDto>>> GetById([FromRoute(Name = "userId")] string userId)

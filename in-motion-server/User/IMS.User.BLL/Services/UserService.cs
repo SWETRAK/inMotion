@@ -2,6 +2,7 @@ using AutoMapper;
 using IMS.Shared.Messaging.Messages;
 using IMS.Shared.Messaging.Messages.JWT;
 using IMS.Shared.Models.Exceptions;
+using IMS.Shared.Utils.Parsers;
 using IMS.User.Domain.Entities;
 using IMS.User.IBLL.Services;
 using IMS.User.IDAL.Repositories;
@@ -17,16 +18,19 @@ public class UserService : IUserService
     private readonly ILogger<UserService> _logger;
     private readonly IMapper _mapper;
     private readonly IUserMetasRepository _userMetasRepository;
-    private readonly IRequestClient<GetBaseUserInfoMessage> _getBaseUserInfoMessageRequestClient;
-    private readonly IRequestClient<GetBaseUsersInfoMessage> _getBaseUsersInfoMessageRequestClient;
+    private readonly IRequestClient<ImsBaseMessage<GetBaseUserInfoMessage>> _getBaseUserInfoMessageRequestClient;
+    private readonly IRequestClient<ImsBaseMessage<GetBaseUsersInfoMessage>> _getBaseUsersInfoMessageRequestClient;
+    private readonly IRequestClient<ImsBaseMessage<GetBaseUserInfoByNicknameMessage>> _getBaseUserInfoByNicknameRequestClient;
     private readonly IUserVideoPartService _userVideoPartService;
 
     public UserService(
-        IRequestClient<GetBaseUserInfoMessage> getBaseUserInfoMessageRequestClient,
+        IRequestClient<ImsBaseMessage<GetBaseUserInfoMessage>> getBaseUserInfoMessageRequestClient,
         IUserMetasRepository userMetasRepository,
         IMapper mapper,
         ILogger<UserService> logger, 
-        IRequestClient<GetBaseUsersInfoMessage> getBaseUsersInfoMessageRequestClient, IUserVideoPartService userVideoPartService)
+        IRequestClient<ImsBaseMessage<GetBaseUsersInfoMessage>> getBaseUsersInfoMessageRequestClient, 
+        IUserVideoPartService userVideoPartService, 
+        IRequestClient<ImsBaseMessage<GetBaseUserInfoByNicknameMessage>> getBaseUserInfoByNicknameRequestClient)
     {
         _getBaseUserInfoMessageRequestClient = getBaseUserInfoMessageRequestClient;
         _userMetasRepository = userMetasRepository;
@@ -34,23 +38,22 @@ public class UserService : IUserService
         _logger = logger;
         _getBaseUsersInfoMessageRequestClient = getBaseUsersInfoMessageRequestClient;
         _userVideoPartService = userVideoPartService;
+        _getBaseUserInfoByNicknameRequestClient = getBaseUserInfoByNicknameRequestClient;
     }
 
     public async Task<FullUserInfoDto> GetFullUserInfoAsync(string userIdString)
     {
-        if (Guid.TryParse(userIdString, out var userIdGuid))
+        if (!Guid.TryParse(userIdString, out var userIdGuid))
             throw new InvalidGuidStringException();
 
         var rabbitData = await GetBaseUserInfo(userIdString);
         var userMetaData = await _userMetasRepository.GetByExternalUserIdWithProfileVideoAsync(userIdGuid);
-
-        if (userMetaData is null)
-            throw new Exception();
-
+        
         var response = _mapper.Map<GetBaseUserInfoResponseMessage, FullUserInfoDto>(
             rabbitData,
             f => f.AfterMap((src, dest) =>
             {
+                if (userMetaData is null) return;
                 dest.Bio = userMetaData.Bio;
                 dest.UserProfileVideo = _mapper.Map<UserProfileVideoDto>(userMetaData.ProfileVideo);
             }));
@@ -62,7 +65,7 @@ public class UserService : IUserService
     {
         var userIdGuids = userIds.Select(s =>
         {
-            if (Guid.TryParse(s, out var userIdGuid))
+            if (!Guid.TryParse(s, out var userIdGuid))
                 throw new InvalidGuidStringException($"Invalid parse for id {s}");
             return userIdGuid;
         });
@@ -76,7 +79,7 @@ public class UserService : IUserService
             {
                 dest.ForEach(element =>
                 {
-                    var userInfo = userMetaData.FirstOrDefault(x => x.Id.ToString().Equals(element.Id));
+                    var userInfo = userMetaData.FirstOrDefault(x => x.UserExternalId.ToString().Equals(element.Id));
                     if (userInfo is null) return;
                     element.Bio = userInfo.Bio;
                     element.UserProfileVideo = _mapper.Map<UserProfileVideoDto>(userInfo.ProfileVideo);
@@ -87,7 +90,7 @@ public class UserService : IUserService
 
     public async Task<UpdatedUserBioDto> UpdateBioAsync(string userId, UpdateUserBioDto updateUserBioDto)
     {
-        var userIdGuid = Guid.Parse(userId);
+        var userIdGuid = userId.ParseGuid();
 
         var userMetas = await _userMetasRepository.GetByExternalUserIdAsync(userIdGuid);
         if (userMetas is null)
@@ -97,8 +100,7 @@ public class UserService : IUserService
                 UserExternalId = userIdGuid,
                 Bio = updateUserBioDto.Bio
             };
-
-            await _userMetasRepository.SaveAsync();
+            await _userMetasRepository.Add(userMetas);
         }
         else
         {
@@ -111,7 +113,37 @@ public class UserService : IUserService
             NewBio = userMetas.Bio
         };
     }
-    
+
+    public async  Task<IEnumerable<FullUserInfoDto>> GetFullUsersInfoByNicknameAsync(string nickname)
+    {
+        var request = new ImsBaseMessage<GetBaseUserInfoByNicknameMessage>
+        {
+            Data = new GetBaseUserInfoByNicknameMessage
+            {
+                Username = nickname
+            }
+        };
+        
+        var response = await _getBaseUserInfoByNicknameRequestClient.GetResponse<ImsBaseMessage<GetBaseUserInfoByNicknameResponseMessage>>(request);
+
+        var rabbitData = response.Message.Data;
+        var userIdGuids = rabbitData.Users.Select(x => x.Id.ParseGuid());
+        var userMetaData = await _userMetasRepository.GetByExternalUsersIdWithProfileVideoAsync(userIdGuids);
+        
+        return _mapper.Map<IEnumerable<GetBaseUserInfoResponseMessage>, List<FullUserInfoDto>>(
+            rabbitData.Users,
+            f => f.AfterMap((src, dest) =>
+            {
+                dest.ForEach(element =>
+                {
+                    var userInfo = userMetaData.FirstOrDefault(x => x.UserExternalId.Equals(element.Id.ParseGuid()));
+                    if (userInfo is null) return;
+                    element.Bio = userInfo.Bio;
+                    element.UserProfileVideo = _mapper.Map<UserProfileVideoDto>(userInfo.ProfileVideo);
+                });
+            }));
+    }
+
     public async Task<UpdatedUserProfileVideoDto> UpdateUserProfileVideo(string userId,
         UpdateUserProfileVideoDto updateUserProfileVideoDto)
     {
@@ -120,11 +152,15 @@ public class UserService : IUserService
 
     private async Task<GetBaseUserInfoResponseMessage> GetBaseUserInfo(string userIdString)
     {
-        var requestBody = ImsBaseMessage<GetBaseUserInfoMessage>.CreateInstance(new GetBaseUserInfoMessage
+        var requestBody = new ImsBaseMessage<GetBaseUserInfoMessage>
         {
-            UserId = userIdString
-        });
+            Data = new GetBaseUserInfoMessage
+            {
+                UserId = userIdString
+            }
 
+        };
+        
         var responseFromRabbitMq = await _getBaseUserInfoMessageRequestClient.GetResponse<ImsBaseMessage<GetBaseUserInfoResponseMessage>>(requestBody);
         if (responseFromRabbitMq.Message.Error)
             throw new NestedRabbitMqRequestException(responseFromRabbitMq.Message.ErrorMessage);

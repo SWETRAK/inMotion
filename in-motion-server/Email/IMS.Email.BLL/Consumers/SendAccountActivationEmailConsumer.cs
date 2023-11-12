@@ -4,7 +4,6 @@ using IMS.Email.Models.Models;
 using IMS.Shared.Messaging.Messages;
 using IMS.Shared.Messaging.Messages.Email.Auth;
 using MassTransit;
-using Microsoft.Extensions.Logging;
 
 namespace IMS.Email.BLL.Consumers;
 
