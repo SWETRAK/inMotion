@@ -7,7 +7,7 @@
     android:paddingTop="16dp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    tools:context=".fragment.authorisation.LoginFragment">
+    tools:context=".fragment.authentication.LoginFragment">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivSettings"

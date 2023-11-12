@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.inmotion.in_motion_android.fragment.authorisation.LoginFragment"
+        android:name="com.inmotion.in_motion_android.fragment.authentication.LoginFragment"
         android:label="login_fragment"
         tools:layout="@layout/fragment_login" >
         <action
@@ -47,7 +47,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.inmotion.in_motion_android.fragment.authorisation.RegisterFragment"
+        android:name="com.inmotion.in_motion_android.fragment.authentication.RegisterFragment"
         android:label="RegisterFragment" >
         <action
             android:id="@+id/action_registerFragment_to_loginFragment2"

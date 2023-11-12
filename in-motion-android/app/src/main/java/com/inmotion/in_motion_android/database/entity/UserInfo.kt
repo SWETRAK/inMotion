@@ -2,14 +2,13 @@ package com.inmotion.in_motion_android.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.sql.Timestamp
-import java.time.LocalDateTime
 
-@Entity(tableName = "jwt_token")
-data class JwtToken(
+@Entity(tableName = "user_info")
+data class UserInfo(
 
     @PrimaryKey(autoGenerate = false)
+    val id: String,
+    val email: String,
     val nickname: String,
-    val token: String,
-    val expiresAt: String
+    val token: String
 )

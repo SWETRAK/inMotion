@@ -1,6 +1,4 @@
-package com.inmotion.in_motion_android.data
-
-import java.util.Date
+package com.inmotion.in_motion_android.data.dto
 
 data class ImsHttpMessage<T>(
     val status: Int,
