@@ -9,26 +9,21 @@ import SwiftUI
 import Network
 
 struct ContentView: View {
-
+    
     @StateObject var appState: AppState = AppState()
-
+    
     let monitor = NWPathMonitor()
-    // TODO: rewrite this for new approach
-    // This should check online if user is logged in
-    // If not login page should be displayed
-    // If there is no connection to internet there should be displayed no internet connection view
-    // If logged in main page should be displayed
     var body: some View {
         NavigationView {
             if(appState.initAppReady) {
                 if(appState.internetConnection) {
                     if (appState.logged) {
                         MainView().navigationTitle("inMotion")
-                                .environmentObject(appState)
+                            .environmentObject(appState)
                     } else {
                         LoginView().environmentObject(appState);
                     }
-
+                    
                 } else {
                     Text("No internet connection")
                 }
@@ -49,16 +44,15 @@ struct ContentView: View {
                                     appState.logged = true
                                     appState.initAppReady = true
                                     
-                                    appState.getUserByIdHttpRequest(userId: appState.user!.id,
-                                                                    successGetUserAction:{ (fullUserInfo: FullUserInfoDto) in
-                                        DispatchQueue.main.async {
-                                            self.appState.fullUserInfo = fullUserInfo
-                                        }
-                                    }, failureGetUserAction: { (error: ImsHttpError) in
-                                        
-                                    })
+                                    appState.getUserByIdHttpRequest(
+                                        userId: appState.user!.id,
+                                        successGetUserAction:{ (fullUserInfo: FullUserInfoDto) in
+                                            DispatchQueue.main.async {
+                                                self.appState.fullUserInfo = fullUserInfo
+                                            }
+                                        },
+                                        failureGetUserAction: { (error: ImsHttpError) in})
                                 }
-                                
                             },
                             failureGetUserAction: {(error: ImsHttpError) in
                                 appState.logged = false
@@ -77,7 +71,7 @@ struct ContentView: View {
             monitor.cancel()
         }
     }
-
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
