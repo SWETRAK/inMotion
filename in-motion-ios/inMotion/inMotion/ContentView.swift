@@ -45,8 +45,20 @@ struct ContentView: View {
                     if (appState.token != nil) {
                         appState.getLoggedInUserHttpRequest(
                             successGetUserAction: {(data: UserInfoDto) in
-                                appState.logged = true
-                                appState.initAppReady = true
+                                DispatchQueue.main.async {
+                                    appState.logged = true
+                                    appState.initAppReady = true
+                                    
+                                    appState.getUserByIdHttpRequest(userId: appState.user!.id,
+                                                                    successGetUserAction:{ (fullUserInfo: FullUserInfoDto) in
+                                        DispatchQueue.main.async {
+                                            self.appState.fullUserInfo = fullUserInfo
+                                        }
+                                    }, failureGetUserAction: { (error: ImsHttpError) in
+                                        
+                                    })
+                                }
+                                
                             },
                             failureGetUserAction: {(error: ImsHttpError) in
                                 appState.logged = false
@@ -65,6 +77,7 @@ struct ContentView: View {
             monitor.cancel()
         }
     }
+
 }
 
 struct ContentView_Previews: PreviewProvider {

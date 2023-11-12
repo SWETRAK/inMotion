@@ -2,53 +2,52 @@ import SwiftUI
 import GoogleSignIn
 
 struct LoginView: View {
-
+    
     @EnvironmentObject private var appState: AppState
-
+    
     @State private var email: String = ""
     @State private var password: String = ""
-
+    
     @State private var showAlert: Bool = false
-
+    
     @State private var emailError: Bool = false
     @State private var passwordError: Bool = false
     @State private var loginError: Bool = false
     @State private var communicationError: Bool = false
-
-
-
+    
     var body: some View {
         VStack {
             Spacer()
             Text("inMotion").font(.custom("Roboto", fixedSize: 50))
             Spacer()
-
+            
             Form {
                 Section(header: Text("Login with email")) {
                     TextField("Email", text: $email)
-                            .keyboardType(.emailAddress)
-                            .textInputAutocapitalization(.never)
-                            .disableAutocorrection(true)
-
+                        .keyboardType(.emailAddress)
+                        .textInputAutocapitalization(.never)
+                        .disableAutocorrection(true)
+                    
                     SecureField("Password", text: $password)
-
+                    
                     Button("Login with email") {
                         self.ValidatePassword()
                         self.ValidateEmail()
                         if (!self.emailError && !self.passwordError) {
-                            appState.loginWithEmailAndPasswordHttpRequest(requestData: LoginUserWithEmailAndPasswordDto(email: email, password: password),
-                                    successLoginAction: { (userInfoDto) in
-                                        self.loginError = false
-                                    },
-                                    failureLoginAction: { (httpError) in
-                                        if (httpError.status == 404) {
-                                            self.showAlert = true
-                                            self.loginError = true
-                                        } else if (httpError.status == 500) {
-                                            self.showAlert = true
-                                            self.communicationError = true
-                                        }
-                                    })
+                            appState.loginWithEmailAndPasswordHttpRequest(
+                                requestData: LoginUserWithEmailAndPasswordDto(email: email, password: password),
+                                successLoginAction: { (userInfoDto) in
+                                    self.loginError = false
+                                },
+                                failureLoginAction: { (httpError) in
+                                    if (httpError.status == 404) {
+                                        self.showAlert = true
+                                        self.loginError = true
+                                    } else if (httpError.status == 500) {
+                                        self.showAlert = true
+                                        self.communicationError = true
+                                    }
+                                })
                         }
                     }
                 }
@@ -61,14 +60,15 @@ struct LoginView: View {
                         GIDSignIn.sharedInstance.configuration = signInConfig
                         
                         GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController ) { (user, error )in
-
+                            
                             guard let user = user else {
                                 return
                             }
-
+                            
                             if let userID = user.user.userID {
                                 if let idToken = user.user.idToken {
-                                    appState.loginWithGoogleHttpRequest(requestData: AuthenticateWithGoogleProviderDto(userId: userID, token: idToken.tokenString),
+                                    appState.loginWithGoogleHttpRequest(
+                                        requestData: AuthenticateWithGoogleProviderDto(userId: userID, token: idToken.tokenString),
                                         successRegisterWithGoogle: {(data: UserInfoDto) in
                                             self.loginError = false
                                         },
@@ -87,60 +87,49 @@ struct LoginView: View {
                     } label: {
                         HStack{
                             Image("google-logo")
-                                    .resizable()
-                                    .frame(width: 50, height: 50)
+                                .resizable()
+                                .frame(width: 50, height: 50)
                             Text("Login with google")
                         }.frame(alignment: .center)
                     }
-
-//                    Button {
-//                        print("facebook")
-//                    } label: {
-//                        HStack{
-//                            Image("facebook-logo")
-//                                    .resizable()
-//                                    .frame(width: 50, height: 50)
-//                            Text("Login with facebook")
-//                        }.frame(alignment: .center)
-//                    }
                 }
             }.frame(alignment: .center)
             NavigationLink("Register new account", destination: RegisterView().environmentObject(appState))
         }.navigationBarHidden(true)
-        .alert(isPresented: $showAlert) {
-            if (self.communicationError) {
-                return Alert(
+            .alert(isPresented: $showAlert) {
+                if (self.communicationError) {
+                    return Alert(
                         title: Text("No communication with server"),
                         message: Text("We have internal server problems, we work on them"),
                         dismissButton: .default(Text("Ok")) {
                             self.communicationError = false
                         }
-                )
-            } else if (self.emailError) {
-                return Alert(
+                    )
+                } else if (self.emailError) {
+                    return Alert(
                         title: Text("Incorrect email address"),
                         dismissButton: .default(Text("Ok")) {
                             self.emailError = false
                         }
-                )
-            } else if (self.passwordError) {
-                return Alert(
+                    )
+                } else if (self.passwordError) {
+                    return Alert(
                         title: Text("Incorrect password"),
                         dismissButton: .default(Text("Ok")) {
                             self.passwordError = false
                         }
-                )
-            } else {
-                return Alert(
+                    )
+                } else {
+                    return Alert(
                         title: Text("Incorrect login data or user already exists"),
                         dismissButton: .default(Text("Ok")) {
                             self.loginError = false
                         }
-                )
+                    )
+                }
             }
-        }
     }
-
+    
     private func ValidateEmail() {
         if (self.email.isEmpty) {
             self.showAlert = true
@@ -154,7 +143,7 @@ struct LoginView: View {
             }
         }
     }
-
+    
     private func ValidatePassword() {
         if (self.password.isEmpty) {
             self.passwordError = true

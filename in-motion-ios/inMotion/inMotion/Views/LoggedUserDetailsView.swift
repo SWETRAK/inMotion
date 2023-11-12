@@ -21,6 +21,7 @@ struct LoggedUserDetailsView: View {
     
     @State var newNickname: String = ""
     @State var newEmail: String = ""
+    @State var newBio: String = ""
     
     var body: some View {
         Form {
@@ -48,7 +49,7 @@ struct LoggedUserDetailsView: View {
                 } label: {
                     Text("Nickname")
                 }
-               
+                
                 LabeledContent {
                     HStack {
                         TextField("Email", text: self.$newEmail)
@@ -78,14 +79,35 @@ struct LoggedUserDetailsView: View {
                 } label: {
                     Text("Email")
                 }
+                
+                
+                VStack(alignment: .leading) {
+                    Text("BIO")
+                    HStack {
+                        TextField("Bio", text: self.$newBio, axis: .vertical)
 
-                // TODO: Update bio of logged user
+                        Button {
+                            self.appState.updateUserBioHttpRequest(
+                                requestData: UpdateUserBioDto(bio: self.newBio),
+                                successUpdateUserBioAction: {(data: UpdatedUserBioDto) in
+                                    self.newBio = data.newBio
+                                },
+                                failureUpdateUserBioAction: {(error: ImsHttpError) in
 
+                                })
+                        } label: {
+                            Image(systemName: "shift.fill")
+                                .resizable()
+                                .foregroundColor(self.newBio == self.appState.fullUserInfo?.bio ? .gray : .green)
+                                .frame(width: 15, height: 15)
+                        }.disabled(self.newBio == self.appState.fullUserInfo?.bio)
+                    }
+                }
             }
             
             Section(header: Text("Security")) {
                 
-                if (appState.user!.providers.contains("Password")) {
+                if (appState.user?.providers.contains("Password") ?? false) {
                     Button {
                         self.showChangePassword = true
                     } label: {
@@ -103,7 +125,7 @@ struct LoggedUserDetailsView: View {
                     }
                 }
                 
-            
+                
                 // MARK: - GOOGLE Button
                 
                 Button {
@@ -114,62 +136,68 @@ struct LoggedUserDetailsView: View {
                     GIDSignIn.sharedInstance.configuration = signInConfig
                     
                     GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController ) { (user, error )in
-
+                        
                         guard let user = user else {
                             return
                         }
-
+                        
                         if let userID = user.user.userID {
                             if let idToken = user.user.idToken {
                                 appState.addGoogleProviderHttpRequest(requestData: AuthenticateWithGoogleProviderDto(userId: userID, token: idToken.tokenString),
-                                    successAddGoogleProvider: {(data: Bool) in
-                                        self.addGoogleProviderAlert = false
-                                    },
-                                    failureAddGoogleProvider: {(error: ImsHttpError) in
-                                        print(error.errorMessage)
-                                        if(error.status == 409) {
-                                            self.showAlert = true
-                                            self.addGoogleProviderAlert = true
-                                        } else if (error.status == 500) {
-                                            self.showAlert = true
-                                            self.communicationError = true
-                                        }
-                                    })
+                                                                      successAddGoogleProvider: {(data: Bool) in
+                                    self.addGoogleProviderAlert = false
+                                },
+                                                                      failureAddGoogleProvider: {(error: ImsHttpError) in
+                                    print(error.errorMessage)
+                                    if(error.status == 409) {
+                                        self.showAlert = true
+                                        self.addGoogleProviderAlert = true
+                                    } else if (error.status == 500) {
+                                        self.showAlert = true
+                                        self.communicationError = true
+                                    }
+                                })
                             }
                         }
                     }
                 } label: {
                     HStack{
                         Image("google-logo")
-                                .resizable()
-                                .frame(width: 50, height: 50)
+                            .resizable()
+                            .frame(width: 50, height: 50)
                         Text("Login with google")
                     }.frame(alignment: .center)
-                }.disabled(appState.user!.providers.contains("Google"))
+                }.disabled(appState.user?.providers.contains("Google") ?? false)
+            }
+            
+            Section {
+                Button("Logout") {
+                    self.appState.logOut()
+                }.foregroundColor(.red)
             }
         }.alert(isPresented: $showAlert) {
             if (self.communicationError) {
                 return Alert(
-                        title: Text("No communication with server"),
-                        message: Text("We have internal server problems, we work on them"),
-                        dismissButton: .default(Text("Ok")) {
-                            self.communicationError = false
-                        }
+                    title: Text("No communication with server"),
+                    message: Text("We have internal server problems, we work on them"),
+                    dismissButton: .default(Text("Ok")) {
+                        self.communicationError = false
+                    }
                 )
             } else if (self.addGoogleProviderAlert) {
                 return Alert(
-                        title: Text("This provider is connected to other account"),
-                        dismissButton: .default(Text("Ok")) {
-                            self.addGoogleProviderAlert = false
-                        }
+                    title: Text("This provider is connected to other account"),
+                    dismissButton: .default(Text("Ok")) {
+                        self.addGoogleProviderAlert = false
+                    }
                 )
             }
             else if (self.emailError) {
                 return Alert(
-                        title: Text("This email is taken by other user"),
-                        dismissButton: .default(Text("Ok")) {
-                            self.emailError = false
-                        }
+                    title: Text("This email is taken by other user"),
+                    dismissButton: .default(Text("Ok")) {
+                        self.emailError = false
+                    }
                 )
             } else {
                 return Alert (
@@ -179,6 +207,7 @@ struct LoggedUserDetailsView: View {
         }.onAppear{
             self.newEmail = self.appState.user!.email
             self.newNickname = self.appState.user!.nickname
+            self.newBio = self.appState.fullUserInfo!.bio ?? ""
         }
         
     }

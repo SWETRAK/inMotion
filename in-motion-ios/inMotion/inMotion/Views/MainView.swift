@@ -19,9 +19,6 @@ struct MainView: View {
 //                    MainWallPost().environmentObject(appState).environmentObject(post)
 //                }
             }
-            Button("Logout") {
-                self.appState.logOut()
-            }
         }.toolbar {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink {
@@ -38,8 +35,38 @@ struct MainView: View {
                 }
             }
         }.onAppear{
-            //TODO: Load Posts
+            LoadFriends()
+            LoadRequests()
+            LoadInvitations()
         }
+    }
+    
+    private func LoadFriends() {
+        self.appState.getListOfAcceptedFriendshipHttpRequest(
+            successGetRelations: {(friends: [AcceptedFriendshipDto]) in
+            },
+            failureGetRelations: {(error: ImsHttpError) in
+                
+            })
+    }
+    
+    private func LoadRequests() {
+        appState.getListOfRequestedFriendshipHttpRequest(
+            successGetRelations: {(data: [RequestFriendshipDto]) in
+            },
+            failureGetRelations: {(error: ImsHttpError) in
+                
+            })
+    }
+    
+    private func LoadInvitations() {
+        appState.getListOfInvitedFriendshipHttpRequest(
+            successGetRelations: {(data: [InvitationFriendshipDto]) in
+                
+            },
+            failureGetRelations: {(error: ImsHttpError) in
+                
+            })
     }
 
 }

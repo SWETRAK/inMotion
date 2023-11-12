@@ -10,7 +10,7 @@ import Foundation
 struct FullUserInfoDto: Codable {
     public var id: UUID
     public var nickname: String
-    public var bio: String
+    public var bio: String?
     
-    public var userProfileVideo: UserProfileVideoDto
+    public var userProfileVideo: UserProfileVideoDto?
 }

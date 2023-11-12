@@ -13,116 +13,90 @@ struct FriendsView: View {
     @EnvironmentObject private var appState: AppState
     
     @State private var selected: String = "friends"
-    // @State private var friendships: [Friendship] = []
     
+    // TODO: Add user page
     var body: some View {
         VStack {
-//            VStack {
-//                Picker("Topping", selection: $selected) {
-//                    Text("Friends").tag("friends")
-//                    Text("Requests").tag("requests")
-//                }.pickerStyle(.segmented)
-//            }.padding(.horizontal)
-//            if(selected == "friends") {
-//                List(friendships, id: \.id){
-//                    friendship in
-//                    YourFriendRowView()
-//                        .environmentObject(appState)
-//                        .environmentObject(friendship)
-//                        .swipeActions {
-//                            Button(role: .destructive) {
-//                                removeFriend(friendship: friendship)
-//                            } label: {
-//                                Image(systemName: "person.fill.xmark.rtl")
-//                            }
-//                            .tint(.red)
-//                        }
-//                }.onAppear{
-//                    LoadFriends()
-//                }
-//            }else {
-//                List(friendships, id:\.id) { friendship in
-//                    YourFriendRowView()
-//                        .environmentObject(appState)
-//                        .environmentObject(friendship)
-//                        .swipeActions {
-//                            Button {
-//                                acceptFriend(friendship: friendship)
-//                            } label: {
-//                                Image(systemName: "person.fill.checkmark.rtl")
-//                            }.tint(.green)
-//
-//                            Button(role: .destructive) {
-//                                rejectFriend(friendship: friendship)
-//                            } label: {
-//                                Image(systemName: "person.fill.xmark.rtl")
-//                            }
-//                            .tint(.red)
-//                        }
-//                }.onAppear{
-//                    LoadFriendsRequest()
-//                }
-//
-//            }
+            VStack {
+                Picker("Topping", selection: $selected) {
+                    Text("Friends").tag("friends")
+                    Text("Requests").tag("requests")
+                }.pickerStyle(.segmented)
+            }.padding(.horizontal)
+            if(selected == "friends") {
+                List(appState.acceptedFriendships, id: \.id){
+                    acceptedFriendship in
+                    NavigationLink {
+                        OtherUserDetailsView(user: acceptedFriendship.ParseToFullUserInfoDto()).environmentObject(appState)
+                    } label: {
+                        YourFriendRowView(friendship: acceptedFriendship.externalUser)
+                            .swipeActions {
+                                Button(role: .destructive) {
+                                    UnfriendFriendshipRequest(acceptedFriendship: acceptedFriendship)
+                                } label: {
+                                    Image(systemName: "person.fill.xmark.rtl")
+                                }
+                                .tint(.red)
+                            }
+                    }
+                }
+            } else {
+                List(appState.requestedFriendships, id:\.id) { requestedFriendship in
+                    NavigationLink {
+                        OtherUserDetailsView(user: requestedFriendship.ParseToFullUserInfoDto()).environmentObject(appState)
+                    } label: {
+                        YourFriendRowView(friendship: requestedFriendship.externalUser)
+                            .swipeActions {
+                                Button {
+                                    AcceptFriendshipRequest(requestedFriendship: requestedFriendship)
+                                } label: {
+                                    Image(systemName: "person.fill.checkmark.rtl")
+                                }.tint(.green)
+                                
+                                Button(role: .destructive) {
+                                    RejectFriendshipRequest(requestedFriendship: requestedFriendship)
+                                } label: {
+                                    Image(systemName: "person.fill.xmark.rtl")
+                                }
+                                .tint(.red)
+                            }
+                    }
+                }
+            }
         }.navigationTitle("Friends")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     NavigationLink {
-//                        FindFriendView()
-//                            .environmentObject(appState)
+                        FindFriendView()
+                            .environmentObject(appState)
                     } label: {
                         Image(systemName: "person.fill.badge.plus")
                     }.buttonStyle(.plain)
                 }
             }
     }
+        
+    private func AcceptFriendshipRequest(requestedFriendship: RequestFriendshipDto) {
+        appState.acceptFriendshipHttpRequest(
+            friendshipId: requestedFriendship.id,
+            successAcceptUserAction: {(data: AcceptedFriendshipDto) in },
+            failureAcceptUserAction: {(error: ImsHttpError) in })
+    }
     
-//    private func LoadFriends() {
-//        if let safeUser = appState.user {
-//            let request: NSFetchRequest<Friendship> = Friendship.fetchRequest()
-//            let predictate = NSPredicate(format: "(userOne.id == %@ || userTwo.id == %@) && status == %@", safeUser.id! as CVarArg, safeUser.id! as CVarArg, FriendshipStatusEnum.Accepted.rawValue)
-//            request.predicate = predictate
-//            do {
-//                self.friendships = try viewContext.fetch(request)
-//            } catch {
-//                print("Error fetchig data from context \(error)")
-//            }
-//        }
-//    }
+    private func RejectFriendshipRequest(requestedFriendship: RequestFriendshipDto) {
+        appState.rejectFriendshipHttpRequest(
+            friendshipId: requestedFriendship.id,
+            successRejectFriendshipAction: {(data: RejectedFriendshipDto) in },
+            failureRejectFriendshipAction: {(error: ImsHttpError) in })
+    }
     
-//    private func LoadFriendsRequest() {
-//        if let safeUser = appState.user {
-//            let request: NSFetchRequest<Friendship> = Friendship.fetchRequest()
-//            let predictate = NSPredicate(format: "userTwo.id == %@ && status == %@", safeUser.id! as CVarArg, FriendshipStatusEnum.Requested.rawValue)
-//            request.predicate = predictate
-//            do {
-//                self.friendships = try viewContext.fetch(request)
-//            } catch {
-//                print("Error fetchig data from context \(error)")
-//            }
-//        }
-//    }
-//
-//    private func removeFriend(friendship: Friendship) {
-//        viewContext.delete(friendship)
-//        LoadFriends()
-//    }
-//
-//    private func rejectFriend(friendship: Friendship) {
-//        viewContext.delete(friendship)
-//        LoadFriendsRequest()
-//    }
-//
-//    private func acceptFriend(friendship: Friendship) {
-//        friendship.status = FriendshipStatusEnum.Accepted.rawValue
-//        do {
-//            try viewContext.save()
-//        } catch {
-//            print("\(error)")
-//        }
-//        LoadFriendsRequest()
-//    }
+    private func UnfriendFriendshipRequest(acceptedFriendship: AcceptedFriendshipDto) {
+        appState.unfiendsFriendshipHttpRequest(
+            friendshipId: acceptedFriendship.id,
+            successUnfriendFriendshipAction: {(data: RejectedFriendshipDto) in },
+            failureUnfriendFriendshipAction: {(error: ImsHttpError) in })
+    }
 }
 
 struct FriendsView_Previews: PreviewProvider {
