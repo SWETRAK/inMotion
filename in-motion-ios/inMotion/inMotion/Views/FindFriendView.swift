@@ -56,7 +56,6 @@ struct FindFriendView: View {
                             }
                         }
                 }
-                
             }
         }
     }

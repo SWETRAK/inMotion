@@ -62,8 +62,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "136"
             endingLineNumber = "136"
-            landmarkName = "LoadComments()"
-            landmarkType = "7">
+            landmarkName = "PostDetailsView"
+            landmarkType = "14">
             <Locations>
                <Location
                   uuid = "E93F1544-69FC-4DFB-8E0A-268A7474116D - 9ab655946b7baa26"
@@ -110,8 +110,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "191"
             endingLineNumber = "191"
-            landmarkName = "AddComment()"
-            landmarkType = "7">
+            landmarkName = "PostDetailsView"
+            landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
