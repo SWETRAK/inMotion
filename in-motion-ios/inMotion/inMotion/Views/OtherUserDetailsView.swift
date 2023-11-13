@@ -33,38 +33,38 @@ struct OtherUserDetailsView: View {
                 }
             }
             Section(header: Text("Friendship")) {
-                switch (self.friendshipStatus){
-                case .Accepted:
-                        Button {
-                            self.UnfriendFriendshipRequest(person: user)
-                        } label: {
-                            Text ("Unfriend").foregroundColor(.red)
-                        }
-                case .Requested:
-                         Button {
-                             self.AcceptFriendshipRequest(person: user)
-                         } label: {
-                             Text("Accept request").foregroundColor(.green)
-                         }
-
-                         Button {
-                             self.RejectFriendshipRequest(person: user)
-                         } label: {
-                             Text("Reject request").foregroundColor(.red)
-                         }
-                case .Invited:
-                        Button {
-                            self.InvertRequest(person: user)
-                        } label: {
-                            Text("Revert invitation").foregroundColor(.red)
-                        }
-                default:
-                        Button {
-                            self.SendInvitation(person: user)
-                        } label: {
-                            Text("Add friends").foregroundColor(.blue)
-                        }
+                
+                if (self.friendshipStatus == .Accepted) {
+                    Button {
+                        self.UnfriendFriendshipRequest(person: user)
+                    } label: {
+                        Text ("Unfriend").foregroundColor(.red)
                     }
+                } else if (self.friendshipStatus == .Requested) {
+                    Button {
+                        self.AcceptFriendshipRequest(person: user)
+                    } label: {
+                        Text("Accept request").foregroundColor(.green)
+                    }
+
+                    Button {
+                        self.RejectFriendshipRequest(person: user)
+                    } label: {
+                        Text("Reject request").foregroundColor(.red)
+                    }
+                } else if (self.friendshipStatus == .Invited) {
+                    Button {
+                        self.InvertRequest(person: user)
+                    } label: {
+                        Text("Revert invitation").foregroundColor(.red)
+                    }
+                } else if (self.friendshipStatus == .Unknown) {
+                    Button {
+                        self.SendInvitation(person: user)
+                    } label: {
+                        Text("Add friends").foregroundColor(.blue)
+                    }
+                }
             }
         }.onAppear{
             GetFriendshipStatus(person: user)
@@ -166,7 +166,7 @@ struct OtherUserDetailsView: View {
         }
     }
 }
-//
+
 //struct OtherUserDetailsView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        OtherUserDetailsView()
