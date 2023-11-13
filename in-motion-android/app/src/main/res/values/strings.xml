@@ -20,4 +20,5 @@
     <string name="reject_friend_request_button">Reject friend request</string>
     <string name="bio">BIO</string>
     <string name="nickname_hint">Nickname</string>
+    <string name="nickname">Nickname:</string>
 </resources>

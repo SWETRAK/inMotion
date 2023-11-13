@@ -1,4 +1,4 @@
-package com.inmotion.in_motion_android.data.dto
+package com.inmotion.in_motion_android.data.dto.auth
 
 data class RegisterUserWithEmailAndPasswordDto(
     val email: String,

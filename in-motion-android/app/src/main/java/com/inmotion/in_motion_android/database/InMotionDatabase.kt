@@ -1,7 +1,6 @@
 package com.inmotion.in_motion_android.database
 
 import android.content.Context
-import android.provider.CalendarContract.Instances
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -10,7 +9,7 @@ import com.inmotion.in_motion_android.database.entity.UserInfo
 
 @Database(entities = [UserInfo::class], version = 1)
 abstract class InMotionDatabase: RoomDatabase() {
-    abstract fun jwtTokenDao(): UserInfoDao
+    abstract fun userInfoDao(): UserInfoDao
 
     companion object{
 
