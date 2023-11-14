@@ -54,6 +54,7 @@ extension AppState {
     func getUserByIdHttpRequest(userId: UUID,
                                 successGetUserAction: @escaping (FullUserInfoDto) -> Void,
                                 failureGetUserAction: @escaping (ImsHttpError) -> Void) {
+        
         var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/users/api/users/\(userId.uuidString)")!,timeoutInterval: Double.infinity)
         request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
         

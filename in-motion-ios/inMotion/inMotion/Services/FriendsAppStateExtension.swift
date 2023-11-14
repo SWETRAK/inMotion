@@ -57,6 +57,7 @@ extension AppState {
     func acceptFriendshipHttpRequest(friendshipId: UUID,
                                  successAcceptUserAction: @escaping (AcceptedFriendshipDto) -> Void,
                                  failureAcceptUserAction: @escaping (ImsHttpError) -> Void) {
+        
         var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/friends/api/friends/accept/\(friendshipId.uuidString)")!,timeoutInterval: Double.infinity)
         request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
         

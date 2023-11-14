@@ -14,6 +14,12 @@ struct MainView: View {
     var body: some View {
         VStack{
             Text(appState.user?.email ?? "")
+            NavigationLink {
+                PostCameraScreen().environmentObject(appState)
+            } label: {
+                Text("CamScreen")
+            }
+
             ScrollView() {
 //                ForEach(posts, id:\.id) { post in
 //                    MainWallPost().environmentObject(appState).environmentObject(post)
