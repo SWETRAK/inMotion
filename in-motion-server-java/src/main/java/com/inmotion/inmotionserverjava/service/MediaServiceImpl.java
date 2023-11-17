@@ -101,19 +101,22 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
-    public byte[] getProfileVideoAsMp4(String nickname, String userId) {
+    public byte[] getProfileVideoAsMp4(String nickname, String userId, String jwtToken) {
+        validateJwt(jwtToken);
         String requestedFilePath = String.format(PROFILE_VIDEO_NAME_TEMPLATE, nickname, "/mp4/", userId, ".mp4");
         return minioService.getFile(profileVideosBucket, requestedFilePath);
     }
 
     @Override
-    public byte[] getProfileVideoAsGif(String nickname, String userId) {
+    public byte[] getProfileVideoAsGif(String nickname, String userId, String jwtToken) {
+        validateJwt(jwtToken);
         String requestedFilePath = String.format(PROFILE_VIDEO_NAME_TEMPLATE, nickname, "/gif/", userId, ".gif");
         return minioService.getFile(profileVideosBucket, requestedFilePath);
     }
 
     @Override
-    public PostDto getPostById(String postId) {
+    public PostDto getPostById(String postId, String jwtToken) {
+        validateJwt(jwtToken);
         String frontVideoFilePath = String.format(POST_FILE_NAME_TEMPLATE, postId, "front_", postId);
         String backVideoFilePath = String.format(POST_FILE_NAME_TEMPLATE, postId, "back_", postId);
         byte[] frontVideo = minioService.getFile(postsBucket, frontVideoFilePath);
@@ -122,11 +125,14 @@ public class MediaServiceImpl implements MediaService {
     }
 
     private ValidatedUserInfoMessage validateJwt(String jwtToken) {
-        BaseMessage<ValidatedUserInfoMessage> response = messagePublisher.publishJwtValidationEvent(new AuthenticationMessage(jwtToken));
-        if (response.data() != null) {
-            return response.data();
+        if(jwtToken.startsWith("Bearer ")) {
+            jwtToken = jwtToken.replace("Bearer ", "");
+            BaseMessage<ValidatedUserInfoMessage> response = messagePublisher.publishJwtValidationEvent(new AuthenticationMessage(jwtToken));
+            if (response.data() != null) {
+                return response.data();
+            }
         }
-
+        
         throw new UnauthorizedUserException();
     }
 }
