@@ -60,6 +60,7 @@
 		8614353D2AF1941300B45FF5 /* PostCommentDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8614353C2AF1941300B45FF5 /* PostCommentDto.swift */; };
 		8614353F2AF194A400B45FF5 /* PostCommentReactionDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8614353E2AF194A400B45FF5 /* PostCommentReactionDto.swift */; };
 		861435412AF1959900B45FF5 /* PostReactionDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435402AF1959900B45FF5 /* PostReactionDto.swift */; };
+		86261EE12B08C4E1003F4F01 /* MediaAppStateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86261EE02B08C4E1003F4F01 /* MediaAppStateExtension.swift */; };
 		862D756D2A3A0A0000B6D02F /* PostDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862D756C2A3A0A0000B6D02F /* PostDetailsView.swift */; };
 		862D756F2A3A0A5600B6D02F /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862D756E2A3A0A5600B6D02F /* RegisterView.swift */; };
 		862D75712A3A137F00B6D02F /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862D75702A3A137F00B6D02F /* CommentView.swift */; };
@@ -171,6 +172,7 @@
 		8614353C2AF1941300B45FF5 /* PostCommentDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentDto.swift; sourceTree = "<group>"; };
 		8614353E2AF194A400B45FF5 /* PostCommentReactionDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCommentReactionDto.swift; sourceTree = "<group>"; };
 		861435402AF1959900B45FF5 /* PostReactionDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReactionDto.swift; sourceTree = "<group>"; };
+		86261EE02B08C4E1003F4F01 /* MediaAppStateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaAppStateExtension.swift; sourceTree = "<group>"; };
 		862D756C2A3A0A0000B6D02F /* PostDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailsView.swift; sourceTree = "<group>"; };
 		862D756E2A3A0A5600B6D02F /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		862D75702A3A137F00B6D02F /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
@@ -549,6 +551,7 @@
 				25E9F4C3630E6BF2C1B4EB36 /* AuthAppStateExtension.swift */,
 				863725F82AFB99C800C933D6 /* UserAppStateExtension.swift */,
 				863725FA2AFBB5E000C933D6 /* FriendsAppStateExtension.swift */,
+				86261EE02B08C4E1003F4F01 /* MediaAppStateExtension.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -743,6 +746,7 @@
 				861435252AF18DAC00B45FF5 /* EditPostReactionDto.swift in Sources */,
 				86A417AC2A3E237600A52516 /* AVPlayerViewControllerExtension.swift in Sources */,
 				861435412AF1959900B45FF5 /* PostReactionDto.swift in Sources */,
+				86261EE12B08C4E1003F4F01 /* MediaAppStateExtension.swift in Sources */,
 				861434E52AF1818100B45FF5 /* LoginUserWithEmailAndPasswordDto.swift in Sources */,
 				861434E32AF1813600B45FF5 /* AuthenticateWithGoogleProviderDto.swift in Sources */,
 				8614351B2AF18C7E00B45FF5 /* CreatePostReactionDto.swift in Sources */,
