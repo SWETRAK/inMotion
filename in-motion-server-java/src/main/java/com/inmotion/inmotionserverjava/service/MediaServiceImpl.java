@@ -43,9 +43,8 @@ public class MediaServiceImpl implements MediaService {
     // TODO: Rollback mechanism if one of files not uploaded
     public ProfileVideoUploadInfoDto addProfileVideo(MultipartFile mp4File, String jwtToken) {
         ValidatedUserInfoMessage user = validateJwt(jwtToken);
-
-        String outputVideoPath = String.format(PROFILE_VIDEO_NAME_TEMPLATE, user.nickname(), "/mp4/", user.id(), ".mp4");
-        String outputGifPath = String.format(PROFILE_VIDEO_NAME_TEMPLATE, user.nickname(), "/gif/", user.id(), ".gif");
+        String outputVideoPath = String.format(PROFILE_VIDEO_NAME_TEMPLATE, user.id(), "/mp4/", user.id(), ".mp4");
+        String outputGifPath = String.format(PROFILE_VIDEO_NAME_TEMPLATE, user.id(), "/gif/", user.id(), ".gif");
 
         byte[] gifFileBytes = mp4ToGifConverter.convert(mp4File);
         minioService.uploadFile(profileVideosBucket, outputGifPath, gifFileBytes, MediaType.IMAGE_GIF);
@@ -60,7 +59,7 @@ public class MediaServiceImpl implements MediaService {
 
         messagePublisher.publishUserProfileVideoUploadEvent(new UpdateUserProfileVideoMessage(
                 user.id(),
-                user.id(),
+                "profile_" + user.id(),
                 profileVideosBucket,
                 profileVideosBucket,
                 mp4File.getContentType()
@@ -69,15 +68,14 @@ public class MediaServiceImpl implements MediaService {
         log.info("User {} posted new profile video", user.nickname());
 
         return new ProfileVideoUploadInfoDto(
-                PROFILE_VIDEO_MP4_GET_ADDRESS_PREFIX + user.nickname() + "/" + user.id(),
-                PROFILE_VIDEO_GIF_GET_ADDRESS_PREFIX + user.nickname() + "/" + user.id()
+                PROFILE_VIDEO_MP4_GET_ADDRESS_PREFIX + user.id() + "/" + user.id(),
+                PROFILE_VIDEO_GIF_GET_ADDRESS_PREFIX + user.id() + "/" + user.id()
         );
     }
 
     @Override
-    public PostUploadInfoDto addPost(MultipartFile frontVideo, MultipartFile backVideo, String jwtToken) {
+    public PostUploadInfoDto addPost(MultipartFile frontVideo, MultipartFile backVideo, String postId, String jwtToken) {
         ValidatedUserInfoMessage user = validateJwt(jwtToken);
-        String postId = UUID.randomUUID().toString();
         String frontVideoPath = String.format(POST_FILE_NAME_TEMPLATE, postId, "/front_", postId);
         String backVideoPath = String.format(POST_FILE_NAME_TEMPLATE, postId, "/back_", postId);
         try {
@@ -101,16 +99,16 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
-    public byte[] getProfileVideoAsMp4(String nickname, String userId, String jwtToken) {
+    public byte[] getProfileVideoAsMp4(String userId, String jwtToken) {
         validateJwt(jwtToken);
-        String requestedFilePath = String.format(PROFILE_VIDEO_NAME_TEMPLATE, nickname, "/mp4/", userId, ".mp4");
+        String requestedFilePath = String.format(PROFILE_VIDEO_NAME_TEMPLATE, userId, "/mp4/", userId, ".mp4");
         return minioService.getFile(profileVideosBucket, requestedFilePath);
     }
 
     @Override
-    public byte[] getProfileVideoAsGif(String nickname, String userId, String jwtToken) {
+    public byte[] getProfileVideoAsGif(String userId, String jwtToken) {
         validateJwt(jwtToken);
-        String requestedFilePath = String.format(PROFILE_VIDEO_NAME_TEMPLATE, nickname, "/gif/", userId, ".gif");
+        String requestedFilePath = String.format(PROFILE_VIDEO_NAME_TEMPLATE, userId, "/gif/", userId, ".gif");
         return minioService.getFile(profileVideosBucket, requestedFilePath);
     }
 

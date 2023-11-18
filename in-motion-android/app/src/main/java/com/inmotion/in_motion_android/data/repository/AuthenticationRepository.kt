@@ -1,6 +1,5 @@
 package com.inmotion.in_motion_android.data.repository
 
-import android.content.Context
 import com.inmotion.in_motion_android.data.dto.ImsHttpMessage
 import com.inmotion.in_motion_android.data.dto.auth.LoginUserWithEmailAndPasswordDto
 import com.inmotion.in_motion_android.data.dto.auth.RegisterUserWithEmailAndPasswordDto
@@ -17,7 +16,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class AuthenticationRepository(val dao: UserInfoDao) {
+class AuthenticationRepository(private val dao: UserInfoDao) {
 
     private val imsAuthApi: ImsAuthApi = Retrofit.Builder()
         .baseUrl(ApiConstants.BASE_URL)
@@ -27,7 +26,6 @@ class AuthenticationRepository(val dao: UserInfoDao) {
 
     fun loginWithEmail(
         loginUserWithEmailAndPasswordDto: LoginUserWithEmailAndPasswordDto,
-        activity: Context?,
         callback: RepositoryCallback<UserInfoDto>
     ) {
         imsAuthApi.loginWithEmail(loginUserWithEmailAndPasswordDto).enqueue(object :
@@ -62,7 +60,6 @@ class AuthenticationRepository(val dao: UserInfoDao) {
 
     fun registerWithEmail(
         registerUserWithEmailAndPasswordDto: RegisterUserWithEmailAndPasswordDto,
-        activity: Context?,
         callback: RepositoryCallback<SuccessfullRegistrationResponseDto>
     ) {
         imsAuthApi.register(registerUserWithEmailAndPasswordDto).enqueue(object :
@@ -93,7 +90,6 @@ class AuthenticationRepository(val dao: UserInfoDao) {
 
     fun validateAndRefreshUser(
         userInfo: UserInfo,
-        activity: Context?,
         callback: RepositoryCallback<UserInfoDto>
     ) {
         imsAuthApi.getUser(mapOf(Pair("Authorization", "Bearer ${userInfo.token}"))).enqueue(

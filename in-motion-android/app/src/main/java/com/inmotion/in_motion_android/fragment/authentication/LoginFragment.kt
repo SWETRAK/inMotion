@@ -13,10 +13,14 @@ import com.inmotion.in_motion_android.InMotionApp
 import com.inmotion.in_motion_android.R
 import com.inmotion.in_motion_android.data.dto.auth.LoginUserWithEmailAndPasswordDto
 import com.inmotion.in_motion_android.data.dto.auth.UserInfoDto
+import com.inmotion.in_motion_android.data.dto.user.FullUserInfoDto
+import com.inmotion.in_motion_android.data.dto.user.UserProfileVideoDto
 import com.inmotion.in_motion_android.data.repository.AuthenticationRepository
 import com.inmotion.in_motion_android.data.repository.RepositoryCallback
+import com.inmotion.in_motion_android.data.repository.UserRepository
 import com.inmotion.in_motion_android.database.dao.UserInfoDao
 import com.inmotion.in_motion_android.databinding.FragmentLoginBinding
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
@@ -43,7 +47,6 @@ class LoginFragment : Fragment() {
                 if (info != null) {
                     authenticationRepository.validateAndRefreshUser(
                         info,
-                        activity,
                         object : RepositoryCallback<UserInfoDto> {
                             override fun onResponse(response: UserInfoDto) {
                                 Toast.makeText(
@@ -73,21 +76,45 @@ class LoginFragment : Fragment() {
             val password = binding.etPassword.text.toString()
             val loginUserWithEmailAndPasswordDto = LoginUserWithEmailAndPasswordDto(email, password)
             authenticationRepository.loginWithEmail(
-                    loginUserWithEmailAndPasswordDto,
-                    activity,
-                    object : RepositoryCallback<UserInfoDto> {
-                        override fun onResponse(response: UserInfoDto) {
-                            Toast.makeText(activity, response.nickname, Toast.LENGTH_LONG).show()
-                            response.toUserInfo().let {
-                                userInfoDao.update(it)
-                            }
-                            navController.navigate(R.id.action_loginFragment_to_mainFragment)
+                loginUserWithEmailAndPasswordDto,
+                object : RepositoryCallback<UserInfoDto> {
+                    override fun onResponse(response: UserInfoDto) {
+                        Toast.makeText(activity, response.nickname, Toast.LENGTH_LONG).show()
+
+                        GlobalScope.launch {
+                            updateUserInfo(response)
                         }
 
-                        override fun onFailure() {
-                            Toast.makeText(activity, "Wrong credentials!", Toast.LENGTH_SHORT).show()
-                        }
-                    })
+                        val userRepository = UserRepository()
+                        userRepository.getFullUserInfoById(response.id, "Bearer ${response.token}",
+                            object : RepositoryCallback<FullUserInfoDto> {
+                                override fun onResponse(response: FullUserInfoDto) {
+                                    val bundle = Bundle()
+                                    bundle.putSerializable("USER", response)
+                                    navController.navigate(
+                                        R.id.action_loginFragment_to_mainFragment,
+                                        bundle
+                                    )
+                                }
+
+                                override fun onFailure() {
+                                    Toast.makeText(
+                                        activity,
+                                        "Couldn't fetch user data!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            })
+                    }
+
+                    override fun onFailure() {
+                        Toast.makeText(activity, "Wrong credentials!", Toast.LENGTH_SHORT).show()
+                    }
+                })
         }
+    }
+
+    private suspend fun updateUserInfo(dto: UserInfoDto) {
+        userInfoDao.update(dto.toUserInfo())
     }
 }

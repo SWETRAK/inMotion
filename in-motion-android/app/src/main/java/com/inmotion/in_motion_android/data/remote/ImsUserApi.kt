@@ -8,6 +8,7 @@ import com.inmotion.in_motion_android.data.dto.user.UserProfileVideoDto
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.PUT
 import retrofit2.http.Path
 
@@ -22,8 +23,8 @@ interface ImsUserApi {
     @GET("/user/api/users/search/{nickname}")
     fun getUserByNickname(@Path("nickname") nickname: String): Call<ImsHttpMessage<FullUserInfoDto>>
 
-    @GET("/user/api/users/{userId}")
-    fun getUserById(@Path("userId") userId: String): Call<ImsHttpMessage<FullUserInfoDto>>
+    @GET("/users/api/users/{userId}")
+    fun getUserById(@Header("Authorization") token: String, @Path("userId") userId: String): Call<ImsHttpMessage<FullUserInfoDto>>
 
     @PUT("/api/users/update/bio")
     fun updateLoggedInUserBio(@Body bio: UpdateUserBioDto): Call<ImsHttpMessage<UpdatedUserBioDto>>

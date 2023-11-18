@@ -45,9 +45,9 @@ class RegisterFragment : Fragment() {
             val repeatPassword = binding.etRepeatPassword.text.toString()
             val registerUserWithEmailAndPasswordDto =
                 RegisterUserWithEmailAndPasswordDto(email, password, repeatPassword, nickname)
+
             authenticationRepository.registerWithEmail(
                 registerUserWithEmailAndPasswordDto,
-                activity,
                 object : RepositoryCallback<SuccessfullRegistrationResponseDto> {
                     override fun onResponse(response: SuccessfullRegistrationResponseDto) {
                         Toast.makeText(
