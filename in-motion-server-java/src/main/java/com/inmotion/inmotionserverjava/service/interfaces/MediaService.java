@@ -8,11 +8,11 @@ import org.springframework.web.multipart.MultipartFile;
 public interface MediaService {
     ProfileVideoUploadInfoDto addProfileVideo(MultipartFile mp4File, String jwtToken);
 
-    PostUploadInfoDto addPost(MultipartFile frontVideo, MultipartFile backVideo, String jwtToken);
+    PostUploadInfoDto addPost(MultipartFile frontVideo, MultipartFile backVideo, String postId, String jwtToken);
 
-    byte[] getProfileVideoAsMp4(String nickname, String userId, String jwtToken);
+    byte[] getProfileVideoAsMp4(String userId, String jwtToken);
 
-    byte[] getProfileVideoAsGif(String nickname, String userId, String jwtToken);
+    byte[] getProfileVideoAsGif(String userId, String jwtToken);
 
     PostDto getPostById(String postId, String jwtToken);
 

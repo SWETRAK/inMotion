@@ -11,7 +11,7 @@ import com.google.gson.Gson
 import com.inmotion.in_motion_android.R
 import com.inmotion.in_motion_android.data.FriendDto
 import com.inmotion.in_motion_android.data.FriendRequestDto
-import com.inmotion.in_motion_android.data.UserDto
+import com.inmotion.in_motion_android.data.dto.user.FullUserInfoDto
 import com.inmotion.in_motion_android.databinding.FragmentUserDetailsBinding
 import java.time.LocalDateTime
 import java.time.Month
@@ -19,15 +19,13 @@ import java.time.Month
 class UserDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentUserDetailsBinding
-    private var user: UserDto? = null
+    private var user: FullUserInfoDto? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            user = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                it.getSerializable("USER", UserDto::class.java)
-            } else {
-                it.getSerializable("USER") as UserDto
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                user = it.getSerializable("USER", FullUserInfoDto::class.java)
             }
         }
     }
@@ -42,8 +40,8 @@ class UserDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tvUsername.text = user?.nickname
-        binding.tvBio.text = user?.bio
+        binding.tvNickname.text = user?.nickname
+        binding.tvBio.text = if(user?.bio != null) user?.bio else ""
         binding.userDetailsToolbar.setLogo(R.drawable.ic_in_motion_logo)
         binding.userDetailsToolbar.setNavigationOnClickListener {
             activity?.onBackPressed()
