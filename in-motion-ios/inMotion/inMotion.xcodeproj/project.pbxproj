@@ -98,6 +98,11 @@
 		86A417A92A3E1A9200A52516 /* newyork.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 86A417A62A3E1A9200A52516 /* newyork.mp4 */; };
 		86A417AC2A3E237600A52516 /* AVPlayerViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A417AB2A3E237600A52516 /* AVPlayerViewControllerExtension.swift */; };
 		86DDF89B2AFFE74000967B44 /* OtherUserDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DDF89A2AFFE74000967B44 /* OtherUserDetailsView.swift */; };
+		86F007AC2B08D044002BC3A9 /* PostDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F007AB2B08D043002BC3A9 /* PostDto.swift */; };
+		86F007AE2B08D1C7002BC3A9 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F007AD2B08D1C7002BC3A9 /* ErrorResponse.swift */; };
+		86F007B02B08D276002BC3A9 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F007AF2B08D276002BC3A9 /* StringExtension.swift */; };
+		86F007B22B08D6B2002BC3A9 /* ProfileVideoUploadInfoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F007B12B08D6B2002BC3A9 /* ProfileVideoUploadInfoDto.swift */; };
+		86F007B42B08DFCE002BC3A9 /* PostUploadInfoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F007B32B08DFCE002BC3A9 /* PostUploadInfoDto.swift */; };
 		86F62FA02B03DA4100B4F02A /* DualCamView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86F62F9F2B03DA4100B4F02A /* DualCamView.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -211,6 +216,11 @@
 		86A417A62A3E1A9200A52516 /* newyork.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = newyork.mp4; sourceTree = "<group>"; };
 		86A417AB2A3E237600A52516 /* AVPlayerViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerViewControllerExtension.swift; sourceTree = "<group>"; };
 		86DDF89A2AFFE74000967B44 /* OtherUserDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserDetailsView.swift; sourceTree = "<group>"; };
+		86F007AB2B08D043002BC3A9 /* PostDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDto.swift; sourceTree = "<group>"; };
+		86F007AD2B08D1C7002BC3A9 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
+		86F007AF2B08D276002BC3A9 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		86F007B12B08D6B2002BC3A9 /* ProfileVideoUploadInfoDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVideoUploadInfoDto.swift; sourceTree = "<group>"; };
+		86F007B32B08DFCE002BC3A9 /* PostUploadInfoDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostUploadInfoDto.swift; sourceTree = "<group>"; };
 		86F62F9F2B03DA4100B4F02A /* DualCamView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DualCamView.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -260,6 +270,10 @@
 		860E588C2B03C08300F988A4 /* Incoming */ = {
 			isa = PBXGroup;
 			children = (
+				86F007AB2B08D043002BC3A9 /* PostDto.swift */,
+				86F007AD2B08D1C7002BC3A9 /* ErrorResponse.swift */,
+				86F007B12B08D6B2002BC3A9 /* ProfileVideoUploadInfoDto.swift */,
+				86F007B32B08DFCE002BC3A9 /* PostUploadInfoDto.swift */,
 			);
 			path = Incoming;
 			sourceTree = "<group>";
@@ -540,6 +554,7 @@
 				25E9F960BD31B07AD902FC8B /* JsonUtil.swift */,
 				25E9FABE0CDC6384BC4DCB82 /* DateFormatter.swift */,
 				25E9FC76AD0AE0E08DA0B740 /* JSONDecodeExtension.swift */,
+				86F007AF2B08D276002BC3A9 /* StringExtension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -705,11 +720,13 @@
 				8614351D2AF18CB400B45FF5 /* CreatePostRequestDto.swift in Sources */,
 				861434FD2AF184D200B45FF5 /* UserProfileVideoDto.swift in Sources */,
 				861435302AF1901600B45FF5 /* CreatePostResponseDto.swift in Sources */,
+				86F007B02B08D276002BC3A9 /* StringExtension.swift in Sources */,
 				861434DC2AF1802400B45FF5 /* ImsPaginationRequestDto.swift in Sources */,
 				862D756D2A3A0A0000B6D02F /* PostDetailsView.swift in Sources */,
 				861434FF2AF1853700B45FF5 /* FullUserInfoDto.swift in Sources */,
 				861435032AF185CD00B45FF5 /* UpdatedUserProfileVideoDto.swift in Sources */,
 				8614350D2AF18A4B00B45FF5 /* FriendInfoDto.swift in Sources */,
+				86F007B22B08D6B2002BC3A9 /* ProfileVideoUploadInfoDto.swift in Sources */,
 				86DDF89B2AFFE74000967B44 /* OtherUserDetailsView.swift in Sources */,
 				862D75852A3A1E3500B6D02F /* MainView.swift in Sources */,
 				862D758A2A3C3BFA00B6D02F /* MapDetails.swift in Sources */,
@@ -723,6 +740,7 @@
 				861434F82AF1843000B45FF5 /* UpdateUserBioDto.swift in Sources */,
 				861434D82AF17E2B00B45FF5 /* ImsHttpMessage.swift in Sources */,
 				861435362AF1917B00B45FF5 /* PostVideoDto.swift in Sources */,
+				86F007B42B08DFCE002BC3A9 /* PostUploadInfoDto.swift in Sources */,
 				86A4179D2A3DE31300A52516 /* PersonRowView.swift in Sources */,
 				8614353D2AF1941300B45FF5 /* PostCommentDto.swift in Sources */,
 				861434ED2AF182F600B45FF5 /* UpdatePasswordDto.swift in Sources */,
@@ -746,6 +764,7 @@
 				861435252AF18DAC00B45FF5 /* EditPostReactionDto.swift in Sources */,
 				86A417AC2A3E237600A52516 /* AVPlayerViewControllerExtension.swift in Sources */,
 				861435412AF1959900B45FF5 /* PostReactionDto.swift in Sources */,
+				86F007AE2B08D1C7002BC3A9 /* ErrorResponse.swift in Sources */,
 				86261EE12B08C4E1003F4F01 /* MediaAppStateExtension.swift in Sources */,
 				861434E52AF1818100B45FF5 /* LoginUserWithEmailAndPasswordDto.swift in Sources */,
 				861434E32AF1813600B45FF5 /* AuthenticateWithGoogleProviderDto.swift in Sources */,
@@ -764,6 +783,7 @@
 				8670A2F62B03CF4000726A71 /* PostCameraScreen.swift in Sources */,
 				861435172AF18C0E00B45FF5 /* CreatePostCommentDto.swift in Sources */,
 				8652383B2A2F2289002E6605 /* LoginView.swift in Sources */,
+				86F007AC2B08D044002BC3A9 /* PostDto.swift in Sources */,
 				862D75872A3C38D400B6D02F /* MapView.swift in Sources */,
 				8670A2FB2B03D26200726A71 /* ViewPreview.swift in Sources */,
 				862D75712A3A137F00B6D02F /* CommentView.swift in Sources */,

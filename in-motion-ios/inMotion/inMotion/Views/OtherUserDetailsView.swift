@@ -13,9 +13,35 @@ struct OtherUserDetailsView: View {
     var user: FullUserInfoDto
     
     @State private var friendshipStatus: FriendshipStatusEnum = .Unknown
+    @State var data: Data? = nil
+    @State var imageSize: Double = 100.0
     
     var body: some View {
         Form {
+            
+            GeometryReader { proxy in
+                if let safeData = data, let uiImage = UIImage(data: safeData) {
+                    VStack (alignment: .center){
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .frame(width: proxy.size.width/1.5, height: proxy.size.width/1.5, alignment: .center)
+                            .position()
+                            .onAppear{
+                                self.imageSize = proxy.size.width/1.5 + 10.0
+                            }
+                    }.frame(width: proxy.size.width)
+                } else {
+                    VStack (alignment: .center) {
+                        Image("avatar-placeholder")
+                            .resizable()
+                            .frame(width: proxy.size.width/1.5, height: proxy.size.width/1.5, alignment: .center)
+                            .onAppear{
+                                self.imageSize = proxy.size.width/1.5 + 10.0
+                            }
+                    }.frame(width: proxy.size.width)
+                }
+            }.frame(height: imageSize)
+        
             Section(header: Text("User details")) {
                 
                 // TODO: Add user profile video

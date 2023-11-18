@@ -22,10 +22,36 @@ struct LoggedUserDetailsView: View {
     @State var newNickname: String = ""
     @State var newEmail: String = ""
     @State var newBio: String = ""
+    @State var data: Data? = nil
+    
+    @State var imageSize: Double = 100.0
     
     var body: some View {
         Form {
             Section(header: Text("User details")) {
+            
+                GeometryReader { proxy in
+                    if let safeData = data, let uiImage = UIImage(data: safeData) {
+                        VStack (alignment: .center) {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .frame(width: proxy.size.width/1.5, height: proxy.size.width/1.5, alignment: .center)
+                                .position()
+                                .onAppear{
+                                    self.imageSize = proxy.size.width/1.5 + 10.0
+                                }
+                        }.frame(width: proxy.size.width)
+                    } else {
+                        VStack (alignment: .center) {
+                            Image("avatar-placeholder")
+                                .resizable()
+                                .frame(width: proxy.size.width/1.5, height: proxy.size.width/1.5, alignment: .center)
+                                .onAppear{
+                                    self.imageSize = proxy.size.width/1.5 + 10.0
+                                }
+                        }.frame(width: proxy.size.width)
+                    }
+                }.frame(height: imageSize)
                 
                 // TODO: Add changing user profile video
                 
@@ -208,7 +234,13 @@ struct LoggedUserDetailsView: View {
             self.newEmail = self.appState.user!.email
             self.newNickname = self.appState.user!.nickname
             self.newBio = self.appState.fullUserInfo!.bio ?? ""
+            self.loadProfilePicture()
         }
+    }
+    
+    func loadProfilePicture() {
+//        self.appState.getUserVideoUrlHttpRequest(userId: , nickname: <#T##String#>, successGetUserProfileVideoUrl: <#T##(String) -> Void#>, failureGetUserProfileVideoUrl: <#T##(ImsHttpError) -> Void#>)
+
         
     }
 }

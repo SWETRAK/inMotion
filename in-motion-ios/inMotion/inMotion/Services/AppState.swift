@@ -33,7 +33,7 @@ class AppState: ObservableObject {
         }
     }
 
-    let httpBaseUrl = "http://localhost"
+    let httpBaseUrl = "http://localhost:8081"
 
     enum HTTPMethods: String {
         case POST = "POST"
