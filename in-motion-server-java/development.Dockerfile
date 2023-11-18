@@ -15,4 +15,4 @@ RUN apt install -y ffmpeg
 ARG JAR_FILE=/usr/app/target/*.jar
 COPY --from=build $JAR_FILE /app/runner.jar
 EXPOSE 8080
-ENTRYPOINT java -jar /app.jar
+ENTRYPOINT java -jar /app/runner.jar

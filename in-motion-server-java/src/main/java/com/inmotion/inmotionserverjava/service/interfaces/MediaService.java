@@ -10,10 +10,10 @@ public interface MediaService {
 
     PostUploadInfoDto addPost(MultipartFile frontVideo, MultipartFile backVideo, String jwtToken);
 
-    byte[] getProfileVideoAsMp4(String nickname, String userId);
+    byte[] getProfileVideoAsMp4(String nickname, String userId, String jwtToken);
 
-    byte[] getProfileVideoAsGif(String nickname, String userId);
+    byte[] getProfileVideoAsGif(String nickname, String userId, String jwtToken);
 
-    PostDto getPostById(String postId);
+    PostDto getPostById(String postId, String jwtToken);
 
 }

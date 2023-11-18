@@ -33,7 +33,7 @@ public class MediaController {
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<ProfileVideoUploadInfoDto> postProfileVideo(@RequestParam("mp4File") MultipartFile mp4File,
-                                                                      @RequestHeader("authentication") String jwtToken) {
+                                                                      @RequestHeader("Authentication") String jwtToken) {
         return new ResponseEntity<>(mediaService.addProfileVideo(mp4File, jwtToken), HttpStatus.CREATED);
     }
 
@@ -48,7 +48,7 @@ public class MediaController {
     })
     public ResponseEntity<PostUploadInfoDto> addPost(@RequestParam("frontVideo") MultipartFile frontVideo,
                                                      @RequestParam("backVideo") MultipartFile backVideo,
-                                                     @RequestHeader("authentication") String jwtToken) {
+                                                     @RequestHeader("Authentication") String jwtToken) {
         return new ResponseEntity<>(mediaService.addPost(frontVideo, backVideo, jwtToken), HttpStatus.CREATED);
     }
 
@@ -59,8 +59,9 @@ public class MediaController {
             @ApiResponse(responseCode = "404", description = "Profile video gif doesn't exist or wrong data provided",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = byte[].class)))
     })
-    public ResponseEntity<byte[]> getProfileVideoAsGif(@PathVariable String username, @PathVariable String userId) {
-        return new ResponseEntity<>(mediaService.getProfileVideoAsGif(username, userId), HttpStatus.OK);
+    public ResponseEntity<byte[]> getProfileVideoAsGif(@PathVariable String username, @PathVariable String userId,
+                                                       @RequestHeader("Authentication") String jwtToken) {
+        return new ResponseEntity<>(mediaService.getProfileVideoAsGif(username, userId, jwtToken), HttpStatus.OK);
     }
 
     @GetMapping(value = "/profile/video/mp4/{username}/{userId}", produces = "video/mp4")
@@ -70,8 +71,9 @@ public class MediaController {
             @ApiResponse(responseCode = "404", description = "Profile video doesn't exist or wrong data provided",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public ResponseEntity<byte[]> getProfileVideoAsMp4(@PathVariable String username, @PathVariable String userId) {
-        return new ResponseEntity<>(mediaService.getProfileVideoAsMp4(username, userId), HttpStatus.OK);
+    public ResponseEntity<byte[]> getProfileVideoAsMp4(@PathVariable String username, @PathVariable String userId,
+                                                       @RequestHeader("Authentication") String jwtToken) {
+        return new ResponseEntity<>(mediaService.getProfileVideoAsMp4(username, userId, jwtToken), HttpStatus.OK);
     }
 
     @GetMapping("/post/{postId}")
@@ -81,7 +83,7 @@ public class MediaController {
             @ApiResponse(responseCode = "404", description = "Post not found",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public ResponseEntity<PostDto> getPostById(@PathVariable String postId) {
-        return new ResponseEntity<>(mediaService.getPostById(postId), HttpStatus.OK);
+    public ResponseEntity<PostDto> getPostById(@PathVariable String postId, @RequestHeader("Authentication") String jwtToken) {
+        return new ResponseEntity<>(mediaService.getPostById(postId, jwtToken), HttpStatus.OK);
     }
 }

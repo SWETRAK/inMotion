@@ -7,7 +7,7 @@
     android:paddingTop="16dp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    tools:context=".fragment.authorisation.LoginFragment">
+    tools:context=".fragment.authentication.LoginFragment">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivSettings"
@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_marginTop="15dp"
-        android:textColorHint="@color/white"
+        android:textColorHint="@color/grey"
         app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

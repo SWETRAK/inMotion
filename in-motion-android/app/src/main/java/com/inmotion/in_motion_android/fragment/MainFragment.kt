@@ -80,17 +80,6 @@ class MainFragment : Fragment() {
             PostDto("Bon_Jovi", "Kielce", "16:30", video, video, 1, 8, 1, 2),
             PostDto("Endrju69", "Warszawa", "18:09", video, video, 0, 300, 67, 0),
             PostDto("Jagienka123", "Phoenix", "21:37", video, video, 68, 34, 11, 2),
-            PostDto("Orzechowiec12", "Glasgow", "4:20", video, video, 41, 301, 44, 65),
-            PostDto("Stephen_mustache", "Lublin", "13:09", video, video, 10, 1, 11, 123),
-            PostDto("Bon_Jovi", "Kielce", "16:30", video, video, 1, 8, 1, 2),
-            PostDto("Endrju69", "Warszawa", "18:09", video, video, 0, 300, 67, 0),
-            PostDto("Jagienka123", "Phoenix", "21:37", video, video, 68, 34, 11, 2),
-            PostDto("Orzechowiec12", "Glasgow", "4:20", video, video, 41, 301, 44, 65),
-            PostDto("Stephen_mustache", "Lublin", "13:09", video, video, 10, 1, 11, 123),
-            PostDto("Bon_Jovi", "Kielce", "16:30", video, video, 1, 8, 1, 2),
-            PostDto("Endrju69", "Warszawa", "18:09", video, video, 0, 300, 67, 0),
-            PostDto("Jagienka123", "Phoenix", "21:37", video, video, 68, 34, 11, 2),
-            PostDto("Orzechowiec12", "Glasgow", "4:20", video, video, 41, 301, 44, 65)
         )
     }
 }
