@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainView: View {
 
-    @EnvironmentObject private var appState: AppState
+    @EnvironmentObject public var appState: AppState
     
     var body: some View {
         VStack{
@@ -43,10 +43,14 @@ struct MainView: View {
                 }
             }
         }.onAppear{
-            LoadFriends()
-            LoadRequests()
-            LoadInvitations()
+            OnViewAppear()
         }
+    }
+    
+    private func OnViewAppear() {
+        self.LoadFriends()
+        self.LoadRequests()
+        self.LoadInvitations()
     }
     
     private func LoadFriends() {
@@ -59,22 +63,15 @@ struct MainView: View {
     }
     
     private func LoadRequests() {
-        appState.getListOfRequestedFriendshipHttpRequest(
-            successGetRelations: {(data: [RequestFriendshipDto]) in
-            },
-            failureGetRelations: {(error: ImsHttpError) in
-                
-            })
+        self.appState.getListOfRequestedFriendshipHttpRequest(
+            successGetRelations: {(data: [RequestFriendshipDto]) in },
+            failureGetRelations: {(error: ImsHttpError) in })
     }
     
     private func LoadInvitations() {
-        appState.getListOfInvitedFriendshipHttpRequest(
-            successGetRelations: {(data: [InvitationFriendshipDto]) in
-                
-            },
-            failureGetRelations: {(error: ImsHttpError) in
-                
-            })
+        self.appState.getListOfInvitedFriendshipHttpRequest(
+            successGetRelations: {(data: [InvitationFriendshipDto]) in },
+            failureGetRelations: {(error: ImsHttpError) in })
     }
 
 }

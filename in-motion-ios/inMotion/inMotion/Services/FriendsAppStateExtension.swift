@@ -59,7 +59,7 @@ extension AppState {
                                  failureAcceptUserAction: @escaping (ImsHttpError) -> Void) {
         
         var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/friends/api/friends/accept/\(friendshipId.uuidString)")!,timeoutInterval: Double.infinity)
-        request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
         
         request.httpMethod = HTTPMethods.PUT.rawValue
         
@@ -105,7 +105,7 @@ extension AppState {
                                  failureRejectFriendshipAction: @escaping (ImsHttpError) -> Void) {
         
         var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/friends/api/friends/reject/\(friendshipId.uuidString)")!,timeoutInterval: Double.infinity)
-        request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
         
         request.httpMethod = HTTPMethods.PATCH.rawValue
         
@@ -149,7 +149,7 @@ extension AppState {
                                  failureRevertFriendshipAction: @escaping (ImsHttpError) -> Void) {
         
         var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/friends/api/friends/revert/\(friendshipId.uuidString)")!,timeoutInterval: Double.infinity)
-        request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
 
         request.httpMethod = HTTPMethods.DELETE.rawValue
 
@@ -193,7 +193,7 @@ extension AppState {
                                  failureUnfriendFriendshipAction: @escaping (ImsHttpError) -> Void) {
         
         var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/friends/api/friends/unfriend/\(friendshipId.uuidString)")!,timeoutInterval: Double.infinity)
-        request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
 
         request.httpMethod = HTTPMethods.DELETE.rawValue
 
@@ -237,10 +237,10 @@ extension AppState {
 extension AppState {
     
     func getListOfAcceptedFriendshipHttpRequest(successGetRelations: @escaping ([AcceptedFriendshipDto]) -> Void,
-                                     failureGetRelations: @escaping (ImsHttpError) -> Void) {
+                                                failureGetRelations: @escaping (ImsHttpError) -> Void) {
         
         var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/friends/api/friends/lists/accepted")!,timeoutInterval: Double.infinity)
-        request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
         
         request.httpMethod = HTTPMethods.GET.rawValue
         
@@ -279,10 +279,10 @@ extension AppState {
     }
     
     func getListOfRequestedFriendshipHttpRequest(successGetRelations: @escaping ([RequestFriendshipDto]) -> Void,
-                                      failureGetRelations: @escaping (ImsHttpError) -> Void) {
+                                                 failureGetRelations: @escaping (ImsHttpError) -> Void) {
         
         var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/friends/api/friends/lists/requested")!,timeoutInterval: Double.infinity)
-        request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
         
         request.httpMethod = HTTPMethods.GET.rawValue
         
@@ -320,10 +320,10 @@ extension AppState {
     }
     
     func getListOfInvitedFriendshipHttpRequest(successGetRelations: @escaping ([InvitationFriendshipDto]) -> Void,
-                                    failureGetRelations: @escaping (ImsHttpError) -> Void) {
+                                               failureGetRelations: @escaping (ImsHttpError) -> Void) {
         
         var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/friends/api/friends/lists/invited")!,timeoutInterval: Double.infinity)
-        request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
         
         request.httpMethod = HTTPMethods.GET.rawValue
         

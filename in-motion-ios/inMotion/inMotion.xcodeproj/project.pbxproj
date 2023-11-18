@@ -103,6 +103,8 @@
 		86F007B02B08D276002BC3A9 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F007AF2B08D276002BC3A9 /* StringExtension.swift */; };
 		86F007B22B08D6B2002BC3A9 /* ProfileVideoUploadInfoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F007B12B08D6B2002BC3A9 /* ProfileVideoUploadInfoDto.swift */; };
 		86F007B42B08DFCE002BC3A9 /* PostUploadInfoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F007B32B08DFCE002BC3A9 /* PostUploadInfoDto.swift */; };
+		86F007BA2B08F377002BC3A9 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 86F007B92B08F377002BC3A9 /* SDWebImageSwiftUI */; };
+		86F007BC2B08F7C2002BC3A9 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F007BB2B08F7C2002BC3A9 /* DataExtension.swift */; };
 		86F62FA02B03DA4100B4F02A /* DualCamView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86F62F9F2B03DA4100B4F02A /* DualCamView.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -221,6 +223,7 @@
 		86F007AF2B08D276002BC3A9 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		86F007B12B08D6B2002BC3A9 /* ProfileVideoUploadInfoDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVideoUploadInfoDto.swift; sourceTree = "<group>"; };
 		86F007B32B08DFCE002BC3A9 /* PostUploadInfoDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostUploadInfoDto.swift; sourceTree = "<group>"; };
+		86F007BB2B08F7C2002BC3A9 /* DataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
 		86F62F9F2B03DA4100B4F02A /* DualCamView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DualCamView.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -229,6 +232,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86F007BA2B08F377002BC3A9 /* SDWebImageSwiftUI in Frameworks */,
 				8634E2AC2AF2B4A5004989C0 /* GoogleSignIn in Frameworks */,
 				8634E2AE2AF2B4A5004989C0 /* GoogleSignInSwift in Frameworks */,
 			);
@@ -480,6 +484,7 @@
 		865238392A2F2270002E6605 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				86F007B52B08F1EA002BC3A9 /* Gif */,
 				8670A2F92B03D24300726A71 /* CameraViews */,
 				863A00842AF67DCE001F64B0 /* Cards */,
 				869F16072A2F2C2F003BFC20 /* Components */,
@@ -555,6 +560,7 @@
 				25E9FABE0CDC6384BC4DCB82 /* DateFormatter.swift */,
 				25E9FC76AD0AE0E08DA0B740 /* JSONDecodeExtension.swift */,
 				86F007AF2B08D276002BC3A9 /* StringExtension.swift */,
+				86F007BB2B08F7C2002BC3A9 /* DataExtension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -569,6 +575,13 @@
 				86261EE02B08C4E1003F4F01 /* MediaAppStateExtension.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		86F007B52B08F1EA002BC3A9 /* Gif */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Gif;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -590,6 +603,7 @@
 			packageProductDependencies = (
 				8634E2AB2AF2B4A5004989C0 /* GoogleSignIn */,
 				8634E2AD2AF2B4A5004989C0 /* GoogleSignInSwift */,
+				86F007B92B08F377002BC3A9 /* SDWebImageSwiftUI */,
 			);
 			productName = inMotion;
 			productReference = 865238072A2F21C6002E6605 /* inMotion.app */;
@@ -665,6 +679,7 @@
 			mainGroup = 865237FE2A2F21C6002E6605;
 			packageReferences = (
 				8634E2AA2AF2B4A5004989C0 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				86F007B82B08F377002BC3A9 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			productRefGroup = 865238082A2F21C6002E6605 /* Products */;
 			projectDirPath = "";
@@ -776,6 +791,7 @@
 				861435322AF1906D00B45FF5 /* PostTagDto.swift in Sources */,
 				861435212AF18D4B00B45FF5 /* EditPostCommentReactionDto.swift in Sources */,
 				8614350F2AF18AB200B45FF5 /* InvitationFriendshipDto.swift in Sources */,
+				86F007BC2B08F7C2002BC3A9 /* DataExtension.swift in Sources */,
 				861434E92AF1829100B45FF5 /* UpdateEmailDto.swift in Sources */,
 				861435192AF18C4300B45FF5 /* CreatePostCommentReactionDto.swift in Sources */,
 				862D756F2A3A0A5600B6D02F /* RegisterView.swift in Sources */,
@@ -1134,6 +1150,14 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		86F007B82B08F377002BC3A9 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1146,6 +1170,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8634E2AA2AF2B4A5004989C0 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		86F007B92B08F377002BC3A9 /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 86F007B82B08F377002BC3A9 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

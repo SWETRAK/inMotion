@@ -9,14 +9,11 @@ import Foundation
 
 extension AppState {
     
-    func getUserVideoUrlHttpRequest(userId: UUID,
-                                    nickname: String,
-                                    successGetUserProfileVideoUrl: @escaping (String) -> Void,
+    func getUserVideoHttpRequest(userId: UUID,
+                                    successGetUserProfileVideoUrl: @escaping (Data) -> Void,
                                     failureGetUserProfileVideoUrl: @escaping (ImsHttpError) -> Void){
         
-        var request = URLRequest(url: URL(string: self.httpBaseUrl + "/media/api/profile/video/mp4/\(nickname)/\(userId.uuidString)")!,timeoutInterval: Double.infinity)
-        // TODO: Remove this when BE Java is corrected
-        request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authentication")
+        var request = URLRequest(url: URL(string: self.httpBaseUrl + "/media/api/profile/video/mp4/\(userId.uuidString.lowercased())")!,timeoutInterval: Double.infinity)
         request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
         
         request.httpMethod = HTTPMethods.GET.rawValue
@@ -32,10 +29,8 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: String = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage)
-                        successGetUserProfileVideoUrl(safeImsMessage)
-                    }
+                    print(data)
+                    successGetUserProfileVideoUrl(data)
                 } else {
                     if let safeError: ErrorResponse = JsonUtil.decodeJsonData(data: data) {
                         let error = ImsHttpError(status: httpResponse.statusCode, errorMessage: safeError.message, errorType: "")
@@ -47,14 +42,11 @@ extension AppState {
         task.resume()
     }
     
-    func getUserGifVideoHttpRequest(userId: UUID,
-                                    nickname: String,
-                                    successGetUserProfileGifUrl: @escaping (String) -> Void,
+    func getUserGifHttpRequest(userId: UUID,
+                                    successGetUserProfileGifUrl: @escaping (Data) -> Void,
                                     failureGetUserProfileGifUrl: @escaping (ImsHttpError) -> Void) {
         
-        var request = URLRequest(url: URL(string: self.httpBaseUrl + "/media/api/profile/video/gif/\(nickname)/\(userId.uuidString)")!,timeoutInterval: Double.infinity)
-        // TODO: Remove this when BE Java is corrected
-        request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authentication")
+        var request = URLRequest(url: URL(string: self.httpBaseUrl + "/media/api/profile/video/gif/\(userId.uuidString.lowercased())")!,timeoutInterval: Double.infinity)
         request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
         
         request.httpMethod = HTTPMethods.GET.rawValue
@@ -70,10 +62,8 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    if let safeImsMessage: String = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage)
-                        successGetUserProfileGifUrl(safeImsMessage)
-                    }
+                    print(data)
+                    successGetUserProfileGifUrl(data)
                 } else {
                     if let safeError: ErrorResponse = JsonUtil.decodeJsonData(data: data) {
                         let error = ImsHttpError(status: httpResponse.statusCode, errorMessage: safeError.message, errorType: "")
@@ -89,9 +79,7 @@ extension AppState {
                            successGetPostVideoUrls: @escaping (PostDto) -> Void,
                            failureGetPostVideoUrls: @escaping (ImsHttpError) -> Void) {
         
-        var request = URLRequest(url: URL(string: self.httpBaseUrl + "/media/api/post/\(postId.uuidString)")!,timeoutInterval: Double.infinity)
-        // TODO: TO be deleted after backend update
-        request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authentication")
+        var request = URLRequest(url: URL(string: self.httpBaseUrl + "/media/api/post/\(postId.uuidString.lowercased())")!,timeoutInterval: Double.infinity)
         request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
         
         request.httpMethod = HTTPMethods.GET.rawValue
@@ -140,8 +128,6 @@ extension AppState {
             let postData = body.data(using: .utf8)
             
             var request = URLRequest(url: URL(string: self.httpBaseUrl + "/media/api/profile/video")!,timeoutInterval: Double.infinity)
-            //TODO: To remove after BE fixes
-            request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authentication")
             request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
             request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
             
@@ -219,7 +205,6 @@ extension AppState {
         let postData = body.data(using: .utf8)
 
         var request = URLRequest(url: URL(string: "http://localhost:8081/media/api/post")!,timeoutInterval: Double.infinity)
-        request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authentication")
         request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 

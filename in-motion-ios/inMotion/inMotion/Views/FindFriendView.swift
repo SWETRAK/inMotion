@@ -9,7 +9,7 @@ import SwiftUI
 import CoreData
 
 struct FindFriendView: View {
-    @EnvironmentObject private var appState: AppState
+    @EnvironmentObject public var appState: AppState
     @State private var nickname: String = "";
     
     @State private var persons: [FullUserInfoDto] = []
@@ -22,7 +22,7 @@ struct FindFriendView: View {
                 .padding(.horizontal)
                 .textInputAutocapitalization(.never)
                 .onChange(of: nickname) { newValue in
-                    FindUsers()
+                    self.FindUsers()
                 }
             
             List(persons, id: \.id){person in
@@ -34,12 +34,13 @@ struct FindFriendView: View {
                         OtherUserDetailsView(user: person).environmentObject(appState)
                     }
                 } label: {
-                    PersonRowView(person: person)
+                    PersonRowView(fullUserInfo: person)
+                        .environmentObject(self.appState)
                         .swipeActions {
                             if(GetFriendshipStatus(person: person) == FriendshipStatusEnum.Unknown){
                                 HStack {
                                     Button {
-                                        SendInvitation(person: person)
+                                        self.SendInvitation(person: person)
                                     } label: {
                                         Image(systemName: "plus")
                                     }
@@ -48,7 +49,7 @@ struct FindFriendView: View {
                             } else if (GetFriendshipStatus(person: person) == FriendshipStatusEnum.Invited){
                                 HStack {
                                     Button {
-                                        InvertRequest(person: person)
+                                        self.InvertRequest(person: person)
                                     } label: {
                                         Image(systemName: "trash")
                                     }.tint(.red)

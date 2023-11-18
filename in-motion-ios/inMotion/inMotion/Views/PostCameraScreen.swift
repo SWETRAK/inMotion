@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PostCameraScreen: View {
-    @EnvironmentObject var appState: AppState
+    @EnvironmentObject public var appState: AppState
     
     var body: some View {
         DualCamSwiftWrapperView()

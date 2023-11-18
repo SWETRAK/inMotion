@@ -10,18 +10,19 @@ import Network
 
 struct ContentView: View {
     
-    @StateObject var appState: AppState = AppState()
+    @StateObject private var appState: AppState = AppState()
     
-    let monitor = NWPathMonitor()
+    private let monitor = NWPathMonitor()
+    
     var body: some View {
         NavigationView {
-            if(appState.initAppReady) {
-                if(appState.internetConnection) {
-                    if (appState.logged) {
+            if(self.appState.initAppReady) {
+                if(self.appState.internetConnection) {
+                    if (self.appState.logged) {
                         MainView().navigationTitle("inMotion")
-                            .environmentObject(appState)
+                            .environmentObject(self.appState)
                     } else {
-                        LoginView().environmentObject(appState);
+                        LoginView().environmentObject(self.appState);
                     }
                     
                 } else {
@@ -31,21 +32,20 @@ struct ContentView: View {
                 Text("INIT PAGE")
             }
         }.onAppear{
-            monitor.start(queue: DispatchQueue.main)
-            monitor.pathUpdateHandler = { path in
-                print(path.status)
+            self.monitor.start(queue: DispatchQueue.main)
+            self.monitor.pathUpdateHandler = { path in
                 if path.status == .satisfied {
-                    appState.internetConnection = true
-                    appState.internetConnectionViaCellular = path.isExpensive
-                    if (appState.token != nil) {
-                        appState.getLoggedInUserHttpRequest(
+                    self.appState.internetConnection = true
+                    self.appState.internetConnectionViaCellular = path.isExpensive
+                    if (self.appState.token != nil) {
+                        self.appState.getLoggedInUserHttpRequest(
                             successGetUserAction: {(data: UserInfoDto) in
                                 DispatchQueue.main.async {
-                                    appState.logged = true
-                                    appState.initAppReady = true
+                                    self.appState.logged = true
+                                    self.appState.initAppReady = true
                                     
-                                    appState.getUserByIdHttpRequest(
-                                        userId: appState.user!.id,
+                                    self.appState.getUserByIdHttpRequest(
+                                        userId: self.appState.user!.id,
                                         successGetUserAction:{ (fullUserInfo: FullUserInfoDto) in
                                             DispatchQueue.main.async {
                                                 self.appState.fullUserInfo = fullUserInfo
@@ -55,23 +55,22 @@ struct ContentView: View {
                                 }
                             },
                             failureGetUserAction: {(error: ImsHttpError) in
-                                appState.logged = false
-                                appState.initAppReady = true
+                                self.appState.logged = false
+                                self.appState.initAppReady = true
                             })
                     } else {
-                        appState.initAppReady = true
+                        self.appState.initAppReady = true
                     }
                 } else {
-                    appState.internetConnection = false
-                    appState.internetConnectionViaCellular = false
-                    appState.initAppReady = true
+                    self.appState.internetConnection = false
+                    self.appState.internetConnectionViaCellular = false
+                    self.appState.initAppReady = true
                 }
             }
         }.onDisappear {
-            monitor.cancel()
+            self.monitor.cancel()
         }
     }
-    
 }
 
 struct ContentView_Previews: PreviewProvider {

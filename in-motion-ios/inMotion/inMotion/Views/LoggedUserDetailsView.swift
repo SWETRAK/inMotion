@@ -7,70 +7,67 @@
 
 import SwiftUI
 import GoogleSignIn
+import SDWebImageSwiftUI
+import AVKit
 
 struct LoggedUserDetailsView: View {
     
-    @EnvironmentObject private var appState: AppState
+    @EnvironmentObject public var appState: AppState
     
-    @State var showAlert: Bool = false
-    @State var addGoogleProviderAlert: Bool = false
-    @State var communicationError: Bool = false
-    @State var emailError: Bool = false
-    @State var showAddPassword: Bool = false
-    @State var showChangePassword:Bool = false
+    @State private var addGoogleProviderAlert: Bool = false
+    @State private var communicationError: Bool = false
+    @State private var emailError: Bool = false
+    @State private var showAddPassword: Bool = false
+    @State private var showChangePassword:Bool = false
     
-    @State var newNickname: String = ""
-    @State var newEmail: String = ""
-    @State var newBio: String = ""
-    @State var data: Data? = nil
+    @State private var newNickname: String = ""
+    @State private var newEmail: String = ""
+    @State private var newBio: String = ""
     
-    @State var imageSize: Double = 100.0
+    @State private var imageSize: Double = 100.0
+    @State private var avPlayer: AVPlayer? = nil
     
     var body: some View {
         Form {
             Section(header: Text("User details")) {
-            
+                // TODO: Add user video updater
                 GeometryReader { proxy in
-                    if let safeData = data, let uiImage = UIImage(data: safeData) {
+                    if(self.avPlayer != nil) {
                         VStack (alignment: .center) {
-                            Image(uiImage: uiImage)
-                                .resizable()
-                                .frame(width: proxy.size.width/1.5, height: proxy.size.width/1.5, alignment: .center)
-                                .position()
+                            VideoPlayer(player: self.avPlayer)
+                                .frame(width: proxy.size.width/1.5, height: proxy.size.width/1.5/(3/4), alignment: .center)
                                 .onAppear{
-                                    self.imageSize = proxy.size.width/1.5 + 10.0
+                                    self.imageSize = proxy.size.width/1.5/(3/4)
+                                    self.OnVideoAppear()
                                 }
-                        }.frame(width: proxy.size.width)
+                        }
+                        .frame(width: proxy.size.width)
                     } else {
                         VStack (alignment: .center) {
                             Image("avatar-placeholder")
                                 .resizable()
-                                .frame(width: proxy.size.width/1.5, height: proxy.size.width/1.5, alignment: .center)
+                                .frame(width: proxy.size.width/1.5, height: proxy.size.width/1.5/(3/4), alignment: .center)
                                 .onAppear{
-                                    self.imageSize = proxy.size.width/1.5 + 10.0
+                                    self.imageSize = proxy.size.width/1.5/(3/4)
                                 }
-                        }.frame(width: proxy.size.width)
+                        }
+                        .frame(width: proxy.size.width)
                     }
-                }.frame(height: imageSize)
-                
-                // TODO: Add changing user profile video
+                }
+                .frame(height: imageSize)
                 
                 LabeledContent {
                     HStack{
                         TextField("Nickname", text: self.$newNickname)
                         Button {
-                            
-                            self.appState.updateUserNicknameHttpRequest(
-                                requestData: UpdateNicknameDto(nickname: self.newNickname),
-                                successNicknameUpdateAction: {(data: UserInfoDto) in },
-                                failureNicknameUpdateAction: {(error: ImsHttpError) in })
-                            
+                            self.UpdateNickname()
                         } label: {
                             Image(systemName: "shift.fill")
                                 .resizable()
                                 .foregroundColor(self.newNickname == self.appState.user?.nickname ? .gray : .green)
                                 .frame(width: 15, height: 15)
-                        }.disabled(self.newNickname == self.appState.user?.nickname)
+                        }
+                        .disabled(self.newNickname == self.appState.user?.nickname)
                     }
                 } label: {
                     Text("Nickname")
@@ -83,44 +80,29 @@ struct LoggedUserDetailsView: View {
                             .autocorrectionDisabled(true)
                         
                         Button {
-                            
-                            self.appState.updateUserEmailHttpRequest(
-                                requestData: UpdateEmailDto(email: self.newEmail),
-                                successEmailUpdateAction: {(user: UserInfoDto) in },
-                                failureEmailUpdateAction: {(error: ImsHttpError) in
-                                    if (error.status == 401) {
-                                        self.emailError = true
-                                        self.showAlert = true
-                                    }
-                                    print(error.status)
-                                })
-                            
+                            self.UpdateUserEmail()
                         } label: {
                             Image(systemName: "shift.fill")
                                 .resizable()
                                 .foregroundColor(self.newEmail == self.appState.user?.email ? .gray : .green)
                                 .frame(width: 15, height: 15)
-                        }.disabled(self.newEmail == self.appState.user?.email)
+                        }
+                        .disabled(self.newEmail == self.appState.user?.email)
+                        .alert("This email is taken by other user", isPresented: self.$emailError) {
+                            Button("Ok", role: .cancel) {}
+                        }
                     }
                 } label: {
                     Text("Email")
                 }
                 
-                
                 VStack(alignment: .leading) {
                     Text("BIO")
                     HStack {
                         TextField("Bio", text: self.$newBio, axis: .vertical)
-
+                        
                         Button {
-                            self.appState.updateUserBioHttpRequest(
-                                requestData: UpdateUserBioDto(bio: self.newBio),
-                                successUpdateUserBioAction: {(data: UpdatedUserBioDto) in
-                                    self.newBio = data.newBio
-                                },
-                                failureUpdateUserBioAction: {(error: ImsHttpError) in
-
-                                })
+                            self.UpdateUserBio()
                         } label: {
                             Image(systemName: "shift.fill")
                                 .resizable()
@@ -132,14 +114,13 @@ struct LoggedUserDetailsView: View {
             }
             
             Section(header: Text("Security")) {
-                
-                if (appState.user?.providers.contains("Password") ?? false) {
+                if (self.appState.user?.providers.contains("Password") ?? false) {
                     Button {
                         self.showChangePassword = true
                     } label: {
                         Text("Change Password")
                     }.sheet(isPresented: self.$showChangePassword) {
-                        ChangePassword().environmentObject(appState)
+                        ChangePassword().environmentObject(self.appState)
                     }
                 } else {
                     Button {
@@ -147,101 +128,134 @@ struct LoggedUserDetailsView: View {
                     } label: {
                         Text("Add password to account")
                     }.sheet(isPresented: self.$showAddPassword) {
-                        AddPasswordToAccount().environmentObject(appState)
+                        AddPasswordToAccount().environmentObject(self.appState)
                     }
                 }
-                
                 
                 // MARK: - GOOGLE Button
                 
                 Button {
-                    guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
-                    guard let rootViewController = windowScene.windows.first?.rootViewController else { return }
-                    let signInConfig = GIDConfiguration(clientID: "435519606946-0d3d75lo1askeorlrn21355csa1hsd9h.apps.googleusercontent.com")
-                    
-                    GIDSignIn.sharedInstance.configuration = signInConfig
-                    
-                    GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController ) { (user, error )in
-                        
-                        guard let user = user else {
-                            return
-                        }
-                        
-                        if let userID = user.user.userID {
-                            if let idToken = user.user.idToken {
-                                appState.addGoogleProviderHttpRequest(requestData: AuthenticateWithGoogleProviderDto(userId: userID, token: idToken.tokenString),
-                                                                      successAddGoogleProvider: {(data: Bool) in
-                                    self.addGoogleProviderAlert = false
-                                },
-                                                                      failureAddGoogleProvider: {(error: ImsHttpError) in
-                                    print(error.errorMessage)
-                                    if(error.status == 409) {
-                                        self.showAlert = true
-                                        self.addGoogleProviderAlert = true
-                                    } else if (error.status == 500) {
-                                        self.showAlert = true
-                                        self.communicationError = true
-                                    }
-                                })
-                            }
-                        }
-                    }
+                    self.AddGoogleProvider()
                 } label: {
                     HStack{
                         Image("google-logo")
                             .resizable()
                             .frame(width: 50, height: 50)
-                        Text("Login with google")
-                    }.frame(alignment: .center)
-                }.disabled(appState.user?.providers.contains("Google") ?? false)
+                        Text("Add google provider")
+                    }
+                    .frame(alignment: .center)
+                }
+                .disabled(self.appState.user?.providers.contains("Google") ?? false)
+                .alert("This provider is connected to other account", isPresented: self.$addGoogleProviderAlert) {
+                    Button("OK", role: .cancel) {}
+                }
             }
-            
             Section {
                 Button("Logout") {
                     self.appState.logOut()
                 }.foregroundColor(.red)
             }
-        }.alert(isPresented: $showAlert) {
-            if (self.communicationError) {
-                return Alert(
-                    title: Text("No communication with server"),
-                    message: Text("We have internal server problems, we work on them"),
-                    dismissButton: .default(Text("Ok")) {
-                        self.communicationError = false
-                    }
-                )
-            } else if (self.addGoogleProviderAlert) {
-                return Alert(
-                    title: Text("This provider is connected to other account"),
-                    dismissButton: .default(Text("Ok")) {
-                        self.addGoogleProviderAlert = false
-                    }
-                )
-            }
-            else if (self.emailError) {
-                return Alert(
-                    title: Text("This email is taken by other user"),
-                    dismissButton: .default(Text("Ok")) {
-                        self.emailError = false
-                    }
-                )
-            } else {
-                return Alert (
-                    title: Text("Unknown error")
-                )
-            }
+        }.alert("No communication with server", isPresented: self.$communicationError) {
+            Button("OK", role: .cancel) {}
         }.onAppear{
-            self.newEmail = self.appState.user!.email
-            self.newNickname = self.appState.user!.nickname
-            self.newBio = self.appState.fullUserInfo!.bio ?? ""
-            self.loadProfilePicture()
+            self.OnViewAppear()
+        }.onDisappear{
+            self.OnViewDisappear()
         }
     }
     
-    func loadProfilePicture() {
-//        self.appState.getUserVideoUrlHttpRequest(userId: , nickname: <#T##String#>, successGetUserProfileVideoUrl: <#T##(String) -> Void#>, failureGetUserProfileVideoUrl: <#T##(ImsHttpError) -> Void#>)
-
+    private func OnViewAppear() {
+        self.newEmail = self.appState.user!.email
+        self.newNickname = self.appState.user!.nickname
+        self.newBio = self.appState.fullUserInfo!.bio ?? ""
+        self.LoadProfilePicture()
+    }
+    
+    private func OnViewDisappear() {
+        self.avPlayer?.pause()
+        self.avPlayer?.replaceCurrentItem(with: nil)
+        self.avPlayer = nil
+    }
+    
+    private func OnVideoAppear() {
+        self.avPlayer?.play()
+        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: .main) { _ in
+            self.avPlayer?.seek(to: .zero)
+            self.avPlayer?.play()
+        }
+    }
+    
+    private func UpdateNickname() {
+        self.appState.updateUserNicknameHttpRequest(
+            requestData: UpdateNicknameDto(nickname: self.newNickname),
+            successNicknameUpdateAction: {(data: UserInfoDto) in },
+            failureNicknameUpdateAction: {(error: ImsHttpError) in })
+    }
+    
+    private func UpdateUserBio() {
+        self.appState.updateUserBioHttpRequest(
+            requestData: UpdateUserBioDto(bio: self.newBio),
+            successUpdateUserBioAction: {(data: UpdatedUserBioDto) in
+                self.newBio = data.newBio
+            },
+            failureUpdateUserBioAction: {(error: ImsHttpError) in })
+    }
+    
+    private func UpdateUserEmail() {
+        self.appState.updateUserEmailHttpRequest(
+            requestData: UpdateEmailDto(email: self.newEmail),
+            successEmailUpdateAction: {(user: UserInfoDto) in },
+            failureEmailUpdateAction: {(error: ImsHttpError) in
+                if (error.status == 401) {
+                    self.emailError = true
+                }
+            })
+    }
+    
+    private func AddGoogleProvider() {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return }
+        guard let rootViewController = windowScene.windows.first?.rootViewController else { return }
+        let signInConfig = GIDConfiguration(clientID: "435519606946-0d3d75lo1askeorlrn21355csa1hsd9h.apps.googleusercontent.com")
         
+        GIDSignIn.sharedInstance.configuration = signInConfig
+        
+        GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController ) { (user, error )in
+            
+            guard let user = user else {
+                return
+            }
+            
+            if let userID = user.user.userID {
+                if let idToken = user.user.idToken {
+                    appState.addGoogleProviderHttpRequest(
+                        requestData: AuthenticateWithGoogleProviderDto(userId: userID, token: idToken.tokenString),
+                        successAddGoogleProvider: {(data: Bool) in
+                            self.addGoogleProviderAlert = false
+                        },
+                        failureAddGoogleProvider: {(error: ImsHttpError) in
+                            if(error.status == 401) {
+                                self.addGoogleProviderAlert = true
+                            } else if (error.status == 500) {
+                                self.communicationError = true
+                            }
+                        })
+                }
+            }
+        }
+    }
+    
+    private func LoadProfilePicture() {
+        if let safeUserId = self.appState.user?.id {
+            self.appState.getUserVideoHttpRequest(
+                userId: safeUserId) { (data: Data) in
+                    self.PreparePlayer(data)
+                } failureGetUserProfileVideoUrl: { (error: ImsHttpError) in }
+        }
+    }
+    
+    private func PreparePlayer(_ data: Data) {
+        self.avPlayer = AVPlayer(playerItem: AVPlayerItem(asset: data.convertToAVAsset()))
+        self.avPlayer?.isMuted = true
     }
 }
 

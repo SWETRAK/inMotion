@@ -14,7 +14,7 @@ extension AppState {
     func getUsersByNicknameHttpRequest(nickname: String, successGetUserAction: @escaping ([FullUserInfoDto]) -> Void, failureGetUserAction: @escaping (ImsHttpError) -> Void) {
         if let url = URL(string: self.httpBaseUrl + "/users/api/users/search/" + nickname) {
             var request = URLRequest(url: url,timeoutInterval: Double.infinity)
-            request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
+            request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
 
             request.httpMethod = HTTPMethods.GET.rawValue
 
@@ -56,7 +56,7 @@ extension AppState {
                                 failureGetUserAction: @escaping (ImsHttpError) -> Void) {
         
         var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/users/api/users/\(userId.uuidString)")!,timeoutInterval: Double.infinity)
-        request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
         
         request.httpMethod = HTTPMethods.GET.rawValue
         
@@ -100,7 +100,7 @@ extension AppState {
         
         var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/users/api/users/update/bio")!,timeoutInterval: Double.infinity)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
         
         request.httpMethod = HTTPMethods.PUT.rawValue
         request.httpBody = postData
@@ -151,7 +151,7 @@ extension AppState {
                                      failureGetUserVideoInfoAction: @escaping (ImsHttpError) -> Void) {
         
         var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/users/api/users/videos/byUser/\(userId.uuidString)")!,timeoutInterval: Double.infinity)
-        request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
         
         request.httpMethod = HTTPMethods.GET.rawValue
         
@@ -191,7 +191,7 @@ extension AppState {
                                      failureGetUserVideoInfoAction: @escaping (ImsHttpError) -> Void) {
         
         var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/users/api/users/videos/byVideo/\(videoId.uuidString)")!,timeoutInterval: Double.infinity)
-        request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
         
         request.httpMethod = HTTPMethods.GET.rawValue
         
