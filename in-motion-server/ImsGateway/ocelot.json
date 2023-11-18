@@ -160,7 +160,7 @@
           "Port": 8080
         }
       ],
-      "DownstreamPathTemplate": "/api/media/{catchAll}"
+      "DownstreamPathTemplate": "/api/{catchAll}"
     },
     {
       "UpstreamPathTemplate": "/media/swagger/{catchAll}",
