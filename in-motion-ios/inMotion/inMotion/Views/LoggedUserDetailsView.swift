@@ -30,32 +30,36 @@ struct LoggedUserDetailsView: View {
     var body: some View {
         Form {
             Section(header: Text("User details")) {
-                // TODO: Add user video updater
-                GeometryReader { proxy in
-                    if(self.avPlayer != nil) {
-                        VStack (alignment: .center) {
-                            VideoPlayer(player: self.avPlayer)
-                                .frame(width: proxy.size.width/1.5, height: proxy.size.width/1.5/(3/4), alignment: .center)
-                                .onAppear{
-                                    self.imageSize = proxy.size.width/1.5/(3/4)
-                                    self.OnVideoAppear()
-                                }
-                        }
-                        .frame(width: proxy.size.width)
-                    } else {
-                        VStack (alignment: .center) {
-                            Image("avatar-placeholder")
-                                .resizable()
-                                .frame(width: proxy.size.width/1.5, height: proxy.size.width/1.5/(3/4), alignment: .center)
-                                .onAppear{
-                                    self.imageSize = proxy.size.width/1.5/(3/4)
-                                }
-                        }
-                        .frame(width: proxy.size.width)
-                    }
-                }
-                .frame(height: imageSize)
                 
+                NavigationLink {
+                    UserProfileVideoCameraView().environmentObject(appState)
+                } label: {
+                    GeometryReader { proxy in
+                        if(self.avPlayer != nil) {
+                            VStack (alignment: .center) {
+                                VideoPlayer(player: self.avPlayer)
+                                    .frame(width: proxy.size.width/1.5, height: proxy.size.width/1.5/(3/4), alignment: .center)
+                                    .onAppear{
+                                        self.imageSize = proxy.size.width/1.5/(3/4)
+                                        self.OnVideoAppear()
+                                    }
+                            }
+                            .frame(width: proxy.size.width)
+                        } else {
+                            VStack (alignment: .center) {
+                                Image("avatar-placeholder")
+                                    .resizable()
+                                    .frame(width: proxy.size.width/1.5, height: proxy.size.width/1.5/(3/4), alignment: .center)
+                                    .onAppear{
+                                        self.imageSize = proxy.size.width/1.5/(3/4)
+                                    }
+                            }
+                            .frame(width: proxy.size.width)
+                        }
+                    }
+                    .frame(height: imageSize)
+                }
+
                 LabeledContent {
                     HStack{
                         TextField("Nickname", text: self.$newNickname)
@@ -167,7 +171,7 @@ struct LoggedUserDetailsView: View {
     private func OnViewAppear() {
         self.newEmail = self.appState.user!.email
         self.newNickname = self.appState.user!.nickname
-        self.newBio = self.appState.fullUserInfo!.bio ?? ""
+        self.newBio = self.appState.fullUserInfo?.bio ?? ""
         self.LoadProfilePicture()
     }
     
@@ -259,8 +263,8 @@ struct LoggedUserDetailsView: View {
     }
 }
 
-struct LoggedUserDetailsView_Previews: PreviewProvider {
-    static var previews: some View {
-        LoggedUserDetailsView()
-    }
-}
+//struct LoggedUserDetailsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        LoggedUserDetailsView()
+//    }
+//}

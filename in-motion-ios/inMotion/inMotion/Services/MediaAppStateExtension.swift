@@ -113,6 +113,7 @@ extension AppState {
     // let fileData = try NSData(contentsOfFile: paramSrc, options: []) as Data // Ta linijka jest tutaj ważna
     func uploadProfileVideo(
         fileData: Data,
+        fileName: String,
         successUploadProfileVideo: @escaping (ProfileVideoUploadInfoDto) -> Void,
         failureUploadFrofileVideo: @escaping (ImsHttpError) -> Void) {
             
@@ -121,8 +122,9 @@ extension AppState {
             let paramName = "mp4File"
             body += "--\(boundary)\r\n"
             body += "Content-Disposition:form-data; name=\"\(paramName)\""
-            let fileContent = String(data: fileData, encoding: .utf8)!
-            body += "; filename=\"\(UUID.init().uuidString)\"\r\n"
+            print(fileData.base64EncodedString())
+            let fileContent = fileData.base64EncodedString()
+            body += "; filename=\"\(fileName)\"\r\n"
             + "Content-Type: \"content-type header\"\r\n\r\n\(fileContent)\r\n"
             body += "--\(boundary)--\r\n";
             let postData = body.data(using: .utf8)

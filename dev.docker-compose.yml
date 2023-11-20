@@ -59,7 +59,7 @@ services:
       dockerfile: ./ImsGateway/development.Dockerfile
     container_name: inMotion_imsGateway
     ports:
-      - "8081:80"
+      - "80:80"
 #      - "443:443"
     environment:
       - ASPNETCORE_URLS=http://+:80

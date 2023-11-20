@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PostCameraScreen: View {
+struct PostCameraView: View {
     @EnvironmentObject public var appState: AppState
     
     var body: some View {
@@ -17,6 +17,6 @@ struct PostCameraScreen: View {
 
 struct PostCameraScreen_Previews: PreviewProvider {
     static var previews: some View {
-        PostCameraScreen()
+        PostCameraView()
     }
 }
