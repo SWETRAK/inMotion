@@ -14,11 +14,7 @@ struct ProfileCameraViewWrapper: UIViewControllerRepresentable {
     
     func makeUIViewController(context: Context) -> ProfileCameraViewController {
         let storyBoard = UIStoryboard(name: "ProfileCameraView", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileCameraView") as! ProfileCameraViewController
-//        let profileCameraView = ProfileCameraViewController()
-        
         storyBoard.appState = appState
-       
-//        profileCameraView.appState = appState
         return storyBoard
     }
     

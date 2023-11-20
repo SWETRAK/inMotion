@@ -1,27 +1,32 @@
 //
-//  ProfileCameraViewController.swift
+//  ViewController.swift
 //  inMotion
 //
-//  Created by Kamil Pietrak on 18/11/2023.
+//  Created by Kamil Pietrak on 14/11/2023.
 //
 
 import Foundation
 import UIKit
-import AVKit
 import AVFoundation
 import Photos
+import ReplayKit
 
-class ProfileCameraViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
+class PostCameraViewController: UIViewController, AVCaptureFileOutputRecordingDelegate  {
     
     var captureSession: AVCaptureSession!
     var videoPreviewLayer: AVCaptureVideoPreviewLayer!
+    var recorderVideoPrewiewLayer: AVPlayerLayer!
     var movieOutput = AVCaptureMovieFileOutput()
     var videoCaptureDevice : AVCaptureDevice?
     var appState: AppState?
     
+    var frontCameraUrl: URL?
+    var backCameraUrl: URL?
+    
     var session: AVCaptureSession?
     
     @IBOutlet weak var previewView: UIView!
+    @IBOutlet weak var recorderVideoPrewiew: UIView!
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -38,7 +43,7 @@ class ProfileCameraViewController: UIViewController, AVCaptureFileOutputRecordin
             if response {
                 self.prepareCameras()
             } else {
-                self.goBackToUserPage()
+                self.goBackToMainPage()
             }
         }
     }
@@ -70,12 +75,9 @@ class ProfileCameraViewController: UIViewController, AVCaptureFileOutputRecordin
     
     func setupLivePreview() {
         videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        
         videoPreviewLayer.videoGravity = .resizeAspect
         videoPreviewLayer.connection?.videoOrientation = .portrait
-        
         previewView.layer.addSublayer(videoPreviewLayer)
-        
         
         DispatchQueue.global(qos: .userInitiated).async {
             self.captureSession.startRunning()
@@ -85,10 +87,75 @@ class ProfileCameraViewController: UIViewController, AVCaptureFileOutputRecordin
         }
     }
     
-    func goBackToUserPage() {
+    func setupRecorderLayer(displayVideo: URL) {
+        recorderVideoPrewiewLayer = AVPlayerLayer(player: AVPlayer(url: displayVideo))
+        recorderVideoPrewiewLayer.videoGravity = .resizeAspect
+        recorderVideoPrewiew.layer.addSublayer(recorderVideoPrewiewLayer)
+        DispatchQueue.main.async {
+            self.recorderVideoPrewiewLayer.frame = self.recorderVideoPrewiew.bounds
+        }
+    }
+    
+    func switchCameras() {
+        let currentCameraInput: AVCaptureInput = captureSession.inputs[0]
+        captureSession.removeInput(currentCameraInput)
+        var newCamera: AVCaptureDevice
+        newCamera = AVCaptureDevice.default(for: .video)!;
+        if (currentCameraInput as! AVCaptureDeviceInput).device.position == .back {
+            UIView.transition(with: self.previewView, duration: 0.5, options: .transitionFlipFromLeft, animations: {
+                newCamera = self.cameraWithPosition(.front)!
+            }, completion: nil)
+        } else {
+            UIView.transition(with: self.previewView, duration: 0.5, options: .transitionFlipFromRight, animations: {
+                newCamera = self.cameraWithPosition(.back)!
+            }, completion: nil)
+        }
+        do {
+            try self.captureSession?.addInput(AVCaptureDeviceInput(device: newCamera))
+        }
+        catch {
+            print("error: \(error.localizedDescription)")
+        }
+    }
+    
+    func goBackToMainPage() {
         
     }
     
+    func cameraWithPosition(_ position: AVCaptureDevice.Position) -> AVCaptureDevice? {
+        let deviceDescoverySession = AVCaptureDevice.DiscoverySession.init(deviceTypes: [AVCaptureDevice.DeviceType.builtInWideAngleCamera], mediaType: AVMediaType.video, position: AVCaptureDevice.Position.unspecified)
+
+        for device in deviceDescoverySession.devices {
+            if device.position == position {
+                return device
+            }
+        }
+        return nil
+    }
+
+    
+    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+        if error == nil {
+        
+            // save file links
+            
+        }
+    }
+    
+    func sendToServer() {
+        self.appState?.uploadPostVideoAlamofire(
+            frontFilePath: self.frontCameraUrl!,
+            backFilePath: self.backCameraUrl!,
+            postId: UUID(),
+            successUploadProfileVideo: { (data: PostUploadInfoDto) in
+                self.goBackToMainPage()
+            },
+            failureUploadProfileVideo: { (error: ImsHttpError) in
+                print(error)
+            })
+    }
+    
+    // TODO: This should run automaticaly
     @IBAction func recordVideoAction(_ sender: UIButton) {
         if movieOutput.isRecording {
             movieOutput.stopRecording()
@@ -102,17 +169,6 @@ class ProfileCameraViewController: UIViewController, AVCaptureFileOutputRecordin
                 print("Zakończono nagrywanie")
                 self.movieOutput.stopRecording()
             })
-        }
-    }
-    
-    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
-        if error == nil {
-            self.appState?.uploadProfileVideoAlamofire(
-                filePath: outputFileURL,
-                successUploadProfileVideo: { (data: ProfileVideoUploadInfoDto) in
-                    self.goBackToUserPage()
-                },
-                failureUploadFrofileVideo: { (error: ImsHttpError) in })
         }
     }
 }

@@ -11,7 +11,7 @@ struct PostCameraView: View {
     @EnvironmentObject public var appState: AppState
     
     var body: some View {
-        DualCamSwiftWrapperView()
+        PostCameraViewWrapper().environmentObject(appState)
     }
 }
 

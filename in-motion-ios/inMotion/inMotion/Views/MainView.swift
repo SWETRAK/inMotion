@@ -16,11 +16,11 @@ struct MainView: View {
             Text(appState.user?.email ?? "")
             
             // Post camera view
-//            NavigationLink {
-//                PostCameraScreen().environmentObject(appState)
-//            } label: {
-//                Text("CamScreen")
-//            }
+            NavigationLink {
+                PostCameraView().environmentObject(appState)
+            } label: {
+                Text("CamScreen")
+            }
 
             ScrollView() {
 //                ForEach(posts, id:\.id) { post in
