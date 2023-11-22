@@ -98,6 +98,7 @@
 		86A417A92A3E1A9200A52516 /* newyork.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 86A417A62A3E1A9200A52516 /* newyork.mp4 */; };
 		86A417AC2A3E237600A52516 /* AVPlayerViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A417AB2A3E237600A52516 /* AVPlayerViewControllerExtension.swift */; };
 		86DDF89B2AFFE74000967B44 /* OtherUserDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DDF89A2AFFE74000967B44 /* OtherUserDetailsView.swift */; };
+		86E8F0512B0E1EE800716C87 /* PostsAppStateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E8F0502B0E1EE800716C87 /* PostsAppStateExtension.swift */; };
 		86F007AC2B08D044002BC3A9 /* PostDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F007AB2B08D043002BC3A9 /* PostDto.swift */; };
 		86F007AE2B08D1C7002BC3A9 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F007AD2B08D1C7002BC3A9 /* ErrorResponse.swift */; };
 		86F007B02B08D276002BC3A9 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F007AF2B08D276002BC3A9 /* StringExtension.swift */; };
@@ -220,6 +221,7 @@
 		86A417A62A3E1A9200A52516 /* newyork.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = newyork.mp4; sourceTree = "<group>"; };
 		86A417AB2A3E237600A52516 /* AVPlayerViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerViewControllerExtension.swift; sourceTree = "<group>"; };
 		86DDF89A2AFFE74000967B44 /* OtherUserDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserDetailsView.swift; sourceTree = "<group>"; };
+		86E8F0502B0E1EE800716C87 /* PostsAppStateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsAppStateExtension.swift; sourceTree = "<group>"; };
 		86F007AB2B08D043002BC3A9 /* PostDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDto.swift; sourceTree = "<group>"; };
 		86F007AD2B08D1C7002BC3A9 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
 		86F007AF2B08D276002BC3A9 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
@@ -586,6 +588,7 @@
 				863725F82AFB99C800C933D6 /* UserAppStateExtension.swift */,
 				863725FA2AFBB5E000C933D6 /* FriendsAppStateExtension.swift */,
 				86261EE02B08C4E1003F4F01 /* MediaAppStateExtension.swift */,
+				86E8F0502B0E1EE800716C87 /* PostsAppStateExtension.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -749,6 +752,7 @@
 				861434E72AF181A800B45FF5 /* RegisterUserWithEmailAndPasswordDto.swift in Sources */,
 				869F16092A2F2C70003BFC20 /* MainWallPost.swift in Sources */,
 				861434DA2AF17F8F00B45FF5 /* ImsPagination.swift in Sources */,
+				86E8F0512B0E1EE800716C87 /* PostsAppStateExtension.swift in Sources */,
 				862D75832A3A168D00B6D02F /* FindFriendView.swift in Sources */,
 				8614351D2AF18CB400B45FF5 /* CreatePostRequestDto.swift in Sources */,
 				861434FD2AF184D200B45FF5 /* UserProfileVideoDto.swift in Sources */,

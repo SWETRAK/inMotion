@@ -109,10 +109,10 @@ class ProfileCameraViewController: UIViewController, AVCaptureFileOutputRecordin
         if error == nil {
             self.appState?.uploadProfileVideoAlamofire(
                 filePath: outputFileURL,
-                successUploadProfileVideo: { (data: ProfileVideoUploadInfoDto) in
+                onSuccess: { (data: ProfileVideoUploadInfoDto) in
                     self.goBackToUserPage()
                 },
-                failureUploadFrofileVideo: { (error: ImsHttpError) in })
+                onFailure: { (error: ImsHttpError) in })
         }
     }
 }

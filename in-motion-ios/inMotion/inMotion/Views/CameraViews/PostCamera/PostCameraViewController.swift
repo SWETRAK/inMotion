@@ -147,10 +147,10 @@ class PostCameraViewController: UIViewController, AVCaptureFileOutputRecordingDe
             frontFilePath: self.frontCameraUrl!,
             backFilePath: self.backCameraUrl!,
             postId: UUID(),
-            successUploadProfileVideo: { (data: PostUploadInfoDto) in
+            onSuccess: { (data: PostUploadInfoDto) in
                 self.goBackToMainPage()
             },
-            failureUploadProfileVideo: { (error: ImsHttpError) in
+            onFailure: { (error: ImsHttpError) in
                 print(error)
             })
     }

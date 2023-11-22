@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 class AppState: ObservableObject {
     
@@ -22,6 +23,8 @@ class AppState: ObservableObject {
     @Published var acceptedFriendships: [AcceptedFriendshipDto] = []
     @Published var requestedFriendships: [RequestFriendshipDto] = []
     @Published var invitedFriendships: [InvitationFriendshipDto] = []
+    
+    let AF = Alamofire.Session.default
     
     let userDefaults: UserDefaults
     
