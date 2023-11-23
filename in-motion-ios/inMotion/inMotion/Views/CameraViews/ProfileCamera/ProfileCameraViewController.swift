@@ -45,7 +45,7 @@ class ProfileCameraViewController: UIViewController, AVCaptureFileOutputRecordin
     
     func prepareCameras() {
         self.captureSession = AVCaptureSession();
-        self.captureSession.sessionPreset = .hd1920x1080
+        self.captureSession.sessionPreset = .hd1280x720
         guard let frontCamera = AVCaptureDevice.default(for: AVMediaType.video) else {
             print("Unable to access back camera!")
             return
