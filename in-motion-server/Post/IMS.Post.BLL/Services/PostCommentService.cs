@@ -5,7 +5,6 @@ using IMS.Post.IDAL.Repositories.Post;
 using IMS.Post.Models.Dto.Incoming;
 using IMS.Post.Models.Dto.Outgoing;
 using IMS.Post.Models.Exceptions;
-using IMS.Shared.Models.Dto;
 using IMS.Shared.Utils.Parsers;
 
 namespace IMS.Post.BLL.Services;
@@ -68,8 +67,8 @@ public class PostCommentService: IPostCommentService
         return _mapper.Map<PostCommentDto>(postComment);
     }
     
-    public async Task<ImsPagination<IEnumerable<PostCommentDto>>> GetPostCommentsPaginatedAsync(
-        string postId, ImsPaginationRequestDto imsPaginationRequestDto)
+    public async Task<IEnumerable<PostCommentDto>> GetPostCommentsAsync(
+        string postId)
     {
         var postIdGuid = postId.ParseGuid();
         var post = await _postRepository.GetByIdAsync(postIdGuid);
@@ -77,10 +76,7 @@ public class PostCommentService: IPostCommentService
         if (post is null)
             throw new PostNotFoundException();
         
-        var postCommentsCounts = await _postCommentRepository.GetRangeByPostIdCountAsync(postIdGuid);
-        
-        var postComments = await _postCommentRepository.GetRangeByPostIdPaginatedAsync(post.Id,
-            imsPaginationRequestDto.PageNumber, imsPaginationRequestDto.PageSize);
+        var postComments = await _postCommentRepository.GetRangeByPostIdAsync(post.Id);
 
         var authors = await _userService.GetUsersByIdsArray(postComments.Select(x => x.ExternalAuthorId).Distinct());
         
@@ -97,13 +93,7 @@ public class PostCommentService: IPostCommentService
             })
         );
 
-        return new ImsPagination<IEnumerable<PostCommentDto>>
-        {
-            TotalCount = postCommentsCounts,
-            PageNumber = imsPaginationRequestDto.PageNumber,
-            PageSize = imsPaginationRequestDto.PageSize,
-            Data = responseData
-        };
+        return responseData;
     }
     
     public async Task DeletePostCommentAsync(string userId, string commentId)

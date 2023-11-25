@@ -11,8 +11,8 @@ public interface IPostCommentService
     Task<PostCommentDto> EditPostCommentDtoAsync(string userId, string commentId,
         UpdatePostCommentDto updatePostCommentDto);
     
-    Task<ImsPagination<IEnumerable<PostCommentDto>>> GetPostCommentsPaginatedAsync(
-        string postId, ImsPaginationRequestDto imsPaginationRequestDto);
+    Task<IEnumerable<PostCommentDto>> GetPostCommentsAsync(
+        string postId);
     
     Task DeletePostCommentAsync(string userId, string commentId);
 }

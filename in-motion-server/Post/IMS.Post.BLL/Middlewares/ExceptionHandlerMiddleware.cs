@@ -55,6 +55,13 @@ public class ExceptionHandlerMiddleware : IMiddleware
             await SendErrorResponse(context, StatusCodes.Status404NotFound, "Post reaction not found",
                 exception.GetType().ToString());
         }
+        catch (PostIterationNotFoundException exception)
+        {
+            _logger.LogError(exception, "Post iteration not found, {ExceptionName}, {Message}",
+                exception.GetType().ToString(), exception.Message);
+            await SendErrorResponse(context, StatusCodes.Status404NotFound, "Post iteration not found",
+                exception.GetType().ToString());
+        }
         catch (PostReactionAlreadyExistsException exception)
         {
             _logger.LogError(exception, "Post reaction already exists, {ExceptionName}, {Message}",

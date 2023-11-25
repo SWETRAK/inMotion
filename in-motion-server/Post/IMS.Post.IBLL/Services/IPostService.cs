@@ -9,8 +9,8 @@ public interface IPostService
     Task<ImsPagination<IList<GetPostResponseDto>>> GetPublicPostsFromCurrentIteration(
         ImsPaginationRequestDto paginationRequestDto);
     
-    Task<ImsPagination<IList<GetPostResponseDto>>> GetFriendsPublicPostsFromCurrentIteration(
-        string userId, ImsPaginationRequestDto paginationRequestDto);
+    Task<IList<GetPostResponseDto>> GetFriendsPublicPostsFromCurrentIteration(
+        string userId);
     
     Task<CreatePostResponseDto> CreatePost(string userId, CreatePostRequestDto createPostRequestDto);
     

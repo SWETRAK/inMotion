@@ -10,7 +10,7 @@ public interface IPostReactionRepository: IDisposable
     
     Task<PostReaction> GetByIdAndAuthorId(Guid id, Guid authorId);
 
-    Task<IList<PostReaction>> GetRangeByPostIdPaginatedAsync(Guid postId, int pageNumber, int pageSize = 20);
+    Task<IList<PostReaction>> GetRangeByPostIdAsync(Guid postId);
     
     Task<long> GetRangeByPostIdCountAsync(Guid postId);
     

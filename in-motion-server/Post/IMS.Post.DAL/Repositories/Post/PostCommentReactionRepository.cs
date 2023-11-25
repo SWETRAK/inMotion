@@ -15,15 +15,16 @@ public class PostCommentReactionRepository: IPostCommentReactionRepository
         _context = context;
     }
 
-    public async Task<IList<PostCommentReaction>> GetByPostCommentIdPaginatedAsync(Guid postCommentId, int pageNumber, int pageSize)
+    public async Task<IList<PostCommentReaction>> GetByPostCommentIdPaginatedAsync(Guid postCommentId)
     {
-        return await _context.PostCommentReactions.Take(pageSize).Skip((pageNumber - 1) * pageSize)
+        return await _context.PostCommentReactions
             .Where(x => x.PostCommentId.Equals(postCommentId)).ToListAsync();
     }
 
     public async Task<long> GetByPostCommentIdCountAsync(Guid postCommentId)
     {
-        return await _context.PostCommentReactions.Where(x => x.PostCommentId.Equals(postCommentId)).CountAsync();
+        return await _context.PostCommentReactions
+            .Where(x => x.PostCommentId.Equals(postCommentId)).CountAsync();
     }
 
     public async Task<PostCommentReaction> GetByIdAndAuthorIdAsync(Guid id, Guid authorId)
@@ -41,7 +42,8 @@ public class PostCommentReactionRepository: IPostCommentReactionRepository
     public async Task<PostCommentReaction> GetByAuthorIdAndPostCommentIdAsync(Guid authorId, Guid postCommentId)
     {
         return await _context.PostCommentReactions
-            .FirstOrDefaultAsync(x => x.ExternalAuthorId.Equals(authorId) && x.PostCommentId.Equals(postCommentId));
+            .FirstOrDefaultAsync(x => x.ExternalAuthorId.Equals(authorId) && 
+                                      x.PostCommentId.Equals(postCommentId));
     }
 
     public void Remove(PostCommentReaction postCommentReaction)

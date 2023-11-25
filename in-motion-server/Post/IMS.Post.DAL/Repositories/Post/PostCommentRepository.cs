@@ -26,9 +26,9 @@ public class PostCommentRepository: IPostCommentRepository
             x.Id.Equals(id) && x.ExternalAuthorId.Equals(authorId) && x.PostId.Equals(postId));
     }
 
-    public async Task<IList<PostComment>> GetRangeByPostIdPaginatedAsync(Guid postId, int pageNumber, int pageSize)
+    public async Task<IList<PostComment>> GetRangeByPostIdAsync(Guid postId)
     {
-        return await _context.PostComments.Take(pageSize).Skip((pageNumber - 1) * pageSize)
+        return await _context.PostComments
             .Where(x => x.PostId.Equals(postId)).ToListAsync();
     }
 

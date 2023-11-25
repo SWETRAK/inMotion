@@ -16,6 +16,6 @@ public interface IPostCommentReactionService
 
     Task RemovePostCommentReaction(string userId, string postCommentReactionId);
 
-    Task<ImsPagination<IEnumerable<PostCommentReactionDto>>> GetAllPostCommentReactionsPaginatedAsync(
-        string postCommentId, ImsPaginationRequestDto paginationRequestDto);
+    Task<IEnumerable<PostCommentReactionDto>> GetAllPostCommentReactionsPaginatedAsync(
+        string postCommentId);
 }

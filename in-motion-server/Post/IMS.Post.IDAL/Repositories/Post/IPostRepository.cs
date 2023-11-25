@@ -15,6 +15,6 @@ public interface IPostRepository: IDisposable
 
     Task SaveAsync();
 
-    Task<IList<PostEntity>> GetFriendsPublicFromIterationPaginatedAsync(Guid postIterationId,
-        IEnumerable<Guid> friendIds, int pageNumber, int pageSize = 20);
+    Task<IList<PostEntity>> GetFriendsPublicAsync(Guid postIterationId,
+        IEnumerable<Guid> friendIds);
 }
