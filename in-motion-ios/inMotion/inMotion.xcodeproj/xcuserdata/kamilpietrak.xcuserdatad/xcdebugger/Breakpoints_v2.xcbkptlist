@@ -21,54 +21,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E93F1544-69FC-4DFB-8E0A-268A7474116D"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "inMotion/Views/PostDetailsView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
-            landmarkName = "PostDetailsView"
-            landmarkType = "14">
-            <Locations>
-               <Location
-                  uuid = "E93F1544-69FC-4DFB-8E0A-268A7474116D - 9ab655946b7baa26"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "inMotion.PostDetailsView.LoadComments() -&gt; ()"
-                  moduleName = "inMotion"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kamilpietrak/Documents/projekt/in-motion-ios/inMotion/inMotion/Views/PostDetailsView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "108"
-                  endingLineNumber = "108"
-                  offsetFromSymbolStart = "298">
-               </Location>
-               <Location
-                  uuid = "E93F1544-69FC-4DFB-8E0A-268A7474116D - 9ab655946b7baa26"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "inMotion.PostDetailsView.LoadComments() -&gt; ()"
-                  moduleName = "inMotion"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/kamilpietrak/Documents/projekt/in-motion-ios/inMotion/inMotion/Views/PostDetailsView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "108"
-                  endingLineNumber = "108"
-                  offsetFromSymbolStart = "510">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "B9F2F4D1-1CDF-42C4-A548-362B7716263E"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -76,10 +28,10 @@
             filePath = "inMotion/Views/PostDetailsView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "191"
-            endingLineNumber = "191"
-            landmarkName = "PostDetailsView"
-            landmarkType = "14">
+            startingLineNumber = "182"
+            endingLineNumber = "182"
+            landmarkName = "AddComment()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

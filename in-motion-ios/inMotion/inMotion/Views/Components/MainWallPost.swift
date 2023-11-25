@@ -5,25 +5,24 @@ import AVKit
 
 struct MainWallPost: View {
     @EnvironmentObject private var appState: AppState
+    var post: GetPostResponseDto
     
-//    @Binding var post: GetPostResponseDto
-
-    @State private var likesCount: Int = 0
     @State private var liked: Bool = false
+    
+    @State private var authorFrontData: Data?
 
-    @State private var commentsCount: Int = 0
-    @State private var avPlayer: AVPlayer? = nil
+    @State private var avPlayerBig: AVPlayer? = nil
+    @State private var avPlayerSmall: AVPlayer? = nil
 
     var body: some View {
         NavigationLink {
-            PostDetailsView()
+            PostDetailsView(post: post)
                 .environmentObject(appState)
         } label: {
             VStack {
 
                 HStack{
-                    if let safeData = self.data {
-                        
+                    if let safeData = self.authorFrontData {
                         AnimatedImage(data: safeData)
                             .resizable()
                             .frame(width: 50, height: 50, alignment: .center)
@@ -35,30 +34,46 @@ struct MainWallPost: View {
                         
                     }
                     VStack(alignment: .leading){
-//                        Text(post.author.nickname)
-//                        Text(post.localization.name)
+                        Text(self.post.author.nickname)
+                        Text(self.post.localization.name)
                     }
                 }.frame(maxWidth: .infinity, alignment: .leading)
 
 
-                if(self.avPlayer != nil){
-                    VideoPlayer(player: self.avPlayer)
-                        .frame(width: UIScreen.main.bounds.width-20, height: (UIScreen.main.bounds.width-20)/16*9)
-                        .onDisappear{
-                            self.avPlayer?.pause()
-                        }
-                        .onAppear{
-                            self.avPlayer?.play()
-                            NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: .main) { _ in
-                                self.avPlayer?.seek(to: .zero)
-                                self.avPlayer?.play()
+                if (self.avPlayerBig != nil && self.avPlayerSmall != nil) {
+                    HStack(alignment: .top) {
+                        VideoPlayer(player: self.avPlayerBig)
+                            .frame(
+                                width: UIScreen.main.bounds.width-20,
+                                height: (UIScreen.main.bounds.width-20)/9*16,
+                                alignment: .topTrailing)
+                            .onDisappear{
+                                self.avPlayerBig?.pause()
                             }
-                        }
-                        .onLongPressGesture {
-                            if(!self.liked) {
-//                                LikePost()
+                            .onAppear{
+                                self.avPlayerBig?.play()
+                                NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: .main) { _ in
+                                    self.avPlayerBig?.seek(to: .zero)
+                                    self.avPlayerBig?.play()
+                                }
                             }
-                        }
+                        
+                        VideoPlayer(player: self.avPlayerSmall)
+                            .frame(
+                                width: (UIScreen.main.bounds.width-20)/2,
+                                height: ((UIScreen.main.bounds.width-20)/2)/9*16,
+                                alignment: .bottomTrailing)
+                            .onDisappear{
+                                self.avPlayerSmall?.pause()
+                            }
+                            .onAppear{
+                                self.avPlayerSmall?.play()
+                                NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: .main) { _ in
+                                    self.avPlayerSmall?.seek(to: .zero)
+                                    self.avPlayerSmall?.play()
+                                }
+                            }
+                    }
                 }
 
                 HStack{
@@ -69,12 +84,12 @@ struct MainWallPost: View {
                             .frame(width: 20, height: 20)
                             .onTapGesture {
                                 if (self.liked) {
-//                                    UnlikePost()
+                                    UnlikePost()
                                 } else {
-//                                    LikePost()
+                                    LikePost()
                                 }
                             }
-                        Text(String(self.likesCount))
+                        Text(String(self.post.postReactionsCount))
                     }
 
                     Spacer()
@@ -83,89 +98,70 @@ struct MainWallPost: View {
                         Image(systemName: "text.bubble.rtl")
                             .resizable()
                             .frame(width: 20, height: 20)
-                        Text(String(self.commentsCount))
+                        Text(String(self.post.postCommentsCount))
                     }
                 }
                 Divider()
 
             }.padding()
                 .onAppear {
-//                    GetCommentsCount()
-//                    GetLikesCount()
-                    PreparePlayer()
+                    GetCommentsCount()
+                    GetLikesCount()
+                    GetPostVideo()
+                    LoadProfilePicture()
                 }.onDisappear{
-                    self.avPlayer?.pause()
-                    self.avPlayer?.replaceCurrentItem(with: nil)
-                    self.avPlayer = nil
+
                 }
         }.buttonStyle(.plain)
     }
-
-    private func PreparePlayer() {
-//        self.avPlayer = AVPlayer(url: Bundle.main.url(forResource: post.video_link ?? "warsaw", withExtension: "mp4")!)
-        self.avPlayer?.isMuted = true
+    
+    private func GetPostVideo() {
+        appState.getPostVideosUrls(
+            postId: self.post.id,
+            successGetPostVideoUrls: {(data: PostDto) in
+                self.PreparePlayer(data: data)
+            },
+            failureGetPostVideoUrls: {(error: ImsHttpError) in })
+    }
+    
+    private func PreparePlayer(data: PostDto) {
+        self.avPlayerBig = AVPlayer(playerItem: AVPlayerItem(asset: data.backVideo.convertToAVAsset()))
+        self.avPlayerSmall = AVPlayer(playerItem: AVPlayerItem(asset: data.frontVideo.convertToAVAsset()))
+        self.avPlayerBig?.isMuted = false
+        self.avPlayerSmall?.isMuted = false
     }
 
+    private func KillPlayers() {
+        self.avPlayerBig?.pause()
+        self.avPlayerBig?.replaceCurrentItem(with: nil)
+        self.avPlayerBig = nil
+        
+        self.avPlayerSmall?.pause()
+        self.avPlayerSmall?.replaceCurrentItem(with: nil)
+        self.avPlayerSmall = nil
+    }
+    
+    private func LoadProfilePicture() {
+        self.appState.getUserGifHttpRequest(
+            userId: self.post.author.id ) { (data: Data) in
+                DispatchQueue.main.async {
+                    self.authorFrontData = data
+                }
+            } failureGetUserProfileGifUrl: { (error: ImsHttpError) in }
+    }
+    
 
     private func GetCommentsCount() {
-        let request: NSFetchRequest<Comment> = Comment.fetchRequest()
-        let prediction = NSPredicate(format: "post.id == %@", post.id! as CVarArg)
-        request.predicate = prediction
-        do {
-            let result = try viewContext.fetch(request)
-            self.commentsCount = result.count
-        } catch {
-            print("Error fetching data from context \(error)")
-        }
     }
-//
-//    private func GetLikesCount() {
-//        let request: NSFetchRequest<Like> = Like.fetchRequest()
-//        let prediction = NSPredicate(format: "post.id == %@", post.id! as CVarArg)
-//        request.predicate = prediction
-//        do {
-//            let result = try viewContext.fetch(request)
-//            if let mySafeLike = result.first(where: {$0.author?.id == appState.user?.id}) {
-//                self.liked = true;
-//                self.myLike = mySafeLike
-//            }
-//            self.likesCount = result.count
-//        } catch {
-//            print("Error fetching data from context \(error)")
-//        }
-//    }
 
-//    private func LikePost() {
-//        let like = Like(context: viewContext)
-//        like.post = post
-//        like.author = appState.user
-//        like.time = Date.now
-//        if (viewContext.hasChanges) {
-//            do {
-//                try viewContext.save()
-//                self.myLike = like
-//                self.liked = true
-//            } catch {
-//                let nserror = error as NSError
-//                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-//            }
-//        }
-//        GetLikesCount()
-//    }
+    private func GetLikesCount() {
+    }
 
-//    private func UnlikePost() {
-//        if let safeLike = myLike {
-//            viewContext.delete(safeLike)
-//            self.myLike = nil
-//            self.liked = false
-//            do {
-//                try viewContext.save()
-//            } catch {
-//                print("error while saving \(error)")
-//            }
-//        }
-//        GetLikesCount()
-//    }
+    private func LikePost() {
+    }
+
+    private func UnlikePost() {
+    }
 }
 
 //struct MainWallPost_Previews: PreviewProvider {

@@ -19,7 +19,7 @@ struct GetPostResponseDto: Codable {
     
     public var videos: [PostVideoDto]
     public var postCommentsCount: UInt
-    public var PostReactionsCount: UInt
+    public var postReactionsCount: UInt
     
-    public var CreateAt: Date
+    public var createAt: Date
 }

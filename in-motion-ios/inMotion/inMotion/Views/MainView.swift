@@ -10,23 +10,29 @@ import SwiftUI
 struct MainView: View {
 
     @EnvironmentObject public var appState: AppState
+    @State var posts: [GetPostResponseDto] = []
+    
+    @State var userPost: GetPostResponseDto? = nil
     
     var body: some View {
         VStack{
-            Text(appState.user?.email ?? "")
+            if let safeUserPost = self.userPost {
+                //TODO; use safe UserPost here
+            } else {
+                // Post camera view
+                NavigationLink {
+                    PostCameraView().environmentObject(appState)
+                } label: {
+                    Text("RECORD POST")
+                }
+            }
             
-            // Post camera view
-            NavigationLink {
-                PostCameraView().environmentObject(appState)
-            } label: {
-                Text("CamScreen")
-            }
-
             ScrollView() {
-//                ForEach(posts, id:\.id) { post in
-//                    MainWallPost().environmentObject(appState).environmentObject(post)
-//                }
-            }
+                ForEach(posts, id:\.id) { post in
+                    MainWallPost(post: post)
+                        .environmentObject(appState)
+                }
+            }.blur(radius: 9)
         }.toolbar {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink {
@@ -51,6 +57,25 @@ struct MainView: View {
         self.LoadFriends()
         self.LoadRequests()
         self.LoadInvitations()
+        self.LoadPosts()
+        self.LoadCurrentUserPost()
+    }
+    
+    private func LoadCurrentUserPost() {
+        self.appState.GetUserPost { (data: GetPostResponseDto) in
+            
+        } onFailure: { (error: ImsHttpError) in
+            
+        }
+    }
+    
+    private func LoadPosts() {
+        self.appState.GetFriendsPosts { (data: [GetPostResponseDto]) in
+            self.posts = data
+        } onFailure: { (error: ImsHttpError) in
+            self.posts = []
+        }
+
     }
     
     private func LoadFriends() {

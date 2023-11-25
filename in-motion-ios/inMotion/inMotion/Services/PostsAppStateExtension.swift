@@ -176,18 +176,13 @@ extension AppState {
         }
     
     public func GetFriendsPosts(
-        requestDto: ImsPaginationRequestDto,
         onSuccess: @escaping ([GetPostResponseDto]) -> Void,
         onFailure: @escaping (ImsHttpError) -> Void){
             
-            let postData = JsonUtil.encodeJsonStringFromObject(requestDto)
-            
             var request = URLRequest(url: URL(string: "http://localhost/posts/api/posts/friends")!,timeoutInterval: Double.infinity)
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue("Bearer \(self.token ?? "")", forHTTPHeaderField: "Authorization")
             
             request.httpMethod = HTTPMethods.GET.rawValue
-            request.httpBody = postData
             
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
                 guard let data = data else {

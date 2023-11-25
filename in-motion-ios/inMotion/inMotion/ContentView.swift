@@ -55,16 +55,22 @@ struct ContentView: View {
                                 }
                             },
                             failureGetUserAction: {(error: ImsHttpError) in
-                                self.appState.logged = false
-                                self.appState.initAppReady = true
+                                DispatchQueue.main.async {
+                                    self.appState.logged = false
+                                    self.appState.initAppReady = true
+                                }
                             })
                     } else {
-                        self.appState.initAppReady = true
+                        DispatchQueue.main.async {
+                            self.appState.initAppReady = true
+                        }
                     }
                 } else {
-                    self.appState.internetConnection = false
-                    self.appState.internetConnectionViaCellular = false
-                    self.appState.initAppReady = true
+                    DispatchQueue.main.async {
+                        self.appState.internetConnection = false
+                        self.appState.internetConnectionViaCellular = false
+                        self.appState.initAppReady = true
+                    }
                 }
             }
         }.onDisappear {

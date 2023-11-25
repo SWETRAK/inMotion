@@ -10,204 +10,182 @@ import CoreData
 import AVKit
 
 struct PostDetailsView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-//    @EnvironmentObject private var post: Post
+    
+    var post: GetPostResponseDto
     @EnvironmentObject private var appState: AppState
+    @State private var authorGifData: Data? = nil
     
-//    @State private var comments: [Comment] = []
+    @State private var comments: [PostCommentDto] = []
     @State private var newComment: String = ""
-    
     @State private var liked: Bool = false
-//    @State private var myLike: Like? = nil
-    @State private var likesCount: Int = 0
     
-    @State private var showingMap: Bool = false
-    @State private var mapDetails = MapDetail(name: "Test", latitude: 12321.43, longitude: 23432.23)
-    
-    @State private var avPlayer: AVPlayer? = nil
+    @State private var avPlayerBig: AVPlayer? = nil
+    @State private var avPlayerSmall: AVPlayer? = nil
     
     var body: some View {
         VStack{
-//            VStack {
-//                ScrollView {
-//                    VStack{
-//                        Text(post.localization_name ?? "Warsaw")
-//                            .font(.system(size: 12))
-//                            .foregroundColor(Color.blue)
-//                            .onTapGesture {
-//                                showingMap.toggle()
-//                            }.sheet(isPresented: $showingMap) {
-//                                MapView(mapDetails: $mapDetails, isPresented: $showingMap)
-//                            }
-//
-//                        if(self.avPlayer != nil){
-//                            VideoPlayer(player: self.avPlayer)
-//                                .frame(width: UIScreen.main.bounds.width-20, height: (UIScreen.main.bounds.width-20)/16*9)
-//                                .onDisappear{
-//                                    self.avPlayer?.pause()
-//                                }
-//                                .onAppear{
-//                                    self.avPlayer?.play()
-//                                    NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: .main) { _ in
-//                                        self.avPlayer?.seek(to: .zero)
-//                                        self.avPlayer?.play()
-//                                    }
-//                                }
-//                        }
-//
-//                        HStack{
-//                            HStack{
-//                                Image(systemName: liked ? "heart.fill" : "heart") // heart.fill if liked
-//                                    .resizable()
-//                                    .foregroundColor(liked ? .red : .black) // .red if liked
-//                                    .frame(width: 20, height: 20)
-//                                    .onTapGesture {
-//                                        if (self.liked) {
-//                                            UnlikePost()
-//                                        } else {
-//                                            LikePost()
-//                                        }
-//                                        GetLikesCount()
-//                                    }
-//                                Text(String(self.likesCount))
-//                            }
-//
-//                            Spacer()
-//
-//                            HStack{
-//                                Image(systemName: "text.bubble.rtl")
-//                                    .resizable()
-//                                    .frame(width: 20, height: 20)
-//                                Text(String(self.comments.count))
-//                            }
-//                        }
-//                        Divider()
-//                    }
-//
-//                    ForEach(self.comments, id:\.id) { comment in
+            VStack {
+                ScrollView {
+                    VStack{
+                        Text(post.localization.name)
+                            .font(.system(size: 12))
+                            .foregroundColor(Color.blue)
+
+                        if (self.avPlayerBig != nil && self.avPlayerSmall != nil) {
+                            HStack(alignment: .top) {
+                                VideoPlayer(player: self.avPlayerBig)
+                                    .frame(
+                                        width: UIScreen.main.bounds.width-20,
+                                        height: (UIScreen.main.bounds.width-20)/9*16,
+                                        alignment: .topTrailing)
+                                    .onDisappear{
+                                        self.avPlayerBig?.pause()
+                                    }
+                                    .onAppear{
+                                        self.avPlayerBig?.play()
+                                        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: .main) { _ in
+                                            self.avPlayerBig?.seek(to: .zero)
+                                            self.avPlayerBig?.play()
+                                        }
+                                    }
+                                
+                                VideoPlayer(player: self.avPlayerSmall)
+                                    .frame(
+                                        width: (UIScreen.main.bounds.width-20)/2,
+                                        height: ((UIScreen.main.bounds.width-20)/2)/9*16,
+                                        alignment: .bottomTrailing)
+                                    .onDisappear{
+                                        self.avPlayerSmall?.pause()
+                                    }
+                                    .onAppear{
+                                        self.avPlayerSmall?.play()
+                                        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: .main) { _ in
+                                            self.avPlayerSmall?.seek(to: .zero)
+                                            self.avPlayerSmall?.play()
+                                        }
+                                    }
+                            }
+                        }
+
+                        HStack{
+                            HStack{
+                                Image(systemName: liked ? "heart.fill" : "heart") // heart.fill if liked
+                                    .resizable()
+                                    .foregroundColor(liked ? .red : .black) // .red if liked
+                                    .frame(width: 20, height: 20)
+                                    .onTapGesture {
+                                        if (self.liked) {
+                                            UnlikePost()
+                                        } else {
+                                            LikePost()
+                                        }
+                                        GetLikesCount()
+                                    }
+                                Text(String(self.post.postCommentsCount))
+                            }
+
+                            Spacer()
+
+                            HStack{
+                                Image(systemName: "text.bubble.rtl")
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                Text(String(self.comments.count))
+                            }
+                        }
+                        Divider()
+                    }
+
+                    ForEach(self.comments, id:\.id) { comment in
 //                        CommentView().environmentObject(comment)
-//                    }
-//                }
-//
-//                Divider()
-//                HStack{
-//                    TextField(text: $newComment){
-//                        Text("Add a comment...")
-//                    }
-//                    Button {
-//                        if(!self.newComment.isEmpty) {
-//                            AddComment()
-//                            LoadComments()
-//                            self.newComment = ""
-//                        }
-//                    } label: {
-//                        Image(systemName: "paperplane.fill")
-//                    }
-//                }
-//            }
+                    }
+                }
+
+                Divider()
+                HStack{
+                    TextField(text: $newComment){
+                        Text("Add a comment...")
+                    }
+                    Button {
+                        if(!self.newComment.isEmpty) {
+                            AddComment()
+                            LoadComments()
+                            self.newComment = ""
+                        }
+                    } label: {
+                        Image(systemName: "paperplane.fill")
+                    }
+                }
+            }
         }
         .padding()
-//        .navigationBarTitle(post.author?.nickname ?? "nickname", displayMode: .inline)
+        .navigationBarTitle(post.author.nickname, displayMode: .inline)
         .onAppear{
-//            GetMapDetails()
-//            GetLikesCount()
-//            LoadComments()
-//            PreparePlayer()
+            GetLikesCount()
+            LoadComments()
+            LoadProfilePicture()
+            GetPostVideo()
         }
         .onDisappear{
-            self.avPlayer?.pause()
-            self.avPlayer?.replaceCurrentItem(with: nil)
-            self.avPlayer = nil
+            self.avPlayerBig?.pause()
+            self.avPlayerBig?.replaceCurrentItem(with: nil)
+            self.avPlayerBig = nil
+            
+            self.avPlayerSmall?.pause()
+            self.avPlayerSmall?.replaceCurrentItem(with: nil)
+            self.avPlayerSmall = nil
+        
         }
     }
     
-//    private func PreparePlayer() {
-//        self.avPlayer = AVPlayer(url: Bundle.main.url(forResource: post.video_link ?? "warsaw", withExtension: "mp4")!)
-//        self.avPlayer?.isMuted = false
-//    }
-//
-//
-//    private func GetMapDetails() {
-//        self.mapDetails = MapDetail(name: "Test", latitude: self.post.localization_latitude, longitude: post.localization_longitude)
-//    }
-//
-//    private func LoadComments() {
-//        let request: NSFetchRequest<Comment> = Comment.fetchRequest()
-//        let predictate = NSPredicate(format: "post.id == %@", post.id! as CVarArg)
-//        request.predicate = predictate
-//        do {
-//            self.comments = try viewContext.fetch(request)
-//        } catch {
-//            print("Error fetching data from context \(error)")
-//        }
-//    }
-//
-//    private func GetLikesCount() {
-//        let request: NSFetchRequest<Like> = Like.fetchRequest()
-//        let prediction = NSPredicate(format: "post.id == %@", post.id! as CVarArg)
-//        request.predicate = prediction
-//        do {
-//            let result = try viewContext.fetch(request)
-//            if let mySafeLike = result.first(where: {$0.author?.id == appState.user?.id}) {
-//                self.liked = true;
-//                self.myLike = mySafeLike
-//            }
-//            self.likesCount = result.count
-//        } catch {
-//            print("Error fetching data from context \(error)")
-//        }
-//    }
-//
-//    private func LikePost() {
-//        let like = Like(context: viewContext)
-//        like.post = post
-//        like.author = appState.user
-//        like.time = Date.now
-//        if (viewContext.hasChanges) {
-//            do {
-//                try viewContext.save()
-//                self.myLike = like
-//                self.liked = true
-//            } catch {
-//                let nserror = error as NSError
-//                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-//            }
-//        }
-//    }
-//
-//    private func UnlikePost() {
-//        if let safeLike = myLike {
-//            viewContext.delete(safeLike)
-//            self.myLike = nil
-//            self.liked = false
-//            do {
-//                try viewContext.save()
-//            } catch {
-//                print("error while saving \(error)")
-//            }
-//        }
-//    }
-//
-//    private func AddComment() {
-//        let comment = Comment(context: viewContext)
-//        comment.id = UUID()
-//        comment.post = post
-//        comment.author = appState.user
-//        comment.comment = self.newComment
-//
-//        if (viewContext.hasChanges) {
-//            do {
-//                try viewContext.save()
-//            } catch {
-//                let nserror = error as NSError
-//                print("Unresolved error \(nserror), \(nserror.userInfo)")
-//            }
-//        }
-//    }
-}
+    private func GetPostVideo() {
+        appState.getPostVideosUrls(
+            postId: self.post.id,
+            successGetPostVideoUrls: {(data: PostDto) in
+                self.PreparePlayer(data: data)
+            },
+            failureGetPostVideoUrls: {(error: ImsHttpError) in
+                
+            })
+    }
+    
+    private func PreparePlayer(data: PostDto) {
+        self.avPlayerBig = AVPlayer(playerItem: AVPlayerItem(asset: data.backVideo.convertToAVAsset()))
+        self.avPlayerSmall = AVPlayer(playerItem: AVPlayerItem(asset: data.frontVideo.convertToAVAsset()))
+        self.avPlayerBig?.isMuted = false
+        self.avPlayerSmall?.isMuted = false
+    }
 
-struct PostDetailsView_Previews: PreviewProvider {
-    static var previews: some View {
-        PostDetailsView()
+    private func LoadProfilePicture() {
+        self.appState.getUserGifHttpRequest(
+            userId: self.post.author.id) { (data: Data) in
+                DispatchQueue.main.async {
+                    self.authorGifData = data
+                }
+            } failureGetUserProfileGifUrl: { (error: ImsHttpError) in }
+        
+    }
+    
+    private func LoadComments() {
+        
+    }
+    
+    private func GetLikesCount() {
+    }
+
+    private func LikePost() {
+    }
+
+    private func UnlikePost() {
+    }
+
+    private func AddComment() {
+    
     }
 }
+
+//struct PostDetailsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PostDetailsView()
+//    }
+//}

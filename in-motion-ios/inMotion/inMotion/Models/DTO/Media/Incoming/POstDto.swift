@@ -8,6 +8,6 @@
 import Foundation
 
 struct PostDto: Codable {
-    public var frontVideo: String
-    public var backVideo: String
+    public var frontVideo: Data
+    public var backVideo: Data
 }
