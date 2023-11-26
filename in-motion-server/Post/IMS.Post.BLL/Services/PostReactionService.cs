@@ -5,11 +5,7 @@ using IMS.Post.IDAL.Repositories.Post;
 using IMS.Post.Models.Dto.Incoming;
 using IMS.Post.Models.Dto.Outgoing;
 using IMS.Post.Models.Exceptions;
-using IMS.Shared.Messaging.Messages;
-using IMS.Shared.Messaging.Messages.Friendship;
-using IMS.Shared.Models.Dto;
 using IMS.Shared.Utils.Parsers;
-using MassTransit;
 
 namespace IMS.Post.BLL.Services;
 
@@ -23,7 +19,6 @@ public class PostReactionService: IPostReactionService
     public PostReactionService(IPostReactionRepository postReactionRepository,
         IPostRepository postRepository,
         IMapper mapper,
-        IRequestClient<ImsBaseMessage<GetUserFriendsMessage>> getUserFriendsRequestClient, 
         IUserService userService)
     {
         _postReactionRepository = postReactionRepository;
@@ -32,8 +27,7 @@ public class PostReactionService: IPostReactionService
         _userService = userService;
     }
     
-    public async Task<ImsPagination<IEnumerable<PostReactionDto>>> GetForPostPaginatedAsync(string postId,
-        ImsPaginationRequestDto imsPaginationRequestDto)
+    public async Task<IEnumerable<PostReactionDto>> GetForPostAsync(string postId)
     {
         var postIdGuid = postId.ParseGuid();
         
@@ -41,10 +35,7 @@ public class PostReactionService: IPostReactionService
         if (post is null)
             throw new PostNotFoundException(postId);
 
-        var postReactions = await _postReactionRepository.GetRangeByPostIdPaginatedAsync(post.Id,
-            imsPaginationRequestDto.PageNumber, imsPaginationRequestDto.PageSize);
-        
-        var postReactionsTotalCount = await _postReactionRepository.GetRangeByPostIdCountAsync(post.Id);
+        var postReactions = await _postReactionRepository.GetRangeByPostIdAsync(post.Id);
 
         var authors = await _userService.GetUsersByIdsArray(postReactions.Select(x => x.ExternalAuthorId));
         
@@ -61,13 +52,7 @@ public class PostReactionService: IPostReactionService
             })
         );
 
-        return new ImsPagination<IEnumerable<PostReactionDto>>
-        {
-            PageNumber = imsPaginationRequestDto.PageNumber,
-            PageSize = imsPaginationRequestDto.PageSize,
-            TotalCount = postReactionsTotalCount,
-            Data = responseData
-        };
+        return responseData;
     }
     
     public async Task<PostReactionDto> CreatePostReactionAsync(string userId, CreatePostReactionDto createPostReactionDto)

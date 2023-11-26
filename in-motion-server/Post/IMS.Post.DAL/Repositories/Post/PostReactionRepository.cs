@@ -33,11 +33,9 @@ public class PostReactionRepository: IPostReactionRepository
             x.Id.Equals(id) && x.ExternalAuthorId.Equals(authorId));
     }
 
-    public async Task<IList<PostReaction>> GetRangeByPostIdPaginatedAsync(Guid postId, int pageNumber, int pageSize)
+    public async Task<IList<PostReaction>> GetRangeByPostIdAsync(Guid postId)
     {
         return await _context.PostReactions
-            .Take(pageSize)
-            .Skip((pageNumber - 1) * pageSize)
             .Where(x => x.PostId.Equals(postId)).ToListAsync();
     }
 

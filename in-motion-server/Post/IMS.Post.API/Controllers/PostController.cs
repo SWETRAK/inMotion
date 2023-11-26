@@ -25,6 +25,7 @@ public class PostController: ControllerBase
     {
         var serverRequestTime = DateTime.UtcNow;
         var userIdString = AuthenticationUtil.GetUserId(HttpContext.User);
+        Console.WriteLine(userIdString);
         var response = await _postService.GetCurrentUserPost(userIdString);
 
         return Ok(new ImsHttpMessage<GetPostResponseDto>
@@ -72,15 +73,14 @@ public class PostController: ControllerBase
 
     [Authorize]
     [HttpGet("friends")]
-    public async Task<ActionResult<ImsHttpMessage<ImsPagination<IList<GetPostResponseDto>>>>> GetPublicFriendsPostsAsync(
-        [FromBody] ImsPaginationRequestDto imsPaginationRequestDto)
+    public async Task<ActionResult<ImsHttpMessage<IList<GetPostResponseDto>>>> GetPublicFriendsPostsAsync()
     {
         var serverRequestTime = DateTime.UtcNow;
         var userIdString = AuthenticationUtil.GetUserId(HttpContext.User);
         var response =
-            await _postService.GetFriendsPublicPostsFromCurrentIteration(userIdString, imsPaginationRequestDto);
+            await _postService.GetFriendsPublicPostsFromCurrentIteration(userIdString);
 
-        return Ok(new ImsHttpMessage<ImsPagination<IList<GetPostResponseDto>>>
+        return Ok(new ImsHttpMessage<IList<GetPostResponseDto>>
         {
             ServerRequestTime = serverRequestTime,
             ServerResponseTime = DateTime.UtcNow,

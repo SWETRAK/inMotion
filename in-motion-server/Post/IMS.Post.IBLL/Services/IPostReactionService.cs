@@ -6,8 +6,7 @@ namespace IMS.Post.IBLL.Services;
 
 public interface IPostReactionService
 {
-    Task<ImsPagination<IEnumerable<PostReactionDto>>> GetForPostPaginatedAsync(string postId,
-        ImsPaginationRequestDto imsPaginationRequestDto);
+    Task<IEnumerable<PostReactionDto>> GetForPostAsync(string postId);
     
     Task<PostReactionDto> EditPostReactionAsync(string userId, string reactionId,
         EditPostReactionDto editPostRequestDto);

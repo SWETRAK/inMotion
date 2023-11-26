@@ -7,7 +7,7 @@ public interface IPostCommentRepository: IDisposable
     Task<PostComment> GetByIdAsync(Guid id);
     Task<PostComment> GetByIdAndAuthorIdAndPostIdAsync(Guid id, Guid authorId, Guid postId);
     
-    Task<IList<PostComment>> GetRangeByPostIdPaginatedAsync(Guid postId, int pageNumber, int pageSize);
+    Task<IList<PostComment>> GetRangeByPostIdAsync(Guid postId);
     
     Task<long> GetRangeByPostIdCountAsync(Guid postId);
 

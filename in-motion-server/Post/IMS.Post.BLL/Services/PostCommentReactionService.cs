@@ -5,7 +5,6 @@ using IMS.Post.IDAL.Repositories.Post;
 using IMS.Post.Models.Dto.Incoming;
 using IMS.Post.Models.Dto.Outgoing;
 using IMS.Post.Models.Exceptions;
-using IMS.Shared.Models.Dto;
 using IMS.Shared.Utils.Parsers;
 
 namespace IMS.Post.BLL.Services;
@@ -89,8 +88,8 @@ public class PostCommentReactionService: IPostCommentReactionService
         await _postCommentReactionRepository.SaveAsync();
     }
 
-    public async Task<ImsPagination<IEnumerable<PostCommentReactionDto>>> GetAllPostCommentReactionsPaginatedAsync(
-        string postCommentId, ImsPaginationRequestDto paginationRequestDto)
+    public async Task<IEnumerable<PostCommentReactionDto>> GetAllPostCommentReactionsPaginatedAsync(
+        string postCommentId)
     {
         var postCommentIdGuid = postCommentId.ParseGuid();
 
@@ -100,11 +99,7 @@ public class PostCommentReactionService: IPostCommentReactionService
             throw new PostCommentNotFoundException();
         
         var postCommentsReactions =
-            await _postCommentReactionRepository.GetByPostCommentIdPaginatedAsync(postCommentIdGuid,
-                paginationRequestDto.PageNumber, paginationRequestDto.PageSize);
-
-        var postCommentsReactionsCount =
-            await _postCommentReactionRepository.GetByPostCommentIdCountAsync(postCommentIdGuid);
+            await _postCommentReactionRepository.GetByPostCommentIdPaginatedAsync(postCommentIdGuid);
             
         var authors = await _userService.GetUsersByIdsArray(postCommentsReactions.Select(x => x.ExternalAuthorId).Distinct());
 
@@ -121,12 +116,6 @@ public class PostCommentReactionService: IPostCommentReactionService
             })
         );
 
-        return new ImsPagination<IEnumerable<PostCommentReactionDto>>
-        {
-            PageNumber = paginationRequestDto.PageNumber,
-            PageSize = paginationRequestDto.PageSize,
-            TotalCount = postCommentsReactionsCount,
-            Data = responseData
-        };
+        return responseData;
     }
 }

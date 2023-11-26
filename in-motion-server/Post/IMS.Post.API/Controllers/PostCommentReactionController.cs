@@ -21,16 +21,14 @@ public class PostCommentReactionController: ControllerBase
 
     [Authorize]
     [HttpGet("{postCommentId}")]
-    public async Task<ActionResult<ImsHttpMessage<ImsPagination<IEnumerable<PostCommentReactionDto>>>>> GetAllReactions(
-        [FromRoute(Name = "postCommentId")] string postCommentId, [FromBody] ImsPaginationRequestDto paginationRequestDto)
+    public async Task<ActionResult<ImsHttpMessage<IEnumerable<PostCommentReactionDto>>>> GetAllReactions(
+        [FromRoute(Name = "postCommentId")] string postCommentId)
     {
         var serverRequestTime = DateTime.UtcNow;
-        var userIdString = AuthenticationUtil.GetUserId(HttpContext.User);
         var response =
-            await _postCommentReactionService.GetAllPostCommentReactionsPaginatedAsync(postCommentId,
-                paginationRequestDto);
+            await _postCommentReactionService.GetAllPostCommentReactionsPaginatedAsync(postCommentId);
 
-        return Ok(new ImsHttpMessage<ImsPagination<IEnumerable<PostCommentReactionDto>>>
+        return Ok(new ImsHttpMessage<IEnumerable<PostCommentReactionDto>>
         {
             ServerRequestTime = serverRequestTime,
             ServerResponseTime = DateTime.UtcNow,

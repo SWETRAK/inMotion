@@ -21,16 +21,14 @@ public class PostReactionController: ControllerBase
 
     [Authorize]
     [HttpGet("{postId}")]
-    public async Task<ActionResult<ImsHttpMessage<ImsPagination<IEnumerable<PostReactionDto>>>>> GetPostReactionsPaginatedAsync(
-        [FromRoute(Name = "")] string postId, [FromBody] ImsPaginationRequestDto paginationRequestDto)
+    public async Task<ActionResult<ImsHttpMessage<IEnumerable<PostReactionDto>>>> GetPostReactionsAsync(
+        [FromRoute(Name = "")] string postId)
     {
         var serverRequestTime = DateTime.UtcNow;
-        var userIdString = AuthenticationUtil.GetUserId(HttpContext.User);
         var response =
-            await _postReactionService.GetForPostPaginatedAsync(postId,
-                paginationRequestDto);
+            await _postReactionService.GetForPostAsync(postId);
 
-        return Ok(new ImsHttpMessage<ImsPagination<IEnumerable<PostReactionDto>>>
+        return Ok(new ImsHttpMessage<IEnumerable<PostReactionDto>>
         {
             ServerRequestTime = serverRequestTime,
             ServerResponseTime = DateTime.UtcNow,

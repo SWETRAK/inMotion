@@ -52,10 +52,9 @@ public class PostRepository: IPostRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<IList<PostEntity>> GetFriendsPublicFromIterationPaginatedAsync(Guid postIterationId, IEnumerable<Guid> friendIds, int pageNumber,
-        int pageSize = 20)
+    public async Task<IList<PostEntity>> GetFriendsPublicAsync(Guid postIterationId, IEnumerable<Guid> friendIds)
     {
-        return await _context.Posts.Take(pageSize).Skip((pageNumber - 1) * pageSize)
+        return await _context.Posts
             .Where(x => x.IterationId.Equals(postIterationId) && x.Visibility.Equals(PostVisibility.Public) &&
                         friendIds.Contains(x.ExternalAuthorId))
             .ToArrayAsync();

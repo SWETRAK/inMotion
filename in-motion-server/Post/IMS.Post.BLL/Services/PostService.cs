@@ -53,6 +53,9 @@ public class PostService : IPostService
     {
         var postIteration = await _postIterationRepository.GetNewest();
         
+        if (postIteration is null)
+            throw new PostIterationNotFoundException();
+        
         var posts = await _postRepository.GetPublicFormIterationPaginatedAsync(postIteration.Id,
             paginationRequestDto.PageNumber, paginationRequestDto.PageSize);
 
@@ -80,12 +83,15 @@ public class PostService : IPostService
         return result;
     }
 
-    public async Task<ImsPagination<IList<GetPostResponseDto>>> GetFriendsPublicPostsFromCurrentIteration(
-        string userId, ImsPaginationRequestDto paginationRequestDto)
+    public async Task<IList<GetPostResponseDto>> GetFriendsPublicPostsFromCurrentIteration(
+        string userId)
     {
-        var userIdGuid = userId.ParseGuid();
+        userId.ParseGuid();
         
         var postIteration = await _postIterationRepository.GetNewest();
+        
+        if (postIteration is null)
+            throw new PostIterationNotFoundException();
         
         var friendsRequest = new ImsHttpMessage<GetUserFriendsMessage>
         {
@@ -102,8 +108,8 @@ public class PostService : IPostService
 
         var friendsIdGuids = friendsResponse.Message.Data.FriendsIds.Select(Guid.Parse);
 
-        var posts = await _postRepository.GetFriendsPublicFromIterationPaginatedAsync(postIteration.Id,
-            friendsIdGuids, paginationRequestDto.PageNumber, paginationRequestDto.PageSize);
+        var posts = await _postRepository.GetFriendsPublicAsync(postIteration.Id,
+            friendsIdGuids);
 
         var authors = await _userService.GetUsersByIdsArray(posts.Select(u => u.ExternalAuthorId));
 
@@ -120,18 +126,16 @@ public class PostService : IPostService
             })
         );
 
-        return new ImsPagination<IList<GetPostResponseDto>>
-        {
-            PageSize = paginationRequestDto.PageSize,
-            PageNumber = paginationRequestDto.PageNumber,
-            Data = getPostResponseDtos
-        };
+        return getPostResponseDtos;
     }
     
     public async Task<CreatePostResponseDto> CreatePost(string userId, CreatePostRequestDto createPostRequestDto)
     {
         var userIdGuid = userId.ParseGuid();
         var postIteration = await _postIterationRepository.GetNewest();
+        
+        if (postIteration is null)
+            throw new PostIterationNotFoundException();
         
         var tags = await CalculateTags(userIdGuid, createPostRequestDto.Description);
         var localization = await GetLocalization(createPostRequestDto.Localization.Latitude,
@@ -158,7 +162,10 @@ public class PostService : IPostService
     {
         var userIdGuid = userId.ParseGuid();
         var postIteration = await _postIterationRepository.GetNewest();
-        
+
+        if (postIteration is null)
+            throw new PostIterationNotFoundException();
+
         var post = await _postRepository.GetByExternalAuthorIdAsync(postIteration.Id, userIdGuid);
 
         if (post is null)
@@ -173,6 +180,9 @@ public class PostService : IPostService
         var userIdGuid = userId.ParseGuid();
         var postIdGuid = postId.ParseGuid();
         var postIteration = await _postIterationRepository.GetNewest();
+        
+        if (postIteration is null)
+            throw new PostIterationNotFoundException();
         
         var post = await _postRepository.GetByIdAndAuthorIdAsync(postIteration.Id, postIdGuid, userIdGuid);
 
