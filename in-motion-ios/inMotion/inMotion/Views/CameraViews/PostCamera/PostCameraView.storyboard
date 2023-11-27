@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina5_9" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_72" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -13,37 +14,41 @@
             <objects>
                 <viewController storyboardIdentifier="PostCameraView" title="ViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y6W-OH-hqX" customClass="PostCameraViewController" customModule="inMotion" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8nt-rm-BlW" userLabel="CameraView">
-                                <rect key="frame" x="15" y="62" width="345" height="613.33333333333337"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k4f-UQ-HOs">
-                                        <rect key="frame" x="185" y="10" width="150" height="266.66666666666669"/>
-                                        <color key="backgroundColor" systemColor="systemFillColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="k4f-UQ-HOs" secondAttribute="height" multiplier="9:16" id="2TK-Nv-o5K"/>
-                                            <constraint firstAttribute="width" constant="150" id="esB-Z2-IkT"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
+                                <rect key="frame" x="15" y="74" width="400" height="711"/>
                                 <color key="backgroundColor" systemColor="systemFillColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="8nt-rm-BlW" secondAttribute="height" multiplier="9:16" id="8xf-zz-ju2"/>
-                                    <constraint firstAttribute="trailing" secondItem="k4f-UQ-HOs" secondAttribute="trailing" constant="10" id="ZQu-ra-Qxa"/>
-                                    <constraint firstItem="k4f-UQ-HOs" firstAttribute="top" secondItem="8nt-rm-BlW" secondAttribute="top" constant="10" id="byd-Ph-gAW"/>
+                                    <constraint firstAttribute="width" secondItem="8nt-rm-BlW" secondAttribute="height" multiplier="9:16" id="Yem-dI-Tt3"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k4f-UQ-HOs">
+                                <rect key="frame" x="255" y="84" width="150" height="266.66666666666669"/>
+                                <color key="backgroundColor" systemColor="systemFillColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="k4f-UQ-HOs" secondAttribute="height" multiplier="9:16" id="3nH-kQ-81m"/>
+                                    <constraint firstAttribute="width" constant="150" id="zW5-5O-qlx"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f4d-bz-KXR">
-                                <rect key="frame" x="137.66666666666666" y="663" width="100" height="100"/>
+                                <rect key="frame" x="165" y="783" width="100" height="100"/>
+                                <color key="backgroundColor" systemColor="systemRedColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="5Z0-7i-3hU"/>
-                                    <constraint firstAttribute="width" constant="100" id="kGB-Bj-XG2"/>
+                                    <constraint firstAttribute="height" constant="100" id="57B-J7-vO2"/>
+                                    <constraint firstAttribute="width" constant="100" id="ci8-zX-uWu"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="RECORD">
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="18"/>
+                                <buttonConfiguration key="configuration" style="filled" subtitle="">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="RECORD">
+                                            <attributes>
+                                                <font key="NSFont" metaFont="system" size="18"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
                                     <color key="baseBackgroundColor" systemColor="systemRedColor"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -51,10 +56,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EEp-30-eJY">
-                                <rect key="frame" x="267.66666666666669" y="688" width="50" height="50"/>
+                                <rect key="frame" x="295" y="808" width="50" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="fz3-dy-5ZJ"/>
-                                    <constraint firstAttribute="width" constant="50" id="ggo-Pr-ajj"/>
+                                    <constraint firstAttribute="width" constant="50" id="J8z-zv-f9Y"/>
+                                    <constraint firstAttribute="height" constant="50" id="ho6-VY-kYd"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="FLIP">
@@ -69,18 +74,21 @@
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemFillColor"/>
                         <constraints>
-                            <constraint firstItem="8nt-rm-BlW" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="15" id="5ii-MJ-l1j"/>
-                            <constraint firstItem="8nt-rm-BlW" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="15" id="Ruf-xs-4Nt"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="8nt-rm-BlW" secondAttribute="trailing" constant="15" id="bna-hm-rOH"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="f4d-bz-KXR" secondAttribute="bottom" constant="15" id="d5G-FG-F0p"/>
-                            <constraint firstItem="f4d-bz-KXR" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="i42-vn-k2O"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="EEp-30-eJY" secondAttribute="bottom" constant="40" id="knn-vw-geY"/>
-                            <constraint firstItem="EEp-30-eJY" firstAttribute="leading" secondItem="f4d-bz-KXR" secondAttribute="trailing" constant="30" id="uTK-x3-6U1"/>
+                            <constraint firstItem="8nt-rm-BlW" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="15" id="Inr-xb-HwB"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="8nt-rm-BlW" secondAttribute="trailing" constant="15" id="aaF-HI-mVR"/>
+                            <constraint firstItem="EEp-30-eJY" firstAttribute="leading" secondItem="f4d-bz-KXR" secondAttribute="trailing" constant="30" id="eUK-gs-X7j"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="f4d-bz-KXR" secondAttribute="bottom" constant="15" id="fDJ-zX-WjX"/>
+                            <constraint firstItem="k4f-UQ-HOs" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="25" id="kHk-cN-6Bw"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="k4f-UQ-HOs" secondAttribute="trailing" constant="25" id="lTI-zI-7J5"/>
+                            <constraint firstItem="f4d-bz-KXR" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="lZU-Mu-sf6"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="EEp-30-eJY" secondAttribute="bottom" constant="40" id="m4W-fk-W2O"/>
+                            <constraint firstItem="8nt-rm-BlW" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="15" id="vNt-LC-6gp"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="flipButton" destination="EEp-30-eJY" id="Jv6-fv-ect"/>
                         <outlet property="previewView" destination="8nt-rm-BlW" id="pFl-CE-MnA"/>
+                        <outlet property="recordButton" destination="f4d-bz-KXR" id="DPT-yJ-Taz"/>
                         <outlet property="recorderVideoPrewiew" destination="k4f-UQ-HOs" id="tbh-KB-Hjo"/>
                     </connections>
                 </viewController>
@@ -91,13 +99,13 @@
     </scenes>
     <resources>
         <systemColor name="systemFillColor">
-            <color red="0.47058823529411764" green="0.47058823529411764" blue="0.50196078431372548" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.47058823529999999" green="0.47058823529999999" blue="0.50196078430000002" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGrayColor">
-            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

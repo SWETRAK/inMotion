@@ -10,5 +10,5 @@ import Foundation
 struct CreatePostRequestDto: Codable {
     public var title: String
     public var description: String
-    public var localization: NewPostLocalizationDto
+    public var localization: NewPostLocalizationDto?
 }

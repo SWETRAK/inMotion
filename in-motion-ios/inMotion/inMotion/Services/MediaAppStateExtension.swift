@@ -135,7 +135,8 @@ extension AppState {
                 }
                 
                 if let httpResponse = response.response{
-                    if(httpResponse.statusCode == 200)
+                    print(httpResponse.statusCode)
+                    if(httpResponse.statusCode == 201)
                     {
                         if let safeImsMessage: ProfileVideoUploadInfoDto = JsonUtil.decodeJsonData(data: data) {
                             onSuccess(safeImsMessage)
@@ -164,7 +165,7 @@ extension AppState {
         AF.upload(multipartFormData: { (multipartFormData) in
             multipartFormData.append(frontFilePath, withName: "frontVideo")
             multipartFormData.append(backFilePath, withName: "backVideo")
-        }, to: self.httpBaseUrl + "/media/api/profile/video", headers: headers)
+        }, to: self.httpBaseUrl + "/media/api/profile/video?postID=\(postId.uuidString.lowercased())", headers: headers)
         .uploadProgress { progress in
             print("Upload Progress: \(progress.fractionCompleted)")
         }

@@ -8,15 +8,18 @@
 import SwiftUI
 
 struct PostCameraView: View {
+    var post: CreatePostRequestDto
     @EnvironmentObject public var appState: AppState
     
     var body: some View {
-        PostCameraViewWrapper().environmentObject(appState)
+        PostCameraViewWrapper(postRequestData: post)
+            .environmentObject(appState)
+            .navigationBarHidden(true)
     }
 }
 
-struct PostCameraScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        PostCameraView()
-    }
-}
+//struct PostCameraScreen_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PostCameraView()
+//    }
+//}

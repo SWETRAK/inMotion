@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProfileCameraViewWrapper: UIViewControllerRepresentable {
     typealias UIViewControllerType = ProfileCameraViewController
-    
+    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var appState: AppState
     
     func makeUIViewController(context: Context) -> ProfileCameraViewController {
@@ -18,5 +18,10 @@ struct ProfileCameraViewWrapper: UIViewControllerRepresentable {
         return storyBoard
     }
     
-    func updateUIViewController(_ uiViewController: ProfileCameraViewController, context: Context) { }
+    func updateUIViewController(_ uiViewController: ProfileCameraViewController, context: Context) { 
+//        print (uiViewController.finished)
+//        if uiViewController.finished == true {
+//            self.presentationMode.wrappedValue.dismiss()
+//        }
+    }
 }

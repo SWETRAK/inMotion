@@ -21,7 +21,7 @@ struct MainView: View {
             } else {
                 // Post camera view
                 NavigationLink {
-                    PostCameraView().environmentObject(appState)
+                    CreatePostView().environmentObject(appState)
                 } label: {
                     Text("RECORD POST")
                 }

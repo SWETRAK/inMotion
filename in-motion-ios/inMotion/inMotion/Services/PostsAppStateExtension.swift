@@ -54,8 +54,9 @@ extension AppState {
         requestData: CreatePostRequestDto,
         onSuccess: @escaping (CreatePostResponseDto) -> Void,
         onFailure: @escaping (ImsHttpError) -> Void) {
-            let postData = JsonUtil.encodeJsonStringFromObject(requestData);
             
+            let postData = JsonUtil.encodeJsonStringFromObject(requestData)
+            print("Upload")
             var request = URLRequest(url: URL(string: self.httpBaseUrl + "/posts/api/posts")!,timeoutInterval: Double.infinity)
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue("Bearer \(self.token ?? "")", forHTTPHeaderField: "Authorization")
@@ -71,14 +72,17 @@ extension AppState {
                     return
                 }
                 if let httpResponse = response as? HTTPURLResponse {
+                    print(httpResponse.statusCode)
                     if(httpResponse.statusCode == 200)
                     {
                         if let safeImsMessage: ImsHttpMessage<CreatePostResponseDto> = JsonUtil.decodeJsonData(data: data) {
+                            print("Kamil")
                             if let userInfoDataSafe: CreatePostResponseDto = safeImsMessage.data {
                                 onSuccess(userInfoDataSafe);
                             }
                         }
                     } else {
+                        print(String(data: data, encoding: .utf8))
                         if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                             if (httpResponse.statusCode == 500)
                             {

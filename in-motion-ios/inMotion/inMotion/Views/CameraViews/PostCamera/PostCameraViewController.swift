@@ -20,6 +20,7 @@ class PostCameraViewController: UIViewController, AVCaptureFileOutputRecordingDe
     var videoCaptureDevice : AVCaptureDevice?
     
     var appState: AppState?
+    var postRequestData: CreatePostRequestDto?
     var postId: UUID?
     
     var frontCameraUrl: URL?
@@ -32,10 +33,10 @@ class PostCameraViewController: UIViewController, AVCaptureFileOutputRecordingDe
     @IBOutlet weak var previewView: UIView!
     @IBOutlet weak var recorderVideoPrewiew: UIView!
     @IBOutlet weak var flipButton: UIButton!
+    @IBOutlet weak var recordButton: UIButton!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         self.recorderVideoPrewiew.isHidden = true
     }
     
@@ -93,7 +94,9 @@ class PostCameraViewController: UIViewController, AVCaptureFileOutputRecordingDe
         self.videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         self.videoPreviewLayer.videoGravity = .resizeAspect
         self.videoPreviewLayer.connection?.videoOrientation = .portrait
-        self.previewView.layer.addSublayer(self.videoPreviewLayer)
+        DispatchQueue.main.async {
+            self.previewView.layer.addSublayer(self.videoPreviewLayer)
+        }
         
         DispatchQueue.global(qos: .userInitiated).async {
             self.captureSession.startRunning()
@@ -162,20 +165,32 @@ class PostCameraViewController: UIViewController, AVCaptureFileOutputRecordingDe
                 self.frontCameraUrl = outputFileURL
             }
             
-            if let safeBackCameraUrl = self.backCameraUrl, let safeFrontCameraUrl = self.frontCameraUrl {
-                self.appState!.uploadPostVideoAlamofire(
-                    frontFilePath: safeFrontCameraUrl,
-                    backFilePath: safeBackCameraUrl,
-                    postId: self.postId!,
-                    onSuccess: { (data: PostUploadInfoDto) in
-                        self.goToHomeScreen()
+            if let safeBackCameraUrl = self.backCameraUrl, let safeFrontCameraUrl = self.frontCameraUrl, let safeRequestData = postRequestData {
+                
+                self.appState!.CreatePost(
+                    requestData: safeRequestData,
+                    onSuccess: { (responseData: CreatePostResponseDto) in
+                        print(responseData.id.uuidString)
+                        self.appState!.uploadPostVideoAlamofire(
+                            frontFilePath: safeFrontCameraUrl,
+                            backFilePath: safeBackCameraUrl,
+                            postId: responseData.id,
+                            onSuccess: { (data: PostUploadInfoDto) in
+                                self.goToHomeScreen()
+                            },
+                            onFailure: { (error: ImsHttpError) in
+                                print(error)
+                                self.goToHomeScreen()
+                            })
                     },
-                    onFailure: { (error: ImsHttpError) in
+                    onFailure:  { (error: ImsHttpError) in
                         print(error)
+                        self.goToHomeScreen()
                     })
             } else {
                 self.switchCameras()
                 Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { timer in
+
                     if let safeBackCameraUrl = self.backCameraUrl {
                         self.setupRecorderLayer(displayVideo: safeBackCameraUrl)
                     } else if let safeFrontCameraUrl = self.frontCameraUrl {
@@ -198,22 +213,38 @@ class PostCameraViewController: UIViewController, AVCaptureFileOutputRecordingDe
         try? FileManager.default.removeItem(at: fileUrl)
         self.movieOutput.startRecording(to: fileUrl, recordingDelegate: self as AVCaptureFileOutputRecordingDelegate)
         print("Rozpoczeto nagrywanie")
-        Timer.scheduledTimer(withTimeInterval: 5, repeats: false, block: { _ in
-            print("Zakończono nagrywanie")
-            self.movieOutput.stopRecording()
+        
+        var licznik = 5
+        
+        DispatchQueue.main.async {
+            self.recordButton.titleLabel?.text = String(licznik)
+        }
+        
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { timer in
+            licznik -= 1
+            DispatchQueue.main.async {
+                self.recordButton.titleLabel?.text = String(licznik)
+            }
+
+            if (licznik == 0) {
+                print("Zakończono nagrywanie")
+                self.movieOutput.stopRecording()
+                timer.invalidate()
+            }
         })
     }
     
     // MARK: - GO TO HOME SCREEN
     
     func goToHomeScreen() {
-        
+        navigationController?.popViewController(animated: true)
     }
     
     // MARK: - BUTTONS ACTION
     
     @IBAction func recordVideoAction(_ sender: UIButton) {
         self.flipButton.isEnabled = false
+        self.recordButton.isEnabled = false
         self.recordVideo()
     }
     

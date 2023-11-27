@@ -1,9 +1,7 @@
 using IMS.Post.BLL;
 using IMS.Post.DAL;
-using IMS.Post.Domain;
 using IMS.Post.Models;
 using IMS.Shared.Messaging.Authorization;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -13,6 +13,7 @@
 		25E9FA404AEFE937D6AFCA88 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E9F07E1FBA91BF3E84867B /* AppState.swift */; };
 		25E9FB7C85D7A4B7F45B3121 /* ValidationErrorDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E9F634F1035EA6D3806F0B /* ValidationErrorDto.swift */; };
 		25E9FBCB41CA640768E4EF5A /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E9FABE0CDC6384BC4DCB82 /* DateFormatter.swift */; };
+		3F67F9662B14FB8200E71F78 /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F67F9652B14FB8200E71F78 /* CreatePostView.swift */; };
 		8603A0922B0BD711008A1F34 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 8603A0912B0BD711008A1F34 /* Alamofire */; };
 		861434D62AF17D2700B45FF5 /* ImsHttpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434D52AF17D2700B45FF5 /* ImsHttpError.swift */; };
 		861434D82AF17E2B00B45FF5 /* ImsHttpMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861434D72AF17E2B00B45FF5 /* ImsHttpMessage.swift */; };
@@ -136,6 +137,7 @@
 		25E9F960BD31B07AD902FC8B /* JsonUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonUtil.swift; sourceTree = "<group>"; };
 		25E9FABE0CDC6384BC4DCB82 /* DateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		25E9FC76AD0AE0E08DA0B740 /* JSONDecodeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONDecodeExtension.swift; sourceTree = "<group>"; };
+		3F67F9652B14FB8200E71F78 /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
 		861434D52AF17D2700B45FF5 /* ImsHttpError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImsHttpError.swift; sourceTree = "<group>"; };
 		861434D72AF17E2B00B45FF5 /* ImsHttpMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImsHttpMessage.swift; sourceTree = "<group>"; };
 		861434D92AF17F8F00B45FF5 /* ImsPagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImsPagination.swift; sourceTree = "<group>"; };
@@ -516,6 +518,7 @@
 				86DDF89A2AFFE74000967B44 /* OtherUserDetailsView.swift */,
 				8670A2F52B03CF4000726A71 /* PostCameraView.swift */,
 				86F007BD2B091A6F002BC3A9 /* UserProfileVideoCameraView.swift */,
+				3F67F9652B14FB8200E71F78 /* CreatePostView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -799,6 +802,7 @@
 				861435132AF18B4700B45FF5 /* RequestFriendshipDto.swift in Sources */,
 				861434D62AF17D2700B45FF5 /* ImsHttpError.swift in Sources */,
 				861434F42AF183D000B45FF5 /* UserInfoWithRoleDto.swift in Sources */,
+				3F67F9662B14FB8200E71F78 /* CreatePostView.swift in Sources */,
 				861434F22AF1837200B45FF5 /* UserInfoDto.swift in Sources */,
 				861435012AF185A500B45FF5 /* UpdatedUserBioDto.swift in Sources */,
 				861435252AF18DAC00B45FF5 /* EditPostReactionDto.swift in Sources */,

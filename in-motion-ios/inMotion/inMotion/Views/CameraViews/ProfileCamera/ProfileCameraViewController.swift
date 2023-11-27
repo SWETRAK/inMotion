@@ -18,10 +18,12 @@ class ProfileCameraViewController: UIViewController, AVCaptureFileOutputRecordin
     var movieOutput = AVCaptureMovieFileOutput()
     var videoCaptureDevice : AVCaptureDevice?
     var appState: AppState?
+    var finished: Bool = false
     
     var session: AVCaptureSession?
     
     @IBOutlet weak var previewView: UIView!
+    @IBOutlet weak var recordButton: UIButton!
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -46,7 +48,7 @@ class ProfileCameraViewController: UIViewController, AVCaptureFileOutputRecordin
     func prepareCameras() {
         self.captureSession = AVCaptureSession();
         self.captureSession.sessionPreset = .hd1280x720
-        guard let frontCamera = AVCaptureDevice.default(for: AVMediaType.video) else {
+        guard let frontCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video, position: .front) else {
             print("Unable to access back camera!")
             return
         }
@@ -73,8 +75,8 @@ class ProfileCameraViewController: UIViewController, AVCaptureFileOutputRecordin
         
         videoPreviewLayer.videoGravity = .resizeAspect
         videoPreviewLayer.connection?.videoOrientation = .portrait
-        
-        previewView.layer.addSublayer(videoPreviewLayer)
+        DispatchQueue.main.async {
+            self.previewView.layer.addSublayer(self.videoPreviewLayer)        }
         
         
         DispatchQueue.global(qos: .userInitiated).async {
@@ -86,33 +88,56 @@ class ProfileCameraViewController: UIViewController, AVCaptureFileOutputRecordin
     }
     
     func goBackToUserPage() {
-        
+        navigationController?.popViewController(animated: true)
     }
     
     @IBAction func recordVideoAction(_ sender: UIButton) {
-        if movieOutput.isRecording {
-            movieOutput.stopRecording()
-        } else {
-            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-            let fileUrl = paths[0].appendingPathComponent("\(UUID().uuidString.lowercased()).mp4")
-            try? FileManager.default.removeItem(at: fileUrl)
-            self.movieOutput.startRecording(to: fileUrl, recordingDelegate: self as AVCaptureFileOutputRecordingDelegate)
-            print("Rozpoczeto nagrywanie")
-            Timer.scheduledTimer(withTimeInterval: 5, repeats: false, block: { _ in
+        DispatchQueue.main.async {
+            self.recordButton.isEnabled = false
+        }
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let fileUrl = paths[0].appendingPathComponent("\(UUID().uuidString.lowercased()).mp4")
+        try? FileManager.default.removeItem(at: fileUrl)
+        self.movieOutput.startRecording(to: fileUrl, recordingDelegate: self as AVCaptureFileOutputRecordingDelegate)
+        var licznik = 5
+        
+        DispatchQueue.main.async {
+            self.recordButton.titleLabel?.text = String(licznik)
+        }
+        
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { timer in
+            licznik -= 1
+            DispatchQueue.main.async {
+                self.recordButton.titleLabel?.text = String(licznik)
+            }
+
+            if (licznik == 0) {
                 print("Zakończono nagrywanie")
                 self.movieOutput.stopRecording()
-            })
-        }
+                timer.invalidate()
+            }
+        })
+    }
+    
+    @IBAction func backButtonAction(_ sender: Any) {
+        self.goBackToUserPage()
     }
     
     func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
         if error == nil {
+            DispatchQueue.main.async {
+                self.recordButton.titleLabel?.text = "Upload"
+            }
             self.appState?.uploadProfileVideoAlamofire(
                 filePath: outputFileURL,
                 onSuccess: { (data: ProfileVideoUploadInfoDto) in
+                    print("success")
                     self.goBackToUserPage()
                 },
-                onFailure: { (error: ImsHttpError) in })
+                onFailure: { (error: ImsHttpError) in
+                    print(error)
+                    self.goBackToUserPage()
+                })
         }
     }
 }

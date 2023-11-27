@@ -32,15 +32,17 @@ struct LoggedUserDetailsView: View {
             Section(header: Text("User details")) {
                 
                 NavigationLink {
-                    UserProfileVideoCameraView().environmentObject(appState)
+                    UserProfileVideoCameraView()
+                        .environmentObject(appState)
+                        .navigationBarHidden(true)
                 } label: {
                     GeometryReader { proxy in
                         if(self.avPlayer != nil) {
                             VStack (alignment: .center) {
                                 VideoPlayer(player: self.avPlayer)
-                                    .frame(width: proxy.size.width/1.5, height: proxy.size.width/1.5/(3/4), alignment: .center)
+                                    .frame(width: proxy.size.width/1.5, height: proxy.size.width/1.5/(9/16), alignment: .center)
                                     .onAppear{
-                                        self.imageSize = proxy.size.width/1.5/(3/4)
+                                        self.imageSize = proxy.size.width/1.5/(9/16)
                                         self.OnVideoAppear()
                                     }
                             }
@@ -49,9 +51,9 @@ struct LoggedUserDetailsView: View {
                             VStack (alignment: .center) {
                                 Image("avatar-placeholder")
                                     .resizable()
-                                    .frame(width: proxy.size.width/1.5, height: proxy.size.width/1.5/(3/4), alignment: .center)
+                                    .frame(width: proxy.size.width/1.5, height: proxy.size.width/1.5/(9/16), alignment: .center)
                                     .onAppear{
-                                        self.imageSize = proxy.size.width/1.5/(3/4)
+                                        self.imageSize = proxy.size.width/1.5/(9/16)
                                     }
                             }
                             .frame(width: proxy.size.width)
