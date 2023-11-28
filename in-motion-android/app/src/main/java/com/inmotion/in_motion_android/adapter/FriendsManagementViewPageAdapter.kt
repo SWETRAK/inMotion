@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.inmotion.in_motion_android.data.FriendDto
-import com.inmotion.in_motion_android.data.FriendRequestDto
+import com.inmotion.in_motion_android.data.remote.FriendDto
+import com.inmotion.in_motion_android.data.remote.FriendRequestDto
 import com.inmotion.in_motion_android.fragment.friends.FriendRequestsListFragment
 import com.inmotion.in_motion_android.fragment.friends.FriendsListFragment
 

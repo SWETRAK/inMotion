@@ -1,120 +1,149 @@
 package com.inmotion.in_motion_android.fragment.authentication
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.common.SignInButton
 import com.inmotion.in_motion_android.InMotionApp
 import com.inmotion.in_motion_android.R
-import com.inmotion.in_motion_android.data.dto.auth.LoginUserWithEmailAndPasswordDto
-import com.inmotion.in_motion_android.data.dto.auth.UserInfoDto
-import com.inmotion.in_motion_android.data.dto.user.FullUserInfoDto
-import com.inmotion.in_motion_android.data.dto.user.UserProfileVideoDto
-import com.inmotion.in_motion_android.data.repository.AuthenticationRepository
-import com.inmotion.in_motion_android.data.repository.RepositoryCallback
-import com.inmotion.in_motion_android.data.repository.UserRepository
-import com.inmotion.in_motion_android.database.dao.UserInfoDao
+import com.inmotion.in_motion_android.data.database.UserEvent
+import com.inmotion.in_motion_android.data.remote.api.ApiConstants
+import com.inmotion.in_motion_android.data.remote.api.ImsAuthApi
+import com.inmotion.in_motion_android.data.remote.api.ImsUserApi
+import com.inmotion.in_motion_android.data.remote.dto.auth.LoginUserWithEmailAndPasswordDto
 import com.inmotion.in_motion_android.databinding.FragmentLoginBinding
-import kotlinx.coroutines.GlobalScope
+import com.inmotion.in_motion_android.state.UserViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private lateinit var navController: NavController
-    private lateinit var userInfoDao: UserInfoDao
-    private lateinit var authenticationRepository: AuthenticationRepository
+    private val imsUserApi: ImsUserApi = Retrofit.Builder()
+        .baseUrl(ApiConstants.BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(ImsUserApi::class.java)
+
+    private val imsAuthApi: ImsAuthApi = Retrofit.Builder()
+        .baseUrl(ApiConstants.BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(ImsAuthApi::class.java)
+
+    @Suppress("UNCHECKED_CAST")
+    private val userViewModel: UserViewModel by activityViewModels(
+        factoryProducer = {
+            object : ViewModelProvider.Factory {
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                    return UserViewModel(
+                        (activity?.application as InMotionApp).db.userInfoDao(),
+                        imsUserApi
+                    ) as T
+                }
+            }
+        }
+    )
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentLoginBinding.inflate(layoutInflater)
         navController = this.findNavController()
-        userInfoDao = (activity?.application as InMotionApp).db.userInfoDao()
-        authenticationRepository = AuthenticationRepository(userInfoDao)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        lifecycleScope.launch {
-            userInfoDao.get().collect { info ->
-                if (info != null) {
-                    authenticationRepository.validateAndRefreshUser(
-                        info,
-                        object : RepositoryCallback<UserInfoDto> {
-                            override fun onResponse(response: UserInfoDto) {
-                                Toast.makeText(
-                                    activity,
-                                    "Hello there ${response.nickname}!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                navController.navigate(R.id.action_loginFragment_to_mainFragment)
-                            }
+        val dialog = ProgressDialog.show(activity, "", "Loading...", true)
+        dialog.show()
+        runBlocking {
+            val stateUser = userViewModel.state.value.user
+            if (stateUser != null) {
+                val response = imsAuthApi.getUser(mapOf(Pair("Authentication", stateUser.token)))
+                if (response.code() < 400) {
+                    val responseUser = response.body()!!.data
+                    userViewModel.onEvent(UserEvent.SetToken(responseUser.token))
+                    userViewModel.onEvent(UserEvent.SaveUser)
+                    activity?.runOnUiThread {
+                        Toast.makeText(
+                            activity,
+                            "Welcome back ${responseUser.nickname}!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
 
-                            override fun onFailure() {
-                                Toast.makeText(activity, "You have to login!", Toast.LENGTH_SHORT)
-                                    .show()
-                            }
-                        })
+
+                    navController.navigate(R.id.action_loginFragment_to_mainFragment)
+                } else {
+                    activity?.runOnUiThread {
+                        Toast.makeText(
+                            activity,
+                            "Session expired, please login again.",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
                 }
             }
-
+            dialog.cancel()
         }
 
-        binding.tvRegister.setOnClickListener {
+        binding.tvRegister.setOnClickListener()
+        {
             navController.navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
-        binding.btnLoginWithEmail.setOnClickListener {
+        binding.btnLoginWithEmail.setOnClickListener()
+        {
+            val loadingDialog = ProgressDialog.show(activity, "", "Loading...", true)
+            loadingDialog.show()
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
             val loginUserWithEmailAndPasswordDto = LoginUserWithEmailAndPasswordDto(email, password)
-            authenticationRepository.loginWithEmail(
-                loginUserWithEmailAndPasswordDto,
-                object : RepositoryCallback<UserInfoDto> {
-                    override fun onResponse(response: UserInfoDto) {
-                        Toast.makeText(activity, response.nickname, Toast.LENGTH_LONG).show()
 
-                        GlobalScope.launch {
-                            updateUserInfo(response)
-                        }
+            lifecycleScope.launch(Dispatchers.IO) {
+                val response = imsAuthApi.loginWithEmail(loginUserWithEmailAndPasswordDto)
+                if(response.code() < 400) {
+                    val userInfoDto = response.body()!!.data
+                    userViewModel.onEvent(UserEvent.SetUser(userInfoDto.toUserInfo()))
+                    userViewModel.onEvent(UserEvent.UpdateFullUserInfo)
 
-                        val userRepository = UserRepository()
-                        userRepository.getFullUserInfoById(response.id, "Bearer ${response.token}",
-                            object : RepositoryCallback<FullUserInfoDto> {
-                                override fun onResponse(response: FullUserInfoDto) {
-                                    val bundle = Bundle()
-                                    bundle.putSerializable("USER", response)
-                                    navController.navigate(
-                                        R.id.action_loginFragment_to_mainFragment,
-                                        bundle
-                                    )
-                                }
+                    loadingDialog.cancel()
 
-                                override fun onFailure() {
-                                    Toast.makeText(
-                                        activity,
-                                        "Couldn't fetch user data!",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            })
+                    activity?.runOnUiThread {
+                        Toast.makeText(activity, "Successfully logged in!", Toast.LENGTH_SHORT).show()
+                        navController.navigate(R.id.action_loginFragment_to_mainFragment)
                     }
-
-                    override fun onFailure() {
+                } else {
+                    activity?.runOnUiThread {
                         Toast.makeText(activity, "Wrong credentials!", Toast.LENGTH_SHORT).show()
                     }
-                })
+                    loadingDialog.cancel()
+                }
+            }
         }
-    }
 
-    private suspend fun updateUserInfo(dto: UserInfoDto) {
-        userInfoDao.update(dto.toUserInfo())
+        binding.btnLoginWithGoogle.setSize(SignInButton.SIZE_WIDE)
+        binding.btnLoginWithGoogle.setColorScheme(SignInButton.COLOR_LIGHT)
+
+        binding.btnLoginWithGoogle.setOnClickListener {
+            TODO("LOGIC IMPLEMENTATION")
+        }
     }
 }

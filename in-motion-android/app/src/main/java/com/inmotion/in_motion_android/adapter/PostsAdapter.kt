@@ -7,7 +7,7 @@ import android.widget.VideoView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.inmotion.in_motion_android.R
-import com.inmotion.in_motion_android.data.PostDto
+import com.inmotion.in_motion_android.data.remote.PostDto
 import com.inmotion.in_motion_android.databinding.PostRecyclerViewItemBinding
 
 class PostsAdapter(private val postsList: List<PostDto>) :

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etNickname"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@drawable/edit_text_border_rounded"
+        android:hint="@string/nickname_hint"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/btnSaveNickname"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:text="SAVE"
+        android:layout_marginTop="4dp"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/etNickname"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

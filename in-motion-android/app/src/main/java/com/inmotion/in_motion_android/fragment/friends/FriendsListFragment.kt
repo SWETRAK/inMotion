@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.inmotion.in_motion_android.adapter.FriendsAdapter
-import com.inmotion.in_motion_android.data.FriendDto
+import com.inmotion.in_motion_android.data.remote.FriendDto
 import com.inmotion.in_motion_android.databinding.FragmentFriendsListBinding
 
 class FriendsListFragment(private var friends: List<FriendDto>) : Fragment() {
@@ -16,7 +16,7 @@ class FriendsListFragment(private var friends: List<FriendDto>) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentFriendsListBinding.inflate(layoutInflater)
         return binding.root
     }

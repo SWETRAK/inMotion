@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/etBio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minLines="2"
+        android:hint="Bio"
+        android:background="@drawable/edit_text_border_rounded"
+        />
+    <Button
+        android:id="@+id/btnSaveBio"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:text="SAVE"
+        android:layout_marginTop="4dp"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        />
+</LinearLayout>

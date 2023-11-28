@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.user.EditUserDetailsFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/editUserDetailsToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="20dp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/close_32" />
+    <TextView
+        android:id="@+id/tvEmailLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email:"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editUserDetailsToolbar" />
+
+    <TextView
+        android:id="@+id/tvEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:textSize="22sp"
+        app:layout_constraintStart_toEndOf="@id/tvNicknameLabel"
+        app:layout_constraintTop_toBottomOf="@id/editUserDetailsToolbar"
+        tools:text="email@email.com" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnEditEmail"
+        android:layout_width="32dp"
+        android:layout_height="24dp"
+        android:layout_gravity="end"
+        android:layout_marginStart="32dp"
+        android:background="@drawable/button_no_background"
+        android:contentDescription="@string/change_password_button"
+        android:drawableEnd="@drawable/edit_32"
+        app:layout_constraintStart_toEndOf="@id/tvEmail"
+        app:layout_constraintTop_toBottomOf="@id/editUserDetailsToolbar" />
+
+    <!--  NICKNAME  -->
+    <TextView
+        android:id="@+id/tvNicknameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nickname:"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvEmailLabel" />
+
+    <TextView
+        android:id="@+id/tvNickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:textSize="22sp"
+        app:layout_constraintStart_toEndOf="@id/tvNicknameLabel"
+        app:layout_constraintTop_toBottomOf="@id/tvEmailLabel"
+        tools:text="nickname" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnEditNickname"
+        android:layout_width="32dp"
+        android:layout_height="24dp"
+        android:layout_gravity="end"
+        android:layout_marginStart="32dp"
+        android:background="@drawable/button_no_background"
+        android:contentDescription="@string/change_password_button"
+        android:drawableEnd="@drawable/edit_32"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvNickname"
+        app:layout_constraintTop_toBottomOf="@id/tvEmailLabel" />
+
+    <!--  Password  -->
+    <TextView
+        android:id="@+id/tvPasswordLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Password:"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvNicknameLabel" />
+
+    <TextView
+        android:id="@+id/tvPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="********"
+        android:textSize="22sp"
+        app:layout_constraintStart_toEndOf="@id/tvPasswordLabel"
+        app:layout_constraintTop_toBottomOf="@id/tvNicknameLabel" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnEditPassword"
+        android:layout_width="32dp"
+        android:layout_height="24dp"
+        android:layout_gravity="end"
+        android:layout_marginStart="32dp"
+        android:background="@drawable/button_no_background"
+        android:contentDescription="@string/change_password_button"
+        android:drawableEnd="@drawable/edit_32"
+        app:layout_constraintStart_toEndOf="@id/tvPassword"
+        app:layout_constraintTop_toBottomOf="@id/tvNicknameLabel" />
+
+    <!--  BIO  -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvBioLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="BIO"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvPasswordLabel" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnEditBio"
+        android:layout_width="32dp"
+        android:layout_height="24dp"
+        android:layout_gravity="end"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_no_background"
+        android:contentDescription="@string/change_password_button"
+        android:drawableEnd="@drawable/edit_32"
+        app:layout_constraintStart_toEndOf="@id/tvBioLabel"
+        app:layout_constraintTop_toBottomOf="@id/tvPasswordLabel" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvBio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:justificationMode="inter_word"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnEditBio"
+        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam id malesuada mauris. Duis vestibulum lobortis lacinia. Vivamus a tempor lectus, in vehicula magna. Vestibulum accumsan est a elementum ullamcorper." />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

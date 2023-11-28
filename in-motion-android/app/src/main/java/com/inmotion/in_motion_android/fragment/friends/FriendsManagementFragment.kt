@@ -11,8 +11,8 @@ import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import com.inmotion.in_motion_android.R
 import com.inmotion.in_motion_android.adapter.FriendsManagementViewPageAdapter
-import com.inmotion.in_motion_android.data.FriendDto
-import com.inmotion.in_motion_android.data.FriendRequestDto
+import com.inmotion.in_motion_android.data.remote.FriendDto
+import com.inmotion.in_motion_android.data.remote.FriendRequestDto
 import com.inmotion.in_motion_android.databinding.FragmentFriendsManagementBinding
 
 
@@ -39,7 +39,7 @@ class FriendsManagementFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentFriendsManagementBinding.inflate(layoutInflater)
         return binding.root
     }
@@ -56,7 +56,7 @@ class FriendsManagementFragment : Fragment() {
         binding.viewPager.adapter = this.viewPageAdapter
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                binding.viewPager.setCurrentItem(tab!!.position)
+                binding.viewPager.currentItem = tab!!.position
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {

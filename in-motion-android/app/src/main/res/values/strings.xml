@@ -21,4 +21,6 @@
     <string name="bio">BIO</string>
     <string name="nickname_hint">Nickname</string>
     <string name="nickname">Nickname:</string>
+    <string name="logout">Logout</string>
+    <string name="change_password_button">Change password button</string>
 </resources>

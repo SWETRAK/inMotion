@@ -3,7 +3,7 @@ package com.inmotion.in_motion_android.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.inmotion.in_motion_android.data.FriendDto
+import com.inmotion.in_motion_android.data.remote.FriendDto
 import com.inmotion.in_motion_android.databinding.FriendRecyclerViewItemBinding
 import java.time.Duration
 import java.time.LocalDateTime
