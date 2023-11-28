@@ -138,9 +138,12 @@ public class PostService : IPostService
             throw new PostIterationNotFoundException();
         
         var tags = await CalculateTags(userIdGuid, createPostRequestDto.Description);
-        var localization = await GetLocalization(createPostRequestDto.Localization.Latitude,
-            createPostRequestDto.Localization.Longitude,
-            createPostRequestDto.Localization.Name);
+
+        var localization = createPostRequestDto.Localization is not null
+            ? await GetLocalization(createPostRequestDto.Localization.Latitude,
+                createPostRequestDto.Localization.Longitude,
+                createPostRequestDto.Localization.Name)
+            : null;
 
         var post = new Domain.Entities.Post.Post
         {
