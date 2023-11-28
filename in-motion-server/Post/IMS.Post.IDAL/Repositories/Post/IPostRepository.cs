@@ -13,6 +13,8 @@ public interface IPostRepository: IDisposable
 
     Task<PostEntity> GetByIdAsync(Guid postId);
 
+    Task AddAsync(PostEntity post);
+
     Task SaveAsync();
 
     Task<IList<PostEntity>> GetFriendsPublicAsync(Guid postIterationId,

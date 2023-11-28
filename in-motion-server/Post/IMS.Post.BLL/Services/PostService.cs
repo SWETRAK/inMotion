@@ -155,6 +155,7 @@ public class PostService : IPostService
             Iteration = postIteration
         };
 
+        await _postRepository.AddAsync(post);
         await _postRepository.SaveAsync();
 
         var result = _mapper.Map<CreatePostResponseDto>(post);

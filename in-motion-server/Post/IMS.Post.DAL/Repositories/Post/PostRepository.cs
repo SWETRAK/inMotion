@@ -47,6 +47,11 @@ public class PostRepository: IPostRepository
             .FirstOrDefaultAsync(x => x.Id.Equals(postId));
     }
 
+    public async Task AddAsync(PostEntity post)
+    {
+        await _context.Posts.AddAsync(post);
+    }
+
     public async Task SaveAsync()
     {
         await _context.SaveChangesAsync();
