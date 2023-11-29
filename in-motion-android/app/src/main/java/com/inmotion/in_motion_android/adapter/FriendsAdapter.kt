@@ -3,19 +3,19 @@ package com.inmotion.in_motion_android.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.inmotion.in_motion_android.data.remote.FriendDto
+import com.inmotion.in_motion_android.data.database.entity.AcceptedFriend
 import com.inmotion.in_motion_android.databinding.FriendRecyclerViewItemBinding
 import java.time.Duration
 import java.time.LocalDateTime
 
-class FriendsAdapter(private val friendsList: List<FriendDto>) :
+class FriendsAdapter(private val friendsList: List<AcceptedFriend>) :
     RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder>() {
 
     inner class FriendsViewHolder(private val itemBinding: FriendRecyclerViewItemBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
-        fun bindItem(friend: FriendDto) {
+        fun bindItem(friend: AcceptedFriend) {
             itemBinding.tvUsername.text = friend.nickname
-            val lastSeen = Duration.between(LocalDateTime.parse(friend.lastActivity), LocalDateTime.now())
+            val lastSeen = Duration.between(LocalDateTime.parse(friend.friendsSince), LocalDateTime.now())
 
             itemBinding.tvLastSeen.text = "Last seen ${lastSeen.toHours()} h ago"
         }

@@ -1,4 +1,4 @@
-package com.inmotion.in_motion_android.data.database
+package com.inmotion.in_motion_android.data.database.event
 
 import com.inmotion.in_motion_android.data.database.entity.UserInfo
 

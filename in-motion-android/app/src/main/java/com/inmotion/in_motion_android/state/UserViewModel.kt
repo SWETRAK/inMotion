@@ -2,9 +2,10 @@ package com.inmotion.in_motion_android.state
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.inmotion.in_motion_android.data.database.UserEvent
+import com.inmotion.in_motion_android.data.database.event.UserEvent
 import com.inmotion.in_motion_android.data.database.dao.UserInfoDao
 import com.inmotion.in_motion_android.data.database.entity.UserInfo
+import com.inmotion.in_motion_android.data.remote.api.ImsUserApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
@@ -14,10 +15,11 @@ import kotlinx.coroutines.launch
 
 class UserViewModel(
     private val dao: UserInfoDao,
-    private val userApi: com.inmotion.in_motion_android.data.remote.api.ImsUserApi
+    private val userApi: ImsUserApi
 ) : ViewModel() {
     private val _user = dao.get().stateIn(viewModelScope, SharingStarted.Eagerly, null)
     private val _state = MutableStateFlow(UserState())
+
     val state = combine(_state, _user) { state, user ->
         state.copy(
             user = user
@@ -25,7 +27,7 @@ class UserViewModel(
     }.stateIn(viewModelScope, SharingStarted.Eagerly, UserState())
 
     fun getBearerToken(): String {
-        return "Bearer ${state.value.user!!.token}"
+        return "Bearer ${_user.value!!.token}"
     }
 
     fun onEvent(event: UserEvent) {

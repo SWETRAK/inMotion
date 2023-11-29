@@ -14,7 +14,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.inmotion.in_motion_android.InMotionApp
 import com.inmotion.in_motion_android.R
-import com.inmotion.in_motion_android.data.database.UserEvent
+import com.inmotion.in_motion_android.data.database.event.UserEvent
+import com.inmotion.in_motion_android.data.remote.ApiConstants
 import com.inmotion.in_motion_android.databinding.DialogEditBioBinding
 import com.inmotion.in_motion_android.databinding.DialogEditEmailBinding
 import com.inmotion.in_motion_android.databinding.DialogEditNicknameBinding
@@ -31,13 +32,13 @@ class EditUserDetailsFragment : Fragment() {
     private lateinit var binding: FragmentEditUserDetailsBinding
 
     private val imsUserApi: com.inmotion.in_motion_android.data.remote.api.ImsUserApi = Retrofit.Builder()
-        .baseUrl(com.inmotion.in_motion_android.data.remote.api.ApiConstants.BASE_URL)
+        .baseUrl(ApiConstants.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(com.inmotion.in_motion_android.data.remote.api.ImsUserApi::class.java)
 
     private val imsAuthApi: com.inmotion.in_motion_android.data.remote.api.ImsAuthApi = Retrofit.Builder()
-        .baseUrl(com.inmotion.in_motion_android.data.remote.api.ApiConstants.BASE_URL)
+        .baseUrl(ApiConstants.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(com.inmotion.in_motion_android.data.remote.api.ImsAuthApi::class.java)

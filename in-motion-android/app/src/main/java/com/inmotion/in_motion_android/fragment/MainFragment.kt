@@ -6,22 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.inmotion.in_motion_android.InMotionApp
 import com.inmotion.in_motion_android.R
 import com.inmotion.in_motion_android.adapter.PostsAdapter
 import com.inmotion.in_motion_android.data.remote.PostDto
-import com.inmotion.in_motion_android.data.remote.api.ImsUserApi
-import com.inmotion.in_motion_android.data.remote.api.ApiConstants
 import com.inmotion.in_motion_android.databinding.FragmentMainBinding
-import com.inmotion.in_motion_android.state.UserViewModel
 import com.inmotion.in_motion_android.util.FocusedItemFinder
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class MainFragment : Fragment() {
 

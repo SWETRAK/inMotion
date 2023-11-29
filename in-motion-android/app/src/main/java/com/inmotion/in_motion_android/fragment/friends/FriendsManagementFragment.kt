@@ -1,39 +1,66 @@
 package com.inmotion.in_motion_android.fragment.friends
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
-import com.google.gson.Gson
+import com.inmotion.in_motion_android.InMotionApp
 import com.inmotion.in_motion_android.R
 import com.inmotion.in_motion_android.adapter.FriendsManagementViewPageAdapter
-import com.inmotion.in_motion_android.data.remote.FriendDto
-import com.inmotion.in_motion_android.data.remote.FriendRequestDto
+import com.inmotion.in_motion_android.data.database.event.FriendEvent
+import com.inmotion.in_motion_android.data.remote.ApiUtils
+import com.inmotion.in_motion_android.data.remote.api.ImsFriendsApi
 import com.inmotion.in_motion_android.databinding.FragmentFriendsManagementBinding
+import com.inmotion.in_motion_android.state.FriendsViewModel
+import com.inmotion.in_motion_android.state.UserViewModel
 
 
 class FriendsManagementFragment : Fragment() {
 
     private lateinit var binding: FragmentFriendsManagementBinding
     private var viewPageAdapter: FriendsManagementViewPageAdapter? = null
-    private var friends: List<FriendDto>? = null
-    private var requests: List<FriendRequestDto>? = null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            val gson = Gson()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                friends =
-                    gson.fromJson(it.getString("FRIENDS"), Array<FriendDto>::class.java).toList()
-                requests =
-                    gson.fromJson(it.getString("REQUESTS"), Array<FriendRequestDto>::class.java)
-                        .toList()
+    private val imsFriendsApi: ImsFriendsApi = ApiUtils.imsFriendsApi
+
+    @Suppress("UNCHECKED_CAST")
+    private val userViewModel: UserViewModel by activityViewModels(
+        factoryProducer = {
+            object : ViewModelProvider.Factory {
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                    return UserViewModel(
+                        (activity?.application as InMotionApp).db.userInfoDao(),
+                        ApiUtils.imsUserApi
+                    ) as T
+                }
             }
         }
+    )
+
+    @Suppress("UNCHECKED_CAST")
+    private val friendsViewModel: FriendsViewModel by activityViewModels(
+        factoryProducer = {
+            object: ViewModelProvider.Factory {
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                    return FriendsViewModel(
+                        (activity?.application as InMotionApp).db.acceptedFriendDao(),
+                        (activity?.application as InMotionApp).db.invitedFriendDao(),
+                        (activity?.application as InMotionApp).db.requestedFriendDao(),
+                        imsFriendsApi
+                    ) as T
+                }
+            }
+        }
+    )
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        friendsViewModel.onEvent(FriendEvent.FetchAcceptedFriends(userViewModel.getBearerToken()))
+        friendsViewModel.onEvent(FriendEvent.FetchInvitedFriends(userViewModel.getBearerToken()))
+        friendsViewModel.onEvent(FriendEvent.FetchRequestedFriends(userViewModel.getBearerToken()))
     }
 
     override fun onCreateView(
@@ -50,8 +77,8 @@ class FriendsManagementFragment : Fragment() {
         viewPageAdapter = FriendsManagementViewPageAdapter(
             activity?.supportFragmentManager!!,
             lifecycle,
-            friends!!,
-            requests!!
+            friendsViewModel.state.value.accepted,
+            friendsViewModel.state.value.requested
         )
         binding.viewPager.adapter = this.viewPageAdapter
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {

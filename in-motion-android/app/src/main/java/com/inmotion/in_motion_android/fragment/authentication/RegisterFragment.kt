@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.inmotion.in_motion_android.R
 import com.inmotion.in_motion_android.data.remote.dto.auth.RegisterUserWithEmailAndPasswordDto
 import com.inmotion.in_motion_android.data.remote.api.ImsAuthApi
-import com.inmotion.in_motion_android.data.remote.api.ApiConstants
+import com.inmotion.in_motion_android.data.remote.ApiConstants
 import com.inmotion.in_motion_android.databinding.FragmentRegisterBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

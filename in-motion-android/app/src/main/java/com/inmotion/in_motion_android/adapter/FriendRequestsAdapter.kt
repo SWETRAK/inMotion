@@ -3,19 +3,19 @@ package com.inmotion.in_motion_android.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.inmotion.in_motion_android.data.remote.FriendRequestDto
+import com.inmotion.in_motion_android.data.database.entity.RequestedFriend
 import com.inmotion.in_motion_android.databinding.FriendRequestRecyclerViewItemBinding
 import java.time.Duration
 import java.time.LocalDateTime
 
-class FriendRequestsAdapter(private val requestsList: List<FriendRequestDto>) :
+class FriendRequestsAdapter(private val requestsList: List<RequestedFriend>) :
     RecyclerView.Adapter<FriendRequestsAdapter.FriendRequestsViewHolder>() {
 
     inner class FriendRequestsViewHolder(private val itemBinding: FriendRequestRecyclerViewItemBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
-        fun bindItem(request: FriendRequestDto) {
+        fun bindItem(request: RequestedFriend) {
             itemBinding.tvUsername.text = request.nickname
-            val requestedAgo = Duration.between(LocalDateTime.parse(request.requestDate), LocalDateTime.now())
+            val requestedAgo = Duration.between(LocalDateTime.parse(request.requested), LocalDateTime.now())
             itemBinding.tvRequestDate.text = "Sent ${requestedAgo.toHours()} h ago"
         }
     }

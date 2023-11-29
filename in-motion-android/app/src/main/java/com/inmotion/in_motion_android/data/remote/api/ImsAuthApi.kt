@@ -45,5 +45,5 @@ interface ImsAuthApi {
     suspend fun updateNickname(@Header("Authorization") token: String, @Body updateNicknameDto: UpdateNicknameDto): Response<ImsHttpMessage<UserInfoDto>>
 
     @GET("/auth/api/user")
-    suspend fun getUser(@HeaderMap headers: Map<String, String>): Response<ImsHttpMessage<UserInfoDto>>
+    suspend fun getUser(@Header("Authorization") token: String): Response<ImsHttpMessage<UserInfoDto>>
 }
