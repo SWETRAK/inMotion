@@ -74,7 +74,8 @@ public class PostReactionService: IPostReactionService
             ExternalAuthorId = userIdGuid,
             Emoji = createPostReactionDto.Emoji
         };
-        
+
+        await _postReactionRepository.AddAsync(postReaction);
         await _postReactionRepository.SaveAsync();
         var postReactionResponse = _mapper.Map<PostReactionDto>(postReaction);
         return postReactionResponse; 

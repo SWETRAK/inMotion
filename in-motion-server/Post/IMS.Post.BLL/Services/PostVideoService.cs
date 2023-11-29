@@ -58,7 +58,6 @@ public class PostVideoService: IPostVideoService
             post.Videos = videos;
             post.Visibility = PostVisibility.Public;
         }
-
         await _postVideoRepository.SaveAsync();
     }
 }

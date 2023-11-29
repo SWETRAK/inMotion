@@ -11,6 +11,8 @@ public interface IPostReactionRepository: IDisposable
     Task<PostReaction> GetByIdAndAuthorId(Guid id, Guid authorId);
 
     Task<IList<PostReaction>> GetRangeByPostIdAsync(Guid postId);
+
+    Task AddAsync(PostReaction postReaction);
     
     Task<long> GetRangeByPostIdCountAsync(Guid postId);
     

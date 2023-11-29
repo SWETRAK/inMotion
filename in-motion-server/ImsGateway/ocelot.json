@@ -89,7 +89,7 @@
       "DownstreamPathTemplate": "/api/{catchAll}"
     },
     {
-      "UpstreamPathTemplate": "/swagger/friends/index.html",
+      "UpstreamPathTemplate": "friends/swagger/index.html",
       "UpstreamHttpMethod": ["GET", "POST", "PUT", "PATCH"],
 
       "DownstreamScheme": "http",
@@ -102,7 +102,7 @@
       "DownstreamPathTemplate": "/swagger/index.html"
     },
     {
-      "UpstreamPathTemplate": "/swagger/friends/{catchAll}",
+      "UpstreamPathTemplate": "friends/swagger/{catchAll}",
       "UpstreamHttpMethod": ["GET", "POST", "PUT", "PATCH"],
 
       "DownstreamScheme": "http",
@@ -176,6 +176,6 @@
     }
   ],
   "GlobalConfiguration" : {
-    "BaseUrl": "https://localhost:443"
+    "BaseUrl": "http://localhost:80"
   }
 }

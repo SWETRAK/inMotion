@@ -22,7 +22,6 @@ public class PostService : IPostService
 {
     private readonly IPostRepository _postRepository;
     private readonly ITagRepository _tagRepository;
-    private readonly ILocalizationRepository _localizationRepository;
     private readonly IPostIterationRepository _postIterationRepository;
     private readonly ILogger<PostService> _logger;
     private readonly IMapper _mapper;
@@ -33,7 +32,6 @@ public class PostService : IPostService
         ILogger<PostService> logger,
         IMapper mapper,
         ITagRepository tagRepository,
-        ILocalizationRepository localizationRepository,
         IUserService userService, 
         IRequestClient<ImsBaseMessage<GetUserFriendsMessage>> getUserFriendsRequestClient, 
         IPostIterationRepository postIterationRepository)
@@ -42,7 +40,6 @@ public class PostService : IPostService
         _logger = logger;
         _mapper = mapper;
         _tagRepository = tagRepository;
-        _localizationRepository = localizationRepository;
         _userService = userService;
         _getUserFriendsRequestClient = getUserFriendsRequestClient;
         _postIterationRepository = postIterationRepository;
@@ -139,19 +136,12 @@ public class PostService : IPostService
         
         var tags = await CalculateTags(userIdGuid, createPostRequestDto.Description);
 
-        var localization = createPostRequestDto.Localization is not null
-            ? await GetLocalization(createPostRequestDto.Localization.Latitude,
-                createPostRequestDto.Localization.Longitude,
-                createPostRequestDto.Localization.Name)
-            : null;
-
         var post = new Domain.Entities.Post.Post
         {
             ExternalAuthorId = userIdGuid,
             Description = createPostRequestDto.Description,
             Title = createPostRequestDto.Title,
             Tags = tags,
-            Localization = localization,
             Iteration = postIteration
         };
 
@@ -207,22 +197,7 @@ public class PostService : IPostService
         await _postRepository.SaveAsync();
         return _mapper.Map<GetPostResponseDto>(post);
     }
-
-    private async Task<Localization> GetLocalization(double latitude, double longitude, string name)
-    {
-        var localization = await _localizationRepository.GetByCoordinatesOrNameAsync(latitude, longitude, name);
-        if (localization is not null) return localization;
-
-        localization = new Localization
-        {
-            Name = name,
-            Latitude = latitude,
-            Longitude = longitude
-        };
-        await _localizationRepository.SaveAsync();
-        return localization;
-    }
-
+    
     private async Task<IList<Tag>> CalculateTags(Guid authorId, string description)
     {
         await using var dbContextTransaction = await _tagRepository.StartTransactionAsync();

@@ -10,5 +10,6 @@ public interface IPostCommentReactionRepository: IDisposable
     Task<PostCommentReaction> GetByIdAndAuthorIdAndPostCommentIdAsync(Guid id, Guid authorId, Guid postCommentId);
     Task<PostCommentReaction> GetByAuthorIdAndPostCommentIdAsync(Guid authorId, Guid postCommentId);
     void Remove(PostCommentReaction postCommentReaction);
+    Task AddAsync(PostCommentReaction postCommentReaction);
     Task SaveAsync();
 }

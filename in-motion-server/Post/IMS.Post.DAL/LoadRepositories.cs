@@ -14,7 +14,6 @@ public static class LoadRepositories
         serviceCollection.AddDbContextFactory<ImsPostDbContext>();
         serviceCollection.AddDbContext<ImsPostDbContext>();
 
-        serviceCollection.AddScoped<ILocalizationRepository, LocalizationRepository>();
         serviceCollection.AddScoped<ITagRepository, TagRepository>();
 
         serviceCollection.AddScoped<IPostIterationRepository, PostIterationRepository>();
