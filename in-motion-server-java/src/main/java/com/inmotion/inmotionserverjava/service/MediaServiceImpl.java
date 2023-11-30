@@ -86,8 +86,8 @@ public class MediaServiceImpl implements MediaService {
                     postId,
                     user.id(),
                     List.of(
-                            new VideoMetadataMessage(postsBucket, postsBucket, frontVideoPath, VIDEO_MEDIA_TYPE.toString(), "video/mp4"),
-                            new VideoMetadataMessage(postsBucket, postsBucket, backVideoPath, VIDEO_MEDIA_TYPE.toString(), "video/mp4")
+                            new VideoMetadataMessage(postsBucket, postsBucket, frontVideoPath, VIDEO_MEDIA_TYPE.toString(), "Front"),
+                            new VideoMetadataMessage(postsBucket, postsBucket, backVideoPath, VIDEO_MEDIA_TYPE.toString(), "Rear")
                     )
             ));
             log.info("User {} added a post", user.nickname());

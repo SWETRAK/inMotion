@@ -25,7 +25,7 @@ public class PostVideoService: IPostVideoService
         var authorIdGuid = uploadVideosMetaDataDto.AuthorId.ParseGuid();
         var postIdGuid = uploadVideosMetaDataDto.PostId.ParseGuid();
         
-        var post = await _postRepository.GetByIdAsync(postIdGuid);
+        var post = await _postRepository.GetByIdAndAuthorIdAsync(postIdGuid, authorIdGuid);
         
         if (post is null)
             throw new PostNotFoundException(postIdGuid.ToString());

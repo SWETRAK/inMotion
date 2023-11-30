@@ -6,6 +6,7 @@ using IMS.Post.Models.Dto.Incoming;
 using IMS.Post.Models.Dto.Outgoing;
 using IMS.Post.Models.Exceptions;
 using IMS.Shared.Utils.Parsers;
+using Microsoft.IdentityModel.Tokens;
 
 namespace IMS.Post.BLL.Services;
 
@@ -77,6 +78,11 @@ public class PostCommentService: IPostCommentService
             throw new PostNotFoundException();
         
         var postComments = await _postCommentRepository.GetRangeByPostIdAsync(post.Id);
+
+        if (postComments.IsNullOrEmpty())
+        {
+            return new List<PostCommentDto>();
+        }
 
         var authors = await _userService.GetUsersByIdsArray(postComments.Select(x => x.ExternalAuthorId).Distinct());
         

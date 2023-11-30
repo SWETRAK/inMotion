@@ -55,6 +55,18 @@ public class PostService : IPostService
         
         var posts = await _postRepository.GetPublicFormIterationPaginatedAsync(postIteration.Id,
             paginationRequestDto.PageNumber, paginationRequestDto.PageSize);
+        
+        var result = new ImsPagination<IList<GetPostResponseDto>>
+        {
+            PageSize = paginationRequestDto.PageSize,
+            PageNumber = paginationRequestDto.PageNumber
+        };
+
+        if (posts.IsNullOrEmpty())
+        {
+            result.Data = new List<GetPostResponseDto>();
+            return result;
+        }
 
         var authors = await _userService.GetUsersByIdsArray(posts.Select(u => u.ExternalAuthorId));
 
@@ -70,13 +82,8 @@ public class PostService : IPostService
                 });
             })
         );
-        var result = new ImsPagination<IList<GetPostResponseDto>>
-        {
-            PageSize = paginationRequestDto.PageSize,
-            PageNumber = paginationRequestDto.PageNumber,
-            Data = getPostResponseDtos
-        };
 
+        result.Data = getPostResponseDtos;
         return result;
     }
 
@@ -103,10 +110,22 @@ public class PostService : IPostService
         if (friendsResponse.Message.Error)
             throw new NestedRabbitMqRequestException();
 
+        var friendsIds = friendsResponse.Message.Data.FriendsIds;
+
+        if (friendsIds.IsNullOrEmpty())
+        {
+            return new List<GetPostResponseDto>();
+        }
+
         var friendsIdGuids = friendsResponse.Message.Data.FriendsIds.Select(Guid.Parse);
 
         var posts = await _postRepository.GetFriendsPublicAsync(postIteration.Id,
             friendsIdGuids);
+        
+        if (posts.IsNullOrEmpty())
+        {
+            return new List<GetPostResponseDto>();
+        }
 
         var authors = await _userService.GetUsersByIdsArray(posts.Select(u => u.ExternalAuthorId));
 
@@ -164,8 +183,17 @@ public class PostService : IPostService
 
         if (post is null)
             throw new PostNotFoundException();
+        
+        
+        var author = await _userService.GetUserById(post.ExternalAuthorId);
 
-        return _mapper.Map<GetPostResponseDto>(post);
+        return _mapper.Map<Domain.Entities.Post.Post, GetPostResponseDto>(
+            post,
+            f => f.AfterMap((src, dest) =>
+            {
+                if (author is not null) dest.Author = _mapper.Map<PostAuthorDto>(author);
+            })
+        );
     }
     
     public async Task<GetPostResponseDto> EditPostsMetas(string userId, string postId,

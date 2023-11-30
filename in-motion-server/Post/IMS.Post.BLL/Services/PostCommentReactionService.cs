@@ -6,6 +6,7 @@ using IMS.Post.Models.Dto.Incoming;
 using IMS.Post.Models.Dto.Outgoing;
 using IMS.Post.Models.Exceptions;
 using IMS.Shared.Utils.Parsers;
+using Microsoft.IdentityModel.Tokens;
 
 namespace IMS.Post.BLL.Services;
 
@@ -101,7 +102,12 @@ public class PostCommentReactionService: IPostCommentReactionService
         
         var postCommentsReactions =
             await _postCommentReactionRepository.GetByPostCommentIdPaginatedAsync(postCommentIdGuid);
-            
+
+        if (postCommentsReactions.IsNullOrEmpty())
+        {
+            return new List<PostCommentReactionDto>();
+        }
+
         var authors = await _userService.GetUsersByIdsArray(postCommentsReactions.Select(x => x.ExternalAuthorId).Distinct());
 
         var responseData = _mapper.Map<IEnumerable<PostCommentReaction>, List<PostCommentReactionDto>>(
