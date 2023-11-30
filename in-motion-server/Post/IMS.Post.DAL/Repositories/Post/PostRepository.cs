@@ -23,19 +23,24 @@ public class PostRepository: IPostRepository
             .Take(pageSize)
             .Skip((pageNumber - 1) * pageSize)
             .Include(x => x.Videos)
+            .Include(x => x.Tags)
             .Where(x => x.IterationId.Equals(postIterationId) && x.Visibility.Equals(PostVisibility.Public))
             .ToArrayAsync();
     }
 
     public async Task<PostEntity> GetByExternalAuthorIdAsync(Guid postIterationId, Guid externalAuthorId)
     {
-        return await _context.Posts.FirstOrDefaultAsync(x => x.ExternalAuthorId.Equals(externalAuthorId) && x.IterationId.Equals(postIterationId));
+        return await _context.Posts
+            .Include(x => x.Videos)
+            .Include(x => x.Tags)
+            .FirstOrDefaultAsync(x => x.ExternalAuthorId.Equals(externalAuthorId) && x.IterationId.Equals(postIterationId));
     }
 
     public async Task<PostEntity> GetByIdAndAuthorIdAsync(Guid postIterationId, Guid postId, Guid userId)
     {
         return await _context.Posts
             .Include(x => x.Videos)
+            .Include(x => x.Tags)
             .FirstOrDefaultAsync(x =>
                 x.Id.Equals(postId) && x.ExternalAuthorId.Equals(userId) && x.IterationId.Equals(postIterationId));
     }
@@ -51,7 +56,8 @@ public class PostRepository: IPostRepository
     public async Task<PostEntity> GetByIdAsync(Guid postId)
     {
         return await _context.Posts
-            .Include(p => p.Videos)
+            .Include(x => x.Videos)
+            .Include(x => x.Tags)
             .FirstOrDefaultAsync(x => x.Id.Equals(postId));
     }
 
@@ -68,6 +74,8 @@ public class PostRepository: IPostRepository
     public async Task<IList<PostEntity>> GetFriendsPublicAsync(Guid postIterationId, IEnumerable<Guid> friendIds)
     {
         return await _context.Posts
+            .Include(x => x.Videos)
+            .Include(x => x.Tags)
             .Where(x => x.IterationId.Equals(postIterationId) && x.Visibility.Equals(PostVisibility.Public) &&
                         friendIds.Contains(x.ExternalAuthorId))
             .ToArrayAsync();

@@ -164,8 +164,17 @@ public class PostService : IPostService
 
         if (post is null)
             throw new PostNotFoundException();
+        
+        
+        var author = await _userService.GetUserById(post.ExternalAuthorId);
 
-        return _mapper.Map<GetPostResponseDto>(post);
+        return _mapper.Map<Domain.Entities.Post.Post, GetPostResponseDto>(
+            post,
+            f => f.AfterMap((src, dest) =>
+            {
+                if (author is not null) dest.Author = _mapper.Map<PostAuthorDto>(author);
+            })
+        );
     }
     
     public async Task<GetPostResponseDto> EditPostsMetas(string userId, string postId,
