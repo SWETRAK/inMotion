@@ -21,24 +21,6 @@ struct MainWallPost: View {
         } label: {
             VStack {
 
-                HStack{
-                    if let safeData = self.authorFrontData {
-                        AnimatedImage(data: safeData)
-                            .resizable()
-                            .frame(width: 50, height: 50, alignment: .center)
-                        
-                    } else {
-                        Image("avatar-placeholder")
-                            .resizable()
-                            .frame(width: 50, height: 50, alignment: .center)
-                        
-                    }
-                    VStack(alignment: .leading){
-                        Text(self.post.author.nickname)
-                    }
-                }.frame(maxWidth: .infinity, alignment: .leading)
-
-
                 if (self.avPlayerBig != nil && self.avPlayerSmall != nil) {
                     HStack(alignment: .top) {
                         VideoPlayer(player: self.avPlayerBig)

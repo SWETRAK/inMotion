@@ -16,18 +16,21 @@ struct MainView: View {
     
     var body: some View {
         VStack{
-            if let safeUserPost = self.userPost {
-                //TODO; use safe UserPost here
-            } else {
-                // Post camera view
-                NavigationLink {
-                    CreatePostView().environmentObject(appState)
-                } label: {
-                    Text("RECORD POST")
-                }
-            }
             
             ScrollView() {
+                if let safeUserPost = self.userPost {
+                    MainWallPost(post: safeUserPost)
+                    
+                    //TODO; use safe UserPost here
+                } else {
+                    // Post camera view
+                    NavigationLink {
+                        CreatePostView().environmentObject(appState)
+                    } label: {
+                        Text("RECORD POST")
+                    }
+                }
+                
                 ForEach(posts, id:\.id) { post in
                     MainWallPost(post: post)
                         .environmentObject(appState)
@@ -63,7 +66,8 @@ struct MainView: View {
     
     private func LoadCurrentUserPost() {
         self.appState.GetUserPost { (data: GetPostResponseDto) in
-            
+            print(data)
+            self.userPost = data
         } onFailure: { (error: ImsHttpError) in
             
         }
