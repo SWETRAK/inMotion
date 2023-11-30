@@ -6,6 +6,7 @@ using IMS.Post.Models.Dto.Incoming;
 using IMS.Post.Models.Dto.Outgoing;
 using IMS.Post.Models.Exceptions;
 using IMS.Shared.Utils.Parsers;
+using Microsoft.IdentityModel.Tokens;
 
 namespace IMS.Post.BLL.Services;
 
@@ -36,6 +37,11 @@ public class PostReactionService: IPostReactionService
             throw new PostNotFoundException(postId);
 
         var postReactions = await _postReactionRepository.GetRangeByPostIdAsync(post.Id);
+
+        if (postReactions.IsNullOrEmpty())
+        {
+            return new List<PostReactionDto>();
+        }
 
         var authors = await _userService.GetUsersByIdsArray(postReactions.Select(x => x.ExternalAuthorId));
         
