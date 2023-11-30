@@ -8,16 +8,21 @@ struct MainWallPost: View {
     var post: GetPostResponseDto
     
     @State private var liked: Bool = false
-    
     @State private var authorFrontData: Data?
+    
+    @State private var frontUrl: URL?
+    @State private var backUrl: URL?
 
     @State private var avPlayerBig: AVPlayer? = nil
     @State private var avPlayerSmall: AVPlayer? = nil
 
     var body: some View {
         NavigationLink {
-            PostDetailsView(post: post)
-                .environmentObject(appState)
+            if let safeFrontUrl = self.frontUrl, let safeBackUrl = self.backUrl {
+                PostDetailsView(post: post, frontVideoURL: safeFrontUrl, backVideoURL: safeBackUrl)
+                    .environmentObject(appState)
+            }
+
         } label: {
             VStack {
 
@@ -25,8 +30,8 @@ struct MainWallPost: View {
                     HStack(alignment: .top) {
                         VideoPlayer(player: self.avPlayerBig)
                             .frame(
-                                width: UIScreen.main.bounds.width-20,
-                                height: (UIScreen.main.bounds.width-20)/9*16,
+                                width: (UIScreen.main.bounds.width-20)/2,
+                                height: ((UIScreen.main.bounds.width-20)/2)/9*16,
                                 alignment: .topTrailing)
                             .onDisappear{
                                 self.avPlayerBig?.pause()
@@ -34,6 +39,7 @@ struct MainWallPost: View {
                             .onAppear{
                                 self.avPlayerBig?.play()
                                 NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: .main) { _ in
+                                    self.avPlayerBig?.isMuted = false
                                     self.avPlayerBig?.seek(to: .zero)
                                     self.avPlayerBig?.play()
                                 }
@@ -50,6 +56,7 @@ struct MainWallPost: View {
                             .onAppear{
                                 self.avPlayerSmall?.play()
                                 NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: nil, queue: .main) { _ in
+                                    self.avPlayerSmall?.isMuted = false
                                     self.avPlayerSmall?.seek(to: .zero)
                                     self.avPlayerSmall?.play()
                                 }
@@ -106,8 +113,10 @@ struct MainWallPost: View {
     }
     
     private func PreparePlayer(data: PostDto) {
-        self.avPlayerBig = AVPlayer(playerItem: AVPlayerItem(asset: data.backVideo.convertToAVAsset()))
-        self.avPlayerSmall = AVPlayer(playerItem: AVPlayerItem(asset: data.frontVideo.convertToAVAsset()))
+        self.frontUrl = data.frontVideo.convertToURL()
+        self.backUrl = data.backVideo.convertToURL()
+        self.avPlayerBig = AVPlayer(playerItem: AVPlayerItem(asset: AVAsset(url: self.frontUrl!)))
+        self.avPlayerSmall = AVPlayer(playerItem: AVPlayerItem(asset: AVAsset(url: self.backUrl!)))
         self.avPlayerBig?.isMuted = false
         self.avPlayerSmall?.isMuted = false
     }

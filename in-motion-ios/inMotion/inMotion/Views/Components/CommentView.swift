@@ -26,7 +26,6 @@ struct CommentView: View {
                 Image("avatar-placeholder")
                     .resizable()
                     .frame(width: 50, height: 50, alignment: .center)
-                
             }
             VStack{
                 HStack{

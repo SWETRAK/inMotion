@@ -260,7 +260,7 @@ struct LoggedUserDetailsView: View {
     }
     
     private func PreparePlayer(_ data: Data) {
-        self.avPlayer = AVPlayer(playerItem: AVPlayerItem(asset: data.convertToAVAsset()))
+        self.avPlayer = AVPlayer(playerItem: AVPlayerItem(asset: AVAsset(url: data.convertToURL())))
         self.avPlayer?.isMuted = true
     }
 }

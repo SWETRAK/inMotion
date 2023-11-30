@@ -263,7 +263,14 @@ extension AppState {
 
 extension AppState {
     
-    
+    func GetPostCommentsForPostHttpRequest(
+        postId: UUID,
+        onSuccess: @escaping ([PostCommentDto]) -> Void,
+        onFailure: @escaping ([ImsHttpError]) -> Void) {
+        
+            
+        
+    }
     
     
     

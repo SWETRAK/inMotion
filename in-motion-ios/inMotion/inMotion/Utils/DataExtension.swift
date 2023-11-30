@@ -10,7 +10,7 @@ import AVKit
 
 
 extension Data {
-    func convertToAVAsset() -> AVAsset {
+    func convertToURL() -> URL {
         let directory = NSTemporaryDirectory()
         let fileName = "\(NSUUID().uuidString).mp4"
         let fullURL = NSURL.fileURL(withPathComponents: [directory, fileName])
@@ -19,7 +19,7 @@ extension Data {
         } catch {
             print()
         }
-        let asset = AVAsset(url: fullURL!)
-        return asset
+        
+        return fullURL!
     }
 }

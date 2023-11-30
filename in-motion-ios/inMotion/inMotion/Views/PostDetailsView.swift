@@ -12,6 +12,10 @@ import AVKit
 struct PostDetailsView: View {
     
     var post: GetPostResponseDto
+    
+    var frontVideoURL: URL
+    var backVideoURL: URL
+    
     @EnvironmentObject private var appState: AppState
     @State private var authorGifData: Data? = nil
     
@@ -26,17 +30,16 @@ struct PostDetailsView: View {
         VStack{
             VStack {
                 ScrollView {
-                    VStack{
+                    VStack(alignment: .leading){
                         Text(post.title)
-                            .font(.system(size: 12))
-                            .foregroundColor(Color.blue)
+                            .font(.system(size: 25))
 
                         if (self.avPlayerBig != nil && self.avPlayerSmall != nil) {
                             HStack(alignment: .top) {
                                 VideoPlayer(player: self.avPlayerBig)
                                     .frame(
-                                        width: UIScreen.main.bounds.width-20,
-                                        height: (UIScreen.main.bounds.width-20)/9*16,
+                                        width: (UIScreen.main.bounds.width-20)/2,
+                                        height: ((UIScreen.main.bounds.width-20)/2)/9*16,
                                         alignment: .topTrailing)
                                     .onDisappear{
                                         self.avPlayerBig?.pause()
@@ -94,16 +97,16 @@ struct PostDetailsView: View {
                             }
                         }
                         Divider()
+                        
+                        if (post.description != String.Empty) {
+                            Text(post.description)
+                            Divider()
+                        }
                     }
 
-                    Text("Description")
-                    
-                    if (post.description != String.Empty) {
-                        Text(post.description)
-                    }
                     
                     ForEach(self.comments, id:\.id) { comment in
-//                        CommentView().environmentObject(comment)
+                        CommentView(comment: comment).environmentObject(appState)
                     }
                 }
 
@@ -130,7 +133,7 @@ struct PostDetailsView: View {
             GetLikesCount()
             LoadComments()
             LoadProfilePicture()
-            GetPostVideo()
+            PreparePlayer()
         }
         .onDisappear{
             self.avPlayerBig?.pause()
@@ -140,24 +143,12 @@ struct PostDetailsView: View {
             self.avPlayerSmall?.pause()
             self.avPlayerSmall?.replaceCurrentItem(with: nil)
             self.avPlayerSmall = nil
-        
         }
     }
     
-    private func GetPostVideo() {
-        appState.getPostVideosUrls(
-            postId: self.post.id,
-            successGetPostVideoUrls: {(data: PostDto) in
-                self.PreparePlayer(data: data)
-            },
-            failureGetPostVideoUrls: {(error: ImsHttpError) in
-                
-            })
-    }
-    
-    private func PreparePlayer(data: PostDto) {
-        self.avPlayerBig = AVPlayer(playerItem: AVPlayerItem(asset: data.backVideo.convertToAVAsset()))
-        self.avPlayerSmall = AVPlayer(playerItem: AVPlayerItem(asset: data.frontVideo.convertToAVAsset()))
+    private func PreparePlayer() {
+        self.avPlayerBig = AVPlayer(playerItem: AVPlayerItem(asset: AVAsset(url: self.frontVideoURL)))
+        self.avPlayerSmall = AVPlayer(playerItem: AVPlayerItem(asset: AVAsset(url: self.backVideoURL)))
         self.avPlayerBig?.isMuted = false
         self.avPlayerSmall?.isMuted = false
     }

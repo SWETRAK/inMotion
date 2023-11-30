@@ -19,7 +19,11 @@ struct MainView: View {
             
             ScrollView() {
                 if let safeUserPost = self.userPost {
-                    MainWallPost(post: safeUserPost)
+                    VStack(alignment: .center) {
+                        Text("YOUR POST")
+                        MainWallPost(post: safeUserPost)
+                    }
+
                     
                     //TODO; use safe UserPost here
                 } else {
@@ -35,7 +39,7 @@ struct MainView: View {
                     MainWallPost(post: post)
                         .environmentObject(appState)
                 }
-            }.blur(radius: 9)
+            }
         }.toolbar {
             ToolbarItem(placement: .primaryAction) {
                 NavigationLink {

@@ -10,7 +10,6 @@ class JsonUtil {
         do {
             let jsonDecode = JSONDecoder()
             jsonDecode.dateDecodingStrategy = .iso8601WithFractionalSeconds
-            print(String(data: data, encoding: .utf8) ?? "Empty json")
             return try jsonDecode.decode(T.self, from: data)
         } catch {
             print("Unexpected error: \(error).")

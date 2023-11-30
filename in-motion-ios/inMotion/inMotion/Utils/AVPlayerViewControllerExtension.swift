@@ -12,5 +12,7 @@ extension AVPlayerViewController {
     override open func viewDidLoad() {
         super.viewDidLoad()
         self.showsPlaybackControls = false
+        self.player?.isMuted = true
+        self.player?.volume = 0.0
     }
 }

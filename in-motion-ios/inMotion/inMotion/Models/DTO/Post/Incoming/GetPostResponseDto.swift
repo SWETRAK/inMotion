@@ -20,5 +20,5 @@ struct GetPostResponseDto: Codable {
     public var postCommentsCount: UInt
     public var postReactionsCount: UInt
     
-    public var createAt: Date
+    public var createdAt: Date
 }
