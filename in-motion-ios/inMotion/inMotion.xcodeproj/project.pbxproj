@@ -46,7 +46,6 @@
 		861435192AF18C4300B45FF5 /* CreatePostCommentReactionDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435182AF18C4300B45FF5 /* CreatePostCommentReactionDto.swift */; };
 		8614351B2AF18C7E00B45FF5 /* CreatePostReactionDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8614351A2AF18C7E00B45FF5 /* CreatePostReactionDto.swift */; };
 		8614351D2AF18CB400B45FF5 /* CreatePostRequestDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8614351C2AF18CB400B45FF5 /* CreatePostRequestDto.swift */; };
-		8614351F2AF18CF000B45FF5 /* NewPostLocalizationDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8614351E2AF18CF000B45FF5 /* NewPostLocalizationDto.swift */; };
 		861435212AF18D4B00B45FF5 /* EditPostCommentReactionDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435202AF18D4B00B45FF5 /* EditPostCommentReactionDto.swift */; };
 		861435252AF18DAC00B45FF5 /* EditPostReactionDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435242AF18DAC00B45FF5 /* EditPostReactionDto.swift */; };
 		861435272AF18DDF00B45FF5 /* EditPostRequestDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435262AF18DDF00B45FF5 /* EditPostRequestDto.swift */; };
@@ -168,7 +167,6 @@
 		861435182AF18C4300B45FF5 /* CreatePostCommentReactionDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostCommentReactionDto.swift; sourceTree = "<group>"; };
 		8614351A2AF18C7E00B45FF5 /* CreatePostReactionDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostReactionDto.swift; sourceTree = "<group>"; };
 		8614351C2AF18CB400B45FF5 /* CreatePostRequestDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostRequestDto.swift; sourceTree = "<group>"; };
-		8614351E2AF18CF000B45FF5 /* NewPostLocalizationDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostLocalizationDto.swift; sourceTree = "<group>"; };
 		861435202AF18D4B00B45FF5 /* EditPostCommentReactionDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostCommentReactionDto.swift; sourceTree = "<group>"; };
 		861435242AF18DAC00B45FF5 /* EditPostReactionDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostReactionDto.swift; sourceTree = "<group>"; };
 		861435262AF18DDF00B45FF5 /* EditPostRequestDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostRequestDto.swift; sourceTree = "<group>"; };
@@ -400,7 +398,6 @@
 				861435182AF18C4300B45FF5 /* CreatePostCommentReactionDto.swift */,
 				8614351A2AF18C7E00B45FF5 /* CreatePostReactionDto.swift */,
 				8614351C2AF18CB400B45FF5 /* CreatePostRequestDto.swift */,
-				8614351E2AF18CF000B45FF5 /* NewPostLocalizationDto.swift */,
 				861435202AF18D4B00B45FF5 /* EditPostCommentReactionDto.swift */,
 				861435242AF18DAC00B45FF5 /* EditPostReactionDto.swift */,
 				861435262AF18DDF00B45FF5 /* EditPostRequestDto.swift */,
@@ -768,7 +765,6 @@
 				862D75852A3A1E3500B6D02F /* MainView.swift in Sources */,
 				862D758A2A3C3BFA00B6D02F /* MapDetails.swift in Sources */,
 				8614350B2AF189E300B45FF5 /* FriendProfileVideoDto.swift in Sources */,
-				8614351F2AF18CF000B45FF5 /* NewPostLocalizationDto.swift in Sources */,
 				8652380D2A2F21C6002E6605 /* ContentView.swift in Sources */,
 				861435382AF1929100B45FF5 /* PostAuthorDto.swift in Sources */,
 				863725F92AFB99C800C933D6 /* UserAppStateExtension.swift in Sources */,

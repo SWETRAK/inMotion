@@ -15,7 +15,6 @@ struct GetPostResponseDto: Codable {
     
     public var author: PostAuthorDto
     public var tags: [PostTagDto]
-    public var localization: PostLocalizationDto
     
     public var videos: [PostVideoDto]
     public var postCommentsCount: UInt

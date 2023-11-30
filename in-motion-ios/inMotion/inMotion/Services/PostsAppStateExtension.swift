@@ -72,7 +72,6 @@ extension AppState {
                     return
                 }
                 if let httpResponse = response as? HTTPURLResponse {
-                    print(httpResponse.statusCode)
                     if(httpResponse.statusCode == 200)
                     {
                         if let safeImsMessage: ImsHttpMessage<CreatePostResponseDto> = JsonUtil.decodeJsonData(data: data) {
@@ -81,7 +80,6 @@ extension AppState {
                             }
                         }
                     } else {
-                        print(String(data: data, encoding: .utf8))
                         if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
                             if (httpResponse.statusCode == 500)
                             {

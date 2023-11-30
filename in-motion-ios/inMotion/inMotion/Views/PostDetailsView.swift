@@ -27,7 +27,7 @@ struct PostDetailsView: View {
             VStack {
                 ScrollView {
                     VStack{
-                        Text(post.localization.name)
+                        Text(post.title)
                             .font(.system(size: 12))
                             .foregroundColor(Color.blue)
 
@@ -96,6 +96,12 @@ struct PostDetailsView: View {
                         Divider()
                     }
 
+                    Text("Description")
+                    
+                    if (post.description != String.Empty) {
+                        Text(post.description)
+                    }
+                    
                     ForEach(self.comments, id:\.id) { comment in
 //                        CommentView().environmentObject(comment)
                     }

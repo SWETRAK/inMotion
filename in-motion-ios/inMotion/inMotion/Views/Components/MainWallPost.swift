@@ -35,7 +35,6 @@ struct MainWallPost: View {
                     }
                     VStack(alignment: .leading){
                         Text(self.post.author.nickname)
-                        Text(self.post.localization.name)
                     }
                 }.frame(maxWidth: .infinity, alignment: .leading)
 
