@@ -24,6 +24,8 @@ public class PostRepository: IPostRepository
             .Skip((pageNumber - 1) * pageSize)
             .Include(x => x.Videos)
             .Include(x => x.Tags)
+            .Include(x => x.PostComments)
+            .Include(x => x.PostReactions)
             .Where(x => x.IterationId.Equals(postIterationId) && x.Visibility.Equals(PostVisibility.Public))
             .ToArrayAsync();
     }
@@ -33,7 +35,10 @@ public class PostRepository: IPostRepository
         return await _context.Posts
             .Include(x => x.Videos)
             .Include(x => x.Tags)
-            .FirstOrDefaultAsync(x => x.ExternalAuthorId.Equals(externalAuthorId) && x.IterationId.Equals(postIterationId));
+            .Include(x => x.PostComments)
+            .Include(x => x.PostReactions)
+            .FirstOrDefaultAsync(x =>
+                x.ExternalAuthorId.Equals(externalAuthorId) && x.IterationId.Equals(postIterationId));
     }
 
     public async Task<PostEntity> GetByIdAndAuthorIdAsync(Guid postIterationId, Guid postId, Guid userId)
@@ -41,6 +46,8 @@ public class PostRepository: IPostRepository
         return await _context.Posts
             .Include(x => x.Videos)
             .Include(x => x.Tags)
+            .Include(x => x.PostComments)
+            .Include(x => x.PostReactions)
             .FirstOrDefaultAsync(x =>
                 x.Id.Equals(postId) && x.ExternalAuthorId.Equals(userId) && x.IterationId.Equals(postIterationId));
     }
@@ -49,6 +56,9 @@ public class PostRepository: IPostRepository
     {
         return await _context.Posts
             .Include(x => x.Videos)
+            .Include(x => x.Tags)
+            .Include(x => x.PostComments)
+            .Include(x => x.PostReactions)
             .FirstOrDefaultAsync(x =>
                 x.Id.Equals(postId) && x.ExternalAuthorId.Equals(userId));
     }
@@ -58,6 +68,8 @@ public class PostRepository: IPostRepository
         return await _context.Posts
             .Include(x => x.Videos)
             .Include(x => x.Tags)
+            .Include(x => x.PostComments)
+            .Include(x => x.PostReactions)
             .FirstOrDefaultAsync(x => x.Id.Equals(postId));
     }
 
@@ -76,11 +88,13 @@ public class PostRepository: IPostRepository
         return await _context.Posts
             .Include(x => x.Videos)
             .Include(x => x.Tags)
+            .Include(x => x.PostComments)
+            .Include(x => x.PostReactions)
             .Where(x => x.IterationId.Equals(postIterationId) && x.Visibility.Equals(PostVisibility.Public) &&
                         friendIds.Contains(x.ExternalAuthorId))
             .ToArrayAsync();
     }
-    
+
     private void Dispose(bool disposing)
     {
         if (!_disposed)

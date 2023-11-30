@@ -12,8 +12,8 @@ public class GetPostResponseDto
     public IEnumerable<PostTagDto> Tags { get; set; }
     public IEnumerable<PostVideoDto> Videos { get; set; }
     
-    public uint PostCommentsCount { get; set; }
-    public uint PostReactionsCount { get; set; }
+    public long PostCommentsCount { get; set; }
+    public long PostReactionsCount { get; set; }
     
     public DateTime CreatedAt { get; set; }
 }
