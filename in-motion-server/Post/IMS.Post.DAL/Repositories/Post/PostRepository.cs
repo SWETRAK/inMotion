@@ -40,6 +40,14 @@ public class PostRepository: IPostRepository
                 x.Id.Equals(postId) && x.ExternalAuthorId.Equals(userId) && x.IterationId.Equals(postIterationId));
     }
 
+    public async Task<PostEntity> GetByIdAndAuthorIdAsync(Guid postId, Guid userId)
+    {
+        return await _context.Posts
+            .Include(x => x.Videos)
+            .FirstOrDefaultAsync(x =>
+                x.Id.Equals(postId) && x.ExternalAuthorId.Equals(userId));
+    }
+
     public async Task<PostEntity> GetByIdAsync(Guid postId)
     {
         return await _context.Posts
