@@ -89,7 +89,7 @@
       "DownstreamPathTemplate": "/api/{catchAll}"
     },
     {
-      "UpstreamPathTemplate": "friends/swagger/index.html",
+      "UpstreamPathTemplate": "/friends/swagger/index.html",
       "UpstreamHttpMethod": ["GET", "POST", "PUT", "PATCH"],
 
       "DownstreamScheme": "http",
@@ -102,7 +102,7 @@
       "DownstreamPathTemplate": "/swagger/index.html"
     },
     {
-      "UpstreamPathTemplate": "friends/swagger/{catchAll}",
+      "UpstreamPathTemplate": "/friends/swagger/{catchAll}",
       "UpstreamHttpMethod": ["GET", "POST", "PUT", "PATCH"],
 
       "DownstreamScheme": "http",
