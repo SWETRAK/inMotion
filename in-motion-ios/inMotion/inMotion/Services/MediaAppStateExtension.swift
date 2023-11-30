@@ -165,7 +165,7 @@ extension AppState {
         AF.upload(multipartFormData: { (multipartFormData) in
             multipartFormData.append(frontFilePath, withName: "frontVideo")
             multipartFormData.append(backFilePath, withName: "backVideo")
-        }, to: self.httpBaseUrl + "/media/api/profile/video?postID=\(postId.uuidString.lowercased())", headers: headers)
+        }, to: self.httpBaseUrl + "/media/api/post?postID=\(postId.uuidString.lowercased())", headers: headers)
         .uploadProgress { progress in
             print("Upload Progress: \(progress.fractionCompleted)")
         }
