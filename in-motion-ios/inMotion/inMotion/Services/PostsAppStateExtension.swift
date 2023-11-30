@@ -76,7 +76,6 @@ extension AppState {
                     if(httpResponse.statusCode == 200)
                     {
                         if let safeImsMessage: ImsHttpMessage<CreatePostResponseDto> = JsonUtil.decodeJsonData(data: data) {
-                            print("Kamil")
                             if let userInfoDataSafe: CreatePostResponseDto = safeImsMessage.data {
                                 onSuccess(userInfoDataSafe);
                             }

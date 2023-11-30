@@ -55,7 +55,6 @@
 		8614352E2AF18F9F00B45FF5 /* AuthorProfileVideoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8614352D2AF18F9F00B45FF5 /* AuthorProfileVideoDto.swift */; };
 		861435302AF1901600B45FF5 /* CreatePostResponseDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8614352F2AF1901600B45FF5 /* CreatePostResponseDto.swift */; };
 		861435322AF1906D00B45FF5 /* PostTagDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435312AF1906D00B45FF5 /* PostTagDto.swift */; };
-		861435342AF190E200B45FF5 /* PostLocalizationDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435332AF190E200B45FF5 /* PostLocalizationDto.swift */; };
 		861435362AF1917B00B45FF5 /* PostVideoDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435352AF1917B00B45FF5 /* PostVideoDto.swift */; };
 		861435382AF1929100B45FF5 /* PostAuthorDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861435372AF1929100B45FF5 /* PostAuthorDto.swift */; };
 		8614353B2AF1930400B45FF5 /* GetPostResponseDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8614353A2AF1930400B45FF5 /* GetPostResponseDto.swift */; };
@@ -178,7 +177,6 @@
 		8614352D2AF18F9F00B45FF5 /* AuthorProfileVideoDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorProfileVideoDto.swift; sourceTree = "<group>"; };
 		8614352F2AF1901600B45FF5 /* CreatePostResponseDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostResponseDto.swift; sourceTree = "<group>"; };
 		861435312AF1906D00B45FF5 /* PostTagDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTagDto.swift; sourceTree = "<group>"; };
-		861435332AF190E200B45FF5 /* PostLocalizationDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostLocalizationDto.swift; sourceTree = "<group>"; };
 		861435352AF1917B00B45FF5 /* PostVideoDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVideoDto.swift; sourceTree = "<group>"; };
 		861435372AF1929100B45FF5 /* PostAuthorDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAuthorDto.swift; sourceTree = "<group>"; };
 		8614353A2AF1930400B45FF5 /* GetPostResponseDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPostResponseDto.swift; sourceTree = "<group>"; };
@@ -418,7 +416,6 @@
 				8614352D2AF18F9F00B45FF5 /* AuthorProfileVideoDto.swift */,
 				8614352F2AF1901600B45FF5 /* CreatePostResponseDto.swift */,
 				861435312AF1906D00B45FF5 /* PostTagDto.swift */,
-				861435332AF190E200B45FF5 /* PostLocalizationDto.swift */,
 				861435352AF1917B00B45FF5 /* PostVideoDto.swift */,
 				861435372AF1929100B45FF5 /* PostAuthorDto.swift */,
 				8614353A2AF1930400B45FF5 /* GetPostResponseDto.swift */,
@@ -793,7 +790,6 @@
 				862D75812A3A166700B6D02F /* FriendsView.swift in Sources */,
 				8614352E2AF18F9F00B45FF5 /* AuthorProfileVideoDto.swift in Sources */,
 				8673104E2B03EF9A001833C1 /* PostCameraViewWrapper.swift in Sources */,
-				861435342AF190E200B45FF5 /* PostLocalizationDto.swift in Sources */,
 				861435112AF18AF900B45FF5 /* RejectedFriendshipDto.swift in Sources */,
 				861434F02AF1835000B45FF5 /* SuccessfulRegistrationResponseDto.swift in Sources */,
 				861435072AF1894D00B45FF5 /* AcceptedFriendshipDto.swift in Sources */,
