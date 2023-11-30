@@ -44,8 +44,8 @@ public class PostCommentService: IPostCommentService
             Content = createPostCommentDto.Content
         };
 
+        await _postCommentRepository.AddAsync(postComment);
         await _postCommentRepository.SaveAsync();
-
         return _mapper.Map<PostCommentDto>(postComment);
     }
     

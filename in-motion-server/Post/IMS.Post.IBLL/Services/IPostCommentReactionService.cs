@@ -7,7 +7,7 @@ namespace IMS.Post.IBLL.Services;
 public interface IPostCommentReactionService
 {
 
-    Task<PostCommentReactionDto> AddPostCommentReaction(string userId,
+    Task<PostCommentReactionDto> CreatePostCommentReaction(string userId,
         CreatePostCommentReactionDto createPostCommentReactionDto);
 
     Task<PostCommentReactionDto> EditPostCommentReaction(string userId,

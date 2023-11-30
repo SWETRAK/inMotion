@@ -14,8 +14,6 @@ public static class LoadMappers
             cfg.AddProfile<PostVideoProfile>();
             
             cfg.AddProfile<TagProfile>();
-            cfg.AddProfile<LocalizationProfile>();
-            
             cfg.AddProfile<AuthorProfile>();
         });
         

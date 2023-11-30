@@ -51,6 +51,11 @@ public class PostCommentReactionRepository: IPostCommentReactionRepository
         _context.PostCommentReactions.Remove(postCommentReaction);
     }
 
+    public async Task AddAsync(PostCommentReaction postCommentReaction)
+    {
+        await _context.PostCommentReactions.AddAsync(postCommentReaction);
+    }
+
     public async Task SaveAsync()
     {
         await _context.SaveChangesAsync();

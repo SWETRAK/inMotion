@@ -27,7 +27,7 @@ public class PostCommentReactionService: IPostCommentReactionService
         _userService = userService;
     }
     
-    public async Task<PostCommentReactionDto> AddPostCommentReaction(string userId, CreatePostCommentReactionDto createPostCommentReactionDto)
+    public async Task<PostCommentReactionDto> CreatePostCommentReaction(string userId, CreatePostCommentReactionDto createPostCommentReactionDto)
     {
         var userIdGuid = userId.ParseGuid();
         var postCommentIdGuid = createPostCommentReactionDto.PostCommentId.ParseGuid();
@@ -47,6 +47,7 @@ public class PostCommentReactionService: IPostCommentReactionService
             Emoji = createPostCommentReactionDto.Emoji
         };
 
+        await _postCommentReactionRepository.AddAsync(postCommentReaction);
         await _postCommentReactionRepository.SaveAsync();
         return _mapper.Map<PostCommentReactionDto>(postCommentReaction);
     }

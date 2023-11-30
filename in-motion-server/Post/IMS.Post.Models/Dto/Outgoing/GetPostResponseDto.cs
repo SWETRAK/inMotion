@@ -10,9 +10,6 @@ public class GetPostResponseDto
     public PostAuthorDto Author { get; set; }
     
     public IEnumerable<PostTagDto> Tags { get; set; }
-    
-    public PostLocalizationDto Localization { get; set; }
-
     public IEnumerable<PostVideoDto> Videos { get; set; }
     
     public uint PostCommentsCount { get; set; }

@@ -43,6 +43,11 @@ public class PostCommentRepository: IPostCommentRepository
             x.Id.Equals(id) && x.ExternalAuthorId.Equals(authorId));
     }
 
+    public async Task AddAsync(PostComment postComment)
+    {
+        await _context.PostComments.AddAsync(postComment);
+    }
+
     public async Task SaveAsync()
     {
         await _context.SaveChangesAsync();

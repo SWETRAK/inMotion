@@ -8,11 +8,11 @@ public interface IPostCommentRepository: IDisposable
     Task<PostComment> GetByIdAndAuthorIdAndPostIdAsync(Guid id, Guid authorId, Guid postId);
     
     Task<IList<PostComment>> GetRangeByPostIdAsync(Guid postId);
-    
     Task<long> GetRangeByPostIdCountAsync(Guid postId);
 
     Task<PostComment> GetByIdAndAuthorIdAsync(Guid id, Guid authorId);
     
+    Task AddAsync(PostComment postComment);
     Task SaveAsync();
     void Delete(PostComment postComment);
 }
