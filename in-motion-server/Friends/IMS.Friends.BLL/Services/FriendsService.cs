@@ -45,6 +45,9 @@ public class FriendsService : IFriendsService
     {
         var userIdGuid = userString.ParseGuid();
         var externalUserIdGuid = externalUserString.ParseGuid();
+
+        if (userIdGuid.Equals(externalUserIdGuid))
+            throw new InvalidFriendshipActionException("You can not request friendship with yourself");
         
         var relation = await _friendshipRepository.GetByUsersId(userIdGuid, externalUserIdGuid);
         var externalUserResponse = await _userService.GetUserByIdArray(externalUserIdGuid);
