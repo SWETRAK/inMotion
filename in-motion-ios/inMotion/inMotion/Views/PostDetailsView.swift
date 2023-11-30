@@ -33,7 +33,7 @@ struct PostDetailsView: View {
                     VStack(alignment: .leading){
                         Text(post.title)
                             .font(.system(size: 25))
-
+                        
                         if (self.avPlayerBig != nil && self.avPlayerSmall != nil) {
                             HStack(alignment: .top) {
                                 VideoPlayer(player: self.avPlayerBig)
@@ -69,7 +69,7 @@ struct PostDetailsView: View {
                                     }
                             }
                         }
-
+                        
                         HStack{
                             HStack{
                                 Image(systemName: liked ? "heart.fill" : "heart") // heart.fill if liked
@@ -86,9 +86,9 @@ struct PostDetailsView: View {
                                     }
                                 Text(String(self.post.postCommentsCount))
                             }
-
+                            
                             Spacer()
-
+                            
                             HStack{
                                 Image(systemName: "text.bubble.rtl")
                                     .resizable()
@@ -103,13 +103,13 @@ struct PostDetailsView: View {
                             Divider()
                         }
                     }
-
+                    
                     
                     ForEach(self.comments, id:\.id) { comment in
                         CommentView(comment: comment).environmentObject(appState)
                     }
                 }
-
+                
                 Divider()
                 HStack{
                     TextField(text: $newComment){
@@ -152,7 +152,7 @@ struct PostDetailsView: View {
         self.avPlayerBig?.isMuted = false
         self.avPlayerSmall?.isMuted = false
     }
-
+    
     private func LoadProfilePicture() {
         self.appState.getUserGifHttpRequest(
             userId: self.post.author.id) { (data: Data) in
@@ -164,20 +164,32 @@ struct PostDetailsView: View {
     }
     
     private func LoadComments() {
-        
+        self.appState.GetPostCommentsForPostHttpRequest(postId: self.post.id) { (data: [PostCommentDto]) in
+            self.comments = data
+        } onFailure: { ( error: ImsHttpError) in }
     }
     
     private func GetLikesCount() {
     }
-
+    
     private func LikePost() {
     }
-
+    
     private func UnlikePost() {
     }
-
-    private func AddComment() {
     
+    private func AddComment() {
+        if self.newComment != String.Empty {
+            self.appState.CreatePostForPostHttpRequest(
+                requestData: CreatePostCommentDto(
+                    content: self.newComment,
+                    postId: self.post.id))
+            { (data: PostCommentDto) in
+                print("Kamil")
+                self.newComment = String.Empty
+                self.comments.append(data)
+            } onFailure: { (error: ImsHttpError) in }
+        }
     }
 }
 

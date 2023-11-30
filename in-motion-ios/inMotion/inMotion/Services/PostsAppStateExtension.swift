@@ -267,12 +267,12 @@ extension AppState {
         postId: UUID,
         onSuccess: @escaping ([PostCommentDto]) -> Void,
         onFailure: @escaping (ImsHttpError) -> Void) {
-        
+            
             var request = URLRequest(url: URL(string: self.httpBaseUrl + "/posts/api/posts/comments/\(postId.uuidString.lowercased())")!,timeoutInterval: Double.infinity)
             request.addValue("Bearer \(self.token ?? "")", forHTTPHeaderField: "Authorization")
-
+            
             request.httpMethod = HTTPMethods.GET.rawValue
-
+            
             let task = URLSession.shared.dataTask(with: request) { data, response, error in
                 guard let data = data else {
                     if let error = error as? NSError {
@@ -300,8 +300,52 @@ extension AppState {
                 }
             }
             task.resume()
-        
-    }
+        }
+    
+    func CreatePostForPostHttpRequest(
+        requestData: CreatePostCommentDto,
+        onSuccess: @escaping (PostCommentDto) -> Void,
+        onFailure: @escaping (ImsHttpError) -> Void ) {
+            
+            let postData = JsonUtil.encodeJsonStringFromObject(requestData)
+            
+            var request = URLRequest(url: URL(string: self.httpBaseUrl + "/posts/api/posts/comments")!,timeoutInterval: Double.infinity)
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue("Bearer \(self.token ?? "")", forHTTPHeaderField: "Authorization")
+            
+            request.httpMethod = HTTPMethods.POST.rawValue
+            request.httpBody = postData
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data else {
+                    if let error = error as? NSError {
+                        onFailure(ImsHttpError(status: 500,  errorMessage: error.localizedDescription, errorType: ""))
+                    }
+                    return
+                }
+                if let httpResponse = response as? HTTPURLResponse {
+                    print(httpResponse.statusCode)
+                    if(httpResponse.statusCode == 200)
+                    {
+                        print(String(data: data, encoding: .utf8))
+                        if let safeImsMessage: ImsHttpMessage<PostCommentDto> = JsonUtil.decodeJsonData(data: data) {
+                            if let userInfoDataSafe: PostCommentDto = safeImsMessage.data {
+                                onSuccess(userInfoDataSafe);
+                            }
+                        }
+                    } else {
+                        if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
+                            if (httpResponse.statusCode == 500)
+                            {
+                                safeError.status = 500
+                            }
+                            onFailure(safeError);
+                        }
+                    }
+                }
+            }
+            task.resume()
+        }
     
     
     
