@@ -78,7 +78,7 @@ public class PostCommentService: IPostCommentService
                 
         return _mapper.Map<PostComment, PostCommentDto>(
             postComment,
-            f => f.AfterMap((src, dest) =>
+            f => f.AfterMap(async (src, dest) =>
             {
                 dest.Author = _mapper.Map<PostAuthorDto>(author);
             })
@@ -107,7 +107,7 @@ public class PostCommentService: IPostCommentService
             postComments,
             f => f.AfterMap((src, dest) =>
             {
-                dest.ForEach(s =>
+                dest.ForEach(async s =>
                 {
                     var originalData = src.First(c => c.Id.Equals(Guid.Parse(s.Id)));
                     var author = authors.FirstOrDefault(a => a.Id.Equals(originalData.ExternalAuthorId));
