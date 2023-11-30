@@ -140,7 +140,7 @@ extension AppState {
             
             let postData = JsonUtil.encodeJsonStringFromObject(requestDto)
             
-            var request = URLRequest(url: URL(string: "http://localhost/posts/api/posts/public")!,timeoutInterval: Double.infinity)
+            var request = URLRequest(url: URL(string: self.httpBaseUrl + "/posts/api/posts/public")!,timeoutInterval: Double.infinity)
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue("Bearer \(self.token ?? "")", forHTTPHeaderField: "Authorization")
             
@@ -180,7 +180,7 @@ extension AppState {
         onSuccess: @escaping ([GetPostResponseDto]) -> Void,
         onFailure: @escaping (ImsHttpError) -> Void){
             
-            var request = URLRequest(url: URL(string: "http://localhost/posts/api/posts/friends")!,timeoutInterval: Double.infinity)
+            var request = URLRequest(url: URL(string: self.httpBaseUrl + "/posts/api/posts/friends")!,timeoutInterval: Double.infinity)
             request.addValue("Bearer \(self.token ?? "")", forHTTPHeaderField: "Authorization")
             
             request.httpMethod = HTTPMethods.GET.rawValue
@@ -222,7 +222,7 @@ extension AppState {
             
             let postData = JsonUtil.encodeJsonStringFromObject(requestData)
             
-            var request = URLRequest(url: URL(string: "http://localhost/posts/api/posts/" + postId.uuidString.lowercased())!,timeoutInterval: Double.infinity)
+            var request = URLRequest(url: URL(string: self.httpBaseUrl + "/posts/api/posts/" + postId.uuidString.lowercased())!,timeoutInterval: Double.infinity)
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue("Bearer \(self.token ?? "")", forHTTPHeaderField: "Authorization")
             
@@ -266,9 +266,40 @@ extension AppState {
     func GetPostCommentsForPostHttpRequest(
         postId: UUID,
         onSuccess: @escaping ([PostCommentDto]) -> Void,
-        onFailure: @escaping ([ImsHttpError]) -> Void) {
+        onFailure: @escaping (ImsHttpError) -> Void) {
         
-            
+            var request = URLRequest(url: URL(string: self.httpBaseUrl + "/posts/api/posts/comments/\(postId.uuidString.lowercased())")!,timeoutInterval: Double.infinity)
+            request.addValue("Bearer \(self.token ?? "")", forHTTPHeaderField: "Authorization")
+
+            request.httpMethod = HTTPMethods.GET.rawValue
+
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data else {
+                    if let error = error as? NSError {
+                        onFailure(ImsHttpError(status: 500,  errorMessage: error.localizedDescription, errorType: ""))
+                    }
+                    return
+                }
+                if let httpResponse = response as? HTTPURLResponse {
+                    if(httpResponse.statusCode == 200)
+                    {
+                        if let safeImsMessage: ImsHttpMessage<[PostCommentDto]> = JsonUtil.decodeJsonData(data: data) {
+                            if let userInfoDataSafe: [PostCommentDto] = safeImsMessage.data {
+                                onSuccess(userInfoDataSafe);
+                            }
+                        }
+                    } else {
+                        if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
+                            if (httpResponse.statusCode == 500)
+                            {
+                                safeError.status = 500
+                            }
+                            onFailure(safeError);
+                        }
+                    }
+                }
+            }
+            task.resume()
         
     }
     
