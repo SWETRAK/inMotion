@@ -83,8 +83,16 @@ public class PostReactionService: IPostReactionService
 
         await _postReactionRepository.AddAsync(postReaction);
         await _postReactionRepository.SaveAsync();
-        var postReactionResponse = _mapper.Map<PostReactionDto>(postReaction);
-        return postReactionResponse; 
+        
+        var author = await _userService.GetUserById(postReaction.ExternalAuthorId);
+                
+        return _mapper.Map<PostReaction, PostReactionDto>(
+            postReaction,
+            f => f.AfterMap((src, dest) =>
+            {
+                dest.Author = _mapper.Map<PostAuthorDto>(author);
+            })
+        );
     }
     
     public async Task<PostReactionDto> EditPostReactionAsync(string userId,
@@ -104,8 +112,15 @@ public class PostReactionService: IPostReactionService
         postReaction.LastModificationDate = DateTime.UtcNow;
         await _postReactionRepository.SaveAsync();
         
-        var postReactionResponse = _mapper.Map<PostReactionDto>(postReaction);
-        return postReactionResponse;
+        var author = await _userService.GetUserById(postReaction.ExternalAuthorId);
+                
+        return _mapper.Map<PostReaction, PostReactionDto>(
+            postReaction,
+            f => f.AfterMap((src, dest) =>
+            {
+                dest.Author = _mapper.Map<PostAuthorDto>(author);
+            })
+        );
     }
     
     public async Task DeletePostReactionAsync(string userId, string reactionId)
