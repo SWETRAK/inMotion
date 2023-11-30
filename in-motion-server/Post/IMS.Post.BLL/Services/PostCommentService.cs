@@ -44,10 +44,19 @@ public class PostCommentService: IPostCommentService
             Post = post,
             Content = createPostCommentDto.Content
         };
-
+        
         await _postCommentRepository.AddAsync(postComment);
         await _postCommentRepository.SaveAsync();
-        return _mapper.Map<PostCommentDto>(postComment);
+
+        var author = await _userService.GetUserById(postComment.ExternalAuthorId);
+                
+        return _mapper.Map<PostComment, PostCommentDto>(
+            postComment,
+            f => f.AfterMap((src, dest) =>
+            {
+                dest.Author = _mapper.Map<PostAuthorDto>(author);
+            })
+        );
     }
     
     public async Task<PostCommentDto> EditPostCommentDtoAsync(string userId, string commentId, UpdatePostCommentDto updatePostCommentDto)
@@ -65,7 +74,15 @@ public class PostCommentService: IPostCommentService
         postComment.LastModifiedDate = DateTime.UtcNow;
         await _postCommentRepository.SaveAsync();
         
-        return _mapper.Map<PostCommentDto>(postComment);
+        var author = await _userService.GetUserById(postComment.ExternalAuthorId);
+                
+        return _mapper.Map<PostComment, PostCommentDto>(
+            postComment,
+            f => f.AfterMap((src, dest) =>
+            {
+                dest.Author = _mapper.Map<PostAuthorDto>(author);
+            })
+        );
     }
     
     public async Task<IEnumerable<PostCommentDto>> GetPostCommentsAsync(

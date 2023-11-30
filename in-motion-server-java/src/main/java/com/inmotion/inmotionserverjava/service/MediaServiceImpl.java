@@ -80,7 +80,7 @@ public class MediaServiceImpl implements MediaService {
         String backVideoPath = String.format(POST_FILE_NAME_TEMPLATE, postId, "/back_", postId);
         try {
             minioService.uploadFile(postsBucket, frontVideoPath, frontVideo.getBytes(), VIDEO_MEDIA_TYPE);
-            minioService.uploadFile(postsBucket, backVideoPath, frontVideo.getBytes(), VIDEO_MEDIA_TYPE);
+            minioService.uploadFile(postsBucket, backVideoPath, backVideo.getBytes(), VIDEO_MEDIA_TYPE);
 
             messagePublisher.publishVideoUploadedEvent(new UpdatePostVideoMetadataMessage(
                     postId,

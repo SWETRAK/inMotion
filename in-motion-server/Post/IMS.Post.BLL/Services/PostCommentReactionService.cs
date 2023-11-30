@@ -50,7 +50,15 @@ public class PostCommentReactionService: IPostCommentReactionService
 
         await _postCommentReactionRepository.AddAsync(postCommentReaction);
         await _postCommentReactionRepository.SaveAsync();
-        return _mapper.Map<PostCommentReactionDto>(postCommentReaction);
+        var author = await _userService.GetUserById(postCommentReaction.ExternalAuthorId);
+                
+        return _mapper.Map<PostCommentReaction, PostCommentReactionDto>(
+            postCommentReaction,
+            f => f.AfterMap((src, dest) =>
+            {
+                dest.Author = _mapper.Map<PostAuthorDto>(author);
+            })
+        );
     }
     
     public async Task<PostCommentReactionDto> EditPostCommentReaction(string userId,
@@ -72,7 +80,15 @@ public class PostCommentReactionService: IPostCommentReactionService
 
         await _postCommentReactionRepository.SaveAsync();
         
-        return _mapper.Map<PostCommentReactionDto>(postCommentReaction);
+        var author = await _userService.GetUserById(postCommentReaction.ExternalAuthorId);
+                
+        return _mapper.Map<PostCommentReaction, PostCommentReactionDto>(
+            postCommentReaction,
+            f => f.AfterMap((src, dest) =>
+            {
+                dest.Author = _mapper.Map<PostAuthorDto>(author);
+            })
+        );
     }
      
     public async Task RemovePostCommentReaction(string userId, string postCommentReactionId)
