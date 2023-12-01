@@ -1,6 +1,7 @@
 package com.inmotion.in_motion_android.data.database.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -21,4 +22,7 @@ interface UserInfoDao {
 
     @Query("DELETE FROM user_info")
     suspend fun deleteAll()
+
+    @Delete
+    suspend fun delete(userInfo: UserInfo)
 }

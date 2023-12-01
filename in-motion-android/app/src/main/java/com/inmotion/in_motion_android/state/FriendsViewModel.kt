@@ -1,6 +1,7 @@
 package com.inmotion.in_motion_android.state
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.inmotion.in_motion_android.data.database.dao.AcceptedFriendDao
 import com.inmotion.in_motion_android.data.database.dao.InvitedFriendDao
@@ -11,7 +12,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.coroutines.coroutineContext
 
 class FriendsViewModel(
     private val acceptedFriendDao: AcceptedFriendDao,
@@ -19,72 +22,29 @@ class FriendsViewModel(
     private val requestedFriendDao: RequestedFriendDao,
     private val imsFriendsApi: ImsFriendsApi
     ) : ViewModel() {
-    private val _acceptedFriends =
-        acceptedFriendDao.getAll().stateIn(viewModelScope, SharingStarted.Eagerly, listOf())
-    private val _invitedFriends =
-        invitedFriendDao.getAll().stateIn(viewModelScope, SharingStarted.Eagerly, listOf())
-    private val _requestedFriends =
-        requestedFriendDao.getAll().stateIn(viewModelScope, SharingStarted.Eagerly, listOf())
-    private val _state = MutableStateFlow(FriendsState())
 
-    val state = combine(
-        _state,
-        _acceptedFriends,
-        _invitedFriends,
-        _requestedFriends
-    ) { state, accepted, invited, requested ->
-        state.copy(
-            accepted = accepted,
-            invited = invited,
-            requested = requested
-        )
-    }.stateIn(viewModelScope, SharingStarted.Eagerly, FriendsState())
+
+    val acceptedFriends = acceptedFriendDao.getAll().asLiveData()
+    val invitedFriends = invitedFriendDao.getAll().asLiveData()
+    val requestedFriends = requestedFriendDao.getAll().asLiveData()
 
 
     fun onEvent(event: FriendEvent) {
         when(event) {
-            is FriendEvent.AddAcceptedFriend -> {
-                viewModelScope.launch {
-                    acceptedFriendDao.upsert(event.acceptedFriend)
-                }
-            }
-            is FriendEvent.AddInvitedFriend -> {
-                viewModelScope.launch {
-                    invitedFriendDao.upsert(event.invitedFriend)
-                }
-            }
-            is FriendEvent.AddRequestedFriend -> {
-                viewModelScope.launch {
-                    requestedFriendDao.upsert(event.requestedFriend)
-                }
-            }
-            is FriendEvent.DeleteAcceptedFriend -> {
-                viewModelScope.launch {
-                    acceptedFriendDao.delete(event.acceptedFriend)
-                }
-            }
-            is FriendEvent.DeleteInvitedFriend -> {
-                viewModelScope.launch {
-                    invitedFriendDao.delete(event.invitedFriend)
-                }
-            }
-            is FriendEvent.DeleteRequestedFriend -> {
-                viewModelScope.launch {
-                    requestedFriendDao.delete(event.requestedFriend)
-                }
-            }
             is FriendEvent.SetAcceptedFriends -> {
                 viewModelScope.launch {
                     acceptedFriendDao.deleteAll()
                     acceptedFriendDao.upsertAll(event.acceptedFriends)
                 }
             }
+
             is FriendEvent.SetInvitedFriends -> {
                 viewModelScope.launch {
                     invitedFriendDao.deleteAll()
                     invitedFriendDao.upsertAll(event.invitedFriends)
                 }
             }
+
             is FriendEvent.SetRequestedFriends -> {
                 viewModelScope.launch {
                     requestedFriendDao.deleteAll()
@@ -94,7 +54,7 @@ class FriendsViewModel(
 
             is FriendEvent.FetchAcceptedFriends -> {
                 viewModelScope.launch {
-                    val acceptedFriendDtos = imsFriendsApi.getAcceptedFriends(event.token).body()?.data
+                    val acceptedFriendDtos = imsFriendsApi.getAcceptedFriends("Bearer ${event.token}").body()?.data
                     if(acceptedFriendDtos != null) {
                         val acceptedFriends = acceptedFriendDtos.map {
                             it.toAcceptedFriend()
@@ -105,9 +65,10 @@ class FriendsViewModel(
                     }
                 }
             }
+
             is FriendEvent.FetchInvitedFriends -> {
                 viewModelScope.launch {
-                    val invitedFriendDtos = imsFriendsApi.getInvitedFriends(event.token).body()?.data
+                    val invitedFriendDtos = imsFriendsApi.getInvitedFriends("Bearer ${event.token}").body()?.data
                     if (invitedFriendDtos != null) {
                         val invitedFriends = invitedFriendDtos.map {
                             it.toInvitedFriend()
@@ -118,9 +79,10 @@ class FriendsViewModel(
                     }
                 }
             }
+
             is FriendEvent.FetchRequestedFriends -> {
                 viewModelScope.launch {
-                    val body = imsFriendsApi.getRequestedFriends(event.token).body()
+                    val body = imsFriendsApi.getRequestedFriends("Bearer ${event.token}").body()
                     val requestedFriendDtos = body?.data
                     if(requestedFriendDtos != null) {
                         val requestedFriends = requestedFriendDtos.map {

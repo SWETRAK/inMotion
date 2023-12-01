@@ -1,123 +1,65 @@
 package com.inmotion.in_motion_android.state
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.inmotion.in_motion_android.data.database.event.UserEvent
 import com.inmotion.in_motion_android.data.database.dao.UserInfoDao
-import com.inmotion.in_motion_android.data.database.entity.UserInfo
-import com.inmotion.in_motion_android.data.remote.api.ImsUserApi
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
+import com.inmotion.in_motion_android.data.database.event.UserEvent
+import com.inmotion.in_motion_android.data.remote.api.ImsUsersApi
+import com.inmotion.in_motion_android.data.remote.dto.user.FullUserInfoDto
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class UserViewModel(
     private val dao: UserInfoDao,
-    private val userApi: ImsUserApi
+    private val userApi: ImsUsersApi
 ) : ViewModel() {
-    private val _user = dao.get().stateIn(viewModelScope, SharingStarted.Eagerly, null)
-    private val _state = MutableStateFlow(UserState())
 
-    val state = combine(_state, _user) { state, user ->
-        state.copy(
-            user = user
-        )
-    }.stateIn(viewModelScope, SharingStarted.Eagerly, UserState())
+    val user = dao.get().asLiveData()
+    val fullUserInfo = MutableLiveData<FullUserInfoDto?>(null)
 
-    fun getBearerToken(): String {
-        return "Bearer ${_user.value!!.token}"
+
+    init {
+        updateFullUserInfo()
     }
 
     fun onEvent(event: UserEvent) {
         when (event) {
             is UserEvent.SaveUser -> {
-                val id = state.value.user!!.id
-                val nickname = state.value.user!!.nickname
-                val email = state.value.user!!.email
-                val token = state.value.user!!.token
 
-                if (id.isBlank() || nickname.isBlank() || email.isBlank() || token.isBlank()) {
+                if (event.user.id.isBlank() || event.user.nickname.isBlank() || event.user.email.isBlank() || event.user.token.isBlank()) {
                     return
                 }
 
-                val user = UserInfo(
-                    id = id,
-                    nickname = nickname,
-                    email = email,
-                    token = token
-                )
-
                 viewModelScope.launch {
-                    dao.upsertUser(user)
-                }
-
-                _state.update {
-                    it.copy(
-                        user = user
-                    )
+                    dao.upsertUser(event.user)
                 }
             }
 
             is UserEvent.DeleteUser -> {
-                viewModelScope.launch {
+                viewModelScope.launch(Dispatchers.Main) {
+                    user.value?.let { dao.delete(it) }
                     dao.deleteAll()
                 }
             }
 
-            is UserEvent.SetEmail -> {
-                _state.update {
-                    it.copy(
-                        user = it.user?.copy(email = event.email)
-                    )
-                }
+            is UserEvent.UpdateFullUserInfo -> {
+                updateFullUserInfo()
             }
+        }
+    }
 
-            is UserEvent.SetNickname -> {
-                _state.update {
-                    it.copy(
-                        user = it.user?.copy(nickname = event.nickname)
-                    )
-                }
-            }
-
-            is UserEvent.SetToken -> {
-                _state.update {
-                    it.copy(
-                        user = it.user?.copy(token = event.token)
-                    )
-                }
-            }
-
-            UserEvent.UpdateFullUserInfo -> {
-                viewModelScope.launch {
-                    val response =
-                        userApi.getUserById(getBearerToken(), state.value.user!!.id)
-                    _state.update {
-                        it.copy(
-                            fullUserInfo = response.body()!!.data
-                        )
+    private fun updateFullUserInfo() {
+        viewModelScope.launch {
+            if (user.value != null) {
+                user.asFlow().collect {
+                    if (it != null) {
+                        val response = userApi.getUserById("Bearer ${it.token}", it.id)
+                        if (response.code() < 400)
+                            fullUserInfo.value = response.body()!!.data
                     }
-                }
-            }
-
-            is UserEvent.SetId -> {
-                _state.update {
-                    it.copy(
-                        user = it.user?.copy(id = event.id)
-                    )
-                }
-            }
-
-            is UserEvent.SetUser -> {
-                viewModelScope.launch {
-                    dao.upsertUser(event.user)
-                }
-                _state.update {
-                    it.copy(
-                        user = event.user
-                    )
                 }
             }
         }

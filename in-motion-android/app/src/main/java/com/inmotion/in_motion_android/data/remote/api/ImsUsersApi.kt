@@ -12,16 +12,16 @@ import retrofit2.http.Header
 import retrofit2.http.PUT
 import retrofit2.http.Path
 
-interface ImsUserApi {
+interface ImsUsersApi {
 
-    @GET("/user/api/users/videos/byVideo/{videoId}")
+    @GET("/users/api/users/videos/byVideo/{videoId}")
     suspend fun getProfileVideoByVideoId(@Header("Authorization") token: String, @Path("videoId") videoId: String): Response<ImsHttpMessage<UserProfileVideoDto>>
 
-    @GET("/user/api/users/videos/byUser/{userId}")
+    @GET("/users/api/users/videos/byUser/{userId}")
     suspend fun getProfileVideoByUserId(@Header("Authorization") token: String, @Path("userId") videoId: String): Response<ImsHttpMessage<UserProfileVideoDto>>
 
-    @GET("/user/api/users/search/{nickname}")
-    suspend fun getUserByNickname(@Header("Authorization") token: String, @Path("nickname") nickname: String): Response<ImsHttpMessage<FullUserInfoDto>>
+    @GET("/users/api/users/search/{nickname}")
+    suspend fun searchUsersByNickname(@Header("Authorization") token: String, @Path("nickname") nickname: String): Response<ImsHttpMessage<List<FullUserInfoDto>>>
 
     @GET("/users/api/users/{userId}")
     suspend fun getUserById(@Header("Authorization") token: String, @Path("userId") userId: String): Response<ImsHttpMessage<FullUserInfoDto>>

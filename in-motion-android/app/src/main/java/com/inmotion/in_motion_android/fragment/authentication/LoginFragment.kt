@@ -8,12 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -28,7 +31,7 @@ import com.inmotion.in_motion_android.data.database.event.UserEvent
 import com.inmotion.in_motion_android.data.remote.ApiUtils
 import com.inmotion.in_motion_android.data.remote.api.ImsAuthApi
 import com.inmotion.in_motion_android.data.remote.api.ImsFriendsApi
-import com.inmotion.in_motion_android.data.remote.api.ImsUserApi
+import com.inmotion.in_motion_android.data.remote.api.ImsUsersApi
 import com.inmotion.in_motion_android.data.remote.dto.auth.LoginUserWithEmailAndPasswordDto
 import com.inmotion.in_motion_android.databinding.FragmentLoginBinding
 import com.inmotion.in_motion_android.state.FriendsViewModel
@@ -42,7 +45,7 @@ class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private lateinit var navController: NavController
-    private val imsUserApi: ImsUserApi = ApiUtils.imsUserApi
+    private val imsUsersApi: ImsUsersApi = ApiUtils.imsUsersApi
     private val imsAuthApi: ImsAuthApi = ApiUtils.imsAuthApi
     private val imsFriendsApi: ImsFriendsApi = ApiUtils.imsFriendsApi
 
@@ -53,7 +56,7 @@ class LoginFragment : Fragment() {
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
                     return UserViewModel(
                         (activity?.application as InMotionApp).db.userInfoDao(),
-                        imsUserApi
+                        imsUsersApi
                     ) as T
                 }
             }
@@ -63,7 +66,7 @@ class LoginFragment : Fragment() {
     @Suppress("UNCHECKED_CAST")
     private val friendsViewModel: FriendsViewModel by activityViewModels(
         factoryProducer = {
-            object: ViewModelProvider.Factory {
+            object : ViewModelProvider.Factory {
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
                     return FriendsViewModel(
                         (activity?.application as InMotionApp).db.acceptedFriendDao(),
@@ -98,6 +101,7 @@ class LoginFragment : Fragment() {
             loginWithEmail()
         }
 
+
         prepareLoginWithGoogleButton()
         checkForExistingUserAndTryToLogin()
     }
@@ -110,7 +114,7 @@ class LoginFragment : Fragment() {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build()
-            val mGoogleSignInClient = GoogleSignIn.getClient(activity!!, gso);
+            val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso);
             val signInIntent = mGoogleSignInClient.signInIntent
             startActivityForResult(signInIntent, 420)
         }
@@ -146,9 +150,9 @@ class LoginFragment : Fragment() {
 
         lifecycleScope.launch(Dispatchers.IO) {
             val response = imsAuthApi.loginWithEmail(loginUserWithEmailAndPasswordDto)
-            if(response.code() < 400) {
+            if (response.code() < 400) {
                 val userInfoDto = response.body()!!.data
-                userViewModel.onEvent(UserEvent.SetUser(userInfoDto.toUserInfo()))
+                userViewModel.onEvent(UserEvent.SaveUser(userInfoDto.toUserInfo()))
                 userViewModel.onEvent(UserEvent.UpdateFullUserInfo)
 
                 loadingDialog.cancel()
@@ -169,39 +173,63 @@ class LoginFragment : Fragment() {
     private fun checkForExistingUserAndTryToLogin() {
         val dialog = ProgressDialog.show(activity, "", "Loading...", true)
         dialog.show()
-        runBlocking {
-            val stateUser = userViewModel.state.value.user
-            if (stateUser != null) {
-                val response = imsAuthApi.getUser("Bearer ${stateUser.token}")
-                if (response.code() < 400) {
-                    val responseUser = response.body()!!.data
-                    userViewModel.onEvent(UserEvent.SetToken(responseUser.token))
-                    userViewModel.onEvent(UserEvent.SaveUser)
-                    friendsViewModel.onEvent(FriendEvent.FetchAcceptedFriends(responseUser.token))
-                    friendsViewModel.onEvent(FriendEvent.FetchInvitedFriends(responseUser.token))
-                    friendsViewModel.onEvent(FriendEvent.FetchRequestedFriends(responseUser.token))
+        val isLoggedIn = MutableLiveData<Boolean>(false)
 
-                    activity?.runOnUiThread {
-                        Toast.makeText(
-                            activity,
-                            "Welcome back ${responseUser.nickname}!",
-                            Toast.LENGTH_SHORT
-                        ).show()
+            userViewModel.user.observe(viewLifecycleOwner) {
+                runBlocking {
+                    if (it != null) {
+                        val response = imsAuthApi.getUser("Bearer ${it.token}")
+                        if (response.code() < 400) {
+                            val responseUser = response.body()!!.data
+                            userViewModel.onEvent(UserEvent.SaveUser(responseUser.toUserInfo()))
+                            friendsViewModel.onEvent(FriendEvent.FetchAcceptedFriends(responseUser.token))
+                            friendsViewModel.onEvent(FriendEvent.FetchInvitedFriends(responseUser.token))
+                            friendsViewModel.onEvent(FriendEvent.FetchRequestedFriends(responseUser.token))
+
+                            activity?.runOnUiThread {
+                                Toast.makeText(
+                                    activity,
+                                    "Welcome back ${responseUser.nickname}!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                                isLoggedIn.value = true
+                            }
+                        } else {
+                            activity?.runOnUiThread {
+                                Toast.makeText(
+                                    activity,
+                                    "Session expired, please login again.",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        }
                     }
+                    dialog.cancel()
+            }
+        }
 
-
-                    navController.navigate(R.id.action_loginFragment_to_mainFragment)
-                } else {
-                    activity?.runOnUiThread {
-                        Toast.makeText(
-                            activity,
-                            "Session expired, please login again.",
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
+        isLoggedIn.observe(viewLifecycleOwner) {
+            if(it){
+                userViewModel.user.removeObservers(viewLifecycleOwner)
+                activity?.runOnUiThread {
+                    navController.safeNavigate(R.id.loginFragment, R.id.action_loginFragment_to_mainFragment)
                 }
             }
-            dialog.cancel()
+        }
+    }
+
+    fun NavController.safeNavigate(direction: NavDirections) {
+        currentDestination?.getAction(direction.actionId)?.run { navigate(direction) }
+    }
+
+    fun NavController.safeNavigate(
+        @IdRes currentDestinationId: Int,
+        @IdRes id: Int,
+        args: Bundle? = null
+    ) {
+        if (currentDestinationId == currentDestination?.id) {
+            navigate(id, args)
         }
     }
 }

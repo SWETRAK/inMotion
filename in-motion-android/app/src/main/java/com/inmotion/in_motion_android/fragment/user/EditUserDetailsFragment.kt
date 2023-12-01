@@ -31,11 +31,11 @@ class EditUserDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentEditUserDetailsBinding
 
-    private val imsUserApi: com.inmotion.in_motion_android.data.remote.api.ImsUserApi = Retrofit.Builder()
+    private val imsUsersApi: com.inmotion.in_motion_android.data.remote.api.ImsUsersApi = Retrofit.Builder()
         .baseUrl(ApiConstants.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-        .create(com.inmotion.in_motion_android.data.remote.api.ImsUserApi::class.java)
+        .create(com.inmotion.in_motion_android.data.remote.api.ImsUsersApi::class.java)
 
     private val imsAuthApi: com.inmotion.in_motion_android.data.remote.api.ImsAuthApi = Retrofit.Builder()
         .baseUrl(ApiConstants.BASE_URL)
@@ -50,7 +50,7 @@ class EditUserDetailsFragment : Fragment() {
                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
                     return UserViewModel(
                         (activity?.application as InMotionApp).db.userInfoDao(),
-                        imsUserApi
+                        imsUsersApi
                     ) as T
                 }
             }
@@ -72,9 +72,9 @@ class EditUserDetailsFragment : Fragment() {
             activity?.onBackPressed()
         }
 
-        binding.tvNickname.text = userViewModel.state.value.user!!.nickname
-        binding.tvBio.text = userViewModel.state.value.fullUserInfo!!.bio
-        binding.tvEmail.text = userViewModel.state.value.user!!.email
+        binding.tvNickname.text = userViewModel.user.value?.nickname
+        binding.tvBio.text = userViewModel.fullUserInfo.value?.bio
+        binding.tvEmail.text = userViewModel.user.value?.email
 
         binding.btnEditEmail.setOnClickListener {
             showEditEmailDialog()
@@ -97,18 +97,18 @@ class EditUserDetailsFragment : Fragment() {
         val dialog = Dialog(this.requireActivity())
         val dialogBinding = DialogEditEmailBinding.inflate(layoutInflater)
 
-        dialogBinding.etEmail.setText(userViewModel.state.value.user!!.email)
+        dialogBinding.etEmail.setText(userViewModel.user.value?.email)
 
         dialogBinding.btnSaveEmail.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
-                val userState = userViewModel.state.value.user
+                val userState = userViewModel.user.value
                 val response = imsAuthApi.updateEmail(
                     "Bearer ${userState!!.token}",
                     com.inmotion.in_motion_android.data.remote.dto.auth.UpdateEmailDto(dialogBinding.etEmail.text.toString())
                 )
 
                 if (response.code() < 400) {
-                    userViewModel.onEvent(UserEvent.SetUser(response.body()!!.data.toUserInfo()))
+                    userViewModel.onEvent(UserEvent.SaveUser(response.body()!!.data.toUserInfo()))
                     Toast.makeText(activity, "Successfully updated email!", Toast.LENGTH_SHORT)
                         .show()
                     dialog.cancel()
@@ -127,12 +127,12 @@ class EditUserDetailsFragment : Fragment() {
         val dialog = Dialog(this.requireActivity())
         val dialogBinding = DialogEditBioBinding.inflate(layoutInflater)
 
-        dialogBinding.etBio.setText(userViewModel.state.value.fullUserInfo!!.bio)
+        dialogBinding.etBio.setText(userViewModel.fullUserInfo.value?.bio)
 
         dialogBinding.btnSaveBio.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
-                val response = imsUserApi.updateLoggedInUserBio(
-                    "Bearer ${userViewModel.state.value.user!!.token}",
+                val response = imsUsersApi.updateLoggedInUserBio(
+                    "Bearer ${userViewModel.user.value?.token}",
                     com.inmotion.in_motion_android.data.remote.dto.user.UpdateUserBioDto(
                         dialogBinding.etBio.text.toString()
                     )
@@ -159,18 +159,18 @@ class EditUserDetailsFragment : Fragment() {
     private fun showEditNicknameDialog() {
         val dialog = Dialog(this.requireActivity())
         val dialogBinding = DialogEditNicknameBinding.inflate(layoutInflater)
-        dialogBinding.etNickname.setText(userViewModel.state.value.user!!.nickname)
+        dialogBinding.etNickname.setText(userViewModel.user.value?.nickname)
         dialogBinding.btnSaveNickname.setOnClickListener {
             lifecycleScope.launch {
                 val response = imsAuthApi.updateNickname(
-                    "Bearer ${userViewModel.state.value.user!!.token}",
+                    "Bearer ${userViewModel.user.value?.token}",
                     com.inmotion.in_motion_android.data.remote.dto.auth.UpdateNicknameDto(
                         dialogBinding.etNickname.text.toString()
                     )
                 )
 
                 if (response.code() < 400) {
-                    userViewModel.onEvent(UserEvent.SetUser(response.body()!!.data.toUserInfo()))
+                    userViewModel.onEvent(UserEvent.SaveUser(response.body()!!.data.toUserInfo()))
                     Toast.makeText(activity, "Nickname successfully updated!", Toast.LENGTH_SHORT)
                         .show()
                 } else {
@@ -192,7 +192,7 @@ class EditUserDetailsFragment : Fragment() {
         dialogBinding.btnSavePassword.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
                 val response = imsAuthApi.updatePassword(
-                    "Bearer ${userViewModel.state.value.user!!.token}",
+                    "Bearer ${userViewModel.user.value?.token}",
                     com.inmotion.in_motion_android.data.remote.dto.auth.UpdatePasswordDto(
                         dialogBinding.etOldPassword.text.toString(),
                         dialogBinding.etNewPassword.text.toString(),
