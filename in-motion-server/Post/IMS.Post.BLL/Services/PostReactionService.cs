@@ -6,6 +6,7 @@ using IMS.Post.Models.Dto.Incoming;
 using IMS.Post.Models.Dto.Outgoing;
 using IMS.Post.Models.Exceptions;
 using IMS.Shared.Utils.Parsers;
+using Microsoft.IdentityModel.Tokens;
 
 namespace IMS.Post.BLL.Services;
 
@@ -36,6 +37,11 @@ public class PostReactionService: IPostReactionService
             throw new PostNotFoundException(postId);
 
         var postReactions = await _postReactionRepository.GetRangeByPostIdAsync(post.Id);
+
+        if (postReactions.IsNullOrEmpty())
+        {
+            return new List<PostReactionDto>();
+        }
 
         var authors = await _userService.GetUsersByIdsArray(postReactions.Select(x => x.ExternalAuthorId));
         
@@ -74,10 +80,19 @@ public class PostReactionService: IPostReactionService
             ExternalAuthorId = userIdGuid,
             Emoji = createPostReactionDto.Emoji
         };
-        
+
+        await _postReactionRepository.AddAsync(postReaction);
         await _postReactionRepository.SaveAsync();
-        var postReactionResponse = _mapper.Map<PostReactionDto>(postReaction);
-        return postReactionResponse; 
+        
+        var author = await _userService.GetUserById(postReaction.ExternalAuthorId);
+                
+        return _mapper.Map<PostReaction, PostReactionDto>(
+            postReaction,
+            f => f.AfterMap((src, dest) =>
+            {
+                dest.Author = _mapper.Map<PostAuthorDto>(author);
+            })
+        );
     }
     
     public async Task<PostReactionDto> EditPostReactionAsync(string userId,
@@ -97,8 +112,15 @@ public class PostReactionService: IPostReactionService
         postReaction.LastModificationDate = DateTime.UtcNow;
         await _postReactionRepository.SaveAsync();
         
-        var postReactionResponse = _mapper.Map<PostReactionDto>(postReaction);
-        return postReactionResponse;
+        var author = await _userService.GetUserById(postReaction.ExternalAuthorId);
+                
+        return _mapper.Map<PostReaction, PostReactionDto>(
+            postReaction,
+            f => f.AfterMap((src, dest) =>
+            {
+                dest.Author = _mapper.Map<PostAuthorDto>(author);
+            })
+        );
     }
     
     public async Task DeletePostReactionAsync(string userId, string reactionId)

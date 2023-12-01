@@ -18,10 +18,6 @@ public class Post
     public string Title { get; set; }
     
     public virtual IEnumerable<Tag> Tags { get; set; }
-
-    public Guid LocalizationId { get; set; }
-    public virtual Localization Localization { get; set; }
-    
     public virtual IEnumerable<PostVideo> Videos { get; set; }
 
     public virtual IEnumerable<PostComment> PostComments { get; set; }

@@ -22,7 +22,6 @@ public class PostService : IPostService
 {
     private readonly IPostRepository _postRepository;
     private readonly ITagRepository _tagRepository;
-    private readonly ILocalizationRepository _localizationRepository;
     private readonly IPostIterationRepository _postIterationRepository;
     private readonly ILogger<PostService> _logger;
     private readonly IMapper _mapper;
@@ -33,7 +32,6 @@ public class PostService : IPostService
         ILogger<PostService> logger,
         IMapper mapper,
         ITagRepository tagRepository,
-        ILocalizationRepository localizationRepository,
         IUserService userService, 
         IRequestClient<ImsBaseMessage<GetUserFriendsMessage>> getUserFriendsRequestClient, 
         IPostIterationRepository postIterationRepository)
@@ -42,7 +40,6 @@ public class PostService : IPostService
         _logger = logger;
         _mapper = mapper;
         _tagRepository = tagRepository;
-        _localizationRepository = localizationRepository;
         _userService = userService;
         _getUserFriendsRequestClient = getUserFriendsRequestClient;
         _postIterationRepository = postIterationRepository;
@@ -58,6 +55,18 @@ public class PostService : IPostService
         
         var posts = await _postRepository.GetPublicFormIterationPaginatedAsync(postIteration.Id,
             paginationRequestDto.PageNumber, paginationRequestDto.PageSize);
+        
+        var result = new ImsPagination<IList<GetPostResponseDto>>
+        {
+            PageSize = paginationRequestDto.PageSize,
+            PageNumber = paginationRequestDto.PageNumber
+        };
+
+        if (posts.IsNullOrEmpty())
+        {
+            result.Data = new List<GetPostResponseDto>();
+            return result;
+        }
 
         var authors = await _userService.GetUsersByIdsArray(posts.Select(u => u.ExternalAuthorId));
 
@@ -73,13 +82,8 @@ public class PostService : IPostService
                 });
             })
         );
-        var result = new ImsPagination<IList<GetPostResponseDto>>
-        {
-            PageSize = paginationRequestDto.PageSize,
-            PageNumber = paginationRequestDto.PageNumber,
-            Data = getPostResponseDtos
-        };
 
+        result.Data = getPostResponseDtos;
         return result;
     }
 
@@ -106,10 +110,22 @@ public class PostService : IPostService
         if (friendsResponse.Message.Error)
             throw new NestedRabbitMqRequestException();
 
+        var friendsIds = friendsResponse.Message.Data.FriendsIds;
+
+        if (friendsIds.IsNullOrEmpty())
+        {
+            return new List<GetPostResponseDto>();
+        }
+
         var friendsIdGuids = friendsResponse.Message.Data.FriendsIds.Select(Guid.Parse);
 
         var posts = await _postRepository.GetFriendsPublicAsync(postIteration.Id,
             friendsIdGuids);
+        
+        if (posts.IsNullOrEmpty())
+        {
+            return new List<GetPostResponseDto>();
+        }
 
         var authors = await _userService.GetUsersByIdsArray(posts.Select(u => u.ExternalAuthorId));
 
@@ -138,9 +154,6 @@ public class PostService : IPostService
             throw new PostIterationNotFoundException();
         
         var tags = await CalculateTags(userIdGuid, createPostRequestDto.Description);
-        var localization = await GetLocalization(createPostRequestDto.Localization.Latitude,
-            createPostRequestDto.Localization.Longitude,
-            createPostRequestDto.Localization.Name);
 
         var post = new Domain.Entities.Post.Post
         {
@@ -148,10 +161,10 @@ public class PostService : IPostService
             Description = createPostRequestDto.Description,
             Title = createPostRequestDto.Title,
             Tags = tags,
-            Localization = localization,
             Iteration = postIteration
         };
 
+        await _postRepository.AddAsync(post);
         await _postRepository.SaveAsync();
 
         var result = _mapper.Map<CreatePostResponseDto>(post);
@@ -170,8 +183,17 @@ public class PostService : IPostService
 
         if (post is null)
             throw new PostNotFoundException();
+        
+        
+        var author = await _userService.GetUserById(post.ExternalAuthorId);
 
-        return _mapper.Map<GetPostResponseDto>(post);
+        return _mapper.Map<Domain.Entities.Post.Post, GetPostResponseDto>(
+            post,
+            f => f.AfterMap((src, dest) =>
+            {
+                if (author is not null) dest.Author = _mapper.Map<PostAuthorDto>(author);
+            })
+        );
     }
     
     public async Task<GetPostResponseDto> EditPostsMetas(string userId, string postId,
@@ -203,22 +225,7 @@ public class PostService : IPostService
         await _postRepository.SaveAsync();
         return _mapper.Map<GetPostResponseDto>(post);
     }
-
-    private async Task<Localization> GetLocalization(double latitude, double longitude, string name)
-    {
-        var localization = await _localizationRepository.GetByCoordinatesOrNameAsync(latitude, longitude, name);
-        if (localization is not null) return localization;
-
-        localization = new Localization
-        {
-            Name = name,
-            Latitude = latitude,
-            Longitude = longitude
-        };
-        await _localizationRepository.SaveAsync();
-        return localization;
-    }
-
+    
     private async Task<IList<Tag>> CalculateTags(Guid authorId, string description)
     {
         await using var dbContextTransaction = await _tagRepository.StartTransactionAsync();

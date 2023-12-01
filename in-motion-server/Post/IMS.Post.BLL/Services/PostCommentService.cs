@@ -6,6 +6,7 @@ using IMS.Post.Models.Dto.Incoming;
 using IMS.Post.Models.Dto.Outgoing;
 using IMS.Post.Models.Exceptions;
 using IMS.Shared.Utils.Parsers;
+using Microsoft.IdentityModel.Tokens;
 
 namespace IMS.Post.BLL.Services;
 
@@ -43,10 +44,19 @@ public class PostCommentService: IPostCommentService
             Post = post,
             Content = createPostCommentDto.Content
         };
-
+        
+        await _postCommentRepository.AddAsync(postComment);
         await _postCommentRepository.SaveAsync();
 
-        return _mapper.Map<PostCommentDto>(postComment);
+        var author = await _userService.GetUserById(postComment.ExternalAuthorId);
+                
+        return _mapper.Map<PostComment, PostCommentDto>(
+            postComment,
+            f => f.AfterMap((src, dest) =>
+            {
+                dest.Author = _mapper.Map<PostAuthorDto>(author);
+            })
+        );
     }
     
     public async Task<PostCommentDto> EditPostCommentDtoAsync(string userId, string commentId, UpdatePostCommentDto updatePostCommentDto)
@@ -64,7 +74,15 @@ public class PostCommentService: IPostCommentService
         postComment.LastModifiedDate = DateTime.UtcNow;
         await _postCommentRepository.SaveAsync();
         
-        return _mapper.Map<PostCommentDto>(postComment);
+        var author = await _userService.GetUserById(postComment.ExternalAuthorId);
+                
+        return _mapper.Map<PostComment, PostCommentDto>(
+            postComment,
+            f => f.AfterMap(async (src, dest) =>
+            {
+                dest.Author = _mapper.Map<PostAuthorDto>(author);
+            })
+        );
     }
     
     public async Task<IEnumerable<PostCommentDto>> GetPostCommentsAsync(
@@ -78,13 +96,18 @@ public class PostCommentService: IPostCommentService
         
         var postComments = await _postCommentRepository.GetRangeByPostIdAsync(post.Id);
 
+        if (postComments.IsNullOrEmpty())
+        {
+            return new List<PostCommentDto>();
+        }
+
         var authors = await _userService.GetUsersByIdsArray(postComments.Select(x => x.ExternalAuthorId).Distinct());
         
         var responseData = _mapper.Map<IEnumerable<PostComment>, List<PostCommentDto>>(
             postComments,
             f => f.AfterMap((src, dest) =>
             {
-                dest.ForEach(s =>
+                dest.ForEach(async s =>
                 {
                     var originalData = src.First(c => c.Id.Equals(Guid.Parse(s.Id)));
                     var author = authors.FirstOrDefault(a => a.Id.Equals(originalData.ExternalAuthorId));

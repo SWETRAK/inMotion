@@ -39,6 +39,11 @@ public class PostReactionRepository: IPostReactionRepository
             .Where(x => x.PostId.Equals(postId)).ToListAsync();
     }
 
+    public async Task AddAsync(PostReaction postReaction)
+    {
+        await _context.PostReactions.AddAsync(postReaction);
+    }
+
     public async Task<long> GetRangeByPostIdCountAsync(Guid postId)
     {
         return await _context.PostReactions.CountAsync(x => x.PostId.Equals(postId));

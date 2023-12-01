@@ -11,7 +11,11 @@ public interface IPostRepository: IDisposable
 
     Task<PostEntity> GetByIdAndAuthorIdAsync(Guid postIterationId, Guid postId, Guid userId);
 
+    Task<PostEntity> GetByIdAndAuthorIdAsync(Guid postId, Guid userId);
+
     Task<PostEntity> GetByIdAsync(Guid postId);
+
+    Task AddAsync(PostEntity post);
 
     Task SaveAsync();
 

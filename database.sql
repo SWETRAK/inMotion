@@ -230,6 +230,21 @@ VALUES ('20230917212228_Added PostIteration entity', '7.0.5');
 
 COMMIT;
 
+START TRANSACTION;
+
+ALTER TABLE post.posts DROP CONSTRAINT "FK_posts_localizations_localization_id";
+
+DROP TABLE post.localizations;
+
+DROP INDEX post."IX_posts_localization_id";
+
+ALTER TABLE post.posts DROP COLUMN localization_id;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231129111214_Removed localization entity', '7.0.5');
+
+COMMIT;
+
 -- USER database
 
 START TRANSACTION;

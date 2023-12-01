@@ -30,7 +30,7 @@ public class ExceptionHandlerMiddleware: IMiddleware
         catch (InvalidFriendshipActionException exception)
         {
             _logger.LogWarning(exception, "Can't create friendship with message, {Message}", exception.Message);
-            await SendErrorResponse(context, StatusCodes.Status400BadRequest, "Can't revert friendship",
+            await SendErrorResponse(context, StatusCodes.Status400BadRequest, "Can't do action with friendship: {{exception.Message}}",
                 nameof(exception));
         }
         catch (UsersNotFoundException exception)

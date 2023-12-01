@@ -29,9 +29,6 @@ public class PostEntityConfiguration: IEntityTypeConfiguration<Entities.Post.Pos
             .HasMaxLength(256)
             .IsRequired();
 
-        builder.Property(p => p.LocalizationId)
-            .HasColumnName("localization_id");
-
         builder.Property(p => p.CreationDate)
             .HasColumnName("creation_date")
             .IsRequired();

@@ -45,7 +45,7 @@ public class PostCommentReactionController: ControllerBase
         var serverRequestTime = DateTime.UtcNow;
         var userIdString = AuthenticationUtil.GetUserId(HttpContext.User);
         var response =
-            await _postCommentReactionService.AddPostCommentReaction(userIdString, createPostCommentReactionDto);
+            await _postCommentReactionService.CreatePostCommentReaction(userIdString, createPostCommentReactionDto);
 
         return Created("", new ImsHttpMessage<PostCommentReactionDto>
         {

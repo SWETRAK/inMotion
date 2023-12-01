@@ -6,6 +6,7 @@ using IMS.Post.Models.Dto.Incoming;
 using IMS.Post.Models.Dto.Outgoing;
 using IMS.Post.Models.Exceptions;
 using IMS.Shared.Utils.Parsers;
+using Microsoft.IdentityModel.Tokens;
 
 namespace IMS.Post.BLL.Services;
 
@@ -27,7 +28,7 @@ public class PostCommentReactionService: IPostCommentReactionService
         _userService = userService;
     }
     
-    public async Task<PostCommentReactionDto> AddPostCommentReaction(string userId, CreatePostCommentReactionDto createPostCommentReactionDto)
+    public async Task<PostCommentReactionDto> CreatePostCommentReaction(string userId, CreatePostCommentReactionDto createPostCommentReactionDto)
     {
         var userIdGuid = userId.ParseGuid();
         var postCommentIdGuid = createPostCommentReactionDto.PostCommentId.ParseGuid();
@@ -47,8 +48,17 @@ public class PostCommentReactionService: IPostCommentReactionService
             Emoji = createPostCommentReactionDto.Emoji
         };
 
+        await _postCommentReactionRepository.AddAsync(postCommentReaction);
         await _postCommentReactionRepository.SaveAsync();
-        return _mapper.Map<PostCommentReactionDto>(postCommentReaction);
+        var author = await _userService.GetUserById(postCommentReaction.ExternalAuthorId);
+                
+        return _mapper.Map<PostCommentReaction, PostCommentReactionDto>(
+            postCommentReaction,
+            f => f.AfterMap((src, dest) =>
+            {
+                dest.Author = _mapper.Map<PostAuthorDto>(author);
+            })
+        );
     }
     
     public async Task<PostCommentReactionDto> EditPostCommentReaction(string userId,
@@ -70,7 +80,15 @@ public class PostCommentReactionService: IPostCommentReactionService
 
         await _postCommentReactionRepository.SaveAsync();
         
-        return _mapper.Map<PostCommentReactionDto>(postCommentReaction);
+        var author = await _userService.GetUserById(postCommentReaction.ExternalAuthorId);
+                
+        return _mapper.Map<PostCommentReaction, PostCommentReactionDto>(
+            postCommentReaction,
+            f => f.AfterMap((src, dest) =>
+            {
+                dest.Author = _mapper.Map<PostAuthorDto>(author);
+            })
+        );
     }
      
     public async Task RemovePostCommentReaction(string userId, string postCommentReactionId)
@@ -100,7 +118,12 @@ public class PostCommentReactionService: IPostCommentReactionService
         
         var postCommentsReactions =
             await _postCommentReactionRepository.GetByPostCommentIdPaginatedAsync(postCommentIdGuid);
-            
+
+        if (postCommentsReactions.IsNullOrEmpty())
+        {
+            return new List<PostCommentReactionDto>();
+        }
+
         var authors = await _userService.GetUsersByIdsArray(postCommentsReactions.Select(x => x.ExternalAuthorId).Distinct());
 
         var responseData = _mapper.Map<IEnumerable<PostCommentReaction>, List<PostCommentReactionDto>>(
