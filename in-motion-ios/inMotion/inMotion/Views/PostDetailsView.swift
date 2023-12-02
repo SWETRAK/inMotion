@@ -174,8 +174,15 @@ struct PostDetailsView: View {
             requestData: CreatePostReactionDto(
                 postId: self.post.id,
                 emoji: "heart")) { (data: PostReactionDto) in
-                    self.post.isLikedByUser = true
-                    self.post.postReaction = data
+                    var tempPost = self.post
+                    tempPost.isLikedByUser = true
+                    tempPost.postReaction = PostReactionWithoutAuthorDto(
+                        id: data.id,
+                        authorId: self.appState.user!.id,
+                        emoji: data.emoji,
+                        createdAt: data.createdAt)
+                    tempPost.postReactionsCount += 1
+                    self.post = tempPost
                 } onFailure: { (error: ImsHttpError) in }
     }
     
@@ -183,8 +190,11 @@ struct PostDetailsView: View {
         if let safePostReaction = self.post.postReaction {
             self.appState.deletePostReactionHttpMethod(
                 postReactionId: safePostReaction.id) { (data: Bool) in
-                    self.post.isLikedByUser = false
-                    self.post.postReaction = nil
+                    var tempPost = self.post
+                    tempPost.isLikedByUser = false
+                    tempPost.postReaction = nil
+                    tempPost.postReactionsCount -= 1
+                    self.post = tempPost
                 } onFailure: { (error: ImsHttpError) in }
         }
     }
@@ -199,6 +209,11 @@ struct PostDetailsView: View {
                 print("Kamil")
                 self.newComment = String.Empty
                 self.comments.append(data)
+                
+                var tempPost = self.post
+                tempPost.postCommentsCount += 1
+                self.post = tempPost
+                
                 self.comments.sort{ (x1, x2) in
                     x1.createdAt.compare(x2.createdAt) == .orderedAscending
                 }

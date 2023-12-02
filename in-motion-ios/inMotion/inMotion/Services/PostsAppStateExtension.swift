@@ -495,7 +495,7 @@ extension AppState {
                     return
                 }
                 if let httpResponse = response as? HTTPURLResponse {
-                    if(httpResponse.statusCode == 200)
+                    if(httpResponse.statusCode == 201)
                     {
                         if let safeImsMessage: ImsHttpMessage<PostReactionDto> = JsonUtil.decodeJsonData(data: data) {
                             if let userInfoDataSafe: PostReactionDto = safeImsMessage.data {

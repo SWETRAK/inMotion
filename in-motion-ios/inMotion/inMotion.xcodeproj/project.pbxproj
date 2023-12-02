@@ -87,9 +87,11 @@
 		8670A2F62B03CF4000726A71 /* PostCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8670A2F52B03CF4000726A71 /* PostCameraView.swift */; };
 		8670A2FF2B03D3F400726A71 /* PostCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8670A2FE2B03D3F400726A71 /* PostCameraViewController.swift */; };
 		8673104E2B03EF9A001833C1 /* PostCameraViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8673104D2B03EF9A001833C1 /* PostCameraViewWrapper.swift */; };
+		8676CA6B2B1B6F10004B56F2 /* PostReactionWithoutAuthorDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8676CA6A2B1B6F10004B56F2 /* PostReactionWithoutAuthorDto.swift */; };
+		8676CA6D2B1B746D004B56F2 /* YourMainWallPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8676CA6C2B1B746D004B56F2 /* YourMainWallPostView.swift */; };
 		868B7CA62AF52398002A274B /* LoggedUserDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868B7CA52AF52398002A274B /* LoggedUserDetailsView.swift */; };
 		8693FE502B0B9E8B00D405B7 /* ProfileCameraViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693FE4F2B0B9E8B00D405B7 /* ProfileCameraViewWrapper.swift */; };
-		869F16092A2F2C70003BFC20 /* MainWallPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869F16082A2F2C70003BFC20 /* MainWallPost.swift */; };
+		869F16092A2F2C70003BFC20 /* MainWallPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869F16082A2F2C70003BFC20 /* MainWallPostView.swift */; };
 		86A4179B2A3DCC9A00A52516 /* FriendshipStatusEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A4179A2A3DCC9A00A52516 /* FriendshipStatusEnum.swift */; };
 		86A4179D2A3DE31300A52516 /* PersonRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A4179C2A3DE31300A52516 /* PersonRowView.swift */; };
 		86A417A72A3E1A9200A52516 /* warsaw.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 86A417A42A3E1A9000A52516 /* warsaw.mp4 */; };
@@ -209,9 +211,11 @@
 		8670A2F52B03CF4000726A71 /* PostCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCameraView.swift; sourceTree = "<group>"; };
 		8670A2FE2B03D3F400726A71 /* PostCameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCameraViewController.swift; sourceTree = "<group>"; };
 		8673104D2B03EF9A001833C1 /* PostCameraViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCameraViewWrapper.swift; sourceTree = "<group>"; };
+		8676CA6A2B1B6F10004B56F2 /* PostReactionWithoutAuthorDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReactionWithoutAuthorDto.swift; sourceTree = "<group>"; };
+		8676CA6C2B1B746D004B56F2 /* YourMainWallPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourMainWallPostView.swift; sourceTree = "<group>"; };
 		868B7CA52AF52398002A274B /* LoggedUserDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedUserDetailsView.swift; sourceTree = "<group>"; };
 		8693FE4F2B0B9E8B00D405B7 /* ProfileCameraViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCameraViewWrapper.swift; sourceTree = "<group>"; };
-		869F16082A2F2C70003BFC20 /* MainWallPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWallPost.swift; sourceTree = "<group>"; };
+		869F16082A2F2C70003BFC20 /* MainWallPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWallPostView.swift; sourceTree = "<group>"; };
 		86A4179A2A3DCC9A00A52516 /* FriendshipStatusEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendshipStatusEnum.swift; sourceTree = "<group>"; };
 		86A4179C2A3DE31300A52516 /* PersonRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonRowView.swift; sourceTree = "<group>"; };
 		86A417A42A3E1A9000A52516 /* warsaw.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = warsaw.mp4; sourceTree = "<group>"; };
@@ -419,6 +423,7 @@
 				8614353C2AF1941300B45FF5 /* PostCommentDto.swift */,
 				8614353E2AF194A400B45FF5 /* PostCommentReactionDto.swift */,
 				861435402AF1959900B45FF5 /* PostReactionDto.swift */,
+				8676CA6A2B1B6F10004B56F2 /* PostReactionWithoutAuthorDto.swift */,
 			);
 			path = Incoming;
 			sourceTree = "<group>";
@@ -557,9 +562,10 @@
 			isa = PBXGroup;
 			children = (
 				862D757A2A3A163C00B6D02F /* YourFriendRowView.swift */,
-				869F16082A2F2C70003BFC20 /* MainWallPost.swift */,
+				869F16082A2F2C70003BFC20 /* MainWallPostView.swift */,
 				862D75702A3A137F00B6D02F /* CommentView.swift */,
 				86A4179C2A3DE31300A52516 /* PersonRowView.swift */,
+				8676CA6C2B1B746D004B56F2 /* YourMainWallPostView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -747,7 +753,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				861434E72AF181A800B45FF5 /* RegisterUserWithEmailAndPasswordDto.swift in Sources */,
-				869F16092A2F2C70003BFC20 /* MainWallPost.swift in Sources */,
+				869F16092A2F2C70003BFC20 /* MainWallPostView.swift in Sources */,
 				861434DA2AF17F8F00B45FF5 /* ImsPagination.swift in Sources */,
 				86E8F0512B0E1EE800716C87 /* PostsAppStateExtension.swift in Sources */,
 				862D75832A3A168D00B6D02F /* FindFriendView.swift in Sources */,
@@ -762,6 +768,7 @@
 				8614350D2AF18A4B00B45FF5 /* FriendInfoDto.swift in Sources */,
 				86F007B22B08D6B2002BC3A9 /* ProfileVideoUploadInfoDto.swift in Sources */,
 				86DDF89B2AFFE74000967B44 /* OtherUserDetailsView.swift in Sources */,
+				8676CA6D2B1B746D004B56F2 /* YourMainWallPostView.swift in Sources */,
 				862D75852A3A1E3500B6D02F /* MainView.swift in Sources */,
 				862D758A2A3C3BFA00B6D02F /* MapDetails.swift in Sources */,
 				8614350B2AF189E300B45FF5 /* FriendProfileVideoDto.swift in Sources */,
@@ -833,6 +840,7 @@
 				25E9F1706A0B9AAB56C76809 /* JSONDecodeExtension.swift in Sources */,
 				25E9FA404AEFE937D6AFCA88 /* AppState.swift in Sources */,
 				25E9F4332CD4251B70F255E0 /* AuthAppStateExtension.swift in Sources */,
+				8676CA6B2B1B6F10004B56F2 /* PostReactionWithoutAuthorDto.swift in Sources */,
 				25E9FB7C85D7A4B7F45B3121 /* ValidationErrorDto.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

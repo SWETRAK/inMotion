@@ -1,9 +1,16 @@
+//
+//  YourMainWallPostView.swift
+//  inMotion
+//
+//  Created by Kamil Pietrak on 02/12/2023.
+//
+
 import SwiftUI
 import SDWebImageSwiftUI
 import CoreData
 import AVKit
 
-struct MainWallPost: View {
+struct YourMainWallPostView: View {
     @EnvironmentObject private var appState: AppState
     @State var post: GetPostResponseDto
     
@@ -142,8 +149,15 @@ struct MainWallPost: View {
             requestData: CreatePostReactionDto(
                 postId: self.post.id,
                 emoji: "heart")) { (data: PostReactionDto) in
-                    self.post.isLikedByUser = true
-                    self.post.postReaction = data
+                    var tempPost = self.post
+                    tempPost.isLikedByUser = true
+                    tempPost.postReaction = PostReactionWithoutAuthorDto(
+                        id: data.id,
+                        authorId: self.appState.user!.id,
+                        emoji: data.emoji,
+                        createdAt: data.createdAt)
+                    tempPost.postReactionsCount += 1
+                    self.post = tempPost
                 } onFailure: { (error: ImsHttpError) in }
     }
 
@@ -151,15 +165,12 @@ struct MainWallPost: View {
         if let safePostReaction = self.post.postReaction {
             self.appState.deletePostReactionHttpMethod(
                 postReactionId: safePostReaction.id) { (data: Bool) in
-                    self.post.isLikedByUser = false
-                    self.post.postReaction = nil
+                    var tempPost = self.post
+                    tempPost.isLikedByUser = false
+                    tempPost.postReaction = nil
+                    tempPost.postReactionsCount -= 1
+                    self.post = tempPost
                 } onFailure: { (error: ImsHttpError) in }
         }
     }
 }
-
-//struct MainWallPost_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MainWallPost()
-//    }
-//}

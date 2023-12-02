@@ -21,7 +21,8 @@ struct MainView: View {
                 if let safeUserPost = self.userPost {
                     VStack(alignment: .center) {
                         Text("YOUR POST")
-                        MainWallPost(post: safeUserPost)
+                        YourMainWallPostView(post: safeUserPost)
+                            .environmentObject(appState)
                     }
                 } else {
                     NavigationLink {
@@ -31,10 +32,13 @@ struct MainView: View {
                     }
                 }
                 
-                ForEach(posts, id:\.id) { post in
-                    MainWallPost(post: post)
-                        .environmentObject(appState)
-                }.blur(radius: self.userPost == nil ? 10 : 0)
+                if (posts.count > 0) {
+                    Text("FRIENDS POSTS")
+                    ForEach(posts, id:\.id) { post in
+                        MainWallPostView(post: post)
+                            .environmentObject(appState)
+                    }.blur(radius: self.userPost == nil ? 10 : 0)
+                }
             }
         }.toolbar {
             ToolbarItem(placement: .primaryAction) {

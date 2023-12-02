@@ -21,7 +21,7 @@ struct GetPostResponseDto: Codable {
     public var postReactionsCount: UInt
     
     public var isLikedByUser: Bool
-    public var postReaction: PostReactionDto?
+    public var postReaction: PostReactionWithoutAuthorDto?
     
     public var createdAt: Date
 }

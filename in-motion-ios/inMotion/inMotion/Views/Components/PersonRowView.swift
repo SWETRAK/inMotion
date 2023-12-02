@@ -44,7 +44,6 @@ struct PersonRowView: View {
     }
     
     func LoadProfilePicture() {
-        
         self.appState.getUserGifHttpRequest(
             userId: self.fullUserInfo.id ) { (data: Data) in
                 DispatchQueue.main.async {
