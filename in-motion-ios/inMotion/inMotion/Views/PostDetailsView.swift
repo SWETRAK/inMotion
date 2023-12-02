@@ -84,7 +84,7 @@ struct PostDetailsView: View {
                                         }
                                         GetLikesCount()
                                     }
-                                Text(String(self.post.postCommentsCount))
+                                Text(String(self.post.postReactionsCount))
                             }
                             
                             Spacer()
@@ -166,6 +166,9 @@ struct PostDetailsView: View {
     private func LoadComments() {
         self.appState.GetPostCommentsForPostHttpRequest(postId: self.post.id) { (data: [PostCommentDto]) in
             self.comments = data
+            self.comments.sort{ (x1, x2) in
+                x1.createdAt.compare(x2.createdAt) == .orderedAscending
+            }
         } onFailure: { ( error: ImsHttpError) in }
     }
     
@@ -188,6 +191,9 @@ struct PostDetailsView: View {
                 print("Kamil")
                 self.newComment = String.Empty
                 self.comments.append(data)
+                self.comments.sort{ (x1, x2) in
+                    x1.createdAt.compare(x2.createdAt) == .orderedAscending
+                }
             } onFailure: { (error: ImsHttpError) in }
         }
     }

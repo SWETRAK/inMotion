@@ -23,11 +23,7 @@ struct MainView: View {
                         Text("YOUR POST")
                         MainWallPost(post: safeUserPost)
                     }
-
-                    
-                    //TODO; use safe UserPost here
                 } else {
-                    // Post camera view
                     NavigationLink {
                         CreatePostView().environmentObject(appState)
                     } label: {
@@ -38,7 +34,7 @@ struct MainView: View {
                 ForEach(posts, id:\.id) { post in
                     MainWallPost(post: post)
                         .environmentObject(appState)
-                }
+                }.blur(radius: self.userPost == nil ? 10 : 0)
             }
         }.toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -64,35 +60,31 @@ struct MainView: View {
         self.LoadFriends()
         self.LoadRequests()
         self.LoadInvitations()
-        self.LoadPosts()
         self.LoadCurrentUserPost()
+        self.LoadPosts()
     }
     
     private func LoadCurrentUserPost() {
         self.appState.GetUserPost { (data: GetPostResponseDto) in
             print(data)
             self.userPost = data
-        } onFailure: { (error: ImsHttpError) in
-            
-        }
+        } onFailure: { (error: ImsHttpError) in }
     }
     
     private func LoadPosts() {
         self.appState.GetFriendsPosts { (data: [GetPostResponseDto]) in
+            print("Kamil")
             self.posts = data
         } onFailure: { (error: ImsHttpError) in
+            print(error)
             self.posts = []
         }
-
     }
     
     private func LoadFriends() {
         self.appState.getListOfAcceptedFriendshipHttpRequest(
-            successGetRelations: {(friends: [AcceptedFriendshipDto]) in
-            },
-            failureGetRelations: {(error: ImsHttpError) in
-                
-            })
+            successGetRelations: {(friends: [AcceptedFriendshipDto]) in },
+            failureGetRelations: {(error: ImsHttpError) in })
     }
     
     private func LoadRequests() {
@@ -106,7 +98,6 @@ struct MainView: View {
             successGetRelations: {(data: [InvitationFriendshipDto]) in },
             failureGetRelations: {(error: ImsHttpError) in })
     }
-
 }
 
 struct MainView_Previews: PreviewProvider {
