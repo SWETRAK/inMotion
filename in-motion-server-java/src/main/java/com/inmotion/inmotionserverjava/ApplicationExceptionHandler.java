@@ -22,6 +22,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 
     @ExceptionHandler({UnauthorizedUserException.class})
     private ResponseEntity<ErrorResponse> handleUnauthorizedUserException(UnauthorizedUserException e) {
+        e.printStackTrace();
         ErrorResponse error = new ErrorResponse(e.getMessage());
         log.error(error.message());
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
@@ -29,6 +30,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 
     @ExceptionHandler({MinioFileNotFoundException.class})
     private ResponseEntity<ErrorResponse> handleMinioFileNotFoundException(MinioFileNotFoundException e) {
+        e.printStackTrace();
         ErrorResponse error = new ErrorResponse(e.getMessage());
         log.error(error.message());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
@@ -36,6 +38,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 
     @ExceptionHandler({MultipartException.class})
     private ResponseEntity<ErrorResponse> handleMultipartException(MultipartException e) {
+        e.printStackTrace();
         ErrorResponse error = new ErrorResponse(e.getMessage());
         log.error(error.message());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
@@ -43,6 +46,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 
     @ExceptionHandler({MinioFilePostingException.class})
     private ResponseEntity<ErrorResponse> handleMinioFilePostingException(MinioFilePostingException e) {
+        e.printStackTrace();
         ErrorResponse error = new ErrorResponse(e.getMessage());
         log.error(error.message());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
@@ -51,9 +55,9 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     @ExceptionHandler({BadFileExtensionException.class, ConversionException.class, FrameExtractionException.class,
             FrameGrabberInitializationException.class})
     private ResponseEntity<ErrorResponse> handleMp4ToGIFConverterExceptions(RuntimeException e) {
+        e.printStackTrace();
         ErrorResponse error = new ErrorResponse(e.getMessage());
         log.error(error.message());
-        e.printStackTrace();
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }
