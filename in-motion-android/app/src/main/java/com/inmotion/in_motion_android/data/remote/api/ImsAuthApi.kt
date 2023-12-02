@@ -15,7 +15,6 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
-import retrofit2.http.HeaderMap
 import retrofit2.http.POST
 import retrofit2.http.PUT
 
@@ -27,10 +26,16 @@ interface ImsAuthApi {
     suspend fun register(@Body registerUserWithEmailAndPasswordDto: RegisterUserWithEmailAndPasswordDto): Response<ImsHttpMessage<SuccessfulRegistrationResponseDto>>
 
     @PUT("/auth/api/email/password/update")
-    suspend fun updatePassword(@Header("Authorization") token: String, @Body updatePasswordDto: UpdatePasswordDto): Response<BooleanImsHttpMessage>
+    suspend fun updatePassword(
+        @Header("Authorization") token: String,
+        @Body updatePasswordDto: UpdatePasswordDto
+    ): Response<BooleanImsHttpMessage>
 
     @PUT("/auth/api/email/password/add")
-    suspend fun addPassword(@Header("Authorization") token: String, @Body addPasswordDto: AddPasswordDto): Response<BooleanImsHttpMessage>
+    suspend fun addPassword(
+        @Header("Authorization") token: String,
+        @Body addPasswordDto: AddPasswordDto
+    ): Response<BooleanImsHttpMessage>
 
     @POST("/auth/api/google/login")
     suspend fun loginWithGoogle(@Body authenticateWithGoogleProviderDto: AuthenticateWithGoogleProviderDto): Response<ImsHttpMessage<UserInfoDto>>
@@ -39,10 +44,16 @@ interface ImsAuthApi {
     suspend fun addLoginWithGoogle(@Body authenticateWithGoogleProviderDto: AuthenticateWithGoogleProviderDto): Response<BooleanImsHttpMessage>
 
     @PUT("/auth/api/user/email")
-    suspend fun updateEmail(@Header("Authorization") token: String, @Body updateEmailDto: UpdateEmailDto): Response<ImsHttpMessage<UserInfoDto>>
+    suspend fun updateEmail(
+        @Header("Authorization") token: String,
+        @Body updateEmailDto: UpdateEmailDto
+    ): Response<ImsHttpMessage<UserInfoDto>>
 
     @PUT("/auth/api/user/nickname")
-    suspend fun updateNickname(@Header("Authorization") token: String, @Body updateNicknameDto: UpdateNicknameDto): Response<ImsHttpMessage<UserInfoDto>>
+    suspend fun updateNickname(
+        @Header("Authorization") token: String,
+        @Body updateNicknameDto: UpdateNicknameDto
+    ): Response<ImsHttpMessage<UserInfoDto>>
 
     @GET("/auth/api/user")
     suspend fun getUser(@Header("Authorization") token: String): Response<ImsHttpMessage<UserInfoDto>>

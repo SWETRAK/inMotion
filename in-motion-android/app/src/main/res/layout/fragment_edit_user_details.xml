@@ -14,11 +14,12 @@
         android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/close_32" />
+
     <TextView
         android:id="@+id/tvEmailLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Email:"
+        android:text="@string/email_label"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editUserDetailsToolbar" />
@@ -50,7 +51,7 @@
         android:id="@+id/tvNicknameLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nickname:"
+        android:text="@string/nickname_label"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvEmailLabel" />
@@ -83,7 +84,7 @@
         android:id="@+id/tvPasswordLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Password:"
+        android:text="@string/password_label"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvNicknameLabel" />
@@ -93,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:text="********"
+        android:text="@string/asterix_password"
         android:textSize="22sp"
         app:layout_constraintStart_toEndOf="@id/tvPasswordLabel"
         app:layout_constraintTop_toBottomOf="@id/tvNicknameLabel" />
@@ -116,7 +117,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="BIO"
+        android:text="@string/bio"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvPasswordLabel" />

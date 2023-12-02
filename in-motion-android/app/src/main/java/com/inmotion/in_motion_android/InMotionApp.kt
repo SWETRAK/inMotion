@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.inmotion.in_motion_android.data.database.InMotionDatabase
 
-class InMotionApp: Application() {
+class InMotionApp : Application() {
 
     val db by lazy {
         Room.databaseBuilder(

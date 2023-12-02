@@ -31,17 +31,19 @@ class EditUserDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentEditUserDetailsBinding
 
-    private val imsUsersApi: com.inmotion.in_motion_android.data.remote.api.ImsUsersApi = Retrofit.Builder()
-        .baseUrl(ApiConstants.BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(com.inmotion.in_motion_android.data.remote.api.ImsUsersApi::class.java)
+    private val imsUsersApi: com.inmotion.in_motion_android.data.remote.api.ImsUsersApi =
+        Retrofit.Builder()
+            .baseUrl(ApiConstants.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(com.inmotion.in_motion_android.data.remote.api.ImsUsersApi::class.java)
 
-    private val imsAuthApi: com.inmotion.in_motion_android.data.remote.api.ImsAuthApi = Retrofit.Builder()
-        .baseUrl(ApiConstants.BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(com.inmotion.in_motion_android.data.remote.api.ImsAuthApi::class.java)
+    private val imsAuthApi: com.inmotion.in_motion_android.data.remote.api.ImsAuthApi =
+        Retrofit.Builder()
+            .baseUrl(ApiConstants.BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(com.inmotion.in_motion_android.data.remote.api.ImsAuthApi::class.java)
 
     @Suppress("UNCHECKED_CAST")
     private val userViewModel: UserViewModel by activityViewModels(
@@ -140,8 +142,9 @@ class EditUserDetailsFragment : Fragment() {
 
                 if (response.code() < 400) {
                     userViewModel.onEvent(UserEvent.UpdateFullUserInfo)
-                    activity?.runOnUiThread{
-                        Toast.makeText(activity, "BIO successfully updated!", Toast.LENGTH_SHORT).show()
+                    activity?.runOnUiThread {
+                        Toast.makeText(activity, "BIO successfully updated!", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 } else {
                     showErrorToast(response.code())
@@ -200,8 +203,9 @@ class EditUserDetailsFragment : Fragment() {
                     )
                 )
 
-                if(response.code() < 400) {
-                    Toast.makeText(activity, "Password successfully updated!", Toast.LENGTH_SHORT).show()
+                if (response.code() < 400) {
+                    Toast.makeText(activity, "Password successfully updated!", Toast.LENGTH_SHORT)
+                        .show()
                 } else {
                     showErrorToast(response.code())
                 }

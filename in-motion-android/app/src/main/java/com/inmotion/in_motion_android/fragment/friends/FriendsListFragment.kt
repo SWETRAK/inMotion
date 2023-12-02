@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import com.inmotion.in_motion_android.adapter.FriendsAdapter
-import com.inmotion.in_motion_android.data.database.entity.AcceptedFriend
 import com.inmotion.in_motion_android.databinding.FragmentFriendsListBinding
 import com.inmotion.in_motion_android.state.FriendsViewModel
 import com.inmotion.in_motion_android.state.UserViewModel

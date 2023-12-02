@@ -8,10 +8,16 @@ import retrofit2.http.Path
 interface ImsMediaApi {
 
     @GET("/media/api/profile/video/mp4/{userId}")
-    suspend fun getProfileVideoAsMp4ByUserId(@Header("Authorization") token: String, @Path("userId") userId: String): Response<Array<Byte>>
+    suspend fun getProfileVideoAsMp4ByUserId(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: String
+    ): Response<Array<Byte>>
 
     @GET("/media/api/profile/video/gif/{userId}")
-    suspend fun getProfileVideoAsGifByUserId(@Header("Authorization") token: String, @Path("userId") userId: String): Response<Array<Byte>>
+    suspend fun getProfileVideoAsGifByUserId(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: String
+    ): Response<Array<Byte>>
 
 //    @GET("/media/api/post/{postId}")
 //    suspend fun getPostVideos(@Header("Authorization") token: String, @Path("postId") postId: String): Response<PostVideosDto>

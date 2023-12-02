@@ -9,16 +9,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ApiUtils {
 
     val imsUsersApi = Retrofit.Builder()
-    .baseUrl(ApiConstants.BASE_URL)
-    .addConverterFactory(GsonConverterFactory.create())
-    .build()
-    .create(ImsUsersApi::class.java)
+        .baseUrl(ApiConstants.BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(ImsUsersApi::class.java)
 
     val imsAuthApi = Retrofit.Builder()
-    .baseUrl(ApiConstants.BASE_URL)
-    .addConverterFactory(GsonConverterFactory.create())
-    .build()
-    .create(ImsAuthApi::class.java)
+        .baseUrl(ApiConstants.BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(ImsAuthApi::class.java)
 
     val imsFriendsApi = Retrofit.Builder()
         .baseUrl(ApiConstants.BASE_URL)

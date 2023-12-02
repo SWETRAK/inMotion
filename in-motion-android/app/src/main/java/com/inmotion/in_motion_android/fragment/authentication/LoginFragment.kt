@@ -175,45 +175,48 @@ class LoginFragment : Fragment() {
         dialog.show()
         val isLoggedIn = MutableLiveData<Boolean>(false)
 
-            userViewModel.user.observe(viewLifecycleOwner) {
-                runBlocking {
-                    if (it != null) {
-                        val response = imsAuthApi.getUser("Bearer ${it.token}")
-                        if (response.code() < 400) {
-                            val responseUser = response.body()!!.data
-                            userViewModel.onEvent(UserEvent.SaveUser(responseUser.toUserInfo()))
-                            friendsViewModel.onEvent(FriendEvent.FetchAcceptedFriends(responseUser.token))
-                            friendsViewModel.onEvent(FriendEvent.FetchInvitedFriends(responseUser.token))
-                            friendsViewModel.onEvent(FriendEvent.FetchRequestedFriends(responseUser.token))
+        userViewModel.user.observe(viewLifecycleOwner) {
+            runBlocking {
+                if (it != null) {
+                    val response = imsAuthApi.getUser("Bearer ${it.token}")
+                    if (response.code() < 400) {
+                        val responseUser = response.body()!!.data
+                        userViewModel.onEvent(UserEvent.SaveUser(responseUser.toUserInfo()))
+                        friendsViewModel.onEvent(FriendEvent.FetchAcceptedFriends(responseUser.token))
+                        friendsViewModel.onEvent(FriendEvent.FetchInvitedFriends(responseUser.token))
+                        friendsViewModel.onEvent(FriendEvent.FetchRequestedFriends(responseUser.token))
 
-                            activity?.runOnUiThread {
-                                Toast.makeText(
-                                    activity,
-                                    "Welcome back ${responseUser.nickname}!",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                        activity?.runOnUiThread {
+                            Toast.makeText(
+                                activity,
+                                "Welcome back ${responseUser.nickname}!",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
-                                isLoggedIn.value = true
-                            }
-                        } else {
-                            activity?.runOnUiThread {
-                                Toast.makeText(
-                                    activity,
-                                    "Session expired, please login again.",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
+                            isLoggedIn.value = true
+                        }
+                    } else {
+                        activity?.runOnUiThread {
+                            Toast.makeText(
+                                activity,
+                                "Session expired, please login again.",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                     }
-                    dialog.cancel()
+                }
+                dialog.cancel()
             }
         }
 
         isLoggedIn.observe(viewLifecycleOwner) {
-            if(it){
+            if (it) {
                 userViewModel.user.removeObservers(viewLifecycleOwner)
                 activity?.runOnUiThread {
-                    navController.safeNavigate(R.id.loginFragment, R.id.action_loginFragment_to_mainFragment)
+                    navController.safeNavigate(
+                        R.id.loginFragment,
+                        R.id.action_loginFragment_to_mainFragment
+                    )
                 }
             }
         }

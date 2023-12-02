@@ -47,14 +47,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:src="@drawable/add_48"
-        android:contentDescription="@string/add_a_friend"
         android:layout_margin="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:backgroundTint="@color/primaryDark"
+        android:contentDescription="@string/add_a_friend"
+        android:src="@drawable/add_48"
         app:borderWidth="0dp"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

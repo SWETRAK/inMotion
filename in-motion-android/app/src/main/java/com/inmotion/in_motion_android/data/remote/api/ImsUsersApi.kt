@@ -15,17 +15,32 @@ import retrofit2.http.Path
 interface ImsUsersApi {
 
     @GET("/users/api/users/videos/byVideo/{videoId}")
-    suspend fun getProfileVideoByVideoId(@Header("Authorization") token: String, @Path("videoId") videoId: String): Response<ImsHttpMessage<UserProfileVideoDto>>
+    suspend fun getProfileVideoByVideoId(
+        @Header("Authorization") token: String,
+        @Path("videoId") videoId: String
+    ): Response<ImsHttpMessage<UserProfileVideoDto>>
 
     @GET("/users/api/users/videos/byUser/{userId}")
-    suspend fun getProfileVideoByUserId(@Header("Authorization") token: String, @Path("userId") videoId: String): Response<ImsHttpMessage<UserProfileVideoDto>>
+    suspend fun getProfileVideoByUserId(
+        @Header("Authorization") token: String,
+        @Path("userId") videoId: String
+    ): Response<ImsHttpMessage<UserProfileVideoDto>>
 
     @GET("/users/api/users/search/{nickname}")
-    suspend fun searchUsersByNickname(@Header("Authorization") token: String, @Path("nickname") nickname: String): Response<ImsHttpMessage<List<FullUserInfoDto>>>
+    suspend fun searchUsersByNickname(
+        @Header("Authorization") token: String,
+        @Path("nickname") nickname: String
+    ): Response<ImsHttpMessage<List<FullUserInfoDto>>>
 
     @GET("/users/api/users/{userId}")
-    suspend fun getUserById(@Header("Authorization") token: String, @Path("userId") userId: String): Response<ImsHttpMessage<FullUserInfoDto>>
+    suspend fun getUserById(
+        @Header("Authorization") token: String,
+        @Path("userId") userId: String
+    ): Response<ImsHttpMessage<FullUserInfoDto>>
 
     @PUT("/users/api/users/update/bio")
-    suspend fun updateLoggedInUserBio(@Header("Authorization") token: String, @Body bio: UpdateUserBioDto): Response<ImsHttpMessage<UpdatedUserBioDto>>
+    suspend fun updateLoggedInUserBio(
+        @Header("Authorization") token: String,
+        @Body bio: UpdateUserBioDto
+    ): Response<ImsHttpMessage<UpdatedUserBioDto>>
 }

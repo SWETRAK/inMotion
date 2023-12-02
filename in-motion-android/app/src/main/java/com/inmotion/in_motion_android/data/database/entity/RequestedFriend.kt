@@ -9,6 +9,6 @@ data class RequestedFriend(
     val id: String,
     val friendshipId: String,
     val nickname: String,
-    val bio: String,
+    val bio: String?,
     val requested: String
 )

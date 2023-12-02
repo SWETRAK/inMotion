@@ -13,6 +13,7 @@ import com.inmotion.in_motion_android.state.FriendsViewModel
 import com.inmotion.in_motion_android.state.UserViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.LocalDateTime
@@ -43,12 +44,15 @@ class FriendRequestsAdapter(
                 CoroutineScope(Dispatchers.IO).launch {
                     val response = imsFriendsApi.acceptFriend(
                         "Bearer ${userViewModel.user.value?.token}",
-                        request.id
+                        request.friendshipId
                     )
                     if(response.code() < 400) {
                         Log.i("FRIEND REQUESTS", "ACCEPTED ${request.nickname}")
                         friendsViewModel.onEvent(FriendEvent.FetchRequestedFriends(userViewModel.user.value?.token.toString()))
-                        notifyDataSetChanged()
+                        MainScope().launch{
+                            notifyDataSetChanged()
+                        }
+
                     } else {
                         Log.i("FRIEND REQUESTS", "FAILED TO ACCEPT ${request.nickname}, code ${response.code()}")
                     }
@@ -60,9 +64,12 @@ class FriendRequestsAdapter(
                 CoroutineScope(Dispatchers.IO).launch {
                     imsFriendsApi.rejectFriend(
                         "Bearer ${userViewModel.user.value?.token}",
-                        request.id
+                        request.friendshipId
                     )
                     friendsViewModel.onEvent(FriendEvent.FetchRequestedFriends(userViewModel.user.value?.token.toString()))
+                    MainScope().launch{
+                        notifyDataSetChanged()
+                    }
                 }
             }
         }

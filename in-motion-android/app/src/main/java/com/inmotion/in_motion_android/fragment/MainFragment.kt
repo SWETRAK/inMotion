@@ -89,17 +89,6 @@ class MainFragment : Fragment() {
 
         return listOf(
             PostDto(
-                "Stephen_mustache",
-                "Lublin",
-                "13:09",
-                video,
-                video,
-                10,
-                1,
-                11,
-                123
-            ),
-            PostDto(
                 "Bon_Jovi",
                 "Kielce",
                 "16:30",
@@ -120,18 +109,7 @@ class MainFragment : Fragment() {
                 300,
                 67,
                 0
-            ),
-            PostDto(
-                "Jagienka123",
-                "Phoenix",
-                "21:37",
-                video,
-                video,
-                68,
-                34,
-                11,
-                2
-            ),
+            )
         )
     }
 }

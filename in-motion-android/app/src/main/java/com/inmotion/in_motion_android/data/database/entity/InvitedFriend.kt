@@ -9,6 +9,6 @@ data class InvitedFriend(
     val id: String,
     val friendshipId: String,
     val nickname: String,
-    val bio: String,
-    val invited: String
+    val bio: String?,
+    val invited: String?
 )

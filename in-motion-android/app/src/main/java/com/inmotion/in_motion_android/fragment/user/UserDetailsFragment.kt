@@ -24,6 +24,7 @@ class UserDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentUserDetailsBinding
     private var isLoggedInUser: Boolean = false
+
     @Suppress("UNCHECKED_CAST")
     private val userViewModel: UserViewModel by activityViewModels(
         factoryProducer = {

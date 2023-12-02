@@ -30,6 +30,7 @@ interface RequestedFriendDao {
             upsert(it)
         }
     }
+
     @Query("DELETE FROM requested_friend")
     suspend fun deleteAll()
 }

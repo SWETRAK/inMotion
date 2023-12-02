@@ -12,7 +12,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.map
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.inmotion.in_motion_android.InMotionApp
@@ -141,25 +140,26 @@ class FriendsManagementFragment : Fragment() {
 
                             foundUsers = response.body()!!.data
                             val usersToFilterOut = ArrayList<String>()
-                            if(friendsViewModel.acceptedFriends.value != null){
+                            if (friendsViewModel.acceptedFriends.value != null) {
                                 usersToFilterOut.addAll(friendsViewModel.acceptedFriends.value?.map { friend ->
                                     friend.nickname
                                 }!!.toList())
                             }
-                            if(friendsViewModel.invitedFriends.value != null){
+                            if (friendsViewModel.invitedFriends.value != null) {
                                 usersToFilterOut.addAll(friendsViewModel.invitedFriends.value?.map { friend ->
                                     friend.nickname
                                 }!!.toList())
                             }
 
-                            if(friendsViewModel.requestedFriends.value != null){
+                            if (friendsViewModel.requestedFriends.value != null) {
                                 usersToFilterOut.addAll(friendsViewModel.requestedFriends.value?.map { friend ->
                                     friend.nickname
                                 }!!.toList())
                             }
                             usersToFilterOut.add(userViewModel.user.value!!.nickname)
 
-                            foundUsers = foundUsers.filter { user -> !usersToFilterOut.contains(user.nickname) }
+                            foundUsers =
+                                foundUsers.filter { user -> !usersToFilterOut.contains(user.nickname) }
                             adapter = FoundUsersAdapter(
                                 foundUsers,
                                 imsFriendsApi,

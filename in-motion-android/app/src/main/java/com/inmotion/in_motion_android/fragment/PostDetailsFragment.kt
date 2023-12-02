@@ -79,48 +79,6 @@ class PostDetailsFragment : Fragment() {
                 "Królewiec",
                 "13:12",
                 "Nie prawda bo niefajne"
-            ),
-            CommentDto(
-                "kornik112",
-                "Uganda",
-                "13:09",
-                "No dobre"
-            ),
-            CommentDto(
-                "kakauko12",
-                "Katowice",
-                "13:09",
-                "No niezłe fajne"
-            ),
-            CommentDto(
-                "Stephen_mustache",
-                "Królewiec",
-                "13:12",
-                "Nie prawda bo niefajne"
-            ),
-            CommentDto(
-                "kornik112",
-                "Uganda",
-                "13:09",
-                "No dobre"
-            ),
-            CommentDto(
-                "kakauko12",
-                "Katowice",
-                "13:09",
-                "No niezłe fajne"
-            ),
-            CommentDto(
-                "Stephen_mustache",
-                "Królewiec",
-                "13:12",
-                "Nie prawda bo niefajne"
-            ),
-            CommentDto(
-                "kornik112",
-                "Uganda",
-                "13:09",
-                "No dobre"
             )
         )
     }

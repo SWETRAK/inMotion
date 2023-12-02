@@ -1,6 +1,5 @@
 package com.inmotion.in_motion_android.adapter
 
-import android.opengl.Visibility
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +11,9 @@ import com.inmotion.in_motion_android.data.remote.dto.user.FullUserInfoDto
 import com.inmotion.in_motion_android.databinding.FoundUserRecyclerViewItemBinding
 import com.inmotion.in_motion_android.state.FriendsViewModel
 import com.inmotion.in_motion_android.state.UserViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
 class FoundUsersAdapter(
@@ -28,13 +28,18 @@ class FoundUsersAdapter(
         fun bindItem(user: FullUserInfoDto) {
             itemBinding.tvNickname.text = user.nickname
             itemBinding.btnAddAsFriend.setOnClickListener {
-                GlobalScope.launch(Dispatchers.IO) {
+                CoroutineScope(Dispatchers.IO).launch {
                     val response =
-                        imsFriendsApi.addFriend("Bearer ${userViewModel.user.value?.token}", user.id)
+                        imsFriendsApi.addFriend(
+                            "Bearer ${userViewModel.user.value?.token}",
+                            user.id
+                        )
                     if (response.code() < 400) {
                         friendsViewModel.onEvent(FriendEvent.FetchInvitedFriends(userViewModel.user.value?.token.toString()))
                         Log.i("FRIEND", "REQUESTED NEW FRIEND")
-                        itemBinding.btnAddAsFriend.visibility = View.GONE
+                        MainScope().launch {
+                            itemBinding.btnAddAsFriend.visibility = View.GONE
+                        }
                     }
                 }
             }

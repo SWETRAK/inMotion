@@ -17,23 +17,38 @@ import retrofit2.http.Path
 interface ImsFriendsApi {
 
     @POST("/friends/api/friends/{externalUserIdString}")
-    suspend fun addFriend(@Header("Authorization") token: String, @Path("externalUserIdString") externalUserId: String):
+    suspend fun addFriend(
+        @Header("Authorization") token: String,
+        @Path("externalUserIdString") externalUserId: String
+    ):
             Response<ImsHttpMessage<InvitationFriendshipDto>>
 
     @PUT("/friends/api/friends/accept/{externalUserIdString}")
-    suspend fun acceptFriend(@Header("Authorization") token: String, @Path("externalUserIdString") externalUserId: String):
+    suspend fun acceptFriend(
+        @Header("Authorization") token: String,
+        @Path("externalUserIdString") externalUserId: String
+    ):
             Response<ImsHttpMessage<AcceptedFriendshipDto>>
 
     @PUT("/friends/api/friends/reject/{externalUserIdString}")
-    suspend fun rejectFriend(@Header("Authorization") token: String, @Path("externalUserIdString") externalUserId: String):
+    suspend fun rejectFriend(
+        @Header("Authorization") token: String,
+        @Path("externalUserIdString") externalUserId: String
+    ):
             Response<ImsHttpMessage<RejectedFriendshipDto>>
 
     @DELETE("/friends/api/friends/revert/{friendshipIdString}")
-    suspend fun revertFriend(@Header("Authorization") token: String, @Path("friendshipIdString") friendshipId: String):
+    suspend fun revertFriend(
+        @Header("Authorization") token: String,
+        @Path("friendshipIdString") friendshipId: String
+    ):
             Response<BooleanImsHttpMessage>
 
     @DELETE("/friends/api/friends/unfriend/{friendshipIdString}")
-    suspend fun unfriendFriend(@Header("Authorization") token: String, @Path("friendshipIdString") friendshipId: String):
+    suspend fun unfriendFriend(
+        @Header("Authorization") token: String,
+        @Path("friendshipIdString") friendshipId: String
+    ):
             Response<ImsHttpMessage<RejectedFriendshipDto>>
 
     @GET("/friends/api/friends/lists/accepted")
