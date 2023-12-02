@@ -21,4 +21,15 @@
     <string name="bio">BIO</string>
     <string name="nickname_hint">Nickname</string>
     <string name="nickname">Nickname:</string>
+    <string name="logout">Logout</string>
+    <string name="change_password_button">Change password button</string>
+    <string name="add_a_friend">Add a friend</string>
+    <string name="add_as_friend">add as friend</string>
+    <string name="hint_bio">Bio</string>
+    <string name="save">SAVE</string>
+    <string name="old_password">Old password</string>
+    <string name="email_label">Email:</string>
+    <string name="nickname_label">Nickname:</string>
+    <string name="password_label">Password:</string>
+    <string name="asterix_password">********</string>
 </resources>

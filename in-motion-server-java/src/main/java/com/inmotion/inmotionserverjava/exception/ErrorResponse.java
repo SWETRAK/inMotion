@@ -1,4 +1,6 @@
 package com.inmotion.inmotionserverjava.exception;
 
-public record ErrorResponse(String message) {
+import java.io.Serializable;
+
+public record ErrorResponse(String message) implements Serializable {
 }

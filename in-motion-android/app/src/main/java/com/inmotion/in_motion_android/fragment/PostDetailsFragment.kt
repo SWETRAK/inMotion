@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.inmotion.in_motion_android.adapter.CommentsAdapter
-import com.inmotion.in_motion_android.data.CommentDto
-import com.inmotion.in_motion_android.data.PostDto
+import com.inmotion.in_motion_android.data.remote.CommentDto
+import com.inmotion.in_motion_android.data.remote.PostDto
 import com.inmotion.in_motion_android.databinding.FragmentPostDetailsBinding
 
 class PostDetailsFragment : Fragment() {
@@ -30,7 +30,7 @@ class PostDetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentPostDetailsBinding.inflate(inflater)
         return binding.root
     }
@@ -68,15 +68,18 @@ class PostDetailsFragment : Fragment() {
 
     private fun getComments(): List<CommentDto> {
         return listOf(
-            CommentDto("kakauko12", "Katowice", "13:09", "No niezłe fajne"),
-            CommentDto("Stephen_mustache", "Królewiec", "13:12", "Nie prawda bo niefajne"),
-            CommentDto("kornik112", "Uganda", "13:09", "No dobre"),
-            CommentDto("kakauko12", "Katowice", "13:09", "No niezłe fajne"),
-            CommentDto("Stephen_mustache", "Królewiec", "13:12", "Nie prawda bo niefajne"),
-            CommentDto("kornik112", "Uganda", "13:09", "No dobre"),
-            CommentDto("kakauko12", "Katowice", "13:09", "No niezłe fajne"),
-            CommentDto("Stephen_mustache", "Królewiec", "13:12", "Nie prawda bo niefajne"),
-            CommentDto("kornik112", "Uganda", "13:09", "No dobre")
+            CommentDto(
+                "kakauko12",
+                "Katowice",
+                "13:09",
+                "No niezłe fajne"
+            ),
+            CommentDto(
+                "Stephen_mustache",
+                "Królewiec",
+                "13:12",
+                "Nie prawda bo niefajne"
+            )
         )
     }
 }
