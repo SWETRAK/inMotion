@@ -18,10 +18,6 @@ struct ProfileCameraViewWrapper: UIViewControllerRepresentable {
         return storyBoard
     }
     
-    func updateUIViewController(_ uiViewController: ProfileCameraViewController, context: Context) { 
-//        print (uiViewController.finished)
-//        if uiViewController.finished == true {
-//            self.presentationMode.wrappedValue.dismiss()
-//        }
+    func updateUIViewController(_ uiViewController: ProfileCameraViewController, context: Context) {
     }
 }

@@ -112,7 +112,6 @@ class ProfileCameraViewController: UIViewController, AVCaptureFileOutputRecordin
             }
 
             if (licznik == 0) {
-                print("Zakończono nagrywanie")
                 self.movieOutput.stopRecording()
                 timer.invalidate()
             }
@@ -131,11 +130,9 @@ class ProfileCameraViewController: UIViewController, AVCaptureFileOutputRecordin
             self.appState?.uploadProfileVideoAlamofire(
                 filePath: outputFileURL,
                 onSuccess: { (data: ProfileVideoUploadInfoDto) in
-                    print("success")
                     self.goBackToUserPage()
                 },
                 onFailure: { (error: ImsHttpError) in
-                    print(error)
                     self.goBackToUserPage()
                 })
         }

@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 import AVKit
+import SDWebImageSwiftUI
 
 struct PostDetailsView: View {
     
@@ -30,8 +31,29 @@ struct PostDetailsView: View {
             VStack {
                 ScrollView {
                     VStack(alignment: .leading){
-                        Text(post.title)
-                            .font(.system(size: 25))
+                        HStack{
+                            if let safeData = self.authorGifData {
+                                
+                                AnimatedImage(data: safeData)
+                                    .resizable()
+                                    .frame(width: 50, height: 50, alignment: .center)
+                                
+                            } else {
+                                Image("avatar-placeholder")
+                                    .resizable()
+                                    .frame(width: 50, height: 50, alignment: .center)
+                                
+                            }
+                            VStack(alignment: .leading){
+                                Text(self.post.author.nickname)
+                                    .fontWeight(Font.Weight.bold)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                            Spacer()
+                        }
+                        .frame(alignment: .leading)
                         
                         if (self.avPlayerBig != nil && self.avPlayerSmall != nil) {
                             HStack(alignment: .top) {
@@ -95,6 +117,9 @@ struct PostDetailsView: View {
                             }
                         }
                         Divider()
+                        
+                        Text(post.title)
+                            .font(.system(size: 20))
                         
                         if (post.description != String.Empty) {
                             Text(post.description)
@@ -206,7 +231,6 @@ struct PostDetailsView: View {
                     content: self.newComment,
                     postId: self.post.id))
             { (data: PostCommentDto) in
-                print("Kamil")
                 self.newComment = String.Empty
                 self.comments.append(data)
                 

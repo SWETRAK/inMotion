@@ -17,7 +17,7 @@ extension Data {
         do {
             try self.write(to: fullURL!)
         } catch {
-            print()
+            print("Unexpected error: \(error)")
         }
         
         return fullURL!

@@ -170,7 +170,6 @@ class PostCameraViewController: UIViewController, AVCaptureFileOutputRecordingDe
                 self.appState!.CreatePost(
                     requestData: safeRequestData,
                     onSuccess: { (responseData: CreatePostResponseDto) in
-                        print(responseData.id.uuidString)
                         self.appState!.uploadPostVideoAlamofire(
                             frontFilePath: safeFrontCameraUrl,
                             backFilePath: safeBackCameraUrl,
@@ -179,12 +178,10 @@ class PostCameraViewController: UIViewController, AVCaptureFileOutputRecordingDe
                                 self.goToHomeScreen()
                             },
                             onFailure: { (error: ImsHttpError) in
-                                print(error)
                                 self.goToHomeScreen()
                             })
                     },
                     onFailure:  { (error: ImsHttpError) in
-                        print(error)
                         self.goToHomeScreen()
                     })
             } else {
@@ -212,7 +209,6 @@ class PostCameraViewController: UIViewController, AVCaptureFileOutputRecordingDe
         let fileUrl = paths[0].appendingPathComponent("\(UUID().uuidString.lowercased()).mp4")
         try? FileManager.default.removeItem(at: fileUrl)
         self.movieOutput.startRecording(to: fileUrl, recordingDelegate: self as AVCaptureFileOutputRecordingDelegate)
-        print("Rozpoczeto nagrywanie")
         
         var licznik = 5
         
@@ -227,7 +223,6 @@ class PostCameraViewController: UIViewController, AVCaptureFileOutputRecordingDe
             }
 
             if (licznik == 0) {
-                print("Zakończono nagrywanie")
                 self.movieOutput.stopRecording()
                 timer.invalidate()
             }

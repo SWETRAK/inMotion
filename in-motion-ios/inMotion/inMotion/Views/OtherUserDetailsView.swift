@@ -24,9 +24,10 @@ struct OtherUserDetailsView: View {
                 if(self.avPlayer != nil) {
                     VStack (alignment: .center) {
                         VideoPlayer(player: self.avPlayer)
-                            .frame(width: proxy.size.width/1.5, height: proxy.size.width/1.5/(3/4), alignment: .center)
+                            .frame(width: proxy.size.width/1.5, height: proxy.size.width/1.5/(9/16), alignment: .center)
                             .onAppear{
-                                OnVideoAppear()
+                                self.imageSize = proxy.size.width/1.5/(9.0/16.0)
+                                self.OnVideoAppear()
                             }
                     }
                     .frame(width: proxy.size.width)
@@ -34,15 +35,15 @@ struct OtherUserDetailsView: View {
                     VStack (alignment: .center) {
                         Image("avatar-placeholder")
                             .resizable()
-                            .frame(width: proxy.size.width/1.5, height: proxy.size.width/1.5/(3/4), alignment: .center)
+                            .frame(width: proxy.size.width/1.5, height: proxy.size.width/1.5/(9/16), alignment: .center)
                             .onAppear{
-                                self.imageSize = proxy.size.width/1.5 + 10.0
+                                self.imageSize = proxy.size.width/1.5/(9.0/16.0)
                             }
                     }
                     .frame(width: proxy.size.width)
                 }
             }
-            .frame(height: self.imageSize)
+            .frame(height: imageSize)
             
             Section(header: Text("User details")) {
                 LabeledContent {
@@ -169,7 +170,6 @@ struct OtherUserDetailsView: View {
     }
     
     private func SendInvitation(person: FullUserInfoDto) {
-        print(person.id.uuidString)
         self.appState.createFriendshipHttpRequest(
             otherUserId: person.id,
             successCreateFriendshipAction: {(data: InvitationFriendshipDto) in

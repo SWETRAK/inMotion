@@ -30,7 +30,6 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    print(data)
                     successGetUserProfileVideoUrl(data)
                 } else {
                     if let safeError: ErrorResponse = JsonUtil.decodeJsonData(data: data) {
@@ -63,7 +62,6 @@ extension AppState {
             if let httpResponse = response as? HTTPURLResponse {
                 if(httpResponse.statusCode == 200)
                 {
-                    print(data)
                     successGetUserProfileGifUrl(data)
                 } else {
                     if let safeError: ErrorResponse = JsonUtil.decodeJsonData(data: data) {
@@ -97,7 +95,6 @@ extension AppState {
                 if(httpResponse.statusCode == 200)
                 {
                     if let safeImsMessage: PostDto = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.frontVideo)
                         successGetPostVideoUrls(safeImsMessage)
                     }
                 } else {
@@ -135,7 +132,6 @@ extension AppState {
                 }
                 
                 if let httpResponse = response.response{
-                    print(httpResponse.statusCode)
                     if(httpResponse.statusCode == 201)
                     {
                         if let safeImsMessage: ProfileVideoUploadInfoDto = JsonUtil.decodeJsonData(data: data) {

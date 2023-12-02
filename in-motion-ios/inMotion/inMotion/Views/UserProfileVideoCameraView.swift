@@ -14,7 +14,6 @@ struct UserProfileVideoCameraView: View {
     
     var body: some View {
         ProfileCameraViewWrapper().environmentObject(appState)
-//            .navigationBarHidden(true)
             .navigationBarTitleDisplayMode(.inline)
     }
 }

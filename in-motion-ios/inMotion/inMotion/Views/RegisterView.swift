@@ -2,6 +2,7 @@ import SwiftUI
 import CoreData
 
 struct RegisterView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @EnvironmentObject public var appState: AppState
     
     @State private var nickname: String = ""
@@ -13,8 +14,6 @@ struct RegisterView: View {
     @State private var nicknameError: Bool = false
     @State private var passwordError: Bool = false
     @State private var repeatPasswordError: Bool = false
-    
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
         VStack(spacing: 20.0) {
@@ -82,9 +81,7 @@ struct RegisterView: View {
                         }
                     }
                 },
-                failureRegisterAction: {(error: ImsHttpError) in
-                    print(error.status, error.errorMessage, error.errorType)
-                })
+                failureRegisterAction: {(error: ImsHttpError) in})
         }
     }
     
@@ -124,11 +121,5 @@ struct RegisterView: View {
                 self.repeatPasswordError = false
             }
         }
-    }
-}
-
-struct RegisterView_Previews: PreviewProvider {
-    static var previews: some View {
-        RegisterView()
     }
 }

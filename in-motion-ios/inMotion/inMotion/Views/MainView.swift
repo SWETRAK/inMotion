@@ -51,6 +51,7 @@ struct MainView: View {
             ToolbarItem(placement: .secondaryAction) {
                 NavigationLink {
                     LoggedUserDetailsView().environmentObject(appState)
+                        .navigationBarTitleDisplayMode(.inline)
                 } label: {
                     Text("User")
                 }
@@ -70,17 +71,14 @@ struct MainView: View {
     
     private func LoadCurrentUserPost() {
         self.appState.GetUserPost { (data: GetPostResponseDto) in
-            print(data.id.uuidString.lowercased())
             self.userPost = data
         } onFailure: { (error: ImsHttpError) in }
     }
     
     private func LoadPosts() {
         self.appState.GetFriendsPosts { (data: [GetPostResponseDto]) in
-            print("Kamil")
             self.posts = data
         } onFailure: { (error: ImsHttpError) in
-            print(error)
             self.posts = []
         }
     }

@@ -42,7 +42,7 @@ struct LoggedUserDetailsView: View {
                                 VideoPlayer(player: self.avPlayer)
                                     .frame(width: proxy.size.width/1.5, height: proxy.size.width/1.5/(9/16), alignment: .center)
                                     .onAppear{
-                                        self.imageSize = proxy.size.width/1.5/(9/16)
+                                        self.imageSize = proxy.size.width/1.5/(9.0/16.0)
                                         self.OnVideoAppear()
                                     }
                             }
@@ -53,7 +53,7 @@ struct LoggedUserDetailsView: View {
                                     .resizable()
                                     .frame(width: proxy.size.width/1.5, height: proxy.size.width/1.5/(9/16), alignment: .center)
                                     .onAppear{
-                                        self.imageSize = proxy.size.width/1.5/(9/16)
+                                        self.imageSize = proxy.size.width/1.5/(9.0/16.0)
                                     }
                             }
                             .frame(width: proxy.size.width)
@@ -264,9 +264,3 @@ struct LoggedUserDetailsView: View {
         self.avPlayer?.isMuted = true
     }
 }
-
-//struct LoggedUserDetailsView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        LoggedUserDetailsView()
-//    }
-//}

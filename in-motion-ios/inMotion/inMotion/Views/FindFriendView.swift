@@ -30,8 +30,10 @@ struct FindFriendView: View {
                 NavigationLink {
                     if (GetFriendshipStatus(person: person) == FriendshipStatusEnum.IsSelf) {
                         LoggedUserDetailsView().environmentObject(appState)
+                            .navigationBarTitleDisplayMode(.inline)
                     } else {
                         OtherUserDetailsView(user: person).environmentObject(appState)
+                            .navigationBarTitleDisplayMode(.inline)
                     }
                 } label: {
                     PersonRowView(fullUserInfo: person)
@@ -73,7 +75,6 @@ struct FindFriendView: View {
     }
     
     private func SendInvitation(person: FullUserInfoDto) {
-        print(person.id.uuidString)
         appState.createFriendshipHttpRequest(
             otherUserId: person.id,
             successCreateFriendshipAction: {(data: InvitationFriendshipDto) in },
@@ -113,11 +114,5 @@ struct FindFriendView: View {
         }
         
         return FriendshipStatusEnum.Unknown
-    }
-}
-
-struct FindFriendView_Previews: PreviewProvider {
-    static var previews: some View {
-        FindFriendView()
     }
 }

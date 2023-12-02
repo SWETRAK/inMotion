@@ -37,9 +37,7 @@ struct AddPasswordToAccount: View {
                             successAddPasswordAction: {(data: Bool) in
                                 dismiss()
                             },
-                            failureAddPasswordAction: {(error: ImsHttpError) in
-                                print(error.status, error.errorMessage, error.errorType)
-                            })
+                            failureAddPasswordAction: {(error: ImsHttpError) in})
                     }
                 }.alert(isPresented: $showAlert) {
                     if (self.passwordError) {

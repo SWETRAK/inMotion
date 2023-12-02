@@ -17,9 +17,3 @@ struct PostCameraView: View {
             .navigationBarHidden(true)
     }
 }
-
-//struct PostCameraScreen_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PostCameraView()
-//    }
-//}

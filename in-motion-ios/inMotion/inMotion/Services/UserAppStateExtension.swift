@@ -29,7 +29,6 @@ extension AppState {
                     if(httpResponse.statusCode == 200)
                     {
                         if let safeImsMessage: ImsHttpMessage<[FullUserInfoDto]> = JsonUtil.decodeJsonData(data: data) {
-                            print(safeImsMessage.status)
                             if let userInfoDataSafe: [FullUserInfoDto] = safeImsMessage.data {
                                 successGetUserAction(userInfoDataSafe);
                             }
@@ -72,7 +71,6 @@ extension AppState {
                 if(httpResponse.statusCode == 200)
                 {
                     if let safeImsMessage: ImsHttpMessage<FullUserInfoDto> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status)
                         if let userInfoDataSafe: FullUserInfoDto = safeImsMessage.data {
                             successGetUserAction(userInfoDataSafe);
                         }
@@ -167,7 +165,6 @@ extension AppState {
                 if(httpResponse.statusCode == 200)
                 {
                     if let safeImsMessage: ImsHttpMessage<UserProfileVideoDto> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status)
                         if let userInfoDataSafe: UserProfileVideoDto = safeImsMessage.data {
                             successGetUserVideoInfoAction(userInfoDataSafe);
                         }
@@ -207,7 +204,6 @@ extension AppState {
                 if(httpResponse.statusCode == 200)
                 {
                     if let safeImsMessage: ImsHttpMessage<UserProfileVideoDto> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status)
                         if let userInfoDataSafe: UserProfileVideoDto = safeImsMessage.data {
                             successGetUserVideoInfoAction(userInfoDataSafe);
                         }

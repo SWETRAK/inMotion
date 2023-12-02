@@ -43,9 +43,6 @@ struct ContentView: View {
                                 DispatchQueue.main.async {
                                     self.appState.logged = true
                                     self.appState.initAppReady = true
-                                    
-                                    print(self.appState.token ?? "")
-                                    
                                     self.appState.getUserByIdHttpRequest(
                                         userId: self.appState.user!.id,
                                         successGetUserAction:{ (fullUserInfo: FullUserInfoDto) in

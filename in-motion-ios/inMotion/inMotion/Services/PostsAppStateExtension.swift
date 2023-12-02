@@ -55,7 +55,6 @@ extension AppState {
         onFailure: @escaping (ImsHttpError) -> Void) {
             
             let postData = JsonUtil.encodeJsonStringFromObject(requestData)
-            print("Upload")
             var request = URLRequest(url: URL(string: self.httpBaseUrl + "/posts/api/posts")!,timeoutInterval: Double.infinity)
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue("Bearer \(self.token ?? "")", forHTTPHeaderField: "Authorization")

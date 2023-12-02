@@ -31,7 +31,6 @@ extension AppState {
                 if(httpResponse.statusCode == 201)
                 {
                     if let safeImsMessage: ImsHttpMessage<InvitationFriendshipDto> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status)
                         if let userInfoDataSafe: InvitationFriendshipDto = safeImsMessage.data {
                             DispatchQueue.main.async {
                                 self.invitedFriendships.append(userInfoDataSafe)
@@ -74,7 +73,6 @@ extension AppState {
                 if(httpResponse.statusCode == 200)
                 {
                     if let safeImsMessage: ImsHttpMessage<AcceptedFriendshipDto> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status)
                         if let userInfoDataSafe: AcceptedFriendshipDto = safeImsMessage.data {
                             DispatchQueue.main.async {
                                 self.requestedFriendships.removeAll { element in
@@ -121,7 +119,6 @@ extension AppState {
                 if(httpResponse.statusCode == 200)
                 {
                     if let safeImsMessage: ImsHttpMessage<RejectedFriendshipDto> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status)
                         if let userInfoDataSafe: RejectedFriendshipDto = safeImsMessage.data {
                             self.requestedFriendships.removeAll { element in
                                 return element.id == friendshipId
@@ -338,7 +335,6 @@ extension AppState {
                 if(httpResponse.statusCode == 200)
                 {
                     if let safeImsMessage: ImsHttpMessage<Array<InvitationFriendshipDto>> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status)
                         if let userInfoDataSafe: Array<InvitationFriendshipDto> = safeImsMessage.data {
                             DispatchQueue.main.async {
                                 self.invitedFriendships = userInfoDataSafe

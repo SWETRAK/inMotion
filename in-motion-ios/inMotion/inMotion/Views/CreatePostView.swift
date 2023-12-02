@@ -41,7 +41,3 @@ struct CreatePostView: View {
         }
     }
 }
-
-//#Preview {
-//    CreatePostView()
-//}
