@@ -82,7 +82,7 @@ public class PostService : IPostService
                     if (author is not null) s.Author = _mapper.Map<PostAuthorDto>(author);
                     var reaction = originalData.PostReactions.FirstOrDefault(x => x.ExternalAuthorId.Equals(userId));
                     if (reaction is null) return;
-                    s.PostReaction = _mapper.Map<PostReactionDto>(reaction);
+                    s.PostReaction = _mapper.Map<PostReactionWithoutAuthorDto>(reaction);
                     s.IsLikedByUser = true;
                 });
             })
@@ -145,7 +145,7 @@ public class PostService : IPostService
                     if (author is not null) s.Author = _mapper.Map<PostAuthorDto>(author);
                     var reaction = originalData.PostReactions.FirstOrDefault(x => x.ExternalAuthorId.Equals(userIdGuid));
                     if (reaction is null) return;
-                    s.PostReaction = _mapper.Map<PostReactionDto>(reaction);
+                    s.PostReaction = _mapper.Map<PostReactionWithoutAuthorDto>(reaction);
                     s.IsLikedByUser = true;
                 });
             })
@@ -203,7 +203,7 @@ public class PostService : IPostService
                 if (author is not null) dest.Author = _mapper.Map<PostAuthorDto>(author);
                 var reaction = src.PostReactions.FirstOrDefault(x => x.ExternalAuthorId.Equals(userIdGuid));
                 if (reaction is null) return;
-                dest.PostReaction = _mapper.Map<PostReactionDto>(reaction);
+                dest.PostReaction = _mapper.Map<PostReactionWithoutAuthorDto>(reaction);
                 dest.IsLikedByUser = true;
             })
         );

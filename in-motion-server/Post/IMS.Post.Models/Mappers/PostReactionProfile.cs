@@ -14,5 +14,11 @@ public class PostReactionProfile: Profile
             .ForMember(x => x.Author, opt => opt.Ignore())
             .ForMember(x => x.Emoji, opt => opt.MapFrom(p => p.Emoji))
             .ForMember(x => x.CreatedAt, opt => opt.MapFrom(p => p.CreationDate));
+        
+        CreateMap<PostReaction, PostReactionWithoutAuthorDto>() 
+            .ForMember(x => x.Id, opt => opt.MapFrom(p => p.Id.ToString()))
+            .ForMember(x => x.AuthorId, opt => opt.MapFrom(p => p.ExternalAuthorId.ToString()))
+            .ForMember(x => x.Emoji, opt => opt.MapFrom(p => p.Emoji))
+            .ForMember(x => x.CreatedAt, opt => opt.MapFrom(p => p.CreationDate));
     }
 }
