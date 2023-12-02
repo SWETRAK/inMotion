@@ -66,7 +66,7 @@ struct MainView: View {
     
     private func LoadCurrentUserPost() {
         self.appState.GetUserPost { (data: GetPostResponseDto) in
-            print(data)
+            print(data.id.uuidString.lowercased())
             self.userPost = data
         } onFailure: { (error: ImsHttpError) in }
     }

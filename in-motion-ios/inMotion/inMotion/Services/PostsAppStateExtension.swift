@@ -46,7 +46,6 @@ extension AppState {
                     }
                 }
             }
-            
             task.resume()
         }
     
@@ -129,7 +128,6 @@ extension AppState {
                     }
                 }
             }
-            
             task.resume()
         }
     
@@ -345,7 +343,7 @@ extension AppState {
             task.resume()
         }
     
-    
+    // TODO: Implement this in the future
     func EditPoctCommentHttpRequest(
         postCommentId: UUID,
         requestData: UpdatePostCommentDto,
@@ -390,44 +388,75 @@ extension AppState {
             task.resume()
         }
     
+    // TODO: Implement this in the future
     func RemovePostCommentHttpRequest(
         postCommentId: UUID,
         onSuccess: @escaping (Bool) -> Void,
-        onFailure: @escaping (ImsHttpError) -> Void
-    ) {
-        var request = URLRequest(url: URL(string: self.httpBaseUrl + "/posts/api/posts/comments/\(postCommentId.uuidString.lowercased())")!,timeoutInterval: Double.infinity)
-        request.addValue("Bearer \(self.token ?? "")", forHTTPHeaderField: "Authorization")
-
-        request.httpMethod = HTTPMethods.DELETE.rawValue
-
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data else {
-                if let error = error as? NSError {
-                    onFailure(ImsHttpError(status: 500,  errorMessage: error.localizedDescription, errorType: ""))
+        onFailure: @escaping (ImsHttpError) -> Void ) {
+            var request = URLRequest(url: URL(string: self.httpBaseUrl + "/posts/api/posts/comments/\(postCommentId.uuidString.lowercased())")!,timeoutInterval: Double.infinity)
+            request.addValue("Bearer \(self.token ?? "")", forHTTPHeaderField: "Authorization")
+            
+            request.httpMethod = HTTPMethods.DELETE.rawValue
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data else {
+                    if let error = error as? NSError {
+                        onFailure(ImsHttpError(status: 500,  errorMessage: error.localizedDescription, errorType: ""))
+                    }
+                    return
                 }
-                return
-            }
-            if let httpResponse = response as? HTTPURLResponse {
-                if(httpResponse.statusCode == 200)
-                {
-                    if let safeImsMessage: ImsHttpMessage<Bool> = JsonUtil.decodeJsonData(data: data) {
-                        if let userInfoDataSafe: Bool = safeImsMessage.data {
-                            onSuccess(userInfoDataSafe);
+                if let httpResponse = response as? HTTPURLResponse {
+                    if(httpResponse.statusCode == 200)
+                    {
+                        if let safeImsMessage: ImsHttpMessage<Bool> = JsonUtil.decodeJsonData(data: data) {
+                            if let userInfoDataSafe: Bool = safeImsMessage.data {
+                                onSuccess(userInfoDataSafe);
+                            }
+                        }
+                    } else {
+                        if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
+                            if (httpResponse.statusCode == 500)
+                            {
+                                safeError.status = 500
+                            }
+                            onFailure(safeError);
                         }
                     }
-                } else {
-                    if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
-                        if (httpResponse.statusCode == 500)
-                        {
-                            safeError.status = 500
-                        }
-                        onFailure(safeError);
-                    }
                 }
             }
+            task.resume()
         }
-        task.resume()
+}
+
+
+// MARK: POST REACTION METHODS
+extension AppState {
+    
+    func GetPostReactionsHttpMethod (
+        postId: UUID,
+        onSuccess: @escaping ([PostReactionDto]) -> Void,
+        onFailure: @escaping (ImsHttpError) -> Void ) {
+        
+            
+        
     }
-    
-    
+        
+    func CreatePostReacionHttpMethod(
+        requestData: CreatePostReactionDto,
+        onSuccess: @escaping (PostReactionDto) -> Void,
+        onFailure: @escaping (ImsHttpError) -> Void ) {
+            
+            
+            
+            
+        }
+
+    func DeletePostReactionHttpMethod (
+        postReactionId: UUID,
+        onSuccess: @escaping (Bool) -> Void,
+        onFailure: @escaping (ImsHttpError) -> Void ) {
+            
+            
+            
+        }
 }
