@@ -161,6 +161,11 @@ public class PostService : IPostService
         
         if (postIteration is null)
             throw new PostIterationNotFoundException();
+
+        var existingPost = await _postRepository.GetByExternalAuthorIdAsync(postIteration.Id, userIdGuid);
+
+        if (existingPost is not null)
+            throw new PostAlreadyUploadedInCurrentIterationException();
         
         var tags = await CalculateTags(userIdGuid, createPostRequestDto.Description);
 
