@@ -79,7 +79,7 @@ public class PostCommentController: ControllerBase
     }
 
     [Authorize]
-    [HttpDelete("commentId")]
+    [HttpDelete("{commentId}")]
     public async Task<ActionResult<ImsHttpMessage<bool>>> DeleteComment([FromRoute(Name = "commentId")] string commentId)
     {
         var serverRequestTime = DateTime.UtcNow;
