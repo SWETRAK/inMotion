@@ -5,9 +5,8 @@ import AVKit
 
 struct MainWallPost: View {
     @EnvironmentObject private var appState: AppState
-    var post: GetPostResponseDto
+    @State var post: GetPostResponseDto
     
-    @State private var liked: Bool = false
     @State private var authorFrontData: Data?
     
     @State private var frontUrl: URL?
@@ -19,7 +18,7 @@ struct MainWallPost: View {
     var body: some View {
         NavigationLink {
             if let safeFrontUrl = self.frontUrl, let safeBackUrl = self.backUrl {
-                PostDetailsView(post: post, frontVideoURL: safeFrontUrl, backVideoURL: safeBackUrl)
+                PostDetailsView(post: self.$post, frontVideoURL: safeFrontUrl, backVideoURL: safeBackUrl)
                     .environmentObject(appState)
             }
 
@@ -66,12 +65,12 @@ struct MainWallPost: View {
 
                 HStack{
                     HStack{
-                        Image(systemName: liked ? "heart.fill" : "heart") // heart.fill if liked
+                        Image(systemName: self.post.isLikedByUser ? "heart.fill" : "heart") // heart.fill if liked
                             .resizable()
-                            .foregroundColor(liked ? .red : .black) // .red if liked
+                            .foregroundColor(self.post.isLikedByUser ? .red : .black) // .red if liked
                             .frame(width: 20, height: 20)
                             .onTapGesture {
-                                if (self.liked) {
+                                if (self.post.isLikedByUser) {
                                     UnlikePost()
                                 } else {
                                     LikePost()
@@ -93,8 +92,6 @@ struct MainWallPost: View {
 
             }.padding()
                 .onAppear {
-                    GetCommentsCount()
-                    GetLikesCount()
                     GetPostVideo()
                     LoadProfilePicture()
                 }.onDisappear{
@@ -139,18 +136,25 @@ struct MainWallPost: View {
                 }
             } failureGetUserProfileGifUrl: { (error: ImsHttpError) in }
     }
-    
-
-    private func GetCommentsCount() {
-    }
-
-    private func GetLikesCount() {
-    }
 
     private func LikePost() {
+        self.appState.createPostReacionHttpMethod(
+            requestData: CreatePostReactionDto(
+                postId: self.post.id,
+                emoji: "heart")) { (data: PostReactionDto) in
+                    self.post.isLikedByUser = true
+                    self.post.postReaction = data
+                } onFailure: { (error: ImsHttpError) in }
     }
 
     private func UnlikePost() {
+        if let safePostReaction = self.post.postReaction {
+            self.appState.deletePostReactionHttpMethod(
+                postReactionId: safePostReaction.id) { (data: Bool) in
+                    self.post.isLikedByUser = false
+                    self.post.postReaction = nil
+                } onFailure: { (error: ImsHttpError) in }
+        }
     }
 }
 

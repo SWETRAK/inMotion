@@ -20,5 +20,8 @@ struct GetPostResponseDto: Codable {
     public var postCommentsCount: UInt
     public var postReactionsCount: UInt
     
+    public var isLikedByUser: Bool
+    public var postReaction: PostReactionDto?
+    
     public var createdAt: Date
 }

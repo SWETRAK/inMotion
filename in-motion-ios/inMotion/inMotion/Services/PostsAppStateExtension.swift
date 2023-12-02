@@ -432,31 +432,126 @@ extension AppState {
 // MARK: POST REACTION METHODS
 extension AppState {
     
-    func GetPostReactionsHttpMethod (
+    func getPostReactionsHttpMethod (
         postId: UUID,
         onSuccess: @escaping ([PostReactionDto]) -> Void,
         onFailure: @escaping (ImsHttpError) -> Void ) {
-        
             
-        
-    }
-        
-    func CreatePostReacionHttpMethod(
+            var request = URLRequest(url: URL(string: self.httpBaseUrl + "/posts/api/posts/reactions/" + postId.uuidString.lowercased())!, timeoutInterval: Double.infinity)
+            request.addValue("Bearer \(self.token ?? "")", forHTTPHeaderField: "Authorization")
+            
+            request.httpMethod = HTTPMethods.GET.rawValue
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data else {
+                    if let error = error as? NSError {
+                        onFailure(ImsHttpError(status: 500,  errorMessage: error.localizedDescription, errorType: ""))
+                    }
+                    return
+                }
+                if let httpResponse = response as? HTTPURLResponse {
+                    if(httpResponse.statusCode == 200)
+                    {
+                        if let safeImsMessage: ImsHttpMessage<[PostReactionDto]> = JsonUtil.decodeJsonData(data: data) {
+                            if let userInfoDataSafe: [PostReactionDto] = safeImsMessage.data {
+                                onSuccess(userInfoDataSafe);
+                            }
+                        }
+                    } else {
+                        if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
+                            if (httpResponse.statusCode == 500)
+                            {
+                                safeError.status = 500
+                            }
+                            onFailure(safeError);
+                        }
+                    }
+                }
+            }
+            
+            task.resume()
+            
+        }
+    
+    func createPostReacionHttpMethod(
         requestData: CreatePostReactionDto,
         onSuccess: @escaping (PostReactionDto) -> Void,
         onFailure: @escaping (ImsHttpError) -> Void ) {
             
+            let postData = JsonUtil.encodeJsonStringFromObject(requestData)
             
+            var request = URLRequest(url: URL(string: self.httpBaseUrl + "/posts/api/posts/reactions")!,timeoutInterval: Double.infinity)
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue("Bearer \(self.token ?? "")", forHTTPHeaderField: "Authorization")
             
+            request.httpMethod = HTTPMethods.POST.rawValue
+            request.httpBody = postData
             
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data else {
+                    if let error = error as? NSError {
+                        onFailure(ImsHttpError(status: 500,  errorMessage: error.localizedDescription, errorType: ""))
+                    }
+                    return
+                }
+                if let httpResponse = response as? HTTPURLResponse {
+                    if(httpResponse.statusCode == 200)
+                    {
+                        if let safeImsMessage: ImsHttpMessage<PostReactionDto> = JsonUtil.decodeJsonData(data: data) {
+                            if let userInfoDataSafe: PostReactionDto = safeImsMessage.data {
+                                onSuccess(userInfoDataSafe);
+                            }
+                        }
+                    } else {
+                        if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
+                            if (httpResponse.statusCode == 500)
+                            {
+                                safeError.status = 500
+                            }
+                            onFailure(safeError);
+                        }
+                    }
+                }
+            }
+            task.resume()
         }
-
-    func DeletePostReactionHttpMethod (
+    
+    func deletePostReactionHttpMethod (
         postReactionId: UUID,
         onSuccess: @escaping (Bool) -> Void,
         onFailure: @escaping (ImsHttpError) -> Void ) {
             
+            var request = URLRequest(url: URL(string: self.httpBaseUrl + "/posts/api/posts/reactions/\(postReactionId.uuidString.lowercased())")!, timeoutInterval: Double.infinity)
+            request.addValue("Bearer \(self.token ?? "")", forHTTPHeaderField: "Authorization")
             
+            request.httpMethod = HTTPMethods.DELETE.rawValue
             
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard let data = data else {
+                    if let error = error as? NSError {
+                        onFailure(ImsHttpError(status: 500,  errorMessage: error.localizedDescription, errorType: ""))
+                    }
+                    return
+                }
+                if let httpResponse = response as? HTTPURLResponse {
+                    if(httpResponse.statusCode == 200)
+                    {
+                        if let safeImsMessage: ImsHttpMessage<Bool> = JsonUtil.decodeJsonData(data: data) {
+                            if let userInfoDataSafe: Bool = safeImsMessage.data {
+                                onSuccess(userInfoDataSafe);
+                            }
+                        }
+                    } else {
+                        if var safeError: ImsHttpError = JsonUtil.decodeJsonData(data: data) {
+                            if (httpResponse.statusCode == 500)
+                            {
+                                safeError.status = 500
+                            }
+                            onFailure(safeError);
+                        }
+                    }
+                }
+            }
+            task.resume()
         }
 }

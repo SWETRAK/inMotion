@@ -11,7 +11,7 @@ import AVKit
 
 struct PostDetailsView: View {
     
-    var post: GetPostResponseDto
+    @Binding var post: GetPostResponseDto
     
     var frontVideoURL: URL
     var backVideoURL: URL
@@ -21,7 +21,6 @@ struct PostDetailsView: View {
     
     @State private var comments: [PostCommentDto] = []
     @State private var newComment: String = ""
-    @State private var liked: Bool = false
     
     @State private var avPlayerBig: AVPlayer? = nil
     @State private var avPlayerSmall: AVPlayer? = nil
@@ -72,17 +71,16 @@ struct PostDetailsView: View {
                         
                         HStack{
                             HStack{
-                                Image(systemName: liked ? "heart.fill" : "heart") // heart.fill if liked
+                                Image(systemName: self.post.isLikedByUser ? "heart.fill" : "heart") // heart.fill if liked
                                     .resizable()
-                                    .foregroundColor(liked ? .red : .black) // .red if liked
+                                    .foregroundColor( self.post.isLikedByUser ? .red : .black) // .red if liked
                                     .frame(width: 20, height: 20)
                                     .onTapGesture {
-                                        if (self.liked) {
+                                        if (self.post.isLikedByUser) {
                                             UnlikePost()
                                         } else {
                                             LikePost()
                                         }
-                                        GetLikesCount()
                                     }
                                 Text(String(self.post.postReactionsCount))
                             }
@@ -130,7 +128,6 @@ struct PostDetailsView: View {
         .padding()
         .navigationBarTitle(post.author.nickname, displayMode: .inline)
         .onAppear{
-            GetLikesCount()
             LoadComments()
             LoadProfilePicture()
             PreparePlayer()
@@ -171,14 +168,25 @@ struct PostDetailsView: View {
             }
         } onFailure: { ( error: ImsHttpError) in }
     }
-    
-    private func GetLikesCount() {
-    }
-    
+
     private func LikePost() {
+        self.appState.createPostReacionHttpMethod(
+            requestData: CreatePostReactionDto(
+                postId: self.post.id,
+                emoji: "heart")) { (data: PostReactionDto) in
+                    self.post.isLikedByUser = true
+                    self.post.postReaction = data
+                } onFailure: { (error: ImsHttpError) in }
     }
     
     private func UnlikePost() {
+        if let safePostReaction = self.post.postReaction {
+            self.appState.deletePostReactionHttpMethod(
+                postReactionId: safePostReaction.id) { (data: Bool) in
+                    self.post.isLikedByUser = false
+                    self.post.postReaction = nil
+                } onFailure: { (error: ImsHttpError) in }
+        }
     }
     
     private func AddComment() {
