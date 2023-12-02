@@ -17,7 +17,6 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace IMS.Post.BLL.Services;
 
-// TODO: Test this logic
 public class PostService : IPostService
 {
     private readonly IPostRepository _postRepository;
@@ -46,8 +45,10 @@ public class PostService : IPostService
     }
 
     public async Task<ImsPagination<IList<GetPostResponseDto>>> GetPublicPostsFromCurrentIteration(
+        string userIdString,
         ImsPaginationRequestDto paginationRequestDto)
     {
+        var userId = userIdString.ParseGuid(); 
         var postIteration = await _postIterationRepository.GetNewest();
         
         if (postIteration is null)
@@ -76,9 +77,13 @@ public class PostService : IPostService
             {
                 dest.ForEach(s =>
                 {
-                    var originalData = src.First(c => c.Id.Equals(Guid.Parse(s.Id)));
+                    var originalData = src.First<Domain.Entities.Post.Post>(c => c.Id.Equals(Guid.Parse(s.Id)));
                     var author = authors.FirstOrDefault(a => a.Id.Equals(originalData.ExternalAuthorId));
                     if (author is not null) s.Author = _mapper.Map<PostAuthorDto>(author);
+                    var reaction = originalData.PostReactions.FirstOrDefault(x => x.ExternalAuthorId.Equals(userId));
+                    if (reaction is null) return;
+                    s.PostReaction = _mapper.Map<PostReactionWithoutAuthorDto>(reaction);
+                    s.IsLikedByUser = true;
                 });
             })
         );
@@ -90,7 +95,7 @@ public class PostService : IPostService
     public async Task<IList<GetPostResponseDto>> GetFriendsPublicPostsFromCurrentIteration(
         string userId)
     {
-        userId.ParseGuid();
+        var userIdGuid = userId.ParseGuid();
         
         var postIteration = await _postIterationRepository.GetNewest();
         
@@ -138,6 +143,10 @@ public class PostService : IPostService
                     var originalData = src.First(c => c.Id.Equals(Guid.Parse(s.Id)));
                     var author = authors.FirstOrDefault(a => a.Id.Equals(originalData.ExternalAuthorId));
                     if (author is not null) s.Author = _mapper.Map<PostAuthorDto>(author);
+                    var reaction = originalData.PostReactions.FirstOrDefault(x => x.ExternalAuthorId.Equals(userIdGuid));
+                    if (reaction is null) return;
+                    s.PostReaction = _mapper.Map<PostReactionWithoutAuthorDto>(reaction);
+                    s.IsLikedByUser = true;
                 });
             })
         );
@@ -152,6 +161,11 @@ public class PostService : IPostService
         
         if (postIteration is null)
             throw new PostIterationNotFoundException();
+
+        var existingPost = await _postRepository.GetByExternalAuthorIdAsync(postIteration.Id, userIdGuid);
+
+        if (existingPost is not null)
+            throw new PostAlreadyUploadedInCurrentIterationException();
         
         var tags = await CalculateTags(userIdGuid, createPostRequestDto.Description);
 
@@ -192,6 +206,10 @@ public class PostService : IPostService
             f => f.AfterMap((src, dest) =>
             {
                 if (author is not null) dest.Author = _mapper.Map<PostAuthorDto>(author);
+                var reaction = src.PostReactions.FirstOrDefault(x => x.ExternalAuthorId.Equals(userIdGuid));
+                if (reaction is null) return;
+                dest.PostReaction = _mapper.Map<PostReactionWithoutAuthorDto>(reaction);
+                dest.IsLikedByUser = true;
             })
         );
     }

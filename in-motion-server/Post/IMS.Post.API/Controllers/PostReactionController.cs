@@ -22,7 +22,7 @@ public class PostReactionController: ControllerBase
     [Authorize]
     [HttpGet("{postId}")]
     public async Task<ActionResult<ImsHttpMessage<IEnumerable<PostReactionDto>>>> GetPostReactionsAsync(
-        [FromRoute(Name = "")] string postId)
+        [FromRoute(Name = "postId")] string postId)
     {
         var serverRequestTime = DateTime.UtcNow;
         var response =

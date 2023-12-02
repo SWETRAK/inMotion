@@ -7,6 +7,7 @@ namespace IMS.Post.IBLL.Services;
 public interface IPostService
 {
     Task<ImsPagination<IList<GetPostResponseDto>>> GetPublicPostsFromCurrentIteration(
+        string userIdString,
         ImsPaginationRequestDto paginationRequestDto);
     
     Task<IList<GetPostResponseDto>> GetFriendsPublicPostsFromCurrentIteration(

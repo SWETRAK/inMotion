@@ -41,6 +41,13 @@ public class ExceptionHandlerMiddleware : IMiddleware
             await SendErrorResponse(context, StatusCodes.Status404NotFound, "Post comment not found",
                 exception.GetType().ToString());
         }
+        catch (PostAlreadyUploadedInCurrentIterationException exception)
+        {
+            _logger.LogWarning(exception, "Post already uploaded in current iteration, {ExceptionName}, {Message}",
+                exception.GetType().ToString(), exception.Message);
+            await SendErrorResponse(context, StatusCodes.Status400BadRequest, "Post comment not found",
+                exception.GetType().ToString());
+        }
         catch (PostCommentReactionNotFoundException exception)
         {
             _logger.LogError(exception, "Post comment reaction not found, {ExceptionName}, {Message}",

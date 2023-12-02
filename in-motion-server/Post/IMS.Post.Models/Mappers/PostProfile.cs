@@ -11,6 +11,8 @@ public class PostProfile: Profile
     {
         CreateMap<PostEntity, GetPostResponseDto>()
             .ForMember(x => x.Author, opt => opt.Ignore())
+            .ForMember(x => x.PostReaction, opt => opt.Ignore())
+            .ForMember(x => x.IsLikedByUser, opt => opt.MapFrom(x => false))
             .ForMember(x => x.Id, opt => opt.MapFrom(p => p.Id.ToString()))
             .ForMember(x => x.Description, opt => opt.MapFrom(p => p.Description))
             .ForMember(x => x.Title, opt => opt.MapFrom(p => p.Title))
