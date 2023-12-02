@@ -53,6 +53,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     private ResponseEntity<ErrorResponse> handleMp4ToGIFConverterExceptions(RuntimeException e) {
         ErrorResponse error = new ErrorResponse(e.getMessage());
         log.error(error.message());
+        e.printStackTrace();
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }

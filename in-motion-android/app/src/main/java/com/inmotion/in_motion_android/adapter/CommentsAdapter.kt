@@ -3,7 +3,7 @@ package com.inmotion.in_motion_android.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.inmotion.in_motion_android.data.CommentDto
+import com.inmotion.in_motion_android.data.remote.CommentDto
 import com.inmotion.in_motion_android.databinding.CommentRecyclerViewItemBinding
 
 class CommentsAdapter(private val commentList: List<CommentDto>) :

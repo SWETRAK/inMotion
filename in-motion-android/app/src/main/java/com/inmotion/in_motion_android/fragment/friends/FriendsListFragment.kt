@@ -6,23 +6,29 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.inmotion.in_motion_android.adapter.FriendsAdapter
-import com.inmotion.in_motion_android.data.FriendDto
 import com.inmotion.in_motion_android.databinding.FragmentFriendsListBinding
+import com.inmotion.in_motion_android.state.FriendsViewModel
+import com.inmotion.in_motion_android.state.UserViewModel
 
-class FriendsListFragment(private var friends: List<FriendDto>) : Fragment() {
+class FriendsListFragment(
+    private val friendsViewModel: FriendsViewModel,
+    private val userViewModel: UserViewModel
+) : Fragment() {
 
     private lateinit var binding: FragmentFriendsListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentFriendsListBinding.inflate(layoutInflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.rvFriends.adapter = FriendsAdapter(friends)
+        friendsViewModel.acceptedFriends.observe(viewLifecycleOwner) {
+            binding.rvFriends.adapter = FriendsAdapter(it, friendsViewModel, userViewModel)
+        }
     }
 }

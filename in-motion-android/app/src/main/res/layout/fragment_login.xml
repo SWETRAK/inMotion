@@ -81,24 +81,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnLoginWithEmail" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivLoginWithFacebook"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/ic_fb"
-        app:layout_constraintEnd_toStartOf="@id/ivLoginWithGoogle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivLoginWithGoogle"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/btnLoginWithGoogle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:src="@drawable/ic_google"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ivLoginWithFacebook"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/divider" />
 
     <androidx.appcompat.widget.AppCompatTextView
