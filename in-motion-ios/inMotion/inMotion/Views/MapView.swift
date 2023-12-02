@@ -26,7 +26,7 @@ struct MapView: View {
                 self.isPresented = false
             }
         }.onAppear{
-            CreateRegion()
+            self.CreateRegion()
         }
     }
     

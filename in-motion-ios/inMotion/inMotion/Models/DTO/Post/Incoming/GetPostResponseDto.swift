@@ -15,11 +15,13 @@ struct GetPostResponseDto: Codable {
     
     public var author: PostAuthorDto
     public var tags: [PostTagDto]
-    public var localization: PostLocalizationDto
     
     public var videos: [PostVideoDto]
     public var postCommentsCount: UInt
-    public var PostReactionsCount: UInt
+    public var postReactionsCount: UInt
     
-    public var CreateAt: Date
+    public var isLikedByUser: Bool
+    public var postReaction: PostReactionWithoutAuthorDto?
+    
+    public var createdAt: Date
 }

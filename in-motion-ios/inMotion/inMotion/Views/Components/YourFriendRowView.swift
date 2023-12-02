@@ -7,21 +7,51 @@
 
 import SwiftUI
 import CoreData
+import SDWebImageSwiftUI
 
 struct YourFriendRowView: View {
-    var friendship: FriendInfoDto
-
+    @EnvironmentObject public var appState: AppState
+    @State private var data: Data? = nil
+    
+    public var friendInfo: FriendInfoDto
+    
     var body: some View {
         HStack{
-             // TODO: Change this to video in the future
-            Image("avatar-placeholder").resizable().frame(width:50, height:50)
+            if let safeData = self.data {
+                
+                AnimatedImage(data: safeData)
+                    .resizable()
+                    .frame(width: 50, height: 50, alignment: .center)
+                
+            } else {
+                Image("avatar-placeholder")
+                    .resizable()
+                    .frame(width: 50, height: 50, alignment: .center)
+                
+            }
             VStack(alignment: .leading){
-                Text(friendship.nickname).fontWeight(Font.Weight.bold).frame(maxWidth: .infinity, alignment: .leading)
+                Text(self.friendInfo.nickname)
+                    .fontWeight(Font.Weight.bold)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+            
             Spacer()
         }
         .frame(alignment: .leading)
+        .onAppear{
+            self.LoadProfilePicture()
+        }
+    }
+    
+    private func LoadProfilePicture() {
+        self.appState.getUserGifHttpRequest(
+            userId: self.friendInfo.id ) { (data: Data) in
+                DispatchQueue.main.async {
+                    self.data = data
+                }
+            } failureGetUserProfileGifUrl: { (error: ImsHttpError) in }
+        
     }
 }
 

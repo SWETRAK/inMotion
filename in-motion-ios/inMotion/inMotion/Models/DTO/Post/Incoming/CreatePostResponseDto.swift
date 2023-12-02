@@ -13,5 +13,4 @@ struct CreatePostResponseDto : Codable {
     public var description: String
     
     public var tags: [PostTagDto]
-    public var localization: PostLocalizationDto
 }

@@ -9,9 +9,8 @@ import SwiftUI
 import CoreData
 
 struct FriendsView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-    @EnvironmentObject private var appState: AppState
     
+    @EnvironmentObject public var appState: AppState
     @State private var selected: String = "friends"
     
     // TODO: Add user page
@@ -24,15 +23,16 @@ struct FriendsView: View {
                 }.pickerStyle(.segmented)
             }.padding(.horizontal)
             if(selected == "friends") {
-                List(appState.acceptedFriendships, id: \.id){
+                List(self.appState.acceptedFriendships, id: \.id){
                     acceptedFriendship in
                     NavigationLink {
-                        OtherUserDetailsView(user: acceptedFriendship.ParseToFullUserInfoDto()).environmentObject(appState)
+                        OtherUserDetailsView(user: acceptedFriendship.ParseToFullUserInfoDto()).environmentObject(self.appState)
                     } label: {
-                        YourFriendRowView(friendship: acceptedFriendship.externalUser)
+                        YourFriendRowView(friendInfo: acceptedFriendship.externalUser)
+                            .environmentObject(self.appState)
                             .swipeActions {
                                 Button(role: .destructive) {
-                                    UnfriendFriendshipRequest(acceptedFriendship: acceptedFriendship)
+                                    self.UnfriendFriendshipRequest(acceptedFriendship: acceptedFriendship)
                                 } label: {
                                     Image(systemName: "person.fill.xmark.rtl")
                                 }
@@ -41,20 +41,21 @@ struct FriendsView: View {
                     }
                 }
             } else {
-                List(appState.requestedFriendships, id:\.id) { requestedFriendship in
+                List(self.appState.requestedFriendships, id:\.id) { requestedFriendship in
                     NavigationLink {
-                        OtherUserDetailsView(user: requestedFriendship.ParseToFullUserInfoDto()).environmentObject(appState)
+                        OtherUserDetailsView(user: requestedFriendship.ParseToFullUserInfoDto()).environmentObject(self.appState)
                     } label: {
-                        YourFriendRowView(friendship: requestedFriendship.externalUser)
+                        YourFriendRowView(friendInfo: requestedFriendship.externalUser)
+                            .environmentObject(self.appState)
                             .swipeActions {
                                 Button {
-                                    AcceptFriendshipRequest(requestedFriendship: requestedFriendship)
+                                    self.AcceptFriendshipRequest(requestedFriendship: requestedFriendship)
                                 } label: {
                                     Image(systemName: "person.fill.checkmark.rtl")
                                 }.tint(.green)
                                 
                                 Button(role: .destructive) {
-                                    RejectFriendshipRequest(requestedFriendship: requestedFriendship)
+                                    self.RejectFriendshipRequest(requestedFriendship: requestedFriendship)
                                 } label: {
                                     Image(systemName: "person.fill.xmark.rtl")
                                 }
@@ -78,21 +79,21 @@ struct FriendsView: View {
     }
         
     private func AcceptFriendshipRequest(requestedFriendship: RequestFriendshipDto) {
-        appState.acceptFriendshipHttpRequest(
+        self.appState.acceptFriendshipHttpRequest(
             friendshipId: requestedFriendship.id,
             successAcceptUserAction: {(data: AcceptedFriendshipDto) in },
             failureAcceptUserAction: {(error: ImsHttpError) in })
     }
     
     private func RejectFriendshipRequest(requestedFriendship: RequestFriendshipDto) {
-        appState.rejectFriendshipHttpRequest(
+        self.appState.rejectFriendshipHttpRequest(
             friendshipId: requestedFriendship.id,
             successRejectFriendshipAction: {(data: RejectedFriendshipDto) in },
             failureRejectFriendshipAction: {(error: ImsHttpError) in })
     }
     
     private func UnfriendFriendshipRequest(acceptedFriendship: AcceptedFriendshipDto) {
-        appState.unfiendsFriendshipHttpRequest(
+        self.appState.unfiendsFriendshipHttpRequest(
             friendshipId: acceptedFriendship.id,
             successUnfriendFriendshipAction: {(data: RejectedFriendshipDto) in },
             failureUnfriendFriendshipAction: {(error: ImsHttpError) in })

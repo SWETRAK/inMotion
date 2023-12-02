@@ -31,7 +31,6 @@ extension AppState {
                 if(httpResponse.statusCode == 200)
                 {
                     if let safeImsMessage: ImsHttpMessage<UserInfoDto> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status)
                         if let userInfoDataSafe: UserInfoDto = safeImsMessage.data {
                             DispatchQueue.main.async {
                                 self.user = userInfoDataSafe
@@ -132,7 +131,6 @@ extension AppState {
                 if(httpResponse.statusCode == 200)
                 {
                     if let safeImsMessage: ImsHttpMessage<Bool> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status)
                         if let userInfoDataSafe: Bool = safeImsMessage.data {
                             successPasswordChangeAction(userInfoDataSafe);
                         }
@@ -174,7 +172,6 @@ extension AppState {
                 if(httpResponse.statusCode == 200)
                 {
                     if let safeImsMessage: ImsHttpMessage<Bool> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status)
                         if let userInfoDataSafe: Bool = safeImsMessage.data {
                             if var user = self.user {
                                 user.providers.append("Password")
@@ -219,7 +216,6 @@ extension AppState {
                 if(httpResponse.statusCode == 200)
                 {
                     if let safeImsMessage: ImsHttpMessage<UserInfoDto> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status) // 204 is ok
                         if let userInfoDataSafe: UserInfoDto = safeImsMessage.data {
                             DispatchQueue.main.async {
                                 self.user = userInfoDataSafe
@@ -278,7 +274,6 @@ extension AppState {
                 if(httpResponse.statusCode == 200)
                 {
                     if let safeImsMessage: ImsHttpMessage<UserInfoDto> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status) // 204 is ok
                         if let userInfoDataSafe: UserInfoDto = safeImsMessage.data {
                             DispatchQueue.main.async {
                                 self.user = userInfoDataSafe
@@ -315,7 +310,9 @@ extension AppState {
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
-                print(String(describing: error))
+                if let error = error as? NSError {
+                    failureNicknameUpdateAction(ImsHttpError(status: 500,  errorMessage: error.localizedDescription, errorType: ""))
+                }
                 return
             }
 
@@ -323,7 +320,6 @@ extension AppState {
                 if(httpResponse.statusCode == 200)
                 {
                     if let safeImsMessage: ImsHttpMessage<UserInfoDto> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status) // 204 is ok
                         if let userInfoDataSafe: UserInfoDto = safeImsMessage.data {
                             DispatchQueue.main.async {
                                 self.user = userInfoDataSafe
@@ -375,7 +371,6 @@ extension AppState {
                 if(httpResponse.statusCode == 200)
                 {
                     if let safeImsMessage: ImsHttpMessage<UserInfoDto> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status)
                         if let userInfoDataSafe: UserInfoDto = safeImsMessage.data {
                             DispatchQueue.main.async {
                                 self.user = userInfoDataSafe
@@ -422,7 +417,6 @@ extension AppState {
                 if(httpResponse.statusCode == 200)
                 {
                     if let safeImsMessage: ImsHttpMessage<Bool> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status)
                         if let userInfoDataSafe: Bool = safeImsMessage.data {
                             successAddFacebookProvider(userInfoDataSafe);
                         }
@@ -467,7 +461,6 @@ extension AppState {
                 if(httpResponse.statusCode == 200)
                 {
                     if let safeImsMessage: ImsHttpMessage<UserInfoDto> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status)
                         if let userInfoDataSafe: UserInfoDto = safeImsMessage.data {
                             DispatchQueue.main.async {
                                 self.user = userInfoDataSafe
@@ -522,7 +515,6 @@ extension AppState {
                 if(httpResponse.statusCode == 200)
                 {
                     if let safeImsMessage: ImsHttpMessage<Bool> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status)
                         if let userInfoDataSafe: Bool = safeImsMessage.data {
                             successAddGoogleProvider(userInfoDataSafe);
                         }
