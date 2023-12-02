@@ -20,7 +20,8 @@
             android:layout_gravity="end|center_vertical"
             android:scaleType="fitXY"
             android:src="@drawable/avatar"
-            app:shapeAppearance="@style/ShapeAppearanceOverlay.Avatar" />
+            app:shapeAppearance="@style/ShapeAppearanceOverlay.Avatar"
+            app:strokeColor="@null" />
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView

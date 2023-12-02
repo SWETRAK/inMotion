@@ -4,16 +4,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.inmotion.in_motion_android.data.FriendDto
-import com.inmotion.in_motion_android.data.FriendRequestDto
 import com.inmotion.in_motion_android.fragment.friends.FriendRequestsListFragment
 import com.inmotion.in_motion_android.fragment.friends.FriendsListFragment
+import com.inmotion.in_motion_android.state.FriendsViewModel
+import com.inmotion.in_motion_android.state.UserViewModel
 
 class FriendsManagementViewPageAdapter(
     fragmentManager: FragmentManager,
     lifecycle: Lifecycle,
-    private val friends: List<FriendDto>,
-    private val requests: List<FriendRequestDto>
+    private val friendsViewModel: FriendsViewModel,
+    private val userViewModel: UserViewModel
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
 
@@ -23,9 +23,9 @@ class FriendsManagementViewPageAdapter(
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> FriendsListFragment(friends)
-            1 -> FriendRequestsListFragment(requests)
-            else -> FriendsListFragment(friends)
+            0 -> FriendsListFragment(friendsViewModel, userViewModel)
+            1 -> FriendRequestsListFragment(friendsViewModel, userViewModel)
+            else -> FriendsListFragment(friendsViewModel, userViewModel)
         }
     }
 }

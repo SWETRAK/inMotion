@@ -63,12 +63,26 @@
         android:label="PostDetailsFragment" />
     <fragment
         android:id="@+id/userDetailsFragment"
-        android:name="com.inmotion.in_motion_android.fragment.UserDetailsFragment"
+        android:name="com.inmotion.in_motion_android.fragment.user.UserDetailsFragment"
         android:label="fragment_user_details"
         tools:layout="@layout/fragment_user_details" >
         <action
             android:id="@+id/action_userDetailsFragment_to_friendsManagementFragment"
             app:destination="@id/friendsManagementFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_userDetailsFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_userDetailsFragment_to_editUserDetailsFragment"
+            app:destination="@id/editUserDetailsFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -79,4 +93,9 @@
         android:name="com.inmotion.in_motion_android.fragment.friends.FriendsManagementFragment"
         android:label="fragment_friends_management"
         tools:layout="@layout/fragment_friends_management" />
+    <fragment
+        android:id="@+id/editUserDetailsFragment"
+        android:name="com.inmotion.in_motion_android.fragment.user.EditUserDetailsFragment"
+        android:label="fragment_edit_user_details"
+        tools:layout="@layout/fragment_edit_user_details" />
 </navigation>

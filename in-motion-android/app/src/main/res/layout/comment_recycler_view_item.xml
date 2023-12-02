@@ -16,7 +16,8 @@
         android:src="@drawable/avatar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearance="@style/ShapeAppearanceOverlay.Avatar" />
+        app:shapeAppearance="@style/ShapeAppearanceOverlay.Avatar"
+        app:strokeColor="@null" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvUsername"
