@@ -1,5 +1,6 @@
 package com.inmotion.in_motion_android.adapter
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +13,10 @@ import com.inmotion.in_motion_android.state.UserViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import pl.droidsonroids.gif.GifDrawable
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -19,7 +24,8 @@ import java.time.format.DateTimeFormatter
 class FriendsAdapter(
     private val friendsList: List<AcceptedFriend>,
     private val friendsViewModel: FriendsViewModel,
-    private val userViewModel: UserViewModel
+    private val userViewModel: UserViewModel,
+    private val activity: Activity
 ) :
     RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder>() {
 
@@ -44,6 +50,26 @@ class FriendsAdapter(
                         friend.friendshipId
                     )
                     friendsViewModel.onEvent(FriendEvent.FetchAcceptedFriends(userViewModel.user.value?.token.toString()))
+                }
+            }
+
+            runBlocking(Dispatchers.IO) {
+                val client = OkHttpClient()
+                val request = Request.Builder()
+                    .url("https://grand-endless-hippo.ngrok-free.app/media/api/profile/video/gif/${friend.id}")
+                    .addHeader("authentication", "token")
+                    .addHeader("Authorization", "Bearer ${userViewModel.user.value?.token}")
+                    .build()
+                val response = client.newCall(request).execute()
+
+                if (response.code() < 400) {
+                    val imageData = response.body()?.bytes().let {
+                        activity.runOnUiThread {
+                            itemBinding.ivAvatar.setImageDrawable(GifDrawable(it!!))
+                            itemBinding.ivAvatar.rotation = 90F
+                        }
+                    }
+
                 }
             }
         }

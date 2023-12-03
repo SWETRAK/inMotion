@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:padding="8dp">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <pl.droidsonroids.gif.GifImageView
         android:id="@+id/ivAvatar"
         android:layout_width="64dp"
         android:layout_height="64dp"

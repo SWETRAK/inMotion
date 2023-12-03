@@ -1,5 +1,6 @@
 package com.inmotion.in_motion_android.adapter
 
+import android.app.Activity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -15,6 +16,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import pl.droidsonroids.gif.GifDrawable
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -22,7 +26,8 @@ import java.time.format.DateTimeFormatter
 class FriendRequestsAdapter(
     private val requestsList: ArrayList<RequestedFriend>,
     private val friendsViewModel: FriendsViewModel,
-    private val userViewModel: UserViewModel
+    private val userViewModel: UserViewModel,
+    private val activity: Activity
 ) :
     RecyclerView.Adapter<FriendRequestsAdapter.FriendRequestsViewHolder>() {
 
@@ -46,15 +51,18 @@ class FriendRequestsAdapter(
                         "Bearer ${userViewModel.user.value?.token}",
                         request.friendshipId
                     )
-                    if(response.code() < 400) {
+                    if (response.code() < 400) {
                         Log.i("FRIEND REQUESTS", "ACCEPTED ${request.nickname}")
                         friendsViewModel.onEvent(FriendEvent.FetchRequestedFriends(userViewModel.user.value?.token.toString()))
-                        MainScope().launch{
+                        MainScope().launch {
                             notifyDataSetChanged()
                         }
 
                     } else {
-                        Log.i("FRIEND REQUESTS", "FAILED TO ACCEPT ${request.nickname}, code ${response.code()}")
+                        Log.i(
+                            "FRIEND REQUESTS",
+                            "FAILED TO ACCEPT ${request.nickname}, code ${response.code()}"
+                        )
                     }
 
                 }
@@ -67,8 +75,27 @@ class FriendRequestsAdapter(
                         request.friendshipId
                     )
                     friendsViewModel.onEvent(FriendEvent.FetchRequestedFriends(userViewModel.user.value?.token.toString()))
-                    MainScope().launch{
+                    MainScope().launch {
                         notifyDataSetChanged()
+                    }
+                }
+            }
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val client = OkHttpClient()
+                val request = Request.Builder()
+                    .url("https://grand-endless-hippo.ngrok-free.app/media/api/profile/video/gif/${request.id}")
+                    .addHeader("authentication", "token")
+                    .addHeader("Authorization", "Bearer ${userViewModel.user.value?.token}")
+                    .build()
+                val response = client.newCall(request).execute()
+
+                if (response.code() < 400) {
+                    response.body()?.bytes().let {
+                        activity.runOnUiThread {
+                            itemBinding.ivAvatar.setImageDrawable(GifDrawable(it!!))
+                            itemBinding.ivAvatar.rotation = 90F
+                        }
                     }
                 }
             }

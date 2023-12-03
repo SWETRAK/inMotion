@@ -1,5 +1,6 @@
 package com.inmotion.in_motion_android.adapter
 
+import android.app.Activity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,12 +16,16 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import pl.droidsonroids.gif.GifDrawable
 
 class FoundUsersAdapter(
     private val usersList: List<FullUserInfoDto>,
     private val imsFriendsApi: ImsFriendsApi,
     private val userViewModel: UserViewModel,
-    private val friendsViewModel: FriendsViewModel
+    private val friendsViewModel: FriendsViewModel,
+    private val activity: Activity
 ) :
     RecyclerView.Adapter<FoundUsersAdapter.FoundUsersViewHolder>() {
     inner class FoundUsersViewHolder(private val itemBinding: FoundUserRecyclerViewItemBinding) :
@@ -41,6 +46,26 @@ class FoundUsersAdapter(
                             itemBinding.btnAddAsFriend.visibility = View.GONE
                         }
                     }
+                }
+            }
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val client = OkHttpClient()
+                val request = Request.Builder()
+                    .url("https://grand-endless-hippo.ngrok-free.app/media/api/profile/video/gif/${user.id}")
+                    .addHeader("authentication", "token")
+                    .addHeader("Authorization", "Bearer ${userViewModel.user.value?.token}")
+                    .build()
+                val response = client.newCall(request).execute()
+
+                if (response.code() < 400) {
+                    val imageData = response.body()?.bytes().let {
+                        activity.runOnUiThread {
+                            itemBinding.ivAvatar.setImageDrawable(GifDrawable(it!!))
+                            itemBinding.ivAvatar.rotation = 90F
+                        }
+                    }
+
                 }
             }
         }

@@ -1,12 +1,9 @@
 package com.inmotion.in_motion_android.fragment.user
 
 import android.app.ProgressDialog
-import android.content.ContentResolver
 import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -15,16 +12,14 @@ import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.Surface.ROTATION_90
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.AspectRatio
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
-import androidx.camera.core.resolutionselector.AspectRatioStrategy
-import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.video.MediaStoreOutputOptions
 import androidx.camera.video.Quality
@@ -42,7 +37,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.inmotion.in_motion_android.InMotionApp
 import com.inmotion.in_motion_android.R
-import com.inmotion.in_motion_android.data.remote.ApiConstants
 import com.inmotion.in_motion_android.data.remote.ApiUtils
 import com.inmotion.in_motion_android.databinding.FragmentAddProfileVideoBinding
 import com.inmotion.in_motion_android.state.UserViewModel
@@ -53,8 +47,6 @@ import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -209,8 +201,6 @@ class AddProfileVideoFragment : Fragment() {
 
                     is VideoRecordEvent.Finalize -> {
                         if (it.hasError()) {
-                            Log.i("TUUUUUUUUUU",it.error.toString())
-                            Log.i("TUUUUUUUUUU",it.cause.toString())
                             if(arrayOf(9, 10).contains(it.error)) {
                                 Toast.makeText(
                                     activity,
@@ -218,52 +208,7 @@ class AddProfileVideoFragment : Fragment() {
                                     Toast.LENGTH_SHORT
                                 ).show()
 
-                                try {
-                                    val file = File("/storage/emulated/0/videos/CameraX-Recorder/" + name + ".mp4")
-                                    val loadingDialog = ProgressDialog.show(activity, "", "Loading...", true)
-                                    activity?.runOnUiThread{
-                                        loadingDialog.show()
-                                    }
-                                    lifecycleScope.launch(Dispatchers.IO){
-
-                                        val client = OkHttpClient.Builder()
-                                            .connectTimeout(10000, TimeUnit.SECONDS)
-                                            .writeTimeout(10000, TimeUnit.SECONDS)
-                                            .readTimeout(10000, TimeUnit.SECONDS)
-                                            .build()
-                                        val mediaType = MediaType.parse("text/plain")
-                                        val body = MultipartBody.Builder().setType(MultipartBody.FORM)
-                                            .addFormDataPart("mp4File","$name.mp4",
-                                                RequestBody.create(MediaType.parse("application/octet-stream"), file))
-                                            .build()
-                                        val request = Request.Builder()
-                                            .url("https://grand-endless-hippo.ngrok-free.app/media/api/profile/video")
-                                            .post(body)
-                                            .addHeader("authentication", "token")
-                                            .addHeader("Authorization", "Bearer ${userViewModel.user.value?.token}")
-                                            .build()
-                                        val response = client.newCall(request).execute()
-
-                                        if(response.code() < 400) {
-                                            activity?.runOnUiThread{
-                                                Toast.makeText(requireContext(), "SUCCESSFULLY UPLOADED!", Toast.LENGTH_SHORT).show()
-                                            }
-                                        } else {
-                                            activity?.runOnUiThread{
-                                            Toast.makeText(requireContext(), "SUCCESSFULLY UPLOADED!", Toast.LENGTH_SHORT).show()
-                                            }
-                                        }
-
-                                        activity?.runOnUiThread {
-                                            loadingDialog.cancel()
-                                            findNavController().navigate(R.id.action_addProfileVideoFragment_to_editUserDetailsFragment)
-                                        }
-                                    }
-
-
-                                } catch (e: Exception) {
-                                    Toast.makeText(activity, "Ale jaja", Toast.LENGTH_SHORT).show()
-                                }
+                                uploadProfileVideo(name)
 
                             }
                             else {
@@ -284,19 +229,64 @@ class AddProfileVideoFragment : Fragment() {
             }
     }
 
-    fun getVideoPathFromURI(context: Context, contentUri: Uri?): String? {
-        var cursor: Cursor? = null
-        return try {
-            val proj = arrayOf(MediaStore.Video.Media.DATA)
-            cursor = context.contentResolver.query(contentUri!!, proj, null, null, null)
-            val column_index = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-            cursor.moveToFirst()
-            cursor.getString(column_index)
-        } finally {
-            cursor?.close()
+    private fun uploadProfileVideo(name: String?) {
+        try {
+            val file = File("/storage/emulated/0/videos/CameraX-Recorder/" + name + ".mp4")
+            val loadingDialog = ProgressDialog.show(activity, "", "Loading...", true)
+            activity?.runOnUiThread {
+                loadingDialog.show()
+            }
+            lifecycleScope.launch(Dispatchers.IO) {
+
+                val client = OkHttpClient.Builder()
+                    .connectTimeout(10000, TimeUnit.SECONDS)
+                    .writeTimeout(10000, TimeUnit.SECONDS)
+                    .readTimeout(10000, TimeUnit.SECONDS)
+                    .build()
+                val body = MultipartBody.Builder().setType(MultipartBody.FORM)
+                    .addFormDataPart(
+                        "mp4File", "$name.mp4",
+                        RequestBody.create(MediaType.parse("application/octet-stream"), file)
+                    )
+                    .build()
+                val request = Request.Builder()
+                    .url("https://grand-endless-hippo.ngrok-free.app/media/api/profile/video")
+                    .post(body)
+                    .addHeader("authentication", "token")
+                    .addHeader("Authorization", "Bearer ${userViewModel.user.value?.token}")
+                    .build()
+                val response = client.newCall(request).execute()
+
+                if (response.code() < 400) {
+                    activity?.runOnUiThread {
+                        Toast.makeText(
+                            requireContext(),
+                            "SUCCESSFULLY UPLOADED!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        file.delete()
+                    }
+                } else {
+                    activity?.runOnUiThread {
+                        Toast.makeText(
+                            requireContext(),
+                            "SUCCESSFULLY UPLOADED!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                activity?.runOnUiThread {
+                    loadingDialog.cancel()
+                    findNavController().navigate(R.id.action_addProfileVideoFragment_to_editUserDetailsFragment)
+                }
+            }
+
+
+        } catch (e: Exception) {
+            Toast.makeText(activity, "Ale jaja", Toast.LENGTH_SHORT).show()
         }
     }
-
 
     private fun startCamera() {
         val cameraProviderFeature = ProcessCameraProvider.getInstance(requireActivity())
@@ -305,13 +295,7 @@ class AddProfileVideoFragment : Fragment() {
                 val cameraProvider: ProcessCameraProvider = cameraProviderFeature.get()
 
                 val preview = Preview.Builder()
-//                    .setTargetFrameRate(Range(20, 30))
-                    .setResolutionSelector(
-                        ResolutionSelector.Builder().setAspectRatioStrategy(
-                            AspectRatioStrategy.RATIO_16_9_FALLBACK_AUTO_STRATEGY
-                        ).build()
-                    )
-                    .setTargetRotation(ROTATION_90)
+                    .setTargetAspectRatio(AspectRatio.RATIO_16_9)
                     .build()
                     .also { mPreview ->
                         mPreview.setSurfaceProvider(binding.viewFinder.surfaceProvider)
@@ -350,10 +334,8 @@ class AddProfileVideoFragment : Fragment() {
 
     private fun checkStoragePermissions(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            //Android is 11 (R) or above
             Environment.isExternalStorageManager()
         } else {
-            //Below android 11
             val write = ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
             val read = ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE)
             read == PackageManager.PERMISSION_GRANTED && write == PackageManager.PERMISSION_GRANTED
@@ -361,7 +343,6 @@ class AddProfileVideoFragment : Fragment() {
     }
 
     private fun requestForStoragePermissions() {
-        //Android is 11 (R) or above
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             try {
                 val intent = Intent()
@@ -375,7 +356,6 @@ class AddProfileVideoFragment : Fragment() {
                 resultLauncher.launch(intent)
             }
         } else {
-            //Below android 11
             requestPermissions(arrayOf(
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     android.Manifest.permission.READ_EXTERNAL_STORAGE

@@ -125,7 +125,7 @@ class FriendsManagementFragment : Fragment() {
 
         var foundUsers = listOf<FullUserInfoDto>()
 
-        var adapter = FoundUsersAdapter(foundUsers, imsFriendsApi, userViewModel, friendsViewModel)
+        var adapter = FoundUsersAdapter(foundUsers, imsFriendsApi, userViewModel, friendsViewModel, requireActivity())
         dialogBinding.rvUsers.adapter = adapter
 
         dialogBinding.etNickname.addTextChangedListener {
@@ -164,7 +164,8 @@ class FriendsManagementFragment : Fragment() {
                                 foundUsers,
                                 imsFriendsApi,
                                 userViewModel,
-                                friendsViewModel
+                                friendsViewModel,
+                                requireActivity()
                             )
                             dialogBinding.rvUsers.adapter = adapter
                         }

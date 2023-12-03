@@ -101,9 +101,13 @@ class LoginFragment : Fragment() {
             loginWithEmail()
         }
 
-
         prepareLoginWithGoogleButton()
-        checkForExistingUserAndTryToLogin()
+//        val loggedOut: Boolean? = arguments?.getBoolean("LOGOUT")
+//        if(loggedOut != null){
+//            if(!loggedOut)
+                checkForExistingUserAndTryToLogin()
+//        }
+
     }
 
     private fun prepareLoginWithGoogleButton() {
@@ -114,7 +118,7 @@ class LoginFragment : Fragment() {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build()
-            val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso);
+            val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
             val signInIntent = mGoogleSignInClient.signInIntent
             startActivityForResult(signInIntent, 420)
         }
