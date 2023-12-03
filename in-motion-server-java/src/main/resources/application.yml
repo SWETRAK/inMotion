@@ -20,8 +20,3 @@ server:
 springdoc:
   swagger-ui:
     path: "/api/documentation"
-
-
-
-
-

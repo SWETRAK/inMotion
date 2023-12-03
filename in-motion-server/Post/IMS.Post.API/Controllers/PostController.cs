@@ -25,7 +25,6 @@ public class PostController: ControllerBase
     {
         var serverRequestTime = DateTime.UtcNow;
         var userIdString = AuthenticationUtil.GetUserId(HttpContext.User);
-        Console.WriteLine(userIdString);
         var response = await _postService.GetCurrentUserPost(userIdString);
 
         return Ok(new ImsHttpMessage<GetPostResponseDto>
@@ -60,7 +59,8 @@ public class PostController: ControllerBase
         [FromBody] ImsPaginationRequestDto imsPaginationRequestDto)
     {
         var serverRequestTime = DateTime.UtcNow;
-        var response = await _postService.GetPublicPostsFromCurrentIteration(imsPaginationRequestDto);
+        var userIdString = AuthenticationUtil.GetUserId(HttpContext.User);
+        var response = await _postService.GetPublicPostsFromCurrentIteration(userIdString, imsPaginationRequestDto);
 
         return Ok(new ImsHttpMessage<ImsPagination<IList<GetPostResponseDto>>>
         {

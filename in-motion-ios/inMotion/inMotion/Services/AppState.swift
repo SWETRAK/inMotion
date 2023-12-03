@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 class AppState: ObservableObject {
     
@@ -23,6 +24,8 @@ class AppState: ObservableObject {
     @Published var requestedFriendships: [RequestFriendshipDto] = []
     @Published var invitedFriendships: [InvitationFriendshipDto] = []
     
+    let AF = Alamofire.Session.default
+    
     let userDefaults: UserDefaults
     
     init() {
@@ -33,8 +36,8 @@ class AppState: ObservableObject {
         }
     }
 
-    let httpBaseUrl = "http://localhost"
-
+    let httpBaseUrl = "https://grand-endless-hippo.ngrok-free.app"
+    
     enum HTTPMethods: String {
         case POST = "POST"
         case GET = "GET"

@@ -11,7 +11,10 @@ public class GetPostResponseDto
     
     public IEnumerable<PostTagDto> Tags { get; set; }
     public IEnumerable<PostVideoDto> Videos { get; set; }
-    
+
+    public bool IsLikedByUser { get; set; }
+    public PostReactionWithoutAuthorDto PostReaction { get; set; }
+
     public long PostCommentsCount { get; set; }
     public long PostReactionsCount { get; set; }
     

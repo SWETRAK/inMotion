@@ -10,5 +10,5 @@ import Foundation
 struct PostAuthorDto: Codable {
     public var id: UUID
     public var nickname: String
-    public var frontVideo: String
+    public var frontVideo: String?
 }

@@ -31,7 +31,6 @@ extension AppState {
                 if(httpResponse.statusCode == 201)
                 {
                     if let safeImsMessage: ImsHttpMessage<InvitationFriendshipDto> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status)
                         if let userInfoDataSafe: InvitationFriendshipDto = safeImsMessage.data {
                             DispatchQueue.main.async {
                                 self.invitedFriendships.append(userInfoDataSafe)
@@ -57,8 +56,9 @@ extension AppState {
     func acceptFriendshipHttpRequest(friendshipId: UUID,
                                  successAcceptUserAction: @escaping (AcceptedFriendshipDto) -> Void,
                                  failureAcceptUserAction: @escaping (ImsHttpError) -> Void) {
+        
         var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/friends/api/friends/accept/\(friendshipId.uuidString)")!,timeoutInterval: Double.infinity)
-        request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
         
         request.httpMethod = HTTPMethods.PUT.rawValue
         
@@ -73,7 +73,6 @@ extension AppState {
                 if(httpResponse.statusCode == 200)
                 {
                     if let safeImsMessage: ImsHttpMessage<AcceptedFriendshipDto> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status)
                         if let userInfoDataSafe: AcceptedFriendshipDto = safeImsMessage.data {
                             DispatchQueue.main.async {
                                 self.requestedFriendships.removeAll { element in
@@ -104,7 +103,7 @@ extension AppState {
                                  failureRejectFriendshipAction: @escaping (ImsHttpError) -> Void) {
         
         var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/friends/api/friends/reject/\(friendshipId.uuidString)")!,timeoutInterval: Double.infinity)
-        request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
         
         request.httpMethod = HTTPMethods.PATCH.rawValue
         
@@ -120,7 +119,6 @@ extension AppState {
                 if(httpResponse.statusCode == 200)
                 {
                     if let safeImsMessage: ImsHttpMessage<RejectedFriendshipDto> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status)
                         if let userInfoDataSafe: RejectedFriendshipDto = safeImsMessage.data {
                             self.requestedFriendships.removeAll { element in
                                 return element.id == friendshipId
@@ -148,7 +146,7 @@ extension AppState {
                                  failureRevertFriendshipAction: @escaping (ImsHttpError) -> Void) {
         
         var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/friends/api/friends/revert/\(friendshipId.uuidString)")!,timeoutInterval: Double.infinity)
-        request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
 
         request.httpMethod = HTTPMethods.DELETE.rawValue
 
@@ -192,7 +190,7 @@ extension AppState {
                                  failureUnfriendFriendshipAction: @escaping (ImsHttpError) -> Void) {
         
         var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/friends/api/friends/unfriend/\(friendshipId.uuidString)")!,timeoutInterval: Double.infinity)
-        request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
 
         request.httpMethod = HTTPMethods.DELETE.rawValue
 
@@ -236,10 +234,10 @@ extension AppState {
 extension AppState {
     
     func getListOfAcceptedFriendshipHttpRequest(successGetRelations: @escaping ([AcceptedFriendshipDto]) -> Void,
-                                     failureGetRelations: @escaping (ImsHttpError) -> Void) {
+                                                failureGetRelations: @escaping (ImsHttpError) -> Void) {
         
         var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/friends/api/friends/lists/accepted")!,timeoutInterval: Double.infinity)
-        request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
         
         request.httpMethod = HTTPMethods.GET.rawValue
         
@@ -278,10 +276,10 @@ extension AppState {
     }
     
     func getListOfRequestedFriendshipHttpRequest(successGetRelations: @escaping ([RequestFriendshipDto]) -> Void,
-                                      failureGetRelations: @escaping (ImsHttpError) -> Void) {
+                                                 failureGetRelations: @escaping (ImsHttpError) -> Void) {
         
         var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/friends/api/friends/lists/requested")!,timeoutInterval: Double.infinity)
-        request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
         
         request.httpMethod = HTTPMethods.GET.rawValue
         
@@ -319,10 +317,10 @@ extension AppState {
     }
     
     func getListOfInvitedFriendshipHttpRequest(successGetRelations: @escaping ([InvitationFriendshipDto]) -> Void,
-                                    failureGetRelations: @escaping (ImsHttpError) -> Void) {
+                                               failureGetRelations: @escaping (ImsHttpError) -> Void) {
         
         var request = URLRequest(url: URL(string: "\(self.httpBaseUrl)/friends/api/friends/lists/invited")!,timeoutInterval: Double.infinity)
-        request.addValue("Bearer \(self.token!)", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer \(self.token ?? String.Empty)", forHTTPHeaderField: "Authorization")
         
         request.httpMethod = HTTPMethods.GET.rawValue
         
@@ -337,7 +335,6 @@ extension AppState {
                 if(httpResponse.statusCode == 200)
                 {
                     if let safeImsMessage: ImsHttpMessage<Array<InvitationFriendshipDto>> = JsonUtil.decodeJsonData(data: data) {
-                        print(safeImsMessage.status)
                         if let userInfoDataSafe: Array<InvitationFriendshipDto> = safeImsMessage.data {
                             DispatchQueue.main.async {
                                 self.invitedFriendships = userInfoDataSafe

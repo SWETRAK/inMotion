@@ -7,7 +7,6 @@ networks:
     driver: bridge
 
 services:
-
   postgres:
     image: postgres:14-alpine
     container_name: inMotion_postgresql
@@ -59,14 +58,9 @@ services:
       dockerfile: ./ImsGateway/development.Dockerfile
     container_name: inMotion_imsGateway
     ports:
-      - "8081:80"
-#      - "443:443"
+      - "80:80"
     environment:
       - ASPNETCORE_URLS=http://+:80
-#      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
-#      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
-#    volumes:
-#      - ~/.aspnet/https:/https:ro
     networks:
       - backend
     links:
