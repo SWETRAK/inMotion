@@ -13,6 +13,10 @@ spring:
   profiles:
     active: docker
 
+server:
+  tomcat:
+    max-http-form-post-size: 50MB
+
 springdoc:
   swagger-ui:
     path: "/api/documentation"

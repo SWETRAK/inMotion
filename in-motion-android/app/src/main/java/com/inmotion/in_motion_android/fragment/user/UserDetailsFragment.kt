@@ -1,5 +1,6 @@
 package com.inmotion.in_motion_android.fragment.user
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,14 +10,20 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.inmotion.in_motion_android.InMotionApp
 import com.inmotion.in_motion_android.R
 import com.inmotion.in_motion_android.data.database.event.UserEvent
 import com.inmotion.in_motion_android.data.remote.ApiConstants
+import com.inmotion.in_motion_android.data.remote.ApiUtils
+import com.inmotion.in_motion_android.data.remote.api.ImsMediaApi
 import com.inmotion.in_motion_android.data.remote.api.ImsUsersApi
 import com.inmotion.in_motion_android.databinding.FragmentUserDetailsBinding
 import com.inmotion.in_motion_android.state.UserViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -67,6 +74,24 @@ class UserDetailsFragment : Fragment() {
         val fullUser = userViewModel.fullUserInfo.value
         binding.tvNickname.text = user?.nickname
         binding.tvBio.text = fullUser?.bio ?: ""
+
+        runBlocking(Dispatchers.IO) {
+
+            val client = OkHttpClient()
+            val request = Request.Builder()
+                .url("https://grand-endless-hippo.ngrok-free.app/media/api/profile/video/gif/${userViewModel.user.value?.id}")
+                .addHeader("authentication", "token")
+                .addHeader("Authorization", "Bearer ${userViewModel.user.value?.token}")
+                .build()
+            val response = client.newCall(request).execute()
+
+            if(response.code() < 400){
+                val imageData = response.body()?.bytes()
+                binding.ivAvatar.setImageBitmap(BitmapFactory.decodeByteArray(imageData, 0, imageData!!.size))
+            }
+
+        }
+
         binding.userDetailsToolbar.setLogo(R.drawable.ic_in_motion_logo)
         binding.userDetailsToolbar.setNavigationOnClickListener {
             activity?.onBackPressed()

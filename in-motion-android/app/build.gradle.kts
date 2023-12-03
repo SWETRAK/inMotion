@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.inmotion.in_motion_android"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.inmotion.in_motion_android"
@@ -45,6 +45,16 @@ dependencies {
     val room_version = "2.5.2"
     val lifecycle_version = "2.6.2"
     val retrofit_version = "2.8.2"
+    val cameraxVersion = "1.3.0"
+
+    implementation("com.github.bumptech.glide:glide:4.10.0")
+
+    implementation("androidx.camera:camera-core:$cameraxVersion")
+    implementation("androidx.camera:camera-camera2:$cameraxVersion")
+    implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
+    implementation("androidx.camera:camera-view:$cameraxVersion")
+    implementation("androidx.camera:camera-video:$cameraxVersion")
+    implementation("androidx.camera:camera-extensions:$cameraxVersion")
 
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 

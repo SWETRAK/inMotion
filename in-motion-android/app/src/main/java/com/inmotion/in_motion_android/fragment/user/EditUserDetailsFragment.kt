@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.inmotion.in_motion_android.InMotionApp
 import com.inmotion.in_motion_android.R
 import com.inmotion.in_motion_android.data.database.event.UserEvent
@@ -92,6 +93,10 @@ class EditUserDetailsFragment : Fragment() {
 
         binding.btnEditBio.setOnClickListener {
             showEditBioDialog()
+        }
+
+        binding.ivAvatar.setOnClickListener {
+            findNavController().navigate(R.id.action_editUserDetailsFragment_to_addProfileVideoFragment)
         }
     }
 

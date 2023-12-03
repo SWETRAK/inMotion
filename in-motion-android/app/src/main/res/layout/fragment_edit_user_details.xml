@@ -15,23 +15,34 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/close_32" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivAvatar"
+        android:layout_width="wrap_content"
+        android:layout_height="280dp"
+        android:src="@drawable/avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editUserDetailsToolbar" />
+
     <TextView
         android:id="@+id/tvEmailLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="@string/email_label"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editUserDetailsToolbar" />
+        app:layout_constraintTop_toBottomOf="@id/ivAvatar" />
 
     <TextView
         android:id="@+id/tvEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginStart="32dp"
         android:textSize="22sp"
         app:layout_constraintStart_toEndOf="@id/tvNicknameLabel"
-        app:layout_constraintTop_toBottomOf="@id/editUserDetailsToolbar"
+        app:layout_constraintTop_toBottomOf="@id/ivAvatar"
         tools:text="email@email.com" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -44,7 +55,7 @@
         android:contentDescription="@string/change_password_button"
         android:drawableEnd="@drawable/edit_32"
         app:layout_constraintStart_toEndOf="@id/tvEmail"
-        app:layout_constraintTop_toBottomOf="@id/editUserDetailsToolbar" />
+        app:layout_constraintTop_toBottomOf="@id/ivAvatar" />
 
     <!--  NICKNAME  -->
     <TextView

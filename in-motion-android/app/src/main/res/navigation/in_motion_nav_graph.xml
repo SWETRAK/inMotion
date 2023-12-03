@@ -97,5 +97,22 @@
         android:id="@+id/editUserDetailsFragment"
         android:name="com.inmotion.in_motion_android.fragment.user.EditUserDetailsFragment"
         android:label="fragment_edit_user_details"
-        tools:layout="@layout/fragment_edit_user_details" />
+        tools:layout="@layout/fragment_edit_user_details" >
+        <action
+            android:id="@+id/action_editUserDetailsFragment_to_addProfileVideoFragment"
+            app:destination="@id/addProfileVideoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addProfileVideoFragment"
+        android:name="com.inmotion.in_motion_android.fragment.user.AddProfileVideoFragment"
+        android:label="fragment_add_profile_video"
+        tools:layout="@layout/fragment_add_profile_video" >
+        <action
+            android:id="@+id/action_addProfileVideoFragment_to_editUserDetailsFragment"
+            app:destination="@id/editUserDetailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
 </navigation>
