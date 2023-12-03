@@ -35,11 +35,11 @@ class FriendRequestsAdapter(
 
     inner class FriendRequestsViewHolder(private val itemBinding: FriendRequestRecyclerViewItemBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
-        fun bindItem(request: RequestedFriend) {
+        fun bindItem(friendRequest: RequestedFriend) {
             val df = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
-            itemBinding.tvUsername.text = request.nickname
+            itemBinding.tvUsername.text = friendRequest.nickname
             val requestedAgo = Duration.between(
-                LocalDateTime.parse(request.requested.substring(0, 19), df),
+                LocalDateTime.parse(friendRequest.requested.substring(0, 19), df),
                 LocalDateTime.now()
             )
             itemBinding.tvRequestDate.text =
@@ -49,10 +49,10 @@ class FriendRequestsAdapter(
                 CoroutineScope(Dispatchers.IO).launch {
                     val response = imsFriendsApi.acceptFriend(
                         "Bearer ${userViewModel.user.value?.token}",
-                        request.friendshipId
+                        friendRequest.friendshipId
                     )
                     if (response.code() < 400) {
-                        Log.i("FRIEND REQUESTS", "ACCEPTED ${request.nickname}")
+                        Log.i("FRIEND REQUESTS", "ACCEPTED ${friendRequest.nickname}")
                         friendsViewModel.onEvent(FriendEvent.FetchRequestedFriends(userViewModel.user.value?.token.toString()))
                         MainScope().launch {
                             notifyDataSetChanged()
@@ -61,7 +61,7 @@ class FriendRequestsAdapter(
                     } else {
                         Log.i(
                             "FRIEND REQUESTS",
-                            "FAILED TO ACCEPT ${request.nickname}, code ${response.code()}"
+                            "FAILED TO ACCEPT ${friendRequest.nickname}, code ${response.code()}"
                         )
                     }
 
@@ -72,7 +72,7 @@ class FriendRequestsAdapter(
                 CoroutineScope(Dispatchers.IO).launch {
                     imsFriendsApi.rejectFriend(
                         "Bearer ${userViewModel.user.value?.token}",
-                        request.friendshipId
+                        friendRequest.friendshipId
                     )
                     friendsViewModel.onEvent(FriendEvent.FetchRequestedFriends(userViewModel.user.value?.token.toString()))
                     MainScope().launch {
@@ -84,7 +84,7 @@ class FriendRequestsAdapter(
             CoroutineScope(Dispatchers.IO).launch {
                 val client = OkHttpClient()
                 val request = Request.Builder()
-                    .url("https://grand-endless-hippo.ngrok-free.app/media/api/profile/video/gif/${request.id}")
+                    .url("https://grand-endless-hippo.ngrok-free.app/media/api/profile/video/gif/${friendRequest.id}")
                     .addHeader("authentication", "token")
                     .addHeader("Authorization", "Bearer ${userViewModel.user.value?.token}")
                     .build()

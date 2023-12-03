@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="24sp"
-        android:text="It seems like no one is in motion today ☹️"
+        android:text="@string/no_posts"
         android:textAlignment="center"
         android:padding="32dp"
         app:layout_constraintStart_toStartOf="parent"

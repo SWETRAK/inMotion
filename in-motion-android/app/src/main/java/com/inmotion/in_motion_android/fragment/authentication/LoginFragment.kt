@@ -226,10 +226,6 @@ class LoginFragment : Fragment() {
         }
     }
 
-    fun NavController.safeNavigate(direction: NavDirections) {
-        currentDestination?.getAction(direction.actionId)?.run { navigate(direction) }
-    }
-
     fun NavController.safeNavigate(
         @IdRes currentDestinationId: Int,
         @IdRes id: Int,

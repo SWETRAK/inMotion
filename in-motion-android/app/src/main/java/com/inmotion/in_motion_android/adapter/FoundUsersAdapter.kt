@@ -59,7 +59,7 @@ class FoundUsersAdapter(
                 val response = client.newCall(request).execute()
 
                 if (response.code() < 400) {
-                    val imageData = response.body()?.bytes().let {
+                    response.body()?.bytes().let {
                         activity.runOnUiThread {
                             itemBinding.ivAvatar.setImageDrawable(GifDrawable(it!!))
                             itemBinding.ivAvatar.rotation = 90F
