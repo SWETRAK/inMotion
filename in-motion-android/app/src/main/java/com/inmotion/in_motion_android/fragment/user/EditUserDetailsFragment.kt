@@ -3,6 +3,7 @@ package com.inmotion.in_motion_android.fragment.user
 import android.app.ActionBar.LayoutParams
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.inmotion.in_motion_android.InMotionApp
 import com.inmotion.in_motion_android.R
 import com.inmotion.in_motion_android.data.database.event.UserEvent
@@ -24,8 +26,10 @@ import com.inmotion.in_motion_android.databinding.FragmentEditUserDetailsBinding
 import com.inmotion.in_motion_android.state.UserViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
 
 class EditUserDetailsFragment : Fragment() {
 
@@ -71,6 +75,9 @@ class EditUserDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.editUserDetailsToolbar.setLogo(R.drawable.ic_in_motion_logo)
         binding.editUserDetailsToolbar.setNavigationOnClickListener {
+            if(binding.ivAvatarVideo.isPlaying) {
+                binding.ivAvatarVideo.stopPlayback()
+            }
             activity?.onBackPressed()
         }
 
@@ -92,6 +99,43 @@ class EditUserDetailsFragment : Fragment() {
 
         binding.btnEditBio.setOnClickListener {
             showEditBioDialog()
+        }
+
+        binding.ivAvatar.setOnClickListener {
+            findNavController().navigate(R.id.action_editUserDetailsFragment_to_addProfileVideoFragment)
+        }
+
+        initProfileVideo()
+    }
+
+    private fun initProfileVideo() {
+        runBlocking(Dispatchers.IO) {
+
+            try {
+                val path = requireContext().filesDir
+                val file = File(path, "${userViewModel.user.value?.id}.mp4")
+
+                binding.ivAvatarVideo.setVideoPath(file.path)
+                binding.ivAvatar.visibility = View.INVISIBLE
+                binding.ivAvatarVideo.visibility = View.VISIBLE
+
+                binding.ivAvatarVideo.setOnPreparedListener {
+                    it.isLooping = true
+                    it.seekTo(1)
+                    it.start()
+                }
+
+                binding.ivAvatarVideo.setOnClickListener {
+                    findNavController().navigate(R.id.action_editUserDetailsFragment_to_addProfileVideoFragment)
+                }
+
+            } catch (e: Exception) {
+                Log.e("USER_DETAILS_FRAGMENT", "Couldn't read avatar video!")
+                activity?.runOnUiThread {
+                    binding.ivAvatar.visibility = View.VISIBLE
+                    binding.ivAvatarVideo.visibility = View.INVISIBLE
+                }
+            }
         }
     }
 

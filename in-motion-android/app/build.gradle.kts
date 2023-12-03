@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.inmotion.in_motion_android"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.inmotion.in_motion_android"
@@ -41,10 +41,22 @@ android {
 }
 
 dependencies {
-    val nav_version = "2.6.0"
-    val room_version = "2.5.2"
+    val nav_version = "2.7.5"
+    val room_version = "2.6.1"
     val lifecycle_version = "2.6.2"
-    val retrofit_version = "2.8.2"
+    val retrofit_version = "2.9.0"
+    val cameraxVersion = "1.3.0"
+
+    implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.28")
+
+    implementation("com.github.bumptech.glide:glide:4.10.0")
+
+    implementation("androidx.camera:camera-core:$cameraxVersion")
+    implementation("androidx.camera:camera-camera2:$cameraxVersion")
+    implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
+    implementation("androidx.camera:camera-view:$cameraxVersion")
+    implementation("androidx.camera:camera-video:$cameraxVersion")
+    implementation("androidx.camera:camera-extensions:$cameraxVersion")
 
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
@@ -63,9 +75,9 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
 
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.8.0")
+    implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

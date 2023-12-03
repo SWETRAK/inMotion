@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:padding="16dp">
 
-    <com.google.android.material.imageview.ShapeableImageView
+    <pl.droidsonroids.gif.GifImageView
         android:id="@+id/avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
