@@ -36,4 +36,5 @@
     <string name="start_recording">start recording</string>
     <string name="no_posts">It seems like no one is in motion today ☹️</string>
     <string name="remove_friend">remove friend</string>
+    <string name="add_daily_video">ADD DAILY VIDEO</string>
 </resources>

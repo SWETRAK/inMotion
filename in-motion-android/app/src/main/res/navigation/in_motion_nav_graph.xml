@@ -44,6 +44,13 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainFragment_to_addPostFragment"
+            app:destination="@id/addPostFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -59,7 +66,7 @@
     </fragment>
     <fragment
         android:id="@+id/postDetailsFragment"
-        android:name="com.inmotion.in_motion_android.fragment.PostDetailsFragment"
+        android:name="com.inmotion.in_motion_android.fragment.posts.PostDetailsFragment"
         android:label="PostDetailsFragment" />
     <fragment
         android:id="@+id/userDetailsFragment"
@@ -110,6 +117,18 @@
         <action
             android:id="@+id/action_addProfileVideoFragment_to_editUserDetailsFragment"
             app:destination="@id/editUserDetailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPostFragment"
+        android:name="com.inmotion.in_motion_android.fragment.posts.AddPostFragment"
+        android:label="AddPostFragment" >
+        <action
+            android:id="@+id/action_addPostFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
