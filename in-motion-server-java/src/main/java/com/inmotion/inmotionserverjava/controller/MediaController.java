@@ -67,7 +67,7 @@ public class MediaController {
     @GetMapping(value = "/profile/video/mp4/{userId}", produces = "video/mp4")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Profile video found",
-                    content = @Content(mediaType = "image/gif", schema = @Schema(implementation = byte[].class))),
+                    content = @Content(mediaType = "video/mp4", schema = @Schema(implementation = byte[].class))),
             @ApiResponse(responseCode = "404", description = "Profile video doesn't exist or wrong data provided",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
@@ -78,7 +78,7 @@ public class MediaController {
     @GetMapping("/post/{postId}/side/{side}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Post found",
-                    content = @Content(mediaType = "image/gif", schema = @Schema(implementation = byte[].class))),
+                    content = @Content(mediaType = "video/mp4", schema = @Schema(implementation = byte[].class))),
             @ApiResponse(responseCode = "404", description = "Post not found",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
