@@ -1,6 +1,7 @@
 package com.inmotion.inmotionserverjava;
 
 import com.inmotion.inmotionserverjava.exception.ErrorResponse;
+import com.inmotion.inmotionserverjava.exception.NonExistingPostSideException;
 import com.inmotion.inmotionserverjava.exception.UnauthorizedUserException;
 import com.inmotion.inmotionserverjava.exception.minio.MinioFileNotFoundException;
 import com.inmotion.inmotionserverjava.exception.minio.MinioFilePostingException;
@@ -20,6 +21,14 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler {
 
+    @ExceptionHandler({NonExistingPostSideException.class})
+    private ResponseEntity<ErrorResponse> handleUnauthorizedUserException(NonExistingPostSideException e) {
+        e.printStackTrace();
+        ErrorResponse error = new ErrorResponse(e.getMessage());
+        log.error(error.message());
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    }
+    
     @ExceptionHandler({UnauthorizedUserException.class})
     private ResponseEntity<ErrorResponse> handleUnauthorizedUserException(UnauthorizedUserException e) {
         e.printStackTrace();
