@@ -60,31 +60,29 @@ public class MediaController {
             @ApiResponse(responseCode = "404", description = "Profile video gif doesn't exist or wrong data provided",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = byte[].class)))
     })
-    public ResponseEntity<byte[]> getProfileVideoAsGif(@PathVariable String userId,
-                                                       @RequestHeader("Authorization") String jwtToken) {
-        return new ResponseEntity<>(mediaService.getProfileVideoAsGif(userId, jwtToken), HttpStatus.OK);
+    public ResponseEntity<byte[]> getProfileVideoAsGif(@PathVariable String userId) {
+        return new ResponseEntity<>(mediaService.getProfileVideoAsGif(userId), HttpStatus.OK);
     }
 
     @GetMapping(value = "/profile/video/mp4/{userId}", produces = "video/mp4")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Profile video found",
-                    content = @Content(mediaType = "image/gif", schema = @Schema(implementation = byte[].class))),
+                    content = @Content(mediaType = "video/mp4", schema = @Schema(implementation = byte[].class))),
             @ApiResponse(responseCode = "404", description = "Profile video doesn't exist or wrong data provided",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public ResponseEntity<byte[]> getProfileVideoAsMp4(@PathVariable String userId,
-                                                       @RequestHeader("Authorization") String jwtToken) {
-        return new ResponseEntity<>(mediaService.getProfileVideoAsMp4(userId, jwtToken), HttpStatus.OK);
+    public ResponseEntity<byte[]> getProfileVideoAsMp4(@PathVariable String userId) {
+        return new ResponseEntity<>(mediaService.getProfileVideoAsMp4(userId), HttpStatus.OK);
     }
 
-    @GetMapping("/post/{postId}")
+    @GetMapping("/post/{postId}/side/{side}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Post found",
-                    content = @Content(mediaType = "image/gif", schema = @Schema(implementation = PostDto.class))),
+                    content = @Content(mediaType = "video/mp4", schema = @Schema(implementation = byte[].class))),
             @ApiResponse(responseCode = "404", description = "Post not found",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public ResponseEntity<PostDto> getPostById(@PathVariable String postId, @RequestHeader("Authorization") String jwtToken) {
-        return new ResponseEntity<>(mediaService.getPostById(postId, jwtToken), HttpStatus.OK);
+    public ResponseEntity<byte[]> getSideOfPostById(@PathVariable String postId, @PathVariable("side") String side) {
+        return new ResponseEntity<>(mediaService.getPostById(postId, side), HttpStatus.OK);
     }
 }

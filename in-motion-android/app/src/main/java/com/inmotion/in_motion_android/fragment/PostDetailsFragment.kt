@@ -67,19 +67,6 @@ class PostDetailsFragment : Fragment() {
     }
 
     private fun getComments(): List<CommentDto> {
-        return listOf(
-            CommentDto(
-                "kakauko12",
-                "Katowice",
-                "13:09",
-                "No niezłe fajne"
-            ),
-            CommentDto(
-                "Stephen_mustache",
-                "Królewiec",
-                "13:12",
-                "Nie prawda bo niefajne"
-            )
-        )
+        return listOf()
     }
 }

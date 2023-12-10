@@ -28,7 +28,7 @@ class FriendRequestsListFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         friendsViewModel.requestedFriends.observe(viewLifecycleOwner){
-            binding.rvFriends.adapter = FriendRequestsAdapter(ArrayList(it), friendsViewModel, userViewModel)
+            binding.rvFriends.adapter = FriendRequestsAdapter(ArrayList(it), friendsViewModel, userViewModel, requireActivity())
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.inmotion.inmotionserverjava.service;
 
+import com.inmotion.inmotionserverjava.exception.NonExistingPostSideException;
 import com.inmotion.inmotionserverjava.exception.UnauthorizedUserException;
 import com.inmotion.inmotionserverjava.exception.minio.MinioFilePostingException;
 import com.inmotion.inmotionserverjava.model.*;
@@ -16,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -99,27 +99,24 @@ public class MediaServiceImpl implements MediaService {
     }
 
     @Override
-    public byte[] getProfileVideoAsMp4(String userId, String jwtToken) {
-        validateJwt(jwtToken);
+    public byte[] getProfileVideoAsMp4(String userId) {
         String requestedFilePath = String.format(PROFILE_VIDEO_NAME_TEMPLATE, userId, "/mp4/", userId, ".mp4");
         return minioService.getFile(profileVideosBucket, requestedFilePath);
     }
 
     @Override
-    public byte[] getProfileVideoAsGif(String userId, String jwtToken) {
-        validateJwt(jwtToken);
+    public byte[] getProfileVideoAsGif(String userId) {
         String requestedFilePath = String.format(PROFILE_VIDEO_NAME_TEMPLATE, userId, "/gif/", userId, ".gif");
         return minioService.getFile(profileVideosBucket, requestedFilePath);
     }
 
     @Override
-    public PostDto getPostById(String postId, String jwtToken) {
-        validateJwt(jwtToken);
-        String frontVideoFilePath = String.format(POST_FILE_NAME_TEMPLATE, postId, "front_", postId);
-        String backVideoFilePath = String.format(POST_FILE_NAME_TEMPLATE, postId, "back_", postId);
-        byte[] frontVideo = minioService.getFile(postsBucket, frontVideoFilePath);
-        byte[] backVideo = minioService.getFile(postsBucket, backVideoFilePath);
-        return new PostDto(frontVideo, backVideo);
+    public byte[] getPostById(String postId, String side) {
+        if(!List.of("front", "back").contains(side.toLowerCase()))
+            throw new NonExistingPostSideException("There is no " + side + " of post!");
+
+        String videoFilePath = String.format(POST_FILE_NAME_TEMPLATE, postId, side.toLowerCase() + "_", postId);
+        return minioService.getFile(postsBucket, videoFilePath);
     }
 
     private ValidatedUserInfoMessage validateJwt(String jwtToken) {

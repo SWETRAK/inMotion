@@ -17,4 +17,5 @@
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="ROTATE_FILE_DAILY"/>
-    </root></configuration>
+    </root>
+</configuration>

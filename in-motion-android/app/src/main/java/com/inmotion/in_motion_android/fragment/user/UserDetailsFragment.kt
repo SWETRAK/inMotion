@@ -1,9 +1,11 @@
 package com.inmotion.in_motion_android.fragment.user
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.VideoView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModel
@@ -16,9 +18,14 @@ import com.inmotion.in_motion_android.data.remote.ApiConstants
 import com.inmotion.in_motion_android.data.remote.api.ImsUsersApi
 import com.inmotion.in_motion_android.databinding.FragmentUserDetailsBinding
 import com.inmotion.in_motion_android.state.UserViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
+import java.io.FileOutputStream
 
 class UserDetailsFragment : Fragment() {
 
@@ -67,6 +74,7 @@ class UserDetailsFragment : Fragment() {
         val fullUser = userViewModel.fullUserInfo.value
         binding.tvNickname.text = user?.nickname
         binding.tvBio.text = fullUser?.bio ?: ""
+
         binding.userDetailsToolbar.setLogo(R.drawable.ic_in_motion_logo)
         binding.userDetailsToolbar.setNavigationOnClickListener {
             activity?.onBackPressed()
@@ -86,13 +94,82 @@ class UserDetailsFragment : Fragment() {
             }
 
             binding.btnLogout.setOnClickListener {
-                userViewModel.onEvent(UserEvent.DeleteUser)
-                findNavController().navigate(R.id.action_userDetailsFragment_to_loginFragment)
+                runBlocking {
+                    userViewModel.onEvent(UserEvent.DeleteUser)
+
+                    val path = requireContext().filesDir
+                    try {
+                        val file = File(path, "${userViewModel.user.value?.id}.mp4")
+                        file.delete()
+                    }catch (e: Exception) {
+                        Log.i("USER_DETAILS_FRAGMENT", "Couldn't delete non existing file!")
+                    }
+                }
+
+                if(binding.ivAvatarVideo.isPlaying) {
+                    binding.ivAvatarVideo.stopPlayback()
+                }
+                val bundle = Bundle()
+                bundle.putBoolean("LOGOUT", true)
+                findNavController().navigate(R.id.action_userDetailsFragment_to_loginFragment, bundle)
             }
         } else {
             binding.btnFriends.visibility = View.GONE
             binding.btnLogout.visibility = View.GONE
             binding.btnEditProfile.visibility = View.GONE
+        }
+
+        initProfileVideo()
+    }
+
+    private fun initProfileVideo() {
+        runBlocking(Dispatchers.IO) {
+            val client = OkHttpClient()
+            val request = Request.Builder()
+                .url("https://grand-endless-hippo.ngrok-free.app/media/api/profile/video/mp4/${userViewModel.user.value?.id}")
+                .addHeader("authentication", "token")
+                .addHeader("Authorization", "Bearer ${userViewModel.user.value?.token}")
+                .build()
+            val response = client.newCall(request).execute()
+
+            if (response.code() < 400) {
+                try {
+                    val path = requireContext().filesDir
+                    val file = File(path, "${userViewModel.user.value?.id}.mp4")
+                    val stream = FileOutputStream(file)
+                    try {
+                        stream.write(response.body()?.bytes())
+                    } finally {
+                        stream.close()
+                    }
+
+                    binding.ivAvatarVideo.setVideoPath(file.path)
+                    binding.ivAvatar.visibility = View.INVISIBLE
+                    binding.ivAvatarVideo.visibility = View.VISIBLE
+
+                    binding.ivAvatarVideo.setOnPreparedListener {
+                        it.isLooping = true
+                        it.seekTo(1)
+                        it.start()
+                    }
+
+                    binding.ivAvatarVideo.setOnClickListener {
+                        if ((it as VideoView).isPlaying) {
+                            it.pause()
+                        } else {
+                            it.start()
+                        }
+                    }
+
+                } catch (e: Exception) {
+                    Log.e("USER_DETAILS_FRAGMENT", "Couldn't read avatar video!")
+                }
+            } else {
+                activity?.runOnUiThread {
+                    binding.ivAvatar.visibility = View.VISIBLE
+                    binding.ivAvatarVideo.visibility = View.INVISIBLE
+                }
+            }
         }
     }
 
