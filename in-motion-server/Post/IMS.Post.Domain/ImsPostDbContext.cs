@@ -15,7 +15,6 @@ public class ImsPostDbContext: DbContext
     public DbSet<PostVideo> PostVideos { get; set; }
     public DbSet<PostComment> PostComments { get; set; }
     public DbSet<PostReaction> PostReactions { get; set; }
-    public DbSet<PostCommentReaction> PostCommentReactions { get; set; }
     public DbSet<Tag> Tags { get; set; }
     public DbSet<PostIteration> PostIterations { get; set; }
 
@@ -41,7 +40,6 @@ public class ImsPostDbContext: DbContext
         new PostVideoEntityConfiguration().Configure(modelBuilder.Entity<PostVideo>());
         new PostCommentEntityConfiguration().Configure(modelBuilder.Entity<PostComment>());
         new PostReactionEntityConfiguration().Configure(modelBuilder.Entity<PostReaction>());
-        new PostCommentReactionEntityConfiguration().Configure(modelBuilder.Entity<PostCommentReaction>());
         
         new PostIterationEntityConfiguration().Configure(modelBuilder.Entity<PostIteration>());
     }

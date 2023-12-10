@@ -54,24 +54,6 @@ public class PostController: ControllerBase
     }
 
     [Authorize]
-    [HttpGet("public")]
-    public async Task<ActionResult<ImsHttpMessage<ImsPagination<IList<GetPostResponseDto>>>>> GetPublicPostsAsync(
-        [FromBody] ImsPaginationRequestDto imsPaginationRequestDto)
-    {
-        var serverRequestTime = DateTime.UtcNow;
-        var userIdString = AuthenticationUtil.GetUserId(HttpContext.User);
-        var response = await _postService.GetPublicPostsFromCurrentIteration(userIdString, imsPaginationRequestDto);
-
-        return Ok(new ImsHttpMessage<ImsPagination<IList<GetPostResponseDto>>>
-        {
-            ServerRequestTime = serverRequestTime,
-            ServerResponseTime = DateTime.UtcNow,
-            Status = StatusCodes.Status200OK,
-            Data = response,
-        });
-    }
-
-    [Authorize]
     [HttpGet("friends")]
     public async Task<ActionResult<ImsHttpMessage<IList<GetPostResponseDto>>>> GetPublicFriendsPostsAsync()
     {

@@ -13,7 +13,6 @@ public class PostCommentProfile: Profile
             .ForMember(d => d.Id, opt => opt.MapFrom(s => s.Id.ToString()))
             .ForMember(d => d.Content, opt => opt.MapFrom(s => s.Content))
             .ForMember(d => d.PostId, opt => opt.MapFrom(s => s.PostId))
-            .ForMember(d => d.PostCommentReactionCount, opt => opt.MapFrom(s => s.Reactions.Count()))
             .ForMember(d => d.CreatedAt, opt => opt.MapFrom(s => s.CreationDate));
     }
 }

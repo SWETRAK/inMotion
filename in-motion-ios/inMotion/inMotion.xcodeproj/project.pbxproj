@@ -68,8 +68,6 @@
 		862D75812A3A166700B6D02F /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862D75802A3A166700B6D02F /* FriendsView.swift */; };
 		862D75832A3A168D00B6D02F /* FindFriendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862D75822A3A168D00B6D02F /* FindFriendView.swift */; };
 		862D75852A3A1E3500B6D02F /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862D75842A3A1E3500B6D02F /* MainView.swift */; };
-		862D75872A3C38D400B6D02F /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862D75862A3C38D400B6D02F /* MapView.swift */; };
-		862D758A2A3C3BFA00B6D02F /* MapDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862D75892A3C3BFA00B6D02F /* MapDetails.swift */; };
 		8634E2AC2AF2B4A5004989C0 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 8634E2AB2AF2B4A5004989C0 /* GoogleSignIn */; };
 		8634E2AE2AF2B4A5004989C0 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8634E2AD2AF2B4A5004989C0 /* GoogleSignInSwift */; };
 		863725F92AFB99C800C933D6 /* UserAppStateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863725F82AFB99C800C933D6 /* UserAppStateExtension.swift */; };
@@ -94,9 +92,6 @@
 		869F16092A2F2C70003BFC20 /* MainWallPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869F16082A2F2C70003BFC20 /* MainWallPostView.swift */; };
 		86A4179B2A3DCC9A00A52516 /* FriendshipStatusEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A4179A2A3DCC9A00A52516 /* FriendshipStatusEnum.swift */; };
 		86A4179D2A3DE31300A52516 /* PersonRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A4179C2A3DE31300A52516 /* PersonRowView.swift */; };
-		86A417A72A3E1A9200A52516 /* warsaw.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 86A417A42A3E1A9000A52516 /* warsaw.mp4 */; };
-		86A417A82A3E1A9200A52516 /* paris.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 86A417A52A3E1A9100A52516 /* paris.mp4 */; };
-		86A417A92A3E1A9200A52516 /* newyork.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 86A417A62A3E1A9200A52516 /* newyork.mp4 */; };
 		86A417AC2A3E237600A52516 /* AVPlayerViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A417AB2A3E237600A52516 /* AVPlayerViewControllerExtension.swift */; };
 		86DDF89B2AFFE74000967B44 /* OtherUserDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DDF89A2AFFE74000967B44 /* OtherUserDetailsView.swift */; };
 		86E8F0512B0E1EE800716C87 /* PostsAppStateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E8F0502B0E1EE800716C87 /* PostsAppStateExtension.swift */; };
@@ -191,8 +186,6 @@
 		862D75802A3A166700B6D02F /* FriendsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
 		862D75822A3A168D00B6D02F /* FindFriendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindFriendView.swift; sourceTree = "<group>"; };
 		862D75842A3A1E3500B6D02F /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		862D75862A3C38D400B6D02F /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
-		862D75892A3C3BFA00B6D02F /* MapDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetails.swift; sourceTree = "<group>"; };
 		863725F82AFB99C800C933D6 /* UserAppStateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAppStateExtension.swift; sourceTree = "<group>"; };
 		863725FA2AFBB5E000C933D6 /* FriendsAppStateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsAppStateExtension.swift; sourceTree = "<group>"; };
 		863A00852AF67DEB001F64B0 /* AddPasswordToAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPasswordToAccount.swift; sourceTree = "<group>"; };
@@ -218,9 +211,6 @@
 		869F16082A2F2C70003BFC20 /* MainWallPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWallPostView.swift; sourceTree = "<group>"; };
 		86A4179A2A3DCC9A00A52516 /* FriendshipStatusEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendshipStatusEnum.swift; sourceTree = "<group>"; };
 		86A4179C2A3DE31300A52516 /* PersonRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonRowView.swift; sourceTree = "<group>"; };
-		86A417A42A3E1A9000A52516 /* warsaw.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = warsaw.mp4; sourceTree = "<group>"; };
-		86A417A52A3E1A9100A52516 /* paris.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = paris.mp4; sourceTree = "<group>"; };
-		86A417A62A3E1A9200A52516 /* newyork.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = newyork.mp4; sourceTree = "<group>"; };
 		86A417AB2A3E237600A52516 /* AVPlayerViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerViewControllerExtension.swift; sourceTree = "<group>"; };
 		86DDF89A2AFFE74000967B44 /* OtherUserDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherUserDetailsView.swift; sourceTree = "<group>"; };
 		86E8F0502B0E1EE800716C87 /* PostsAppStateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsAppStateExtension.swift; sourceTree = "<group>"; };
@@ -440,9 +430,6 @@
 		865237FE2A2F21C6002E6605 = {
 			isa = PBXGroup;
 			children = (
-				86A417A62A3E1A9200A52516 /* newyork.mp4 */,
-				86A417A52A3E1A9100A52516 /* paris.mp4 */,
-				86A417A42A3E1A9000A52516 /* warsaw.mp4 */,
 				865238092A2F21C6002E6605 /* inMotion */,
 				8652381F2A2F21C8002E6605 /* inMotionTests */,
 				865238292A2F21C8002E6605 /* inMotionUITests */,
@@ -512,7 +499,6 @@
 				862D756E2A3A0A5600B6D02F /* RegisterView.swift */,
 				862D75822A3A168D00B6D02F /* FindFriendView.swift */,
 				862D75842A3A1E3500B6D02F /* MainView.swift */,
-				862D75862A3C38D400B6D02F /* MapView.swift */,
 				868B7CA52AF52398002A274B /* LoggedUserDetailsView.swift */,
 				86DDF89A2AFFE74000967B44 /* OtherUserDetailsView.swift */,
 				8670A2F52B03CF4000726A71 /* PostCameraView.swift */,
@@ -526,7 +512,6 @@
 			isa = PBXGroup;
 			children = (
 				8662728F2AE45F9200F4E236 /* DTO */,
-				862D75892A3C3BFA00B6D02F /* MapDetails.swift */,
 				86A4179A2A3DCC9A00A52516 /* FriendshipStatusEnum.swift */,
 			);
 			path = Models;
@@ -721,9 +706,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86A417A72A3E1A9200A52516 /* warsaw.mp4 in Resources */,
-				86A417A82A3E1A9200A52516 /* paris.mp4 in Resources */,
-				86A417A92A3E1A9200A52516 /* newyork.mp4 in Resources */,
 				86F62FA02B03DA4100B4F02A /* PostCameraView.storyboard in Resources */,
 				865238122A2F21C8002E6605 /* Preview Assets.xcassets in Resources */,
 				8652380F2A2F21C8002E6605 /* Assets.xcassets in Resources */,
@@ -770,7 +752,6 @@
 				86DDF89B2AFFE74000967B44 /* OtherUserDetailsView.swift in Sources */,
 				8676CA6D2B1B746D004B56F2 /* YourMainWallPostView.swift in Sources */,
 				862D75852A3A1E3500B6D02F /* MainView.swift in Sources */,
-				862D758A2A3C3BFA00B6D02F /* MapDetails.swift in Sources */,
 				8614350B2AF189E300B45FF5 /* FriendProfileVideoDto.swift in Sources */,
 				8652380D2A2F21C6002E6605 /* ContentView.swift in Sources */,
 				861435382AF1929100B45FF5 /* PostAuthorDto.swift in Sources */,
@@ -828,7 +809,6 @@
 				861435172AF18C0E00B45FF5 /* CreatePostCommentDto.swift in Sources */,
 				8652383B2A2F2289002E6605 /* LoginView.swift in Sources */,
 				86F007AC2B08D044002BC3A9 /* PostDto.swift in Sources */,
-				862D75872A3C38D400B6D02F /* MapView.swift in Sources */,
 				862D75712A3A137F00B6D02F /* CommentView.swift in Sources */,
 				86A4179B2A3DCC9A00A52516 /* FriendshipStatusEnum.swift in Sources */,
 				8652380B2A2F21C6002E6605 /* inMotionApp.swift in Sources */,

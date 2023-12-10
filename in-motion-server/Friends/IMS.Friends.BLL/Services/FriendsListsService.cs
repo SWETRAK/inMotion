@@ -88,7 +88,8 @@ public class FriendsListsService : IFriendsListsService
                     d.ExternalUserId = !sourceObject.FirstUserId.Equals(userGuidId)
                         ? sourceObject.FirstUserId.ToString()
                         : sourceObject.SecondUserId.ToString();
-                    d.ExternalUser = _mapper.Map<FriendInfoDto>(friendsInfo.FirstOrDefault(ui => ui.Id.Equals(Guid.Parse(d.ExternalUserId))));
+                    d.ExternalUser = _mapper.Map<FriendInfoDto>(friendsInfo.FirstOrDefault(
+                        ui => ui.Id.Equals(Guid.Parse(d.ExternalUserId))));
                     
                 }
             }));

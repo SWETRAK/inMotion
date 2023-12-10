@@ -80,7 +80,8 @@ class PostCameraViewController: UIViewController, AVCaptureFileOutputRecordingDe
                 self.captureSession.addOutput(self.movieOutput)
                 self.setupLivePreview()
                 
-                if self.movieOutput.availableVideoCodecTypes.contains(.h264),  let connection = self.movieOutput.connection(with: .video) {
+                if self.movieOutput.availableVideoCodecTypes.contains(.h264),
+                let connection = self.movieOutput.connection(with: .video) {
                     // Use the H.264 codec to encode the video.
                     self.movieOutput.setOutputSettings([AVVideoCodecKey: AVVideoCodecType.h264], for: connection)
                 }

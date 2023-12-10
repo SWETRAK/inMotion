@@ -47,11 +47,6 @@ public class GoogleAuthService : IGoogleAuthService
         _publishEndpoint = publishEndpoint;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="authenticateWithGoogleProviderDto"></param>
-    /// <returns></returns>
     public async Task<UserInfoDto> SignIn(AuthenticateWithGoogleProviderDto authenticateWithGoogleProviderDto)
     {
         var requestTime = DateTime.UtcNow;
