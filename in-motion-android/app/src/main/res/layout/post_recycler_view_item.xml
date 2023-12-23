@@ -54,32 +54,22 @@
 
     <VideoView
         android:id="@+id/defaultBackPostVideo"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="500dp"
-        app:layout_constraintBottom_toTopOf="@id/btnLove"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/defaultFrontPostVideo"
+        app:layout_constraintHorizontal_weight="5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrierVideos" />
 
-    <RelativeLayout
-        android:id="@+id/rlDefaultFrontPostVideo"
-        android:layout_width="150dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:elevation="10dp"
-        app:layout_constraintDimensionRatio="0.75"
+    <VideoView
+        android:id="@+id/defaultFrontPostVideo"
+        android:layout_width="0dp"
+        android:layout_height="500dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/defaultBackPostVideo">
+        app:layout_constraintHorizontal_weight="5"
+        app:layout_constraintStart_toEndOf="@id/defaultBackPostVideo"
+        app:layout_constraintTop_toBottomOf="@id/barrierVideos" />
 
-        <VideoView
-            android:id="@+id/defaultFrontPostVideo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true" />
-    </RelativeLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnLove"
@@ -90,42 +80,6 @@
         android:drawableStart="@drawable/heart_icon_24"
         android:padding="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/defaultBackPostVideo"
-        tools:text="69" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnLaugh"
-        android:layout_width="64dp"
-        android:layout_height="36dp"
-        android:layout_margin="4dp"
-        android:background="@drawable/avatar_border_rounded"
-        android:drawableStart="@drawable/laugh_24"
-        android:padding="8dp"
-        app:layout_constraintStart_toEndOf="@id/btnLove"
-        app:layout_constraintTop_toBottomOf="@id/defaultBackPostVideo"
-        tools:text="69" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnWow"
-        android:layout_width="64dp"
-        android:layout_height="36dp"
-        android:layout_margin="4dp"
-        android:background="@drawable/avatar_border_rounded"
-        android:drawableStart="@drawable/wow_24"
-        android:padding="8dp"
-        app:layout_constraintStart_toEndOf="@id/btnLaugh"
-        app:layout_constraintTop_toBottomOf="@id/defaultBackPostVideo"
-        tools:text="69" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnCrying"
-        android:layout_width="64dp"
-        android:layout_height="36dp"
-        android:layout_margin="4dp"
-        android:background="@drawable/avatar_border_rounded"
-        android:drawableStart="@drawable/cry_24"
-        android:padding="8dp"
-        app:layout_constraintStart_toEndOf="@id/btnWow"
         app:layout_constraintTop_toBottomOf="@id/defaultBackPostVideo"
         tools:text="69" />
 

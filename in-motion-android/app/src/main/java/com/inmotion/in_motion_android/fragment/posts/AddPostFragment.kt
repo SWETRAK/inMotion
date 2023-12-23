@@ -1,4 +1,4 @@
-package com.inmotion.in_motion_android.fragment.user
+package com.inmotion.in_motion_android.fragment.posts
 
 import android.app.ProgressDialog
 import android.content.ContentValues
@@ -11,6 +11,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +30,6 @@ import androidx.camera.video.Recording
 import androidx.camera.video.VideoCapture
 import androidx.camera.video.VideoRecordEvent
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -38,7 +38,8 @@ import androidx.navigation.fragment.findNavController
 import com.inmotion.in_motion_android.InMotionApp
 import com.inmotion.in_motion_android.R
 import com.inmotion.in_motion_android.data.remote.ApiUtils
-import com.inmotion.in_motion_android.databinding.FragmentAddProfileVideoBinding
+import com.inmotion.in_motion_android.data.remote.dto.posts.CreatePostRequestDto
+import com.inmotion.in_motion_android.databinding.FragmentAddPostBinding
 import com.inmotion.in_motion_android.state.UserViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,17 +52,15 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.TimeUnit
+import kotlin.random.Random
 
+class AddPostFragment : Fragment() {
 
-class AddProfileVideoFragment : Fragment() {
-
-    private lateinit var binding: FragmentAddProfileVideoBinding
+    private lateinit var binding: FragmentAddPostBinding
     private var cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
     private var recording: Recording? = null
     private var videoCapture: VideoCapture<Recorder>? = null
 
-        @Suppress("UNCHECKED_CAST")
     private val userViewModel: UserViewModel by activityViewModels(
         factoryProducer = {
             object : ViewModelProvider.Factory {
@@ -107,15 +106,17 @@ class AddProfileVideoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
+        binding = FragmentAddPostBinding.inflate(layoutInflater)
         if (allPermissionsGranted()) {
             startCamera()
         } else {
             requestForStoragePermissions()
-            requestPermissions(CAMERAX_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+            requestPermissions(
+                CAMERAX_PERMISSIONS,
+                REQUEST_CODE_PERMISSIONS
+            )
         }
 
-        binding = FragmentAddProfileVideoBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -238,50 +239,69 @@ class AddProfileVideoFragment : Fragment() {
             }
             lifecycleScope.launch(Dispatchers.IO) {
 
-                val client = OkHttpClient.Builder()
-                    .connectTimeout(10000, TimeUnit.SECONDS)
-                    .writeTimeout(10000, TimeUnit.SECONDS)
-                    .readTimeout(10000, TimeUnit.SECONDS)
-                    .build()
-                val body = MultipartBody.Builder().setType(MultipartBody.FORM)
-                    .addFormDataPart(
-                        "mp4File", "$name.mp4",
-                        RequestBody.create(MediaType.parse("application/octet-stream"), file)
+                val createPostResponse = ApiUtils.imsPostsApi.createPost(
+                    "Bearer ${userViewModel.user.value?.token}",
+                    CreatePostRequestDto(
+                        Random.nextDouble().toString(),
+                        Random.nextDouble().toString()
                     )
-                    .build()
-                val request = Request.Builder()
-                    .url("https://grand-endless-hippo.ngrok-free.app/media/api/profile/video")
-                    .post(body)
-                    .addHeader("authentication", "token")
-                    .addHeader("Authorization", "Bearer ${userViewModel.user.value?.token}")
-                    .build()
-                val response = client.newCall(request).execute()
-
-                if (response.code() < 400) {
+                )
+                if(createPostResponse.code() >= 400){
                     activity?.runOnUiThread {
-                        Toast.makeText(
-                            requireContext(),
-                            "SUCCESSFULLY UPLOADED!",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        file.delete()
+                        Toast.makeText(requireContext(), "Couldn't create post!", Toast.LENGTH_SHORT).show()
                     }
                 } else {
+                    val client = OkHttpClient.Builder()
+                        .connectTimeout(10000, TimeUnit.SECONDS)
+                        .writeTimeout(10000, TimeUnit.SECONDS)
+                        .readTimeout(10000, TimeUnit.SECONDS)
+                        .build()
+                    val body = MultipartBody.Builder().setType(MultipartBody.FORM)
+                        .addFormDataPart(
+                            "frontVideo", "$name.mp4",
+                            RequestBody.create(MediaType.parse("application/octet-stream"), file)
+                        )
+                        .addFormDataPart(
+                            "backVideo", "$name.mp4",
+                            RequestBody.create(MediaType.parse("application/octet-stream"), file)
+                        )
+                        .addFormDataPart(
+                            "postID", createPostResponse.body()?.data?.id.toString()
+                        )
+                        .build()
+                    val request = Request.Builder()
+                        .url("https://grand-endless-hippo.ngrok-free.app/media/api/post")
+                        .post(body)
+                        .addHeader("authentication", "token")
+                        .addHeader("Authorization", "Bearer ${userViewModel.user.value?.token}")
+                        .build()
+                    val response = client.newCall(request).execute()
+
+                    if (response.code() < 400) {
+                        activity?.runOnUiThread {
+                            Toast.makeText(
+                                requireContext(),
+                                "SUCCESSFULLY UPLOADED!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            file.delete()
+                        }
+                    } else {
+                        activity?.runOnUiThread {
+                            Toast.makeText(
+                                requireContext(),
+                                "SUCCESSFULLY UPLOADED!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
                     activity?.runOnUiThread {
-                        Toast.makeText(
-                            requireContext(),
-                            "SUCCESSFULLY UPLOADED!",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        loadingDialog.cancel()
+                        findNavController().navigate(R.id.action_addPostFragment_to_mainFragment)
                     }
                 }
-
-                activity?.runOnUiThread {
-                    loadingDialog.cancel()
-                    findNavController().navigate(R.id.action_addProfileVideoFragment_to_editUserDetailsFragment)
-                }
             }
-
 
         } catch (e: Exception) {
             Toast.makeText(activity, "Ale jaja", Toast.LENGTH_SHORT).show()
@@ -357,9 +377,9 @@ class AddProfileVideoFragment : Fragment() {
             }
         } else {
             requestPermissions(arrayOf(
-                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE
-                ),
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            ),
                 STORAGE_PERMISSION_CODE
             )
         }
