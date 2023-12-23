@@ -14,7 +14,8 @@ struct PostCameraViewWrapper: UIViewControllerRepresentable {
     typealias UIViewControllerType = PostCameraViewController
     
     func makeUIViewController(context: Context) -> PostCameraViewController {
-        let storyBoard = UIStoryboard(name: "PostCameraView", bundle: Bundle.main).instantiateViewController(withIdentifier: "PostCameraView") as! PostCameraViewController
+        let storyBoard = UIStoryboard(name: "PostCameraView", bundle: Bundle.main)
+            .instantiateViewController(withIdentifier: "PostCameraView") as! PostCameraViewController
         storyBoard.appState = appState
         storyBoard.postRequestData = postRequestData
         return storyBoard

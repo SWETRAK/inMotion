@@ -23,33 +23,6 @@ namespace IMS.Post.API.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("IMS.Post.Domain.Entities.Other.Tag", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("creation_date");
-
-                    b.Property<Guid>("ExternalAuthorId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("external_author_id");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(24)
-                        .HasColumnType("character varying(24)")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Id");
-
-                    b.ToTable("tags", "post");
-                });
-
             modelBuilder.Entity("IMS.Post.Domain.Entities.Post.Post", b =>
                 {
                     b.Property<Guid>("Id")
@@ -130,43 +103,6 @@ namespace IMS.Post.API.Migrations
                     b.HasIndex("PostId");
 
                     b.ToTable("post_comments", "post");
-                });
-
-            modelBuilder.Entity("IMS.Post.Domain.Entities.Post.PostCommentReaction", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("creation_date");
-
-                    b.Property<string>("Emoji")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)")
-                        .HasColumnName("emoji");
-
-                    b.Property<Guid>("ExternalAuthorId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("external_author_id");
-
-                    b.Property<DateTime>("LastModificationDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("last_modification_date");
-
-                    b.Property<Guid>("PostCommentId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("post_comment_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Id");
-
-                    b.HasIndex("PostCommentId");
-
-                    b.ToTable("post_comment_reaction", "post");
                 });
 
             modelBuilder.Entity("IMS.Post.Domain.Entities.Post.PostIteration", b =>
@@ -282,21 +218,6 @@ namespace IMS.Post.API.Migrations
                     b.ToTable("post_videos", "post");
                 });
 
-            modelBuilder.Entity("PostTag", b =>
-                {
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("TagsId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("PostId", "TagsId");
-
-                    b.HasIndex("TagsId");
-
-                    b.ToTable("posts_tags_relations", "post");
-                });
-
             modelBuilder.Entity("IMS.Post.Domain.Entities.Post.Post", b =>
                 {
                     b.HasOne("IMS.Post.Domain.Entities.Post.PostIteration", "Iteration")
@@ -317,17 +238,6 @@ namespace IMS.Post.API.Migrations
                         .IsRequired();
 
                     b.Navigation("Post");
-                });
-
-            modelBuilder.Entity("IMS.Post.Domain.Entities.Post.PostCommentReaction", b =>
-                {
-                    b.HasOne("IMS.Post.Domain.Entities.Post.PostComment", "PostComment")
-                        .WithMany("Reactions")
-                        .HasForeignKey("PostCommentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PostComment");
                 });
 
             modelBuilder.Entity("IMS.Post.Domain.Entities.Post.PostReaction", b =>
@@ -352,21 +262,6 @@ namespace IMS.Post.API.Migrations
                     b.Navigation("Post");
                 });
 
-            modelBuilder.Entity("PostTag", b =>
-                {
-                    b.HasOne("IMS.Post.Domain.Entities.Post.Post", null)
-                        .WithMany()
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IMS.Post.Domain.Entities.Other.Tag", null)
-                        .WithMany()
-                        .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("IMS.Post.Domain.Entities.Post.Post", b =>
                 {
                     b.Navigation("PostComments");
@@ -374,11 +269,6 @@ namespace IMS.Post.API.Migrations
                     b.Navigation("PostReactions");
 
                     b.Navigation("Videos");
-                });
-
-            modelBuilder.Entity("IMS.Post.Domain.Entities.Post.PostComment", b =>
-                {
-                    b.Navigation("Reactions");
                 });
 
             modelBuilder.Entity("IMS.Post.Domain.Entities.Post.PostIteration", b =>

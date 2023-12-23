@@ -1,7 +1,5 @@
-using IMS.Post.DAL.Repositories.Other;
 using IMS.Post.DAL.Repositories.Post;
 using IMS.Post.Domain;
-using IMS.Post.IDAL.Repositories.Other;
 using IMS.Post.IDAL.Repositories.Post;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,13 +11,10 @@ public static class LoadRepositories
     {
         serviceCollection.AddDbContextFactory<ImsPostDbContext>();
         serviceCollection.AddDbContext<ImsPostDbContext>();
-
-        serviceCollection.AddScoped<ITagRepository, TagRepository>();
-
+        
         serviceCollection.AddScoped<IPostIterationRepository, PostIterationRepository>();
         serviceCollection.AddScoped<IPostRepository, PostRepository>();
         serviceCollection.AddScoped<IPostCommentRepository, PostCommentRepository>();
-        serviceCollection.AddScoped<IPostCommentReactionRepository, PostCommentReactionRepository>();
         serviceCollection.AddScoped<IPostReactionRepository, PostReactionRepository>();
         serviceCollection.AddScoped<IPostVideoRepository, PostVideoRepository>();
         

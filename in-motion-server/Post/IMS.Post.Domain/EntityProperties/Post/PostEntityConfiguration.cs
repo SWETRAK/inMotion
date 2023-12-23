@@ -40,10 +40,6 @@ public class PostEntityConfiguration: IEntityTypeConfiguration<Entities.Post.Pos
         builder.Property(p => p.IterationId)
             .IsRequired()
             .HasColumnName("iteration_id");
-        
-        builder.HasMany(p => p.Tags)
-            .WithMany()
-            .UsingEntity(join => join.ToTable("posts_tags_relations"));
 
         builder.HasMany(p => p.PostComments)
             .WithOne(pc => pc.Post)

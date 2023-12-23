@@ -13,9 +13,7 @@ public static class LoadMappers
             cfg.AddProfile<PostReactionProfile>();
             cfg.AddProfile<PostVideoProfile>();
             cfg.AddProfile<PostCommentProfile>();
-            cfg.AddProfile<PostCommentReactionProfile>();
             
-            cfg.AddProfile<TagProfile>();
             cfg.AddProfile<AuthorProfile>();
         });
         

@@ -11,6 +11,7 @@ struct LoginView: View {
     @State private var passwordError: Bool = false
     @State private var loginError: Bool = false
     @State private var communicationError: Bool = false
+
     
     var body: some View {
         VStack {
@@ -33,6 +34,7 @@ struct LoginView: View {
                         .alert("Incorrect password", isPresented: self.$passwordError) {
                             Button("Ok", role: .cancel) {}
                         }
+
                     
                     Button("Login with email") {
                         self.LoginWithEmailAndPassword()

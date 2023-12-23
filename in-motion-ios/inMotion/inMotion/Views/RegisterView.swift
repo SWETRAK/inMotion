@@ -15,6 +15,9 @@ struct RegisterView: View {
     @State private var passwordError: Bool = false
     @State private var repeatPasswordError: Bool = false
     
+    
+    @State private var isAccepted: Bool = false
+    
     var body: some View {
         VStack(spacing: 20.0) {
             
@@ -47,6 +50,10 @@ struct RegisterView: View {
                         .alert("Incorrect repeat password", isPresented: self.$repeatPasswordError) {
                             Button("Ok", role: .cancel) {}
                         }
+                    
+                    Toggle(isOn: $isAccepted) {
+                        Text("I aggree Terms of InMotion application")
+                    }
                     
                     Button("Register with email and password"){
                         self.RegisterWithEmailAndPassword()

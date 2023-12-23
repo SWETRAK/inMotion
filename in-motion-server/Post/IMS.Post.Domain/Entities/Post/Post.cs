@@ -1,5 +1,4 @@
 using IMS.Post.Domain.Consts;
-using IMS.Post.Domain.Entities.Other;
 
 namespace IMS.Post.Domain.Entities.Post;
 
@@ -17,7 +16,6 @@ public class Post
     public string Description { get; set; }
     public string Title { get; set; }
     
-    public virtual IEnumerable<Tag> Tags { get; set; }
     public virtual IEnumerable<PostVideo> Videos { get; set; }
 
     public virtual IEnumerable<PostComment> PostComments { get; set; }

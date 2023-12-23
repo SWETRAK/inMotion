@@ -1,6 +1,4 @@
-using IMS.Post.Domain.Entities.Other;
 using IMS.Post.Domain.Entities.Post;
-using IMS.Post.Domain.EntityProperties.Other;
 using IMS.Post.Domain.EntityProperties.Post;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,8 +13,6 @@ public class ImsPostDbContext: DbContext
     public DbSet<PostVideo> PostVideos { get; set; }
     public DbSet<PostComment> PostComments { get; set; }
     public DbSet<PostReaction> PostReactions { get; set; }
-    public DbSet<PostCommentReaction> PostCommentReactions { get; set; }
-    public DbSet<Tag> Tags { get; set; }
     public DbSet<PostIteration> PostIterations { get; set; }
 
     public ImsPostDbContext(IConfiguration configuration)
@@ -34,14 +30,11 @@ public class ImsPostDbContext: DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("post");
-
-        new TagEntityConfiguration().Configure(modelBuilder.Entity<Tag>());
-
+        
         new PostEntityConfiguration().Configure(modelBuilder.Entity<Entities.Post.Post>());
         new PostVideoEntityConfiguration().Configure(modelBuilder.Entity<PostVideo>());
         new PostCommentEntityConfiguration().Configure(modelBuilder.Entity<PostComment>());
         new PostReactionEntityConfiguration().Configure(modelBuilder.Entity<PostReaction>());
-        new PostCommentReactionEntityConfiguration().Configure(modelBuilder.Entity<PostCommentReaction>());
         
         new PostIterationEntityConfiguration().Configure(modelBuilder.Entity<PostIteration>());
     }

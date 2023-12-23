@@ -65,7 +65,6 @@ class FoundUsersAdapter(
                             itemBinding.ivAvatar.rotation = 90F
                         }
                     }
-
                 }
             }
         }

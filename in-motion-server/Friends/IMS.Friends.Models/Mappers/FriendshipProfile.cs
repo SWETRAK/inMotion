@@ -31,7 +31,5 @@ public class FriendshipProfile: Profile
             .ForMember(ifd => ifd.ExternalUserId, opt => opt.Ignore())
             .ForMember(ifd => ifd.Id, opt => opt.MapFrom(p => p.Id))
             .ForMember(ifd => ifd.Rejected, opt => opt.MapFrom(p => p.LastModificationDate));
-
-        
     }
 }

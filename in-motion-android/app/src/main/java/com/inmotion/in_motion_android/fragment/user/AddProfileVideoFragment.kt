@@ -232,7 +232,7 @@ class AddProfileVideoFragment : Fragment() {
     private fun uploadProfileVideo(name: String?) {
         try {
             val file = File("/storage/emulated/0/videos/CameraX-Recorder/" + name + ".mp4")
-            val loadingDialog = ProgressDialog.show(activity, "", "Loading...", true)
+            val loadingDialog = ProgressDialog.show(activity, "", "Uploading...", true)
             activity?.runOnUiThread {
                 loadingDialog.show()
             }

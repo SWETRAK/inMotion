@@ -9,7 +9,6 @@ public class GetPostResponseDto
     
     public PostAuthorDto Author { get; set; }
     
-    public IEnumerable<PostTagDto> Tags { get; set; }
     public IEnumerable<PostVideoDto> Videos { get; set; }
 
     public bool IsLikedByUser { get; set; }

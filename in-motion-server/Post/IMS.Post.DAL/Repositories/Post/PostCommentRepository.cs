@@ -18,21 +18,18 @@ public class PostCommentRepository: IPostCommentRepository
     public async Task<PostComment> GetByIdAsync(Guid id)
     {
         return await _context.PostComments            
-            .Include(x => x.Reactions)
             .FirstOrDefaultAsync(x => x.PostId.Equals(id));
     }
 
     public async Task<PostComment> GetByIdAndAuthorIdAndPostIdAsync(Guid id, Guid authorId, Guid postId)
     {
         return await _context.PostComments
-            .Include(x => x.Reactions)
             .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.ExternalAuthorId.Equals(authorId) && x.PostId.Equals(postId));
     }
 
     public async Task<IList<PostComment>> GetRangeByPostIdAsync(Guid postId)
     {
         return await _context.PostComments
-            .Include(x => x.Reactions)
             .Where(x => x.PostId.Equals(postId)).ToListAsync();
     }
 
@@ -44,7 +41,6 @@ public class PostCommentRepository: IPostCommentRepository
     public async Task<PostComment> GetByIdAndAuthorIdAsync(Guid id, Guid authorId)
     {
         return await _context.PostComments
-            .Include(x => x.Reactions)
             .FirstOrDefaultAsync(x => x.Id.Equals(id) && x.ExternalAuthorId.Equals(authorId));
     }
 

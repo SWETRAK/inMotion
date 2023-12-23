@@ -59,15 +59,12 @@ public class EmailSenderService : IEmailSenderService
     public async Task SendAccountActivation(SendAccountActivation sendAccountActivation)
     {
         var emailBody = EmailBodyUtil.GetAccountActivationBody(_logger);
-        // TODO: Do proper activation code setting
         emailBody = emailBody
             .Replace("{registerDate}", sendAccountActivation.RegisterTime.ToString("MM/dd/yyyy"))
             .Replace("{registerTime}", sendAccountActivation.RegisterTime.ToString("HH:mm:ss zz"))
             .Replace("{activationCode}", sendAccountActivation.ActivationCode);
 
         var emailSubject = $"Welcome to InMotion, activate your new account";
-        // TODO: Remove this when all starts working
-        Console.WriteLine(sendAccountActivation.ActivationCode);
         
         await SendEmail(sendAccountActivation.Email, emailSubject, emailBody);
     }
@@ -91,7 +88,11 @@ public class EmailSenderService : IEmailSenderService
         }
         catch (Exception exception)
         {
-            _logger.LogWarning(exception, "Email to user {Email} not send, Exception thrown with message {Message} ", email, exception.Message);
+            _logger.LogWarning(
+                exception,
+                "Email to user {Email} not send, Exception thrown with message {Message} ",
+                email,                 
+                exception.Message);
         }
     }
 }

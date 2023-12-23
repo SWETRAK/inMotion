@@ -245,6 +245,26 @@ VALUES ('20231129111214_Removed localization entity', '7.0.5');
 
 COMMIT;
 
+START TRANSACTION;
+
+DROP TABLE post.post_comment_reaction;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231210211145_Removed postcommentreaction', '7.0.5');
+
+COMMIT;
+
+START TRANSACTION;
+
+DROP TABLE post.posts_tags_relations;
+
+DROP TABLE post.tags;
+
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20231223151010_Removed tags', '7.0.5');
+
+COMMIT;
+
 -- USER database
 
 START TRANSACTION;

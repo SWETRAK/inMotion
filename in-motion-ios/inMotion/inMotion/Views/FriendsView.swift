@@ -13,7 +13,6 @@ struct FriendsView: View {
     @EnvironmentObject public var appState: AppState
     @State private var selected: String = "friends"
     
-    // TODO: Add user page
     var body: some View {
         VStack {
             VStack {
