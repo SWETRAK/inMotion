@@ -23,7 +23,6 @@ public class PostRepository: IPostRepository
             .Take(pageSize)
             .Skip((pageNumber - 1) * pageSize)
             .Include(x => x.Videos)
-            .Include(x => x.Tags)
             .Include(x => x.PostComments)
             .Include(x => x.PostReactions)
             .Where(x => x.IterationId.Equals(postIterationId) && x.Visibility.Equals(PostVisibility.Public))
@@ -34,7 +33,6 @@ public class PostRepository: IPostRepository
     {
         return await _context.Posts
             .Include(x => x.Videos)
-            .Include(x => x.Tags)
             .Include(x => x.PostComments)
             .Include(x => x.PostReactions)
             .FirstOrDefaultAsync(x =>
@@ -45,7 +43,6 @@ public class PostRepository: IPostRepository
     {
         return await _context.Posts
             .Include(x => x.Videos)
-            .Include(x => x.Tags)
             .Include(x => x.PostComments)
             .Include(x => x.PostReactions)
             .FirstOrDefaultAsync(x =>
@@ -56,7 +53,6 @@ public class PostRepository: IPostRepository
     {
         return await _context.Posts
             .Include(x => x.Videos)
-            .Include(x => x.Tags)
             .Include(x => x.PostComments)
             .Include(x => x.PostReactions)
             .FirstOrDefaultAsync(x =>
@@ -67,7 +63,6 @@ public class PostRepository: IPostRepository
     {
         return await _context.Posts
             .Include(x => x.Videos)
-            .Include(x => x.Tags)
             .Include(x => x.PostComments)
             .Include(x => x.PostReactions)
             .FirstOrDefaultAsync(x => x.Id.Equals(postId));
@@ -87,7 +82,6 @@ public class PostRepository: IPostRepository
     {
         return await _context.Posts
             .Include(x => x.Videos)
-            .Include(x => x.Tags)
             .Include(x => x.PostComments)
             .Include(x => x.PostReactions)
             .Where(x => x.IterationId.Equals(postIterationId) && x.Visibility.Equals(PostVisibility.Public) &&
